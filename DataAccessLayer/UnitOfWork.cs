@@ -9,11 +9,13 @@ namespace DataAccessLayer
         private readonly ConsultaUTNContext _context;
 
         public IMateriaRepository Materias { get; private set; }
+        public IDepartamentoRepository Departamentos { get; private set; }
 
         public UnitOfWork(ConsultaUTNContext context)
         {
             _context = context;
-            Materias = new MateriasRepository(_context);
+            Materias = new MateriaRepository(_context);
+            Departamentos = new DepartamentoRepository(_context);
         }
 
         // Add DBConcurrencyException here

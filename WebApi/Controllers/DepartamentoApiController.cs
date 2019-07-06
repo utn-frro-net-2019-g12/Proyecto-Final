@@ -13,50 +13,50 @@ using DataAccessLayer;
 
 namespace WebApi.Controllers
 {
-    [RoutePrefix("api/materias")]
-    public class MateriasApiController : ApiController
+    [RoutePrefix("api/departamentos")]
+    public class DepartamenosApiController : ApiController
     {
         private UnitOfWork _unitOfWork = new UnitOfWork(new ConsultaUTNContext());
 
 
         /// <summary>
-        /// Retrives all materia intances
+        /// Retrives all departamento intances
         /// </summary>
         [HttpGet]
         [Route("")]
         public IHttpActionResult GetAll()
         {
-            var materias = _unitOfWork.Materias.GetAll();
+            var departamentos = _unitOfWork.Departamentos.GetAll();
 
-            return Ok(materias);
+            return Ok(departamentos);
         }
 
 
-        // GET api/Materia/5
+        // GET api/Departamento/5
         /// <summary>
-        /// Retrives an specific materia
+        /// Retrives a specific departamento
         /// </summary>
         [HttpGet]
         [Route("{id:int}")]
-        [ResponseType(typeof(Materia))]
+        [ResponseType(typeof(Departamento))]
         public IHttpActionResult Get(int id)
         {
-            var materia = _unitOfWork.Materias.Get(id);
+            var departamento = _unitOfWork.Departamentos.Get(id);
 
-            if (materia == null)
+            if (departamento == null)
             {
                 return NotFound();
             }
 
-            return Ok(materia);
+            return Ok(departamento);
         }
 
 
         // Remember to include { Content-Type: application/json } in Request Body when consuming
         [HttpPost]
-        [Route("", Name = "PostMateria")]
-        [ResponseType(typeof(Materia))]
-        public IHttpActionResult Post([FromBody] Materia materia)
+        [Route("", Name = "PostDepartamento")]
+        [ResponseType(typeof(Departamento))]
+        public IHttpActionResult Post([FromBody] Departamento departamento)
         {
             try
             {
@@ -65,10 +65,10 @@ namespace WebApi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                _unitOfWork.Materias.Add(materia);
+                _unitOfWork.Departamentos.Add(departamento);
                 _unitOfWork.Complete();
 
-                return CreatedAtRoute("PostMateria", new { id = materia.Id }, materia);
+                return CreatedAtRoute("PostDepartamento", new { id = departamento.Id }, departamento);
             }
             catch (Exception ex)
             {
@@ -81,21 +81,21 @@ namespace WebApi.Controllers
         [Authorize]
         [HttpDelete]
         [Route("{id:int}")]
-        [ResponseType(typeof(Materia))]
+        [ResponseType(typeof(Departamento))]
         public IHttpActionResult Delete(int id)
         {
             try
             {
-                var materia = _unitOfWork.Materias.Get(id);
-                if (materia == null)
+                var departamento = _unitOfWork.Departamentos.Get(id);
+                if (departamento == null)
                 {
                     return NotFound();
                 }
 
-                _unitOfWork.Materias.Remove(materia);
+                _unitOfWork.Departamentos.Remove(departamento);
                 _unitOfWork.Complete();
 
-                return Ok(materia);
+                return Ok(departamento);
             }
             catch (Exception ex)
             {
@@ -107,10 +107,10 @@ namespace WebApi.Controllers
         // Remember to include { Content-Type: application/json } and state the Id in in Request Body when consuming
         [HttpPut]
         [Route("{id:int}")]
-        [ResponseType(typeof(Materia))]
-        public IHttpActionResult Put(int id, [FromBody] Materia sentMateria)
+        [ResponseType(typeof(Departamento))]
+        public IHttpActionResult Put(int id, [FromBody] Departamento sentDepartamento)
         {
-            if (id != sentMateria.Id)
+            if (id != sentDepartamento.Id)
             {
                 return BadRequest();
             }
@@ -122,12 +122,12 @@ namespace WebApi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                _unitOfWork.Materias.Update(sentMateria);
+                _unitOfWork.Departamentos.Update(sentDepartamento);
                 _unitOfWork.Complete();
             }
             catch(Exception)
             {
-                if (_unitOfWork.Materias.Get(id) == null)
+                if (_unitOfWork.Departamentos.Get(id) == null)
                 {
                     return NotFound();
                 }

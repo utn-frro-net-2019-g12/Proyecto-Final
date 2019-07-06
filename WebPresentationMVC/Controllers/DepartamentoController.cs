@@ -9,35 +9,35 @@ using WebPresentationMVC.Models;
 
 namespace WebPresentationMVC.Controllers
 {
-    public class MateriaController : Controller
+    public class DepartamentoController : Controller
     {
-        // GET: Materia
+        // GET: Departamento
         public ActionResult Index()
         {
-            var response = GlobalApi.WebApiClient.GetAsync("materias/").Result;
+            var response = GlobalApi.WebApiClient.GetAsync("departamentos/").Result;
 
-            IEnumerable<MvcMateriaModel> materias = response.Content.ReadAsAsync<IEnumerable<MvcMateriaModel>>().Result;
+            IEnumerable<MvcDepartamentoModel> departamentos = response.Content.ReadAsAsync<IEnumerable<MvcDepartamentoModel>>().Result;
 
-            return View(materias);
+            return View(departamentos);
         }
 
 
         public ActionResult Details(int id)
         {
-            var response = GlobalApi.WebApiClient.GetAsync("materias/" + id.ToString()).Result;
+            var response = GlobalApi.WebApiClient.GetAsync("departamentos/" + id.ToString()).Result;
 
             if (!response.IsSuccessStatusCode)
             {
                 return View(response.Content.ReadAsAsync<ModelState>().Result);
             }
 
-            var materia = response.Content.ReadAsAsync<MvcMateriaModel>().Result;
+            var departamento = response.Content.ReadAsAsync<MvcDepartamentoModel>().Result;
     
-            return View(materia);
+            return View(departamento);
         }
 
 
-        // DELETE Materia/5
+        // DELETE Departamento/5
         public ActionResult Delete(int id)
         {
             var response = GlobalApi.WebApiClient.DeleteAsync("materias/" + id.ToString()).Result;
@@ -56,16 +56,16 @@ namespace WebPresentationMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(MvcMateriaModel materias)
+        public ActionResult Create(MvcDepartamentoModel departamentos)
         {
-            var response = GlobalApi.WebApiClient.PostAsJsonAsync("materias", materias).Result;
+            var response = GlobalApi.WebApiClient.PostAsJsonAsync("departamentos", departamentos).Result;
 
             // Move this to an action filter
             if (!response.IsSuccessStatusCode)
             {
                 ModelStateApi.AddErrors(response, ModelState);
 
-                return View(materias);
+                return View(departamentos);
             }
 
             return RedirectToAction("Index");
@@ -80,30 +80,30 @@ namespace WebPresentationMVC.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var response = GlobalApi.WebApiClient.GetAsync("materias/" + id).Result;
+            var response = GlobalApi.WebApiClient.GetAsync("departamentos/" + id).Result;
 
             if (!response.IsSuccessStatusCode)
             {
                 return HttpNotFound();
             }
 
-            MvcMateriaModel materia = response.Content.ReadAsAsync<MvcMateriaModel>().Result;
+            MvcDepartamentoModel departamento = response.Content.ReadAsAsync<MvcDepartamentoModel>().Result;
 
-            return View(materia);
+            return View(departamento);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         // Bind(Include = "...") is used to avoid overposting attacks
-        public ActionResult Edit([Bind(Include = "Id, Name, Year, IsElectiva")]MvcMateriaModel materia)
+        public ActionResult Edit([Bind(Include = "Id, Name")]MvcDepartamentoModel departamento)
         {
-            var response = GlobalApi.WebApiClient.PutAsJsonAsync("materias/" + materia.Id, materia).Result;
+            var response = GlobalApi.WebApiClient.PutAsJsonAsync("departamentos/" + departamento.Id, departamento).Result;
 
             if (!response.IsSuccessStatusCode)
             {
                 ModelStateApi.AddErrors(response, ModelState);
 
-                return View(materia);
+                return View(departamento);
             }
 
             return RedirectToAction("Index");

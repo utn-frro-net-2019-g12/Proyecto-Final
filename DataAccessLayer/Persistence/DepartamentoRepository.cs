@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace DataAccessLayer.Persistence
 {
-    public class MateriaRepository : Repository<Materia>, IMateriaRepository
+    public class DepartamentoRepository : Repository<Departamento>, IDepartamentoRepository
     {
-        public MateriaRepository(ConsultaUTNContext context) : base(context)
+        public DepartamentoRepository(ConsultaUTNContext context) : base(context)
         {
         }
 
@@ -20,11 +20,11 @@ namespace DataAccessLayer.Persistence
             }
         }
 
-        public IEnumerable<Materia> GetMateriasOrderedByName()
+        public IEnumerable<Departamento> GetDepartamentosOrderedByName()
         {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
 
-            return ConsultaUTNContext.Materias.OrderByDescending(e => e.Name).ToList();
+            return ConsultaUTNContext.Departamentos.OrderByDescending(e => e.Name).ToList();
         }
     }
 }

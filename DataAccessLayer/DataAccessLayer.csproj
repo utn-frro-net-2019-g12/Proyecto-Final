@@ -50,9 +50,12 @@
   <ItemGroup>
     <Compile Include="ConsultaUTNContext.cs" />
     <Compile Include="ConsultaUTNInitializer.cs" />
+    <Compile Include="Domain\Departamento.cs" />
     <Compile Include="Domain\Materia.cs" />
+    <Compile Include="Persistence\DepartamentoRepository.cs" />
     <Compile Include="Persistence\MateriaRepository.cs" />
     <Compile Include="Persistence\Repository.cs" />
+    <Compile Include="Repositories\IDepartamentoRepository.cs" />
     <Compile Include="Repositories\IMateriaRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,6 +6,7 @@ namespace DataAccessLayer
     public interface IUnitOfWork : IDisposable
     {
         IMateriaRepository Materias { get; }
+        IDepartamentoRepository Departamentos { get; }
         int Complete();
     }
 }
