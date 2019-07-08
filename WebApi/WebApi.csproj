@@ -214,7 +214,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountApiController.cs" />
-    <Compile Include="Controllers\HomeApiController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\DepartamentoApiController.cs" />
     <Compile Include="Controllers\MateriaApiController.cs" />
     <Compile Include="Controllers\ValuesApiController.cs" />
