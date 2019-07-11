@@ -15,9 +15,12 @@ namespace WebPresentationMVC
 
             foreach (var error in errors.Skip(1))
             {
-                foreach (var message in error)
+                foreach (var messages in error)
                 {
-                    modelState.AddModelError("", message.ToString().Trim('[', ']').Replace('"', ' '));
+                    foreach(var message in messages)
+                    {
+                        modelState.AddModelError(string.Empty, message.ToString().Trim('"'));
+                    }
                 }
             }
         }

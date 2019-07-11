@@ -10,6 +10,8 @@ namespace DataAccessLayer
         public ConsultaUTNContext() : base("name=ConsultaUTNContext")
         {
             Database.SetInitializer<ConsultaUTNContext>(new ConsultaUTNInitializer());
+            Database.Initialize(false);
+
             this.Configuration.LazyLoadingEnabled = false;
             this.Configuration.ProxyCreationEnabled = false;
         }

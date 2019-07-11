@@ -2,7 +2,7 @@
 
 namespace DataAccessLayer
 {
-    public class ConsultaUTNInitializer : System.Data.Entity.DropCreateDatabaseAlways<ConsultaUTNContext>
+    public class ConsultaUTNInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<ConsultaUTNContext>
     {
         protected override void Seed(ConsultaUTNContext context)
         {

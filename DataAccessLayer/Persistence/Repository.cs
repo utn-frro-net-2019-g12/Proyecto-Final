@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using DataAccessLayer.Repositories;
@@ -25,6 +26,8 @@ namespace DataAccessLayer.Persistence
 
         public void AddRange(IEnumerable<TEntity> entities)
         {
+            Context.Database.Log = message => Trace.Write(message);
+
             _entities.AddRange(entities);
         }
 
@@ -40,6 +43,8 @@ namespace DataAccessLayer.Persistence
 
         public IEnumerable<TEntity> GetAll()
         {
+            Context.Database.Log = message => Trace.Write(message);
+
             return _entities.ToList();
         }
 
