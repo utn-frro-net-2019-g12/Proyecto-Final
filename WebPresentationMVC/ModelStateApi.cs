@@ -19,7 +19,7 @@ namespace WebPresentationMVC
                 {
                     foreach(var message in messages)
                     {
-                        modelState.AddModelError(string.Empty, message.ToString().Trim('"'));
+                        modelState.AddModelError("", message.ToString().Trim('"'));
                     }
                 }
             }
