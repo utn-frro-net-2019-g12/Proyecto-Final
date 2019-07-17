@@ -31,6 +31,13 @@ namespace WebPresentationMVC
             bundles.Add(new ScriptBundle("~/bundles/sb-2").Include(
                       "~/Scripts/sb-admin-2.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/dataTables").Include(
+                      "~/Scripts/dataTables/jquery.dataTables.min.js",
+                      "~/Scripts/dataTables/dataTables.bootstrap4.min.js"));
+
+            bundles.Add(new StyleBundle("~/Content/dataTables").Include(
+                      "~/Content/dataTables/dataTables.bootstrap4.min.css"));
+
             bundles.Add(new StyleBundle("~/Content/sb-2").Include(
                       "~/Content/sb-admin-2.min.css"));
 
