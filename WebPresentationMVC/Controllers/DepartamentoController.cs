@@ -63,7 +63,7 @@ namespace WebPresentationMVC.Controllers
             // Move this to an action filter
             if (!response.IsSuccessStatusCode)
             {
-                ModelStateApi.AddErrors(response, ModelState);
+                ModelState.AddModelErrorsFromResponse(response);
 
                 return View(departamentos);
             }
@@ -101,7 +101,7 @@ namespace WebPresentationMVC.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                ModelStateApi.AddErrors(response, ModelState);
+                ModelState.AddModelErrorsFromResponse(response);
 
                 return View(departamento);
             }

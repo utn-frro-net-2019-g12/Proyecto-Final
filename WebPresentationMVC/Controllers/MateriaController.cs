@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using WebPresentationMVC.Models;
+using WebPresentationMVC.ViewModels;
 
 namespace WebPresentationMVC.Controllers
 {
@@ -52,20 +53,28 @@ namespace WebPresentationMVC.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            var departamentos = GetDepartamentos();
+
+            var viewModel = new CreateMateriaViewModel(departamentos);
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult Create(MvcMateriaModel materias)
+        public ActionResult Create(CreateMateriaViewModel viewModel)
         {
-            var response = GlobalApi.WebApiClient.PostAsJsonAsync("materias", materias).Result;
+            var response = GlobalApi.WebApiClient.PostAsJsonAsync("materias", viewModel.Materia).Result;
 
             // Move this to an action filter
             if (!response.IsSuccessStatusCode)
             {
-                ModelStateApi.AddErrors(response, ModelState);
+                var departamentos = GetDepartamentos();
 
-                return View(materias);
+                viewModel.SetDepartamentosAsSelectList(departamentos);
+
+                ModelState.AddModelErrorsFromResponse(response);
+
+                return View(viewModel);
             }
 
             return RedirectToAction("Index");
@@ -89,24 +98,38 @@ namespace WebPresentationMVC.Controllers
 
             MvcMateriaModel materia = response.Content.ReadAsAsync<MvcMateriaModel>().Result;
 
-            return View(materia);
+            var departamentos = GetDepartamentos();
+
+            var viewModel = new EditMateriaViewModel(departamentos, materia);
+
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         // Bind(Include = "...") is used to avoid overposting attacks
-        public ActionResult Edit([Bind(Include = "Id, Name, Year, IsElectiva")]MvcMateriaModel materia)
+        public ActionResult Edit(EditMateriaViewModel viewModel)
         {
-            var response = GlobalApi.WebApiClient.PutAsJsonAsync("materias/" + materia.Id, materia).Result;
+            var response = GlobalApi.WebApiClient.PutAsJsonAsync("materias/" + viewModel.Materia.Id, viewModel.Materia).Result;
 
             if (!response.IsSuccessStatusCode)
             {
-                ModelStateApi.AddErrors(response, ModelState);
+                var departamentos= GetDepartamentos();
+                viewModel.SetDepartamentosAsSelectList(departamentos);
 
-                return View(materia);
+                ModelState.AddModelErrorsFromResponse(response);
+
+                return View (viewModel);
             }
 
             return RedirectToAction("Index");
+        }
+
+        public IEnumerable<MvcDepartamentoModel> GetDepartamentos()
+        {
+            var response = GlobalApi.WebApiClient.GetAsync("departamentos").Result;
+
+            return response.Content.ReadAsAsync<IEnumerable<MvcDepartamentoModel>>().Result;
         }
     }
 }

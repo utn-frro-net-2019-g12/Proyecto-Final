@@ -138,10 +138,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="GlobalApi.cs" />
-    <Compile Include="ModelStateApi.cs" />
+    <Compile Include="MyModelStateExtensions.cs" />
     <Compile Include="Models\MvcDepartamentoModel.cs" />
     <Compile Include="Models\MvcMateriaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CreateProductViewModel.cs" />
+    <Compile Include="ViewModels\EditProductViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -265,8 +267,6 @@
     <Content Include="webfonts\fa-brands-400.woff" />
     <Content Include="webfonts\fa-brands-400.ttf" />
     <Content Include="webfonts\fa-brands-400.eot" />
-    <Content Include="Views\Materia\Create.cshtml" />
-    <Content Include="Views\Materia\Edit.cshtml" />
     <Content Include="Views\Departamento\Index.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
@@ -277,9 +277,11 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Departamento\Edit.cshtml" />
-    <Content Include="Views\Departamento\Create.cshtml" />
     <Content Include="Views\Departamento\Details.cshtml" />
+    <Content Include="Views\Departamento\Create.cshtml" />
+    <Content Include="Views\Departamento\Edit.cshtml" />
+    <Content Include="Views\Materia\Edit.cshtml" />
+    <Content Include="Views\Materia\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

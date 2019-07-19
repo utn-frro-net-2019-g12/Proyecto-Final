@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccessLayer
 {
@@ -13,5 +14,9 @@ namespace DataAccessLayer
         public string Name { get; set; }
         [Required]
         public bool? IsElectiva { get; set; }
+
+        [ForeignKey("Departamento")]
+        public int? DepartamentoId { get; set; }
+        public virtual Departamento Departamento { get; set; }
     }
 }
