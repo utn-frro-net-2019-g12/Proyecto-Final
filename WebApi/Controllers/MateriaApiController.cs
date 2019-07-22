@@ -31,6 +31,17 @@ namespace WebApi.Controllers
             return Ok(materias);
         }
 
+        /// <summary>
+        /// Retrives all materia intances
+        /// </summary>
+        [HttpGet]
+        [Route("departamento")]
+        public IHttpActionResult GetMateriasWithDepto()
+        {
+            var materias = _unitOfWork.Materias.GetMateriasWithDepto();
+
+            return Ok(materias);
+        }
 
         // GET api/Materia/5
         /// <summary>
@@ -51,6 +62,24 @@ namespace WebApi.Controllers
             return Ok(materia);
         }
 
+         // GET api/Materia/5/Departamento
+        /// <summary>
+        /// Retrives a specific materia
+        /// </summary>
+        [HttpGet]
+        [Route("{id:int}/departamento")]
+        [ResponseType(typeof(Materia))]
+        public IHttpActionResult GetMateriaWithDepto(int id)
+        {
+            var materia = _unitOfWork.Materias.GetMateriaWithDepto(id);
+
+            if (materia == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(materia);
+        }
 
         // Remember to include { Content-Type: application/json } in Request Body when consuming
         [HttpPost]

@@ -15,7 +15,7 @@ namespace WebPresentationMVC.Controllers
         // GET: Materia
         public ActionResult Index()
         {
-            var response = GlobalApi.WebApiClient.GetAsync("materias/").Result;
+            var response = GlobalApi.WebApiClient.GetAsync("materias/departamento").Result;
 
             IEnumerable<MvcMateriaModel> materias = response.Content.ReadAsAsync<IEnumerable<MvcMateriaModel>>().Result;
 
@@ -25,7 +25,7 @@ namespace WebPresentationMVC.Controllers
 
         public ActionResult Details(int id)
         {
-            var response = GlobalApi.WebApiClient.GetAsync("materias/" + id.ToString()).Result;
+            var response = GlobalApi.WebApiClient.GetAsync("materias/" + id.ToString() + "/departamento").Result;
 
             if (!response.IsSuccessStatusCode)
             {

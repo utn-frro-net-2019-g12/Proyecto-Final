@@ -26,5 +26,20 @@ namespace DataAccessLayer.Persistence
 
             return ConsultaUTNContext.Materias.OrderByDescending(e => e.Name).ToList();
         }
+
+        public IEnumerable<Materia> GetMateriasWithDepto() {
+
+            ConsultaUTNContext.Database.Log = message => Trace.Write(message);
+
+            return ConsultaUTNContext.Materias.Include(p => p.Departamento);
+
+        }
+
+        public Materia GetMateriaWithDepto(int id) {
+
+            ConsultaUTNContext.Database.Log = message => Trace.Write(message);
+
+            return ConsultaUTNContext.Materias.Where(p => p.Id == id).Include(p => p.Departamento).FirstOrDefault();
+        }
     }
 }
