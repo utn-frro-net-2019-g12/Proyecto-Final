@@ -25,7 +25,6 @@ namespace DataAccessLayer
                 new Materia{ Name = "Algoritmos Genéticos", Year = 3, IsElectiva = true, DepartamentoId = departamentos[0].Id, Departamento=departamentos[0] },
                 new Materia{ Name = "Diseño de Sistemas", Year = 3, IsElectiva = false, DepartamentoId = departamentos[0].Id, Departamento=departamentos[0] },
                 new Materia{ Name = "Análisis Matemático 2", Year = 2, IsElectiva = false, DepartamentoId = departamentos[5].Id, Departamento=departamentos[5] }
-                // Agregar los departamentos que pertenecen cada Materia
             };
 
             unitOfWork.Materias.AddRange(materias);
