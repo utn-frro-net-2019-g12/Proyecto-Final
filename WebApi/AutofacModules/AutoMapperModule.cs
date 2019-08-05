@@ -22,7 +22,8 @@ namespace WebApi.AutofacModules
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<CreateMateriaDTO, Materia>();
+                cfg.CreateMap<ChangeMateriaDTO, Materia>();
+                cfg.CreateMap<Materia, ShowMateriaDTO>();
             });
 
             return config;
