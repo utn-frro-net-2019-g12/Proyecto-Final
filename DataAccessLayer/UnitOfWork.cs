@@ -1,12 +1,14 @@
 ﻿using DataAccessLayer.Repositories;
 using DataAccessLayer.Persistence;
 using System.Data.Entity.Infrastructure;
+using System;
 
 namespace DataAccessLayer
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ConsultaUTNContext _context;
+        private bool _disposed = false;
 
         public IMateriaRepository Materias { get; private set; }
         public IDepartamentoRepository Departamentos { get; private set; }
@@ -32,9 +34,23 @@ namespace DataAccessLayer
             }
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this._disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+            }
+
+            this._disposed = true;
+        }
+
         public void Dispose()
         {
-            _context.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

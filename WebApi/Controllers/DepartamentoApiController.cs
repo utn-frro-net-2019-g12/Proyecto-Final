@@ -26,7 +26,7 @@ namespace WebApi.Controllers
         [Route("")]
         public IHttpActionResult GetAll()
         {
-            var departamentos = _unitOfWork.Departamentos.GetAll();
+            var departamentos = _unitOfWork.Departamentos.Get();
 
             return Ok(departamentos);
         }
@@ -41,7 +41,7 @@ namespace WebApi.Controllers
         [ResponseType(typeof(Departamento))]
         public IHttpActionResult Get(int id)
         {
-            var departamento = _unitOfWork.Departamentos.Get(id);
+            var departamento = _unitOfWork.Departamentos.GetById(id);
 
             if (departamento == null)
             {
@@ -65,7 +65,7 @@ namespace WebApi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                _unitOfWork.Departamentos.Add(departamento);
+                _unitOfWork.Departamentos.Insert(departamento);
                 _unitOfWork.Complete();
 
                 return CreatedAtRoute("PostDepartamento", new { id = departamento.Id }, departamento);
@@ -86,13 +86,13 @@ namespace WebApi.Controllers
         {
             try
             {
-                var departamento = _unitOfWork.Departamentos.Get(id);
+                var departamento = _unitOfWork.Departamentos.GetById(id);
                 if (departamento == null)
                 {
                     return NotFound();
                 }
 
-                _unitOfWork.Departamentos.Remove(departamento);
+                _unitOfWork.Departamentos.Delete(departamento);
                 _unitOfWork.Complete();
 
                 return Ok(departamento);
@@ -127,7 +127,7 @@ namespace WebApi.Controllers
             }
             catch(Exception)
             {
-                if (_unitOfWork.Departamentos.Get(id) == null)
+                if (_unitOfWork.Departamentos.GetById(id) == null)
                 {
                     return NotFound();
                 }

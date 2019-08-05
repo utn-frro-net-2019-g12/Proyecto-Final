@@ -17,7 +17,7 @@ namespace DataAccessLayer
                 new Departamento{ Name = "Ciencias Básicas" },
             };
 
-            unitOfWork.Departamentos.AddRange(departamentos);
+            unitOfWork.Departamentos.InsertRange(departamentos);
             unitOfWork.Complete();
 
             var materias = new List<Materia>
@@ -27,7 +27,7 @@ namespace DataAccessLayer
                 new Materia{ Name = "Análisis Matemático 2", Year = 2, IsElectiva = false, DepartamentoId = departamentos[5].Id, Departamento=departamentos[5] }
             };
 
-            unitOfWork.Materias.AddRange(materias);
+            unitOfWork.Materias.InsertRange(materias);
             unitOfWork.Complete();
         }
     }

@@ -26,7 +26,7 @@ namespace WebApi.Controllers
         [Route("")]
         public IHttpActionResult GetAll()
         {
-            var materias = _unitOfWork.Materias.GetAll();
+            var materias = _unitOfWork.Materias.Get();
 
             return Ok(materias);
         }
@@ -52,7 +52,7 @@ namespace WebApi.Controllers
         [ResponseType(typeof(Materia))]
         public IHttpActionResult Get(int id)
         {
-            var materia = _unitOfWork.Materias.Get(id);
+            var materia = _unitOfWork.Materias.GetById(id);
 
             if (materia == null)
             {
@@ -94,7 +94,7 @@ namespace WebApi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                _unitOfWork.Materias.Add(materia);
+                _unitOfWork.Materias.Insert(materia);
                 _unitOfWork.Complete();
 
                 return CreatedAtRoute("PostMateria", new { id = materia.Id }, materia);
@@ -115,13 +115,13 @@ namespace WebApi.Controllers
         {
             try
             {
-                var materia = _unitOfWork.Materias.Get(id);
+                var materia = _unitOfWork.Materias.GetById(id);
                 if (materia == null)
                 {
                     return NotFound();
                 }
 
-                _unitOfWork.Materias.Remove(materia);
+                _unitOfWork.Materias.Delete(materia);
                 _unitOfWork.Complete();
 
                 return Ok(materia);
@@ -156,7 +156,7 @@ namespace WebApi.Controllers
             }
             catch(Exception)
             {
-                if (_unitOfWork.Materias.Get(id) == null)
+                if (_unitOfWork.Materias.GetById(id) == null)
                 {
                     return NotFound();
                 }
