@@ -8,16 +8,23 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Results;
+using AutoMapper;
 using DataAccessLayer;
-
+using WebApi.DataTransferObjects;
 
 namespace WebApi.Controllers
 {
     [RoutePrefix("api/materias")]
     public class MateriasApiController : ApiController
     {
-        private UnitOfWork _unitOfWork = new UnitOfWork(new ConsultaUTNContext());
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
+        public MateriasApiController(IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+        }
 
         /// <summary>
         /// Retrives all materia intances
@@ -26,7 +33,8 @@ namespace WebApi.Controllers
         [Route("")]
         public IHttpActionResult GetAll()
         {
-            var materias = _unitOfWork.Materias.Get();
+            // Test of GetOrdered repository method
+            var materias = _unitOfWork.Materias.GetOrdered(e => e.Year, e => e.Year > 1);
 
             return Ok(materias);
         }
@@ -85,7 +93,7 @@ namespace WebApi.Controllers
         [HttpPost]
         [Route("", Name = "PostMateria")]
         [ResponseType(typeof(Materia))]
-        public IHttpActionResult Post([FromBody] Materia materia)
+        public IHttpActionResult Post([FromBody] CreateMateriaDTO materiaDTO)
         {
             try
             {
@@ -94,10 +102,12 @@ namespace WebApi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                _unitOfWork.Materias.Insert(materia);
+                var materiaToInsert = _mapper.Map<CreateMateriaDTO, Materia>(materiaDTO);
+
+                _unitOfWork.Materias.Insert(materiaToInsert);
                 _unitOfWork.Complete();
 
-                return CreatedAtRoute("PostMateria", new { id = materia.Id }, materia);
+                return CreatedAtRoute("PostMateria", new { id = materiaToInsert.Id }, materiaToInsert);
             }
             catch (Exception ex)
             {
