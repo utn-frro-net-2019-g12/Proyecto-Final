@@ -20,7 +20,6 @@ namespace WebApi.IoC
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             builder.RegisterModule<DataAccessLayerModule>();
-            builder.RegisterModule<AutoMapperModule>();
 
             IContainer container = builder.Build();
 

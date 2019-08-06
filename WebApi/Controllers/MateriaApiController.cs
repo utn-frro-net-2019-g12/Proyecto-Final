@@ -8,9 +8,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Results;
-using AutoMapper;
 using DataAccessLayer;
-using WebApi.DataTransferObjects;
 
 namespace WebApi.Controllers
 {
@@ -18,12 +16,10 @@ namespace WebApi.Controllers
     public class MateriasApiController : ApiController
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
 
-        public MateriasApiController(IUnitOfWork unitOfWork, IMapper mapper)
+        public MateriasApiController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
         }
 
         /// <summary>
@@ -93,7 +89,7 @@ namespace WebApi.Controllers
         [HttpPost]
         [Route("", Name = "PostMateria")]
         [ResponseType(typeof(Materia))]
-        public IHttpActionResult Post([FromBody] CreateMateriaDTO materiaDTO)
+        public IHttpActionResult Post([FromBody] Materia materia)
         {
             try
             {
@@ -102,12 +98,10 @@ namespace WebApi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var materiaToInsert = _mapper.Map<CreateMateriaDTO, Materia>(materiaDTO);
-
-                _unitOfWork.Materias.Insert(materiaToInsert);
+                _unitOfWork.Materias.Insert(materia);
                 _unitOfWork.Complete();
 
-                return CreatedAtRoute("PostMateria", new { id = materiaToInsert.Id }, materiaToInsert);
+                return CreatedAtRoute("PostMateria", new { id = materia.Id }, materia);
             }
             catch (Exception ex)
             {
