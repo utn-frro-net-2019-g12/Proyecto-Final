@@ -36,9 +36,7 @@ namespace WebApi.Controllers
             // Test of GetOrdered repository method
             var materias = _unitOfWork.Materias.GetOrdered(e => e.Year, e => e.Year > 1);
 
-            var materiasToShow = _mapper.Map<IEnumerable<Materia>, IEnumerable<ShowMateriaDTO>>(materias);
-
-            return Ok(materiasToShow);
+            return Ok(materias);
         }
 
         /// <summary>
@@ -50,9 +48,7 @@ namespace WebApi.Controllers
         {
             var materias = _unitOfWork.Materias.GetMateriasWithDepto();
 
-            var materiasToShow = _mapper.Map<IEnumerable<Materia>, IEnumerable<ShowMateriaDTO>>(materias);
-
-            return Ok(materiasToShow);
+            return Ok(materias);
         }
 
         // GET api/Materia/5
@@ -71,9 +67,7 @@ namespace WebApi.Controllers
                 return NotFound();
             }
 
-            var materiaToShow = _mapper.Map<Materia, ShowMateriaDTO>(materia);
-
-            return Ok(materiaToShow);
+            return Ok(materia);
         }
 
          // GET api/Materia/5/Departamento
@@ -92,16 +86,14 @@ namespace WebApi.Controllers
                 return NotFound();
             }
 
-            var materiaToShow = _mapper.Map<Materia, ShowMateriaDTO>(materia);
-
-            return Ok(materiaToShow);
+            return Ok(materia);
         }
 
         // Remember to include { Content-Type: application/json } in Request Body when consuming
         [HttpPost]
         [Route("", Name = "PostMateria")]
         [ResponseType(typeof(Materia))]
-        public IHttpActionResult Post([FromBody] ChangeMateriaDTO materiaDTO)
+        public IHttpActionResult Post([FromBody] CreateMateriaDTO materiaDTO)
         {
             try
             {
@@ -110,7 +102,7 @@ namespace WebApi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var materiaToInsert = _mapper.Map<ChangeMateriaDTO, Materia>(materiaDTO);
+                var materiaToInsert = _mapper.Map<CreateMateriaDTO, Materia>(materiaDTO);
 
                 _unitOfWork.Materias.Insert(materiaToInsert);
                 _unitOfWork.Complete();

@@ -230,8 +230,7 @@
     <Compile Include="Controllers\DepartamentoApiController.cs" />
     <Compile Include="Controllers\MateriaApiController.cs" />
     <Compile Include="Controllers\ValuesApiController.cs" />
-    <Compile Include="DataTransferObjects\ChangeMateriaDTO.cs" />
-    <Compile Include="DataTransferObjects\ShowMateriaDTO.cs" />
+    <Compile Include="DataTransferObjects\CreateProductDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
