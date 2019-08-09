@@ -12,7 +12,7 @@ using DataAccessLayer;
 
 namespace WebApi.Controllers {
     [RoutePrefix("api/departamentos")]
-    public class DepartamenosApiController : ApiController {
+    public class DepartamentoApiController : ApiController {
         private UnitOfWork _unitOfWork = new UnitOfWork(new ConsultaUTNContext());
 
         /// <summary>

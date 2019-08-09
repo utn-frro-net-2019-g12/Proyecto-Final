@@ -12,10 +12,10 @@ using DataAccessLayer;
 
 namespace WebApi.Controllers {
     [RoutePrefix("api/materias")]
-    public class MateriasApiController : ApiController {
+    public class MateriaApiController : ApiController {
         private readonly IUnitOfWork _unitOfWork;
 
-        public MateriasApiController(IUnitOfWork unitOfWork) {
+        public MateriaApiController(IUnitOfWork unitOfWork) {
             _unitOfWork = unitOfWork;
         }
 

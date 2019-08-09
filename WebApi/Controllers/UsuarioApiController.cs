@@ -12,10 +12,10 @@ using DataAccessLayer;
 
 namespace WebApi.Controllers {
     [RoutePrefix("api/usuarios")]
-    public class UsuariosApiController : ApiController {
+    public class UsuarioApiController : ApiController {
         private readonly IUnitOfWork _unitOfWork;
 
-        public UsuariosApiController(IUnitOfWork unitOfWork) {
+        public UsuarioApiController(IUnitOfWork unitOfWork) {
             _unitOfWork = unitOfWork;
         }
 
