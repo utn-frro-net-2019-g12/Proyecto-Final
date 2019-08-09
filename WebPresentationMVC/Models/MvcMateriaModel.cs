@@ -4,10 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace WebPresentationMVC.Models
-{
-    public class MvcMateriaModel
-    {
+namespace WebPresentationMVC.Models {
+    public class MvcMateriaModel {
         public int Id { get; set; }
 
         public int? Year { get; set; }

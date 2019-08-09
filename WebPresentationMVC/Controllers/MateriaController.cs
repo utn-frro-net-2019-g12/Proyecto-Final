@@ -8,13 +8,11 @@ using System.Web.Mvc;
 using WebPresentationMVC.Models;
 using WebPresentationMVC.ViewModels;
 
-namespace WebPresentationMVC.Controllers
-{
-    public class MateriaController : Controller
-    {
+namespace WebPresentationMVC.Controllers {
+    // Note: This Controller Communicates with ViewModels (CreateMateriaViewModel and EditMateriaViewModel)
+    public class MateriaController : Controller {
         // GET: Materia
-        public ActionResult Index()
-        {
+        public ActionResult Index() {
             var response = GlobalApi.WebApiClient.GetAsync("materias/departamento").Result;
 
             IEnumerable<MvcMateriaModel> materias = response.Content.ReadAsAsync<IEnumerable<MvcMateriaModel>>().Result;
@@ -22,13 +20,11 @@ namespace WebPresentationMVC.Controllers
             return View(materias);
         }
 
-
-        public ActionResult Details(int id)
-        {
+        // DETAILS
+        public ActionResult Details(int id) {
             var response = GlobalApi.WebApiClient.GetAsync("materias/" + id.ToString() + "/departamento").Result;
 
-            if (!response.IsSuccessStatusCode)
-            {
+            if (!response.IsSuccessStatusCode) {
                 return View(response.Content.ReadAsAsync<ModelState>().Result);
             }
 
@@ -37,10 +33,8 @@ namespace WebPresentationMVC.Controllers
             return View(materia);
         }
 
-
         // DELETE Materia/5
-        public ActionResult Delete(int id)
-        {
+        public ActionResult Delete(int id) {
             var response = GlobalApi.WebApiClient.DeleteAsync("materias/" + id.ToString()).Result;
 
             // Search what is TempData!
@@ -49,10 +43,9 @@ namespace WebPresentationMVC.Controllers
             return RedirectToAction("Index");
         }
 
-
+        // CREATE (Default)
         [HttpGet]
-        public ActionResult Create()
-        {
+        public ActionResult Create() {
             var departamentos = GetDepartamentos();
 
             var viewModel = new CreateMateriaViewModel(departamentos);
@@ -60,14 +53,13 @@ namespace WebPresentationMVC.Controllers
             return View(viewModel);
         }
 
+        // CREATE
         [HttpPost]
-        public ActionResult Create(CreateMateriaViewModel viewModel)
-        {
+        public ActionResult Create(CreateMateriaViewModel viewModel) {
             var response = GlobalApi.WebApiClient.PostAsJsonAsync("materias", viewModel.Materia).Result;
 
             // Move this to an action filter
-            if (!response.IsSuccessStatusCode)
-            {
+            if (!response.IsSuccessStatusCode) {
                 var departamentos = GetDepartamentos();
 
                 viewModel.SetDepartamentosAsSelectList(departamentos);
@@ -80,19 +72,16 @@ namespace WebPresentationMVC.Controllers
             return RedirectToAction("Index");
         }
 
-
+        // EDIT
         [HttpGet]
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
+        public ActionResult Edit(int? id) {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             var response = GlobalApi.WebApiClient.GetAsync("materias/" + id).Result;
 
-            if (!response.IsSuccessStatusCode)
-            {
+            if (!response.IsSuccessStatusCode) {
                 return HttpNotFound();
             }
 
@@ -105,16 +94,15 @@ namespace WebPresentationMVC.Controllers
             return View(viewModel);
         }
 
+        // SECURE EDIT
         [HttpPost]
         [ValidateAntiForgeryToken]
         // Bind(Include = "...") is used to avoid overposting attacks
-        public ActionResult Edit(EditMateriaViewModel viewModel)
-        {
+        public ActionResult Edit(EditMateriaViewModel viewModel) {
             var response = GlobalApi.WebApiClient.PutAsJsonAsync("materias/" + viewModel.Materia.Id, viewModel.Materia).Result;
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var departamentos= GetDepartamentos();
+            if (!response.IsSuccessStatusCode) {
+                var departamentos = GetDepartamentos();
                 viewModel.SetDepartamentosAsSelectList(departamentos);
 
                 ModelState.AddModelErrorsFromResponse(response);
@@ -125,8 +113,8 @@ namespace WebPresentationMVC.Controllers
             return RedirectToAction("Index");
         }
 
-        public IEnumerable<MvcDepartamentoModel> GetDepartamentos()
-        {
+        // GET (List of Departamentos)
+        public IEnumerable<MvcDepartamentoModel> GetDepartamentos() {
             var response = GlobalApi.WebApiClient.GetAsync("departamentos").Result;
 
             return response.Content.ReadAsAsync<IEnumerable<MvcDepartamentoModel>>().Result;

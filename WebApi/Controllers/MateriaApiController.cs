@@ -10,25 +10,21 @@ using System.Web.Http.Description;
 using System.Web.Http.Results;
 using DataAccessLayer;
 
-namespace WebApi.Controllers
-{
+namespace WebApi.Controllers {
     [RoutePrefix("api/materias")]
-    public class MateriasApiController : ApiController
-    {
+    public class MateriasApiController : ApiController {
         private readonly IUnitOfWork _unitOfWork;
 
-        public MateriasApiController(IUnitOfWork unitOfWork)
-        {
+        public MateriasApiController(IUnitOfWork unitOfWork) {
             _unitOfWork = unitOfWork;
         }
 
         /// <summary>
-        /// Retrives all materia intances
+        /// Retrives all materia instances
         /// </summary>
         [HttpGet]
         [Route("")]
-        public IHttpActionResult GetAll()
-        {
+        public IHttpActionResult GetAll() {
             // Test of GetOrdered repository method
             var materias = _unitOfWork.Materias.GetOrdered(e => e.Year, e => e.Year > 1);
 
@@ -40,8 +36,7 @@ namespace WebApi.Controllers
         /// </summary>
         [HttpGet]
         [Route("departamento")]
-        public IHttpActionResult GetMateriasWithDepto()
-        {
+        public IHttpActionResult GetMateriasWithDepto() {
             var materias = _unitOfWork.Materias.GetMateriasWithDepto();
 
             return Ok(materias);
@@ -54,8 +49,7 @@ namespace WebApi.Controllers
         [HttpGet]
         [Route("{id:int}")]
         [ResponseType(typeof(Materia))]
-        public IHttpActionResult Get(int id)
-        {
+        public IHttpActionResult Get(int id) {
             var materia = _unitOfWork.Materias.GetById(id);
 
             if (materia == null)
@@ -66,15 +60,14 @@ namespace WebApi.Controllers
             return Ok(materia);
         }
 
-         // GET api/Materia/5/Departamento
+        // GET api/Materia/5/Departamento
         /// <summary>
         /// Retrives a specific materia
         /// </summary>
         [HttpGet]
         [Route("{id:int}/departamento")]
         [ResponseType(typeof(Materia))]
-        public IHttpActionResult GetMateriaWithDepto(int id)
-        {
+        public IHttpActionResult GetMateriaWithDepto(int id) {
             var materia = _unitOfWork.Materias.GetMateriaWithDepto(id);
 
             if (materia == null)
@@ -89,12 +82,9 @@ namespace WebApi.Controllers
         [HttpPost]
         [Route("", Name = "PostMateria")]
         [ResponseType(typeof(Materia))]
-        public IHttpActionResult Post([FromBody] Materia materia)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
+        public IHttpActionResult Post([FromBody] Materia materia) {
+            try {
+                if (!ModelState.IsValid) {
                     return BadRequest(ModelState);
                 }
 
@@ -103,25 +93,20 @@ namespace WebApi.Controllers
 
                 return CreatedAtRoute("PostMateria", new { id = materia.Id }, materia);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 // Send the exception as parameter
                 return BadRequest(ex.ToString());
             }
         }
 
-
         [Authorize]
         [HttpDelete]
         [Route("{id:int}")]
         [ResponseType(typeof(Materia))]
-        public IHttpActionResult Delete(int id)
-        {
-            try
-            {
+        public IHttpActionResult Delete(int id) {
+            try {
                 var materia = _unitOfWork.Materias.GetById(id);
-                if (materia == null)
-                {
+                if (materia == null) {
                     return NotFound();
                 }
 
@@ -130,8 +115,7 @@ namespace WebApi.Controllers
 
                 return Ok(materia);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 // Send the exception as parameter
                 return BadRequest(ex.ToString());
             }
@@ -141,36 +125,28 @@ namespace WebApi.Controllers
         [HttpPut]
         [Route("{id:int}")]
         [ResponseType(typeof(Materia))]
-        public IHttpActionResult Put(int id, [FromBody] Materia sentMateria)
-        {
-            if (id != sentMateria.Id)
-            {
+        public IHttpActionResult Put(int id, [FromBody] Materia sentMateria) {
+            if (id != sentMateria.Id) {
                 return BadRequest();
             }
 
-            try
-            {
-                if (!ModelState.IsValid)
-                {
+            try {
+                if (!ModelState.IsValid) {
                     return BadRequest(ModelState);
                 }
 
                 _unitOfWork.Materias.Update(sentMateria);
                 _unitOfWork.Complete();
             }
-            catch(Exception)
-            {
-                if (_unitOfWork.Materias.GetById(id) == null)
-                {
+            catch(Exception) {
+                if (_unitOfWork.Materias.GetById(id) == null) {
                     return NotFound();
                 }
-                else
-                {
+                else {
                     throw;
                 } 
             }
             
-
             return StatusCode(HttpStatusCode.NoContent);
         }
     }

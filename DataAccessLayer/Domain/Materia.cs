@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataAccessLayer
-{
-    public class Materia
-    {
+namespace DataAccessLayer {
+    public class Materia {
         public int Id { get; set; }
 
         [Required]

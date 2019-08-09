@@ -11,52 +11,58 @@ using System.Web.Http.Results;
 using DataAccessLayer;
 
 namespace WebApi.Controllers {
-    [RoutePrefix("api/departamentos")]
-    public class DepartamenosApiController : ApiController {
-        private UnitOfWork _unitOfWork = new UnitOfWork(new ConsultaUTNContext());
+    [RoutePrefix("api/usuarios")]
+    public class UsuariosApiController : ApiController {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public UsuariosApiController(IUnitOfWork unitOfWork) {
+            _unitOfWork = unitOfWork;
+        }
 
         /// <summary>
-        /// Retrives all departamento instances
+        /// Retrives all usuario instances
         /// </summary>
         [HttpGet]
         [Route("")]
         public IHttpActionResult GetAll() {
-            var departamentos = _unitOfWork.Departamentos.Get();
+            // Test of GetOrdered repository method
+            var usuarios = _unitOfWork.Usuarios.Get();
 
-            return Ok(departamentos);
+            return Ok(usuarios);
         }
 
-        // GET api/Departamento/5
+        // GET api/Usuario/5
         /// <summary>
-        /// Retrives a specific departamento
+        /// Retrives a specific usuario
         /// </summary>
         [HttpGet]
         [Route("{id:int}")]
-        [ResponseType(typeof(Departamento))]
+        [ResponseType(typeof(Usuario))]
         public IHttpActionResult Get(int id) {
-            var departamento = _unitOfWork.Departamentos.GetById(id);
+            var usuario = _unitOfWork.Usuarios.GetById(id);
 
-            if (departamento == null) {
+            if (usuario == null) {
                 return NotFound();
             }
 
-            return Ok(departamento);
+            return Ok(usuario);
         }
 
         // Remember to include { Content-Type: application/json } in Request Body when consuming
         [HttpPost]
-        [Route("", Name = "PostDepartamento")]
-        [ResponseType(typeof(Departamento))]
-        public IHttpActionResult Post([FromBody] Departamento departamento) {
+        [Route("", Name = "PostUsuario")]
+        [ResponseType(typeof(Usuario))]
+        public IHttpActionResult Post([FromBody] Usuario usuario) {
             try {
-                if (!ModelState.IsValid) {
+                if (!ModelState.IsValid)
+                {
                     return BadRequest(ModelState);
                 }
 
-                _unitOfWork.Departamentos.Insert(departamento);
+                _unitOfWork.Usuarios.Insert(usuario);
                 _unitOfWork.Complete();
 
-                return CreatedAtRoute("PostDepartamento", new { id = departamento.Id }, departamento);
+                return CreatedAtRoute("PostUsuario", new { id = usuario.UserId }, usuario);
             }
             catch (Exception ex) {
                 // Send the exception as parameter
@@ -67,18 +73,19 @@ namespace WebApi.Controllers {
         [Authorize]
         [HttpDelete]
         [Route("{id:int}")]
-        [ResponseType(typeof(Departamento))]
+        [ResponseType(typeof(Usuario))]
         public IHttpActionResult Delete(int id) {
             try {
-                var departamento = _unitOfWork.Departamentos.GetById(id);
-                if (departamento == null) {
+                var usuario = _unitOfWork.Usuarios.GetById(id);
+                if (usuario == null)
+                {
                     return NotFound();
                 }
 
-                _unitOfWork.Departamentos.Delete(departamento);
+                _unitOfWork.Usuarios.Delete(usuario);
                 _unitOfWork.Complete();
 
-                return Ok(departamento);
+                return Ok(usuario);
             }
             catch (Exception ex) {
                 // Send the exception as parameter
@@ -89,29 +96,30 @@ namespace WebApi.Controllers {
         // Remember to include { Content-Type: application/json } and state the Id in in Request Body when consuming
         [HttpPut]
         [Route("{id:int}")]
-        [ResponseType(typeof(Departamento))]
-        public IHttpActionResult Put(int id, [FromBody] Departamento sentDepartamento) {
-            if (id != sentDepartamento.Id) {
+        [ResponseType(typeof(Usuario))]
+        public IHttpActionResult Put(int id, [FromBody] Usuario sentUsuario) {
+            if (id != sentUsuario.UserId) {
                 return BadRequest();
             }
 
             try {
-                if (!ModelState.IsValid) {
+                if (!ModelState.IsValid)
+                {
                     return BadRequest(ModelState);
                 }
 
-                _unitOfWork.Departamentos.Update(sentDepartamento);
+                _unitOfWork.Usuarios.Update(sentUsuario);
                 _unitOfWork.Complete();
             }
             catch(Exception) {
-                if (_unitOfWork.Departamentos.GetById(id) == null) {
+                if (_unitOfWork.Usuarios.GetById(id) == null) {
                     return NotFound();
                 }
                 else {
                     throw;
                 } 
             }
-
+            
             return StatusCode(HttpStatusCode.NoContent);
         }
     }

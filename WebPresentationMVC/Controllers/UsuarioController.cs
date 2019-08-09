@@ -6,16 +6,17 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using WebPresentationMVC.Models;
+using WebPresentationMVC.ViewModels;
 
 namespace WebPresentationMVC.Controllers {
-    public class DepartamentoController : Controller {
-        // GET: Departamento
+    public class UsuarioController : Controller {
+        // GET: Usuario
         public ActionResult Index() {
-            var response = GlobalApi.WebApiClient.GetAsync("departamentos/").Result;
+            var response = GlobalApi.WebApiClient.GetAsync("usuarios").Result;
 
-            IEnumerable<MvcDepartamentoModel> departamentos = response.Content.ReadAsAsync<IEnumerable<MvcDepartamentoModel>>().Result;
+            IEnumerable<MvcUsuarioModel> usuarios = response.Content.ReadAsAsync<IEnumerable<MvcUsuarioModel>>().Result;
 
-            return View(departamentos);
+            return View(usuarios);
         }
 
         // DETAILS
@@ -26,14 +27,14 @@ namespace WebPresentationMVC.Controllers {
                 return View(response.Content.ReadAsAsync<ModelState>().Result);
             }
 
-            var departamento = response.Content.ReadAsAsync<MvcDepartamentoModel>().Result;
+            var usuario = response.Content.ReadAsAsync<MvcUsuarioModel>().Result;
     
-            return View(departamento);
+            return View(usuario);
         }
 
-        // DELETE Departamento/5
+        // DELETE Usuario/5
         public ActionResult Delete(int id) {
-            var response = GlobalApi.WebApiClient.DeleteAsync("materias/" + id.ToString()).Result;
+            var response = GlobalApi.WebApiClient.DeleteAsync("usuarios/" + id.ToString()).Result;
 
             // Search what is TempData!
             TempData["SuccessMessage"] = "Deleted Sucessfully";
@@ -47,16 +48,17 @@ namespace WebPresentationMVC.Controllers {
             return View();
         }
 
+
         // CREATE
         [HttpPost]
-        public ActionResult Create(MvcDepartamentoModel departamentos) {
-            var response = GlobalApi.WebApiClient.PostAsJsonAsync("departamentos", departamentos).Result;
+        public ActionResult Create(MvcUsuarioModel usuarios) {
+            var response = GlobalApi.WebApiClient.PostAsJsonAsync("usuarios", usuarios).Result;
 
             // Move this to an action filter
             if (!response.IsSuccessStatusCode) {
                 ModelState.AddModelErrorsFromResponse(response);
 
-                return View(departamentos);
+                return View(usuarios);
             }
 
             return RedirectToAction("Index");
@@ -69,31 +71,32 @@ namespace WebPresentationMVC.Controllers {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var response = GlobalApi.WebApiClient.GetAsync("departamentos/" + id).Result;
+            var response = GlobalApi.WebApiClient.GetAsync("usuarios/" + id).Result;
 
             if (!response.IsSuccessStatusCode) {
                 return HttpNotFound();
             }
 
-            MvcDepartamentoModel departamento = response.Content.ReadAsAsync<MvcDepartamentoModel>().Result;
+            MvcUsuarioModel usuario = response.Content.ReadAsAsync<MvcUsuarioModel>().Result;
 
-            return View(departamento);
+            return View(usuario);
         }
 
         // SECURE EDIT
         [HttpPost]
         [ValidateAntiForgeryToken]
         // Bind(Include = "...") is used to avoid overposting attacks
-        public ActionResult Edit([Bind(Include = "Id, Name")]MvcDepartamentoModel departamento) {
-            var response = GlobalApi.WebApiClient.PutAsJsonAsync("departamentos/" + departamento.Id, departamento).Result;
+        public ActionResult Edit([Bind(Include = "UserId, Username")]MvcUsuarioModel usuario) {
+            var response = GlobalApi.WebApiClient.PutAsJsonAsync("usuarios/" + usuario.UserId, usuario).Result;
 
             if (!response.IsSuccessStatusCode) {
                 ModelState.AddModelErrorsFromResponse(response);
 
-                return View(departamento);
+                return View(usuario);
             }
 
             return RedirectToAction("Index");
         }
+
     }
 }

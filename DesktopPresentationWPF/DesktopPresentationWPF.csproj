@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="Models\WpfDepartamentoModel.cs" />
     <Compile Include="Models\WpfMateriaModel.cs" />
+    <Compile Include="Models\WpfUsuarioModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

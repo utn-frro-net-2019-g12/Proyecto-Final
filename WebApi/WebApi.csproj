@@ -224,6 +224,7 @@
     <Compile Include="Controllers\AccountApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\DepartamentoApiController.cs" />
+    <Compile Include="Controllers\UsuarioApiController.cs" />
     <Compile Include="Controllers\MateriaApiController.cs" />
     <Compile Include="Controllers\ValuesApiController.cs" />
     <Compile Include="Global.asax.cs">

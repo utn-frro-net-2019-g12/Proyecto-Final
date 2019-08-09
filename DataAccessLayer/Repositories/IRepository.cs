@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace DataAccessLayer.Repositories
-{
-    public interface IRepository<TEntity> where TEntity : class
-    {
+namespace DataAccessLayer.Repositories {
+    public interface IRepository<TEntity> where TEntity : class {
         TEntity GetById(object id);
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filterExp = null);
         IEnumerable<TEntity> GetOrdered<TKey>(Expression<Func<TEntity, TKey>> orderByExp, Expression<Func<TEntity, bool>> filterExp = null);

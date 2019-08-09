@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DataAccessLayer
-{
-    public class Departamento
-    {
-        public Departamento()
-        {
+namespace DataAccessLayer {
+    public class Departamento {
+        public Departamento() {
             Materias = new HashSet<Materia>();
         }
 
