@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebPresentationMVC.Models {
     public class MvcUsuarioModel {
-        public int UserId { get; set; }
+        public int Id { get; set; }
 
         public string Username { get; set; }
         /*

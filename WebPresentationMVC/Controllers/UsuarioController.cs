@@ -21,7 +21,7 @@ namespace WebPresentationMVC.Controllers {
 
         // DETAILS
         public ActionResult Details(int id) {
-            var response = GlobalApi.WebApiClient.GetAsync("departamentos/" + id.ToString()).Result;
+            var response = GlobalApi.WebApiClient.GetAsync("usuarios/" + id.ToString()).Result;
 
             if (!response.IsSuccessStatusCode) {
                 return View(response.Content.ReadAsAsync<ModelState>().Result);
@@ -86,8 +86,8 @@ namespace WebPresentationMVC.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         // Bind(Include = "...") is used to avoid overposting attacks
-        public ActionResult Edit([Bind(Include = "UserId, Username")]MvcUsuarioModel usuario) {
-            var response = GlobalApi.WebApiClient.PutAsJsonAsync("usuarios/" + usuario.UserId, usuario).Result;
+        public ActionResult Edit([Bind(Include = "Id, Username, Legajo, Matricula, IsAdmin, Firstname, Surname, Email, Phone")]MvcUsuarioModel usuario) {
+            var response = GlobalApi.WebApiClient.PutAsJsonAsync("usuarios/" + usuario.Id, usuario).Result;
 
             if (!response.IsSuccessStatusCode) {
                 ModelState.AddModelErrorsFromResponse(response);
@@ -97,6 +97,6 @@ namespace WebPresentationMVC.Controllers {
 
             return RedirectToAction("Index");
         }
-
+        
     }
 }

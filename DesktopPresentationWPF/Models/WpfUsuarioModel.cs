@@ -5,7 +5,7 @@ using System.Web;
 
 namespace DesktopPresentationWPF.Models {
     public class WpfUsuarioModel {
-        public int userId { get; set; }
+        public int id { get; set; }
 
         public string username { get; set; } // Remember: Add FK from Identity Framework
 

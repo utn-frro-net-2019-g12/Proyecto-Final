@@ -62,7 +62,7 @@ namespace WebApi.Controllers {
                 _unitOfWork.Usuarios.Insert(usuario);
                 _unitOfWork.Complete();
 
-                return CreatedAtRoute("PostUsuario", new { id = usuario.UserId }, usuario);
+                return CreatedAtRoute("PostUsuario", new { id = usuario.Id }, usuario);
             }
             catch (Exception ex) {
                 // Send the exception as parameter
@@ -98,7 +98,7 @@ namespace WebApi.Controllers {
         [Route("{id:int}")]
         [ResponseType(typeof(Usuario))]
         public IHttpActionResult Put(int id, [FromBody] Usuario sentUsuario) {
-            if (id != sentUsuario.UserId) {
+            if (id != sentUsuario.Id) {
                 return BadRequest();
             }
 

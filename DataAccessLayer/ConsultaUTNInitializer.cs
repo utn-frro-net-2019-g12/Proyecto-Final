@@ -6,7 +6,6 @@ namespace DataAccessLayer {
         protected override void Seed(ConsultaUTNContext context) {
 
             var unitOfWork = new UnitOfWork(new ConsultaUTNContext());
-            // WARNING: PROBLEM WITH INITIALIZATION
 
             var departamentos = new List<Departamento> {
                 new Departamento{ Name = "Ingeniería en Sistemas de Información" },
@@ -29,23 +28,22 @@ namespace DataAccessLayer {
             unitOfWork.Materias.InsertRange(materias);
             unitOfWork.Complete();
 
-            /*
-            // NO ANDA :(
             var usuarios = new List<Usuario> {
-                // Usuarios Test: 1 es Admin Full, 2 es Alumno-Admin, 3 es Profesor-Admin, 4 es Solo Alumno, 5 es Solo Profesor, 6 es Solo Admin
-                new Usuario{ UserId = 1, Username = "AleReca", Legajo = 44176, Matricula = "JOAQ-120", IsAdmin = true, Firstname = "Alejandro Pedro", Surname = "Recalde", Email = "alereca@gmail.com", Phone = 1502030 },
-                new Usuario{ UserId = 2, Username = "NicoAntonelli", Legajo = 44852, Matricula = null, IsAdmin = true, Firstname = "Nicolás Agustín", Surname = "Antonelli", Email = "niconelli2@gmail.com", Phone = 1530012 },
-                new Usuario{ UserId = 3, Username = "RetroVitto", Legajo = null, Matricula = "MECA-800", IsAdmin = true, Firstname = "Vittorio", Surname = "Retrivi", Email = "retrovitto@gmail.com", Phone = 1510911 },
-                new Usuario{ UserId = 4, Username = "soloAlumno", Legajo = 40123, Matricula = null, IsAdmin = false, Firstname = "Alumno", Surname = "Solo", Email = "aluonly@gmail.com", Phone = 1591111 },
-                new Usuario{ UserId = 5, Username = "soloProfe", Legajo = null, Matricula = "BRES-001", IsAdmin = false, Firstname = "Profesor", Surname = "Solo", Email = "profonly@gmail.com", Phone = 1592222 },
-                new Usuario{ UserId = 6, Username = "soloAdmin", Legajo = null, Matricula = null, IsAdmin = true, Firstname = "Admin", Surname = "Solo", Email = "adminonly@gmail.com", Phone = 1593333 },
+                // Users Test: 1 Admin Full, 2 Alumno-Admin, 3 Profesor-Admin, 4 Alumno-Profesor, 5 Alumno Only, 6 Profesor Only, 7 Admin Only
+                new Usuario{ Id = 1, Username = "AleReca", Legajo = 44176, Matricula = "JOAQ-120", IsAdmin = true, Firstname = "Alejandro Pedro", Surname = "Recalde", Email = "alereca@gmail.com", Phone = 1502030 },
+                new Usuario{ Id = 2, Username = "NicoAntonelli", Legajo = 44852, Matricula = "0", IsAdmin = true, Firstname = "Nicolás Agustín", Surname = "Antonelli", Email = "niconelli2@gmail.com", Phone = 1530012 },
+                new Usuario{ Id = 3, Username = "RetroVitto", Legajo = 0, Matricula = "MECA-800", IsAdmin = true, Firstname = "Vittorio", Surname = "Retrivi", Email = "retrovitto@gmail.com", Phone = 1510911 },
+                new Usuario{ Id = 4, Username = "alumnoProfe", Legajo = 30755, Matricula = "CBOL-555", IsAdmin = false, Firstname = "AluProf", Surname = "NoAdm", Email = "aluprofnoadm@gmail.com", Phone = 1503030 },
+                new Usuario{ Id = 5, Username = "soloAlumno", Legajo = 40123, Matricula = "0", IsAdmin = false, Firstname = "Alumno", Surname = "Solo", Email = "aluonly@gmail.com", Phone = 1591111 },
+                new Usuario{ Id = 6, Username = "soloProfe", Legajo = 0, Matricula = "BRES-001", IsAdmin = false, Firstname = "Profesor", Surname = "Solo", Email = "profonly@gmail.com", Phone = 1592222 },
+                new Usuario{ Id = 7, Username = "soloAdmin", Legajo = 0, Matricula = "0", IsAdmin = true, Firstname = "Admin", Surname = "Solo", Email = "adminonly@gmail.com", Phone = 1593333 },
+                // If we add "null" instead of "0", an exception ocurrs (JSON can't handle the nulls)
             };
 
-            // For the Users --> Remember Fix the username (Make a FK from IdentityFramework), and add "Photo" (Consult about the image format file... Blob?)
+            // For the Users --> Remember Fix the username (Make a FK from IdentityFramework), and add "Photo" Attribue
 
             unitOfWork.Usuarios.InsertRange(usuarios);
             unitOfWork.Complete();
-            */
 
         }
     }

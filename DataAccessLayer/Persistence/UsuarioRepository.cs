@@ -18,19 +18,19 @@ namespace DataAccessLayer.Persistence {
 
         public bool? IsAdmin(int userId) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Usuarios.Where(p => p.UserId == userId).Select(p => p.IsAdmin).Single();
+            return ConsultaUTNContext.Usuarios.Where(p => p.Id == userId).Select(p => p.IsAdmin).SingleOrDefault();
         }
 
         // Null --> No es Alumno
         public int? GetLegajo(int userId) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Usuarios.Where(p => p.UserId == userId).Select(p => p.Legajo != null ? p.Legajo : null).Single();
+            return ConsultaUTNContext.Usuarios.Where(p => p.Id == userId).Select(p => p.Legajo != null ? p.Legajo : null).SingleOrDefault();
         }
 
         // Null --> No es Profesor
         public string GetMatricula(int userId) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Usuarios.Where(p => p.UserId == userId).Select(p => p.Matricula != null ? p.Matricula : null).Single();
+            return ConsultaUTNContext.Usuarios.Where(p => p.Id == userId).Select(p => p.Matricula != null ? p.Matricula : null).SingleOrDefault();
         }
 
         public IEnumerable<Usuario> GetUsuariosOrderedByUsername() {
@@ -52,7 +52,7 @@ namespace DataAccessLayer.Persistence {
 
         public Usuario GetUsuarioById(int userId) { 
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Usuarios.Where(p => p.UserId == userId).FirstOrDefault();
+            return ConsultaUTNContext.Usuarios.Where(p => p.Id == userId).FirstOrDefault();
         }
 
         public Usuario GetUsuarioByUsername(string username) {

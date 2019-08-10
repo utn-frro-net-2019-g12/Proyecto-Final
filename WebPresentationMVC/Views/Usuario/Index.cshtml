@@ -4,78 +4,147 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Username)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Legajo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Matricula)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsAdmin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Firstname)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Surname)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Phone)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Username)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Legajo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Matricula)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsAdmin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Firstname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Surname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
+@section styleDataTable {
+    @Styles.Render("~/Content/dataTables")
 }
 
-</table>
+@section scriptsDataTable {
+    @Scripts.Render("~/bundles/dataTables")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#dataTable').DataTable({ "bFilter": false });
+            //  $('#dataTable').DataTable();
+        });
+    </script>
+}
+
+
+<div class="container-fluid">
+    <!-- Modal Modificar Usuario -->
+    <div class="modal fade" id="modalModifyUser" tabindex="-1" role="dialog" aria-labelledby="modalModifyUserTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                @using (Html.BeginForm("Create", "Usuario")) {
+                    @Html.AntiForgeryToken()
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Nuevo Usuario</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control form-control-user" name="Username" placeholder="Nombre de Usuario">
+                                <input type="number" class="form-control form-control-user" name="Legajo" placeholder="Legajo">
+                                <input type="text" class="form-control form-control-user" name="Matricula" placeholder="Matricula">
+                                <div class="checkbox"><label>
+                                    <input type="checkbox" data-toggle="toggle" class="form-control form-control-user" name="IsAdmin">Administrador?
+                                </label></div>
+                                <!-- <input type="checkbox"  placeholder="IsAdmin?"> -->
+                                <!-- The Checkbox doesn't show the Bootstrap4 Style :( -->
+                                <input type="text" class="form-control form-control-user" name="Firstname" placeholder="Nombre">
+                                <input type="text" class="form-control form-control-user" name="Surname" placeholder="Apellido">
+                                <input type="text" class="form-control form-control-user" name="Email" placeholder="Email">
+                                <input type="number" class="form-control form-control-user" name="Phone" placeholder="Número de Teléfono">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+
+
+    <h1 class="h3 mb-2 text-gray-800">Editar Usuarios</h1>
+    <p class="mb-4">Las opciones aquí listadas son posibles debido a tu estado de administrador. Sé cuidadoso al modificar estas opciones (?</p>
+    <div class="row  mb-3">
+        <div class="col col-auto d-flex">
+            <button class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalModifyUser">Nuevo Usuario</button>
+        </div>
+    </div>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Legajo</th>
+                            <th>Matrícula</th>
+                            <th>Admin</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Legajo</th>
+                            <th>Matrícula</th>
+                            <th>Admin</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model) {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Username)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Legajo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Matricula)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsAdmin)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Firstname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Surname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phone)
+                            </td>
+                            <td class="d-flex align-items-center p-0">
+                                <button data-toggle="modal" data-target="#modalModifyUser" type="button" class="d-flex align-items-center btn btn-warning m-1">
+                                    <i class="fas fa-edit fa-xs m-1"></i>
+                                    <p class="d-none d-md-block m-0">Editar</p>
+                                </button>
+                                <button type="button" class="d-flex align-items-center btn btn-danger m-1">
+                                    <i class="fas fa-trash-alt fa-xs m-1"></i>
+                                    <p class="d-none d-md-block m-0">Eliminar</p>
+                                </button>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

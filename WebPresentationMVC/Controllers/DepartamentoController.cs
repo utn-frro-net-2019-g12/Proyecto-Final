@@ -33,7 +33,7 @@ namespace WebPresentationMVC.Controllers {
 
         // DELETE Departamento/5
         public ActionResult Delete(int id) {
-            var response = GlobalApi.WebApiClient.DeleteAsync("materias/" + id.ToString()).Result;
+            var response = GlobalApi.WebApiClient.DeleteAsync("departamentos/" + id.ToString()).Result;
 
             // Search what is TempData!
             TempData["SuccessMessage"] = "Deleted Sucessfully";

@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 
 namespace DataAccessLayer {
     public class Usuario {
-        public int UserId { get; set; }
+        public int Id { get; set; }
 
         // Username --> FK(Users_IdentityFramework)
         // Por ahora la dejo como atributo normal (abajo comentada la FK)
@@ -11,7 +12,6 @@ namespace DataAccessLayer {
         [StringLength(50)]
         public string Username { get; set; }
 
-        // Se Especifica el "Not Required" o con no poner nada es suficiente?
         // Legajo != Null --> Es Alumno
         public int? Legajo { get; set; }
         // Matrícula != Null --> Es Profesor
@@ -30,8 +30,7 @@ namespace DataAccessLayer {
         public string Email { get; set; }
         [Required]
         public int? Phone { get; set; }
-
-        // public blob Photo { get; set; } --> Consultar en el Grupo el formato de imagen a usar
+        // public Bitmap Photo { get; set; } --> Consultar
 
         // [ForeignKey("User_IdentityFramework")]
         // public string Username { get; set; }
