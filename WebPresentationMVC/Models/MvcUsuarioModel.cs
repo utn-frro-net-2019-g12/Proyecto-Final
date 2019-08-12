@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -8,24 +9,22 @@ namespace WebPresentationMVC.Models {
     public class MvcUsuarioModel {
         public int Id { get; set; }
 
+        [DisplayName("Usuario")]
         public string Username { get; set; }
-        /*
-        // Remember: Add FK from Identity Framework
-        [ForeignKey("IdentityFramework")]
-        public int? UsuarioId { get; set; }
-        public virtual MvcDepartamentoModel Departamento { get; set; }
-        */
 
         // Legajo != Null --> Es Alumno
-        public int Legajo { get; set; }
+        public int? Legajo { get; set; }
         // Matrícula != Null --> Es Profesor
+        [DisplayName("Matrícula")]
         public string Matricula { get; set; }
         public bool IsAdmin { get; set; }
+        [DisplayName("Nombre")]
         public string Firstname { get; set; }
+        [DisplayName("Apellido")]
         public string Surname { get; set; }
         public string Email { get; set; }
-        public int Phone { get; set; }
-        // public blob Photo { get; set; } --> Consultar en el Grupo el formato de imagen a usar
-
+        [DisplayName("Telefono")]
+        public int? Phone { get; set; }
+        // public Bitmap Photo { get; set; } --> Consultar
     }
 }

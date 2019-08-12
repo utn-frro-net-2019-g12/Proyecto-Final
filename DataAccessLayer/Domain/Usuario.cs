@@ -18,7 +18,7 @@ namespace DataAccessLayer {
         [StringLength(50)]
         public string Matricula { get; set; }
         [Required]
-        public bool? IsAdmin { get; set; }
+        public bool IsAdmin { get; set; }
         [Required]
         [StringLength(50)]
         public string Firstname { get; set; }
