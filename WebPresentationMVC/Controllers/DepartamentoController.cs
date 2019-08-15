@@ -9,7 +9,7 @@ using WebPresentationMVC.Models;
 
 namespace WebPresentationMVC.Controllers {
     public class DepartamentoController : Controller {
-        // GET: Departamento
+        // Index - GET Departamento
         public ActionResult Index() {
             var response = GlobalApi.WebApiClient.GetAsync("departamentos/").Result;
 
@@ -18,7 +18,7 @@ namespace WebPresentationMVC.Controllers {
             return View(departamentos);
         }
 
-        // DETAILS
+        // Details - GET Departamento/ID
         public ActionResult Details(int id) {
             var response = GlobalApi.WebApiClient.GetAsync("departamentos/" + id.ToString()).Result;
 
@@ -31,7 +31,7 @@ namespace WebPresentationMVC.Controllers {
             return View(departamento);
         }
 
-        // DELETE Departamento/5
+        // Delete - DELETE Departamento/ID
         public ActionResult Delete(int id) {
             var response = GlobalApi.WebApiClient.DeleteAsync("departamentos/" + id.ToString()).Result;
 
@@ -41,13 +41,13 @@ namespace WebPresentationMVC.Controllers {
             return RedirectToAction("Index");
         }
 
-        // CREATE (Default)
+        // Create (Default)
         [HttpGet]
         public ActionResult Create() {
             return View();
         }
 
-        // CREATE
+        // Create - POST Departamento
         [HttpPost]
         public ActionResult Create(MvcDepartamentoModel departamentos) {
             var response = GlobalApi.WebApiClient.PostAsJsonAsync("departamentos", departamentos).Result;
@@ -62,7 +62,7 @@ namespace WebPresentationMVC.Controllers {
             return RedirectToAction("Index");
         }
 
-        // EDIT
+        // Edit - GET Departamento/ID
         [HttpGet]
         public ActionResult Edit(int? id) {
             if (id == null) {
@@ -77,16 +77,10 @@ namespace WebPresentationMVC.Controllers {
 
             MvcDepartamentoModel departamento = response.Content.ReadAsAsync<MvcDepartamentoModel>().Result;
 
-            return View(departamento);
+            return View("_Edit", departamento);
         }
 
-        // MODAL EDIT
-        [HttpGet]
-        public ActionResult Modify() {
-            return PartialView("_Edit");
-        }
-
-        // SECURE EDIT
+        // Edit - PUT Departamento/ID (Secured)
         [HttpPost]
         [ValidateAntiForgeryToken]
         // Bind(Include = "...") is used to avoid overposting attacks
@@ -96,7 +90,7 @@ namespace WebPresentationMVC.Controllers {
             if (!response.IsSuccessStatusCode) {
                 ModelState.AddModelErrorsFromResponse(response);
 
-                return View(departamento);
+                return PartialView("_Edit", departamento);
             }
 
             return RedirectToAction("Index");

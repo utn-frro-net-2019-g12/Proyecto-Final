@@ -16,22 +16,25 @@
             //  $('#dataTable').DataTable();
         });
     </script>
+}
 
-    <!-- Partial View Calling -->
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <!-- _Edit Partial View Calling -->
     <script type="text/javascript">
-        $('#actionModifyDepartamento').on('click', function () {
+        $('#actionEditDepartamento').on('click', function (event) {
+            event.preventDefault();
             $.ajax({
                 type: "GET",
-                url: '/Departamento/Modify',
-                // url: '[At]Url.Action("Edit Departamento", "Modify", "Departamento")',
+                url: '/Departamento/Edit/1',
+                // url: '[At]Url.Action("Edit Departamento", "Edit", "Departamento")',
                 success: function (data, textStatus, jqXHR) {
-                    $('#modalModifyDepartametoContent').html(data);
+                    $('#modalEditDepartametoContent').html(data);
+                    // $("#modalEditDepartamento").modal() or .show()
                 }
             });
-            // $('#modalModifyDepartametoContent').modal('show');
-
-            // HTML BUTTON TEST --> [At]Html.ActionLink("Edit", null, null, null, new { id = "actionModifyDepartamento" })
-
+            // HTML BUTTON TEST --> [At]Html.ActionLink("Edit", null, null, null, new { id = "actionEditDepartamento" })
         });
     </script>
 }
@@ -69,10 +72,10 @@
 
 <!-- Modal Modificar Departamento -->
 <div class="container-fluid">
-    <div class="modal fade" id="modalModifyDepartamento" tabindex="-1" role="dialog" aria-labelledby="modalModifyDepartamentoTitle" aria-hidden="true">
+    <div class="modal fade" id="modalEditDepartamento" tabindex="-1" role="dialog" aria-labelledby="modalEditDepartamentoTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div id="modalModifyDepartametoContent" style="background-color:white; border-radius:10px; box-shadow:10px;">
-                <p> Partial View Here... </p>
+            <div id="modalEditDepartametoContent" style="background-color:white; border-radius:10px; box-shadow:10px;">
+                <p> Loading... </p>
                 <!-- Html.Partial("_Edit") -->
             </div>
         </div>
@@ -117,7 +120,7 @@
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
                                 <td class="d-flex align-items-center p-0">
-                                    <button id="actionModifyDepartamento" data-toggle="modal" data-target="#modalModifyDepartamento" type="button" class="d-flex align-items-center btn btn-warning m-1">
+                                    <button id="actionEditDepartamento" data-toggle="modal" data-target="#modalEditDepartamento" type="button"class="d-flex align-items-center btn btn-warning m-1">
                                         <i class="fas fa-edit fa-xs m-1"></i>
                                         <p class="d-none d-md-block m-0">Editar</p>
                                     </button>

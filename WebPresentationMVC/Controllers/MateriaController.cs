@@ -11,7 +11,7 @@ using WebPresentationMVC.ViewModels;
 namespace WebPresentationMVC.Controllers {
     // Note: This Controller Communicates with ViewModels (CreateMateriaViewModel and EditMateriaViewModel)
     public class MateriaController : Controller {
-        // GET: Materia
+        // Index - GET Materia
         public ActionResult Index() {
             var response = GlobalApi.WebApiClient.GetAsync("materias/departamento").Result;
 
@@ -20,7 +20,7 @@ namespace WebPresentationMVC.Controllers {
             return View(materias);
         }
 
-        // DETAILS
+        // Details - GET Materia/ID
         public ActionResult Details(int id) {
             var response = GlobalApi.WebApiClient.GetAsync("materias/" + id.ToString() + "/departamento").Result;
 
@@ -33,7 +33,7 @@ namespace WebPresentationMVC.Controllers {
             return View(materia);
         }
 
-        // DELETE Materia/5
+        // Delete - DELETE Materia/ID
         public ActionResult Delete(int id) {
             var response = GlobalApi.WebApiClient.DeleteAsync("materias/" + id.ToString()).Result;
 
@@ -43,7 +43,7 @@ namespace WebPresentationMVC.Controllers {
             return RedirectToAction("Index");
         }
 
-        // CREATE (Default)
+        // Create (Default)
         [HttpGet]
         public ActionResult Create() {
             var departamentos = GetDepartamentos();
@@ -53,7 +53,7 @@ namespace WebPresentationMVC.Controllers {
             return View(viewModel);
         }
 
-        // CREATE
+        // Create - Post Materia
         [HttpPost]
         public ActionResult Create(CreateMateriaViewModel viewModel) {
             var response = GlobalApi.WebApiClient.PostAsJsonAsync("materias", viewModel.Materia).Result;
@@ -72,7 +72,7 @@ namespace WebPresentationMVC.Controllers {
             return RedirectToAction("Index");
         }
 
-        // EDIT
+        // Edit - GET Materia/ID
         [HttpGet]
         public ActionResult Edit(int? id) {
             if (id == null) {
@@ -92,9 +92,10 @@ namespace WebPresentationMVC.Controllers {
             var viewModel = new EditMateriaViewModel(departamentos, materia);
 
             return View(viewModel);
+            // Edit for Partial View!
         }
 
-        // SECURE EDIT
+        // Edit - PUT Materia/ID (Secured)
         [HttpPost]
         [ValidateAntiForgeryToken]
         // Bind(Include = "...") is used to avoid overposting attacks
@@ -111,9 +112,10 @@ namespace WebPresentationMVC.Controllers {
             }
 
             return RedirectToAction("Index");
+            // Edit for Partial View!
         }
 
-        // GET (List of Departamentos)
+        // List of Departamentos - GET Departamentos
         public IEnumerable<MvcDepartamentoModel> GetDepartamentos() {
             var response = GlobalApi.WebApiClient.GetAsync("departamentos").Result;
 

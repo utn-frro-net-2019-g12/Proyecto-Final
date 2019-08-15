@@ -10,7 +10,7 @@ using WebPresentationMVC.ViewModels;
 
 namespace WebPresentationMVC.Controllers {
     public class UsuarioController : Controller {
-        // GET: Usuario
+        // Index - GET Usuario
         public ActionResult Index() {
             var response = GlobalApi.WebApiClient.GetAsync("usuarios").Result;
 
@@ -19,7 +19,7 @@ namespace WebPresentationMVC.Controllers {
             return View(usuarios);
         }
 
-        // DETAILS
+        // Details - GET Usuario/ID
         public ActionResult Details(int id) {
             var response = GlobalApi.WebApiClient.GetAsync("usuarios/" + id.ToString()).Result;
 
@@ -32,7 +32,7 @@ namespace WebPresentationMVC.Controllers {
             return View(usuario);
         }
 
-        // DELETE Usuario/5
+        // Delete - DELETE Usuario/ID
         public ActionResult Delete(int id) {
             var response = GlobalApi.WebApiClient.DeleteAsync("usuarios/" + id.ToString()).Result;
 
@@ -42,14 +42,14 @@ namespace WebPresentationMVC.Controllers {
             return RedirectToAction("Index");
         }
 
-        // CREATE (Default)
+        // Create (Default)
         [HttpGet]
         public ActionResult Create() {
             return View();
         }
 
 
-        // CREATE
+        // Create - POST Usuario
         [HttpPost]
         public ActionResult Create(MvcUsuarioModel usuarios) {
             var response = GlobalApi.WebApiClient.PostAsJsonAsync("usuarios", usuarios).Result;
@@ -64,7 +64,7 @@ namespace WebPresentationMVC.Controllers {
             return RedirectToAction("Index");
         }
 
-        // EDIT
+        // Edit - GET Usuario/ID
         [HttpGet]
         public ActionResult Edit(int? id) {
             if (id == null) {
@@ -79,16 +79,10 @@ namespace WebPresentationMVC.Controllers {
 
             MvcUsuarioModel usuario = response.Content.ReadAsAsync<MvcUsuarioModel>().Result;
 
-            return View(usuario);
+            return PartialView("_Edit", usuario);
         }
 
-        // MODAL EDIT
-        [HttpGet]
-        public ActionResult Modify() {
-            return PartialView("_Edit");
-        }
-
-        // SECURE EDIT
+        // Edit - PUT Usuario/ID (Secured)
         [HttpPost]
         [ValidateAntiForgeryToken]
         // Bind(Include = "...") is used to avoid overposting attacks
@@ -98,7 +92,7 @@ namespace WebPresentationMVC.Controllers {
             if (!response.IsSuccessStatusCode) {
                 ModelState.AddModelErrorsFromResponse(response);
 
-                return View(usuario);
+                return PartialView("_Edit", usuario);
             }
 
             return RedirectToAction("Index");
