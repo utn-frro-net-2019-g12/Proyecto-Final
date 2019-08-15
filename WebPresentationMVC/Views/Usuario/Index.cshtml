@@ -16,18 +16,28 @@
             //  $('#dataTable').DataTable();
         });
     </script>
+
+    <!-- Partial View Calling -->
+    <script type="text/javascript">
+        $('#actionModifyUser').on('click', function () {
+            $.ajax({
+                type: "GET",
+                url: '/Usuario/Modify',
+                success: function (data, textStatus, jqXHR) {
+                    $('#modalModifyUserContent').html(data);
+                }
+            });
+        });
+    </script>
 }
 
 
+<!-- Modal Nuevo Usuario -->
 <div class="container-fluid">
-
-    <!-- Data Here -->
-    <!-- Modal Modificar Usuario -->
-    <div class="modal fade" id="modalModifyUser" tabindex="-1" role="dialog" aria-labelledby="modalModifyUserTitle" aria-hidden="true">
+    <div class="modal fade" id="modalNewUser" tabindex="-1" role="dialog" aria-labelledby="modalNewUserTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                @using (Html.BeginForm("Create", "Usuario"))
-                {
+                @using (Html.BeginForm("Create", "Usuario")) {
                     @Html.AntiForgeryToken()
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Nuevo Usuario</h5>
@@ -36,56 +46,56 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                            <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user" name="Firstname" placeholder="Nombre">
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control form-control-user" name="Surname" placeholder="Apellido">
-                                </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-user" name="Firstname" placeholder="Nombre">
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-7 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user" name="Username" placeholder="Alias">
-                                </div>
-                                <div class="col-sm-5">
-                                    <input type="text" class="form-control form-control-user" name="Legajo" placeholder="Legajo">
-                                </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user" name="Surname" placeholder="Apellido">
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-12">
-                                    <input type="email" class="form-control form-control-user" name="Email" placeholder="Email">
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-7 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-user" name="Username" placeholder="Alias">
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="tel" class="form-control form-control-user" name="Phone" placeholder="teléfono 1">
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="tel" class="form-control form-control-user" placeholder="teléfono 2">
-                                </div>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control form-control-user" name="Legajo" placeholder="Legajo">
                             </div>
-                            <hr>
-                            <div class="row justify-content-around">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="alumnoCheck">
-                                    <label class="form-check-label" for="alumnoCheck">
-                                        Alumno
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="profesorCheck">
-                                    <label class="form-check-label" for="profesorCheck">
-                                        Profesor
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="adminCheck">
-                                    <label class="form-check-label" for="adminCheck">
-                                        Admin
-                                    </label>
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <input type="email" class="form-control form-control-user" name="Email" placeholder="Email">
                             </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="tel" class="form-control form-control-user" name="Phone" placeholder="teléfono 1">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="tel" class="form-control form-control-user" placeholder="teléfono 2">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row justify-content-around">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="alumnoCheck">
+                                <label class="form-check-label" for="alumnoCheck">
+                                    Alumno
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="profesorCheck">
+                                <label class="form-check-label" for="profesorCheck">
+                                    Profesor
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="adminCheck">
+                                <label class="form-check-label" for="adminCheck">
+                                    Admin
+                                </label>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
@@ -95,13 +105,29 @@
             </div>
         </div>
     </div>
+</div>
 
 
+<!-- Modal Modificar Usuario -->
+<div class="container-fluid">
+    <div class="modal fade" id="modalModifyUser" tabindex="-1" role="dialog" aria-labelledby="modalModifyUserTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div id="modalModifyUserContent" style="background-color:white; border-radius:10px; box-shadow:10px;">
+                <p> Partial View Here... </p>
+                <!-- Html.Partial("_Edit") -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <!-- Index Usuario -->
     <h1 class="h3 mb-2 text-gray-800">Editar Usuarios</h1>
     <p class="mb-4">Las opciones aquí listadas son posibles debido a tu estado de administrador. Sé cuidadoso al modificar estas opciones (?</p>
     <div class="row  mb-3">
         <div class="col col-auto d-flex">
-            <button class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalModifyUser">Añadir Usuario</button>
+            <button class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalNewUser">Añadir Usuario</button>
         </div>
         <form class="col">
             <div class="input-group">
@@ -143,48 +169,44 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach (var item in Model)
-                        {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Firstname)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Surname)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Username)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Legajo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Matricula)
-                            </td>
-                            <td>
-                               @if (item.IsAdmin)
-                               {
-                                   <i class="d-flex justify-content-center fas fa-check fa-lg text-success"></i>
-                               }
-                               else
-                               {
-                                   <i class="d-flex justify-content-center fas fa-times fa-lg text-danger"></i>
-                               }
-                            </td>
-                            <td class="d-flex align-items-center p-0">
-                                <button data-toggle="modal" data-target="#modalModifyUser" type="button" class="d-flex align-items-center btn btn-warning m-1">
-                                    <i class="fas fa-edit fa-xs m-1"></i>
-                                    <p class="d-none d-md-block m-0">Editar</p>
-                                </button>
-                                <button type="button" class="d-flex align-items-center btn btn-danger m-1">
-                                    <i class="fas fa-trash-alt fa-xs m-1"></i>
-                                    <p class="d-none d-md-block m-0">Eliminar</p>
-                                </button>
-                            </td>
-                        </tr>
+                        @foreach (var item in Model) {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Firstname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Surname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Username)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Legajo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Matricula)
+                                </td>
+                                <td>
+                                    @if (item.IsAdmin) {
+                                        <i class="d-flex justify-content-center fas fa-check fa-lg text-success"></i>
+                                    } else {
+                                        <i class="d-flex justify-content-center fas fa-times fa-lg text-danger"></i>
+                                    }
+                                </td>
+                                <td class="d-flex align-items-center p-0">
+                                    <button id="actionModifyUser" data-toggle="modal" data-target="#modalModifyUser" type="button" class="d-flex align-items-center btn btn-warning m-1">
+                                        <i class="fas fa-edit fa-xs m-1"></i>
+                                        <p class="d-none d-md-block m-0">Editar</p>
+                                    </button>
+                                    <button type="button" class="d-flex align-items-center btn btn-danger m-1">
+                                        <i class="fas fa-trash-alt fa-xs m-1"></i>
+                                        <p class="d-none d-md-block m-0">Eliminar</p>
+                                    </button>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>

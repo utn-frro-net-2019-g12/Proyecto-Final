@@ -80,6 +80,12 @@ namespace WebPresentationMVC.Controllers {
             return View(departamento);
         }
 
+        // MODAL EDIT
+        [HttpGet]
+        public ActionResult Modify() {
+            return PartialView("_Edit");
+        }
+
         // SECURE EDIT
         [HttpPost]
         [ValidateAntiForgeryToken]

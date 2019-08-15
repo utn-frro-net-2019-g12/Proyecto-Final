@@ -1,19 +1,20 @@
 ﻿@model WebPresentationMVC.Models.MvcDepartamentoModel
 
 @{
-    ViewBag.Title = "Edit";
-    // DELETE ALL THIS FILE AFTER PARTIAL VIEWS FINALIZATON
+    ViewBag.Title = "_Edit";
 }
 
-<h2>Edit</h2>
+<!--
+    Partial View for "Modify" Model on Index
+    <h2>Edit</h2>
+-->
 
 
-@using (Html.BeginForm())
-{
+@using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>MvcDepartamentoModel</h4>
+        <h4>Editar Departamento</h4>
         <hr />
         @Html.ValidationSummary(false, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
@@ -27,12 +28,15 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success" value="save">Guardar</button>
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+<!--
+    <div>
+        [At]Html.ActionLink("Back to List", "Index")
+    </div>
+-->

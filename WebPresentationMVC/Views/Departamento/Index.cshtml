@@ -16,16 +16,32 @@
             //  $('#dataTable').DataTable();
         });
     </script>
+
+    <!-- Partial View Calling -->
+    <script type="text/javascript">
+        $('#actionModifyDepartamento').on('click', function () {
+            $.ajax({
+                type: "GET",
+                url: '/Departamento/Modify',
+                // url: '[At]Url.Action("Edit Departamento", "Modify", "Departamento")',
+                success: function (data, textStatus, jqXHR) {
+                    $('#modalModifyDepartametoContent').html(data);
+                }
+            });
+            // $('#modalModifyDepartametoContent').modal('show');
+
+            // HTML BUTTON TEST --> [At]Html.ActionLink("Edit", null, null, null, new { id = "actionModifyDepartamento" })
+
+        });
+    </script>
 }
 
-
+<!-- Modal Nuevo Departamento -->
 <div class="container-fluid">
-    <!-- Modal Modificar Usuario -->
-    <div class="modal fade" id="modalModifyUser" tabindex="-1" role="dialog" aria-labelledby="modalModifyUserTitle" aria-hidden="true">
+    <div class="modal fade" id="modalNewDepartamento" tabindex="-1" role="dialog" aria-labelledby="modalNewDepartamentoTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                @using (Html.BeginForm("Create", "Departamento"))
-                {
+                @using (Html.BeginForm("Create", "Departamento")) {
                     @Html.AntiForgeryToken()
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Nuevo departamento</h5>
@@ -48,14 +64,29 @@
             </div>
         </div>
     </div>
+</div>
 
 
+<!-- Modal Modificar Departamento -->
+<div class="container-fluid">
+    <div class="modal fade" id="modalModifyDepartamento" tabindex="-1" role="dialog" aria-labelledby="modalModifyDepartamentoTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div id="modalModifyDepartametoContent" style="background-color:white; border-radius:10px; box-shadow:10px;">
+                <p> Partial View Here... </p>
+                <!-- Html.Partial("_Edit") -->
+            </div>
+        </div>
+    </div>
+</div>
 
+
+<!-- Index Departamento -->
+<div class="container-fluid">
     <h1 class="h3 mb-2 text-gray-800">Editar Departamentos</h1>
     <p class="mb-4">Las opciones aquí listadas son posibles debido a tu estado de administrador. Sé cuidadoso al modificar estas opciones (?</p>
     <div class="row  mb-3">
         <div class="col col-auto d-flex">
-            <button class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalModifyUser">Nuevo Departamento</button>
+            <button class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalNewDepartamento">Nuevo Departamento</button>
         </div>
     </div>
     <div class="card shadow mb-4">
@@ -77,8 +108,7 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach (var item in Model)
-                        {
+                        @foreach (var item in Model) {
                             <tr>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Id)
@@ -87,7 +117,7 @@
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
                                 <td class="d-flex align-items-center p-0">
-                                    <button data-toggle="modal" data-target="#modalModifyUser" type="button" class="d-flex align-items-center btn btn-warning m-1">
+                                    <button id="actionModifyDepartamento" data-toggle="modal" data-target="#modalModifyDepartamento" type="button" class="d-flex align-items-center btn btn-warning m-1">
                                         <i class="fas fa-edit fa-xs m-1"></i>
                                         <p class="d-none d-md-block m-0">Editar</p>
                                     </button>
