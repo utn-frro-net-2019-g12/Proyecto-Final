@@ -23,89 +23,42 @@
 
     <!-- _Edit Partial View Calling -->
     <script type="text/javascript">
-        $('#actionEditUser').on('click', function () {
-            console.log("Acá llega");
+
+        function modalEdit(data, url) {
+            $('#modalEditUserContent').html(data);
+            $('#editForm').bind("submit", function (event) {
+                event.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $('#editForm').serialize(),
+                    success: function (data) { modalEdit(data, url) }
+                });
+
+            });
+        }
+
+        $('.actionEditUser').on('click', function () {
+            $('#editForm').unbind();
+            let index = $(this).parent().siblings().first().text().trim();
+            let url = `/Usuario/Edit/${index}`;
             $.ajax({
                 type: "GET",
-                url: '/Usuario/Edit/1',
-                success: function (data, textStatus, jqXHR) {
-                    $('#modalEditUserContent').html(data);
-                }
+                url: url,
+                success: function (data) { modalEdit(data, url) }
             });
         });
+
     </script>
 }
 
 <!-- Modal Nuevo Usuario -->
+<!-- Hacer lo mismo que para el modal de usuario -->
 <div class="container-fluid">
     <div class="modal fade" id="modalNewUser" tabindex="-1" role="dialog" aria-labelledby="modalNewUserTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                @using (Html.BeginForm("Create", "Usuario")) {
-                    @Html.AntiForgeryToken()
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Nuevo Usuario</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group row">
-                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="text" class="form-control form-control-user" name="Firstname" placeholder="Nombre">
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-user" name="Surname" placeholder="Apellido">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-7 mb-3 mb-sm-0">
-                                <input type="text" class="form-control form-control-user" name="Username" placeholder="Alias">
-                            </div>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control form-control-user" name="Legajo" placeholder="Legajo">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-12">
-                                <input type="email" class="form-control form-control-user" name="Email" placeholder="Email">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="tel" class="form-control form-control-user" name="Phone" placeholder="teléfono 1">
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="tel" class="form-control form-control-user" placeholder="teléfono 2">
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row justify-content-around">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="alumnoCheck">
-                                <label class="form-check-label" for="alumnoCheck">
-                                    Alumno
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="profesorCheck">
-                                <label class="form-check-label" for="profesorCheck">
-                                    Profesor
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="adminCheck">
-                                <label class="form-check-label" for="adminCheck">
-                                    Admin
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-success">Guardar</button>
-                    </div>
-                }
+                <p> Loading... </p>
             </div>
         </div>
     </div>
@@ -116,9 +69,20 @@
 <div class="container-fluid">
     <div class="modal fade" id="modalEditUser" tabindex="-1" role="dialog" aria-labelledby="modalEditUserTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div id="modalEditUserContent" style="background-color:white; border-radius:10px; box-shadow:10px;">
+            <div class="modal-content" id="modalEditUserContent">
                 <p> Loading... </p>
-                <!-- Html.Partial("_Edit") -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Eliminar Usuario -->
+<!-- Hacer lo mismo que para el modal de usuario -->
+<div class="container-fluid">
+    <div class="modal fade" id="modalDeleteUser" tabindex="-1" role="dialog" aria-labelledby="modalDeleteUserTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" id="modalEditUserContent">
+                <p> Loading... </p>
             </div>
         </div>
     </div>
@@ -173,7 +137,8 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach (var item in Model) {
+                        @foreach (var item in Model)
+                        {
                             <tr>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Id)
@@ -194,18 +159,21 @@
                                     @Html.DisplayFor(modelItem => item.Matricula)
                                 </td>
                                 <td>
-                                    @if (item.IsAdmin) {
+                                    @if (item.IsAdmin)
+                                    {
                                         <i class="d-flex justify-content-center fas fa-check fa-lg text-success"></i>
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         <i class="d-flex justify-content-center fas fa-times fa-lg text-danger"></i>
                                     }
                                 </td>
                                 <td class="d-flex align-items-center p-0">
-                                    <button id="actionEditUser" data-toggle="modal" data-target="#modalEditUser" type="button" class="d-flex align-items-center btn btn-warning m-1">
+                                    <button data-toggle="modal" data-target="#modalEditUser" type="button" class="actionEditUser d-flex align-items-center btn btn-warning m-1">
                                         <i class="fas fa-edit fa-xs m-1"></i>
                                         <p class="d-none d-md-block m-0">Editar</p>
                                     </button>
-                                    <button type="button" class="d-flex align-items-center btn btn-danger m-1">
+                                    <button data-toggle="modal" data-target="#modalDeleteUser" type="button" class="actionDeleteUser d-flex align-items-center btn btn-danger m-1">
                                         <i class="fas fa-trash-alt fa-xs m-1"></i>
                                         <p class="d-none d-md-block m-0">Eliminar</p>
                                     </button>
