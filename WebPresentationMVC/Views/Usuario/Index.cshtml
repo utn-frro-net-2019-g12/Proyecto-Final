@@ -24,28 +24,79 @@
     <!-- _Edit Partial View Calling -->
     <script type="text/javascript">
 
+        function modalCreate(data, url) {
+            $('#modalCreateUserContent').html(data);
+            $('#createForm').unbind();
+            $('#createForm').bind("submit", function (event) {
+                event.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $('#createForm').serialize(),
+                    success: function (data) {
+                        data != "OK" ? modalCreate(data, url) : window.location.reload();
+                    }
+                });
+            });
+        }
+
+        $('#actionCreateUser').on('click', function () {
+
+            let url = '/Usuario/Create';
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (data) {
+                    modalCreate(data, url)
+                }
+            });
+        });
+
+        /*------------------------------*/
+
         function modalEdit(data, url) {
             $('#modalEditUserContent').html(data);
+            $('#editForm').unbind();
             $('#editForm').bind("submit", function (event) {
                 event.preventDefault();
                 $.ajax({
                     type: "POST",
                     url: url,
                     data: $('#editForm').serialize(),
-                    success: function (data) { modalEdit(data, url) }
+                    success: function (data) {
+                        data != "OK" ? modalEdit(data, url) : window.location.reload();
+                    }
                 });
-
             });
         }
 
         $('.actionEditUser').on('click', function () {
-            $('#editForm').unbind();
             let index = $(this).parent().siblings().first().text().trim();
             let url = `/Usuario/Edit/${index}`;
             $.ajax({
                 type: "GET",
                 url: url,
-                success: function (data) { modalEdit(data, url) }
+                success: function (data) {
+                    modalEdit(data, url)
+                }
+            });
+        });
+
+        /*------------------------------*/
+
+        var idToDelete;
+
+        $('.actionDeleteUser').on('click', function () {
+            idToDelete = $(this).parent().siblings().first().text().trim();
+        });
+
+        $('#deleteConfirmButton').on('click', function () {
+            let url = `/Usuario/Delete/${idToDelete}`;
+            console.log(url);
+            $.ajax({
+                type: "POST",
+                url: url,
+                success: function (data) {window.location.reload()}
             });
         });
 
@@ -53,20 +104,17 @@
 }
 
 <!-- Modal Nuevo Usuario -->
-<!-- Hacer lo mismo que para el modal de usuario -->
-<div class="container-fluid">
-    <div class="modal fade" id="modalNewUser" tabindex="-1" role="dialog" aria-labelledby="modalNewUserTitle" aria-hidden="true">
+    <div class="modal fade" id="modalCreateUser" tabindex="-1" role="dialog" aria-labelledby="modalNewUserTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+            <div class="modal-content" id="modalCreateUserContent">
                 <p> Loading... </p>
             </div>
         </div>
     </div>
-</div>
+
 
 
 <!-- Modal Modificar Usuario -->
-<div class="container-fluid">
     <div class="modal fade" id="modalEditUser" tabindex="-1" role="dialog" aria-labelledby="modalEditUserTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content" id="modalEditUserContent">
@@ -74,19 +122,28 @@
             </div>
         </div>
     </div>
-</div>
 
 <!-- Modal Eliminar Usuario -->
-<!-- Hacer lo mismo que para el modal de usuario -->
-<div class="container-fluid">
     <div class="modal fade" id="modalDeleteUser" tabindex="-1" role="dialog" aria-labelledby="modalDeleteUserTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content" id="modalEditUserContent">
-                <p> Loading... </p>
+            <div class="modal-content" id="modalDeleteUserContent">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Crear Usuario</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <p> Seguro ? </p>
+                </div>
+                <div class="modal-footer">
+                    <button id="deleteConfirmButton" type="button" class="btn btn-danger">Eliminar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
 
 
 <div class="container-fluid">
@@ -95,7 +152,7 @@
     <p class="mb-4">Las opciones aquí listadas son posibles debido a tu estado de administrador. Sé cuidadoso al modificar estas opciones (?</p>
     <div class="row  mb-3">
         <div class="col col-auto d-flex">
-            <button class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalNewUser">Añadir Usuario</button>
+            <button id="actionCreateUser" class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalCreateUser">Añadir Usuario</button>
         </div>
         <form class="col">
             <div class="input-group">

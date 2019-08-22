@@ -33,6 +33,7 @@ namespace WebPresentationMVC.Controllers {
         }
 
         // Delete - DELETE Usuario/ID
+        [HttpPost]
         public ActionResult Delete(int id) {
             var response = GlobalApi.WebApiClient.DeleteAsync("usuarios/" + id.ToString()).Result;
 
@@ -45,7 +46,7 @@ namespace WebPresentationMVC.Controllers {
         // Create (Default)
         [HttpGet]
         public ActionResult Create() {
-            return View();
+            return PartialView("_Create");
         }
 
 
@@ -55,13 +56,12 @@ namespace WebPresentationMVC.Controllers {
             var response = GlobalApi.WebApiClient.PostAsJsonAsync("usuarios", usuarios).Result;
 
             // Move this to an action filter
-            if (!response.IsSuccessStatusCode) {
+            if (!response.IsSuccessStatusCode)
+            {
                 ModelState.AddModelErrorsFromResponse(response);
-
-                return View(usuarios);
+                return PartialView("_Create", usuarios);
             }
-
-            return RedirectToAction("Index");
+            return Content("OK");
         }
 
         // Edit - GET Usuario/ID
@@ -91,11 +91,9 @@ namespace WebPresentationMVC.Controllers {
 
             if (!response.IsSuccessStatusCode) {
                 ModelState.AddModelErrorsFromResponse(response);
-
                 return PartialView("_Edit", usuario);
             }
-
-            return RedirectToAction("Index");
+            return Content("OK");
         }
         
     }
