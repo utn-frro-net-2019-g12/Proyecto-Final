@@ -40,7 +40,7 @@ namespace WebPresentationMVC.Controllers {
             // Search what is TempData!
             TempData["SuccessMessage"] = "Deleted Sucessfully";
 
-            return RedirectToAction("Index");
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         // Create (Default)
@@ -61,6 +61,7 @@ namespace WebPresentationMVC.Controllers {
                 ModelState.AddModelErrorsFromResponse(response);
                 return PartialView("_Create", usuarios);
             }
+
             return Content("OK");
         }
 
@@ -91,8 +92,10 @@ namespace WebPresentationMVC.Controllers {
 
             if (!response.IsSuccessStatusCode) {
                 ModelState.AddModelErrorsFromResponse(response);
+
                 return PartialView("_Edit", usuario);
             }
+
             return Content("OK");
         }
         

@@ -41,7 +41,6 @@
         }
 
         $('#actionCreateUser').on('click', function () {
-
             let url = '/Usuario/Create';
             $.ajax({
                 type: "GET",
@@ -92,7 +91,6 @@
 
         $('#deleteConfirmButton').on('click', function () {
             let url = `/Usuario/Delete/${idToDelete}`;
-            console.log(url);
             $.ajax({
                 type: "POST",
                 url: url,
@@ -104,7 +102,7 @@
 }
 
 <!-- Modal Nuevo Usuario -->
-    <div class="modal fade" id="modalCreateUser" tabindex="-1" role="dialog" aria-labelledby="modalNewUserTitle" aria-hidden="true">
+    <div class="modal fade" id="modalCreateUser" tabindex="-1" role="dialog" aria-labelledby="modalCreateUserTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content" id="modalCreateUserContent">
                 <p> Loading... </p>
@@ -128,7 +126,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content" id="modalDeleteUserContent">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Crear Usuario</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Eliminar Usuario</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
