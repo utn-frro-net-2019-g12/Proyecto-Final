@@ -5,19 +5,22 @@ using System.Web;
 
 namespace DesktopPresentationWPF.Models {
     public class WpfUsuarioModel {
-        public int id { get; set; }
+        public int Id { get; set; }
 
-        public string username { get; set; } // Remember: Add FK from Identity Framework
+        public string Username { get; set; }
 
-        // Legajo != Null --> Es Alumno
-        public int legajo { get; set; }
-        // Matrícula != Null --> Es Profesor
-        public string matricula { get; set; }
-        public bool isAdmin { get; set; }
-        public string firstname { get; set; }
-        public string surname { get; set; }
-        public string email { get; set; }
-        public int phone { get; set; }
-        // public blob photo { get; set; } --> Consultar en el Grupo el formato de imagen a usar
+        public int? Legajo { get; set; }
+
+        public string Matricula { get; set; }
+
+        public bool IsAdmin { get; set; }
+
+        public string Firstname { get; set; }
+
+        public string Surname { get; set; }
+
+        public string Email { get; set; }
+
+        public int? Phone { get; set; }
     }
 }

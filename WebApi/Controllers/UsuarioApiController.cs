@@ -9,6 +9,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Results;
 using DataAccessLayer;
+using Microsoft.AspNet.Identity;
 
 namespace WebApi.Controllers {
     [RoutePrefix("api/usuarios")]
@@ -42,6 +43,23 @@ namespace WebApi.Controllers {
             var usuario = _unitOfWork.Usuarios.GetById(id);
 
             if (usuario == null) {
+                return NotFound();
+            }
+
+            return Ok(usuario);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("fromRequest")]
+        public IHttpActionResult GetByRequestData()
+        {
+            string userName = RequestContext.Principal.Identity.GetUserName();
+
+            var usuario = _unitOfWork.Usuarios.GetUsuarioByUsername(userName);
+
+            if (usuario == null)
+            {
                 return NotFound();
             }
 
