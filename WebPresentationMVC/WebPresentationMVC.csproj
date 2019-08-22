@@ -280,7 +280,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Departamento\Details.cshtml" />
-    <Content Include="Views\Departamento\Create.cshtml" />
+    <Content Include="Views\Departamento\_Create.cshtml" />
     <Content Include="Views\Materia\Edit.cshtml" />
     <Content Include="Views\Materia\Create.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
