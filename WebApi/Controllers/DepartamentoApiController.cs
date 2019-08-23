@@ -64,7 +64,6 @@ namespace WebApi.Controllers {
             }
         }
 
-        [Authorize]
         [HttpDelete]
         [Route("{id:int}")]
         [ResponseType(typeof(Departamento))]

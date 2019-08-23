@@ -1,14 +1,14 @@
 ﻿@model WebPresentationMVC.Models.MvcDepartamentoModel
 
 @{
-    ViewBag.Title = "_Edit";
+    ViewBag.Title = "_Create";
 }
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editForm" }))
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createForm" }))
 {
     @Html.AntiForgeryToken()
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Editar a @Html.DisplayFor(model => model.Name)</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Nuevo departamento</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>

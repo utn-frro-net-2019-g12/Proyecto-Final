@@ -32,19 +32,20 @@ namespace WebPresentationMVC.Controllers {
         }
 
         // Delete - DELETE Departamento/ID
+        [HttpPost]
         public ActionResult Delete(int id) {
             var response = GlobalApi.WebApiClient.DeleteAsync("departamentos/" + id.ToString()).Result;
 
             // Search what is TempData!
             TempData["SuccessMessage"] = "Deleted Sucessfully";
 
-            return RedirectToAction("Index");
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         // Create (Default)
         [HttpGet]
         public ActionResult Create() {
-            return View();
+            return PartialView("_Create");
         }
 
         // Create - POST Departamento
@@ -56,10 +57,10 @@ namespace WebPresentationMVC.Controllers {
             if (!response.IsSuccessStatusCode) {
                 ModelState.AddModelErrorsFromResponse(response);
 
-                return View(departamentos);
+                return PartialView("_Create");
             }
 
-            return RedirectToAction("Index");
+            return Content("OK");
         }
 
         // Edit - GET Departamento/ID
@@ -77,7 +78,7 @@ namespace WebPresentationMVC.Controllers {
 
             MvcDepartamentoModel departamento = response.Content.ReadAsAsync<MvcDepartamentoModel>().Result;
 
-            return View("_Edit", departamento);
+            return PartialView("_Edit", departamento);
         }
 
         // Edit - PUT Departamento/ID (Secured)
@@ -93,7 +94,7 @@ namespace WebPresentationMVC.Controllers {
                 return PartialView("_Edit", departamento);
             }
 
-            return RedirectToAction("Index");
+            return Content("OK");
         }
     }
 }
