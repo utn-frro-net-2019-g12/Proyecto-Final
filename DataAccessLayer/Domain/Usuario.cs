@@ -28,8 +28,8 @@ namespace DataAccessLayer {
         [Required]
         [StringLength(50)]
         public string Email { get; set; }
-        [Required]
-        public int? Phone { get; set; }
+        public int? Phone1 { get; set; }
+        public int? Phone2 { get; set; }
         // public Bitmap Photo { get; set; } --> Consultar
 
         // [ForeignKey("User_IdentityFramework")]

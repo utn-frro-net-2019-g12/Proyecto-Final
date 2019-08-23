@@ -26,7 +26,7 @@ namespace WebApi.Controllers {
             return Ok(departamentos);
         }
 
-        // GET api/Departamento/5
+        // GET api/departamento/5
         /// <summary>
         /// Retrives a specific departamento
         /// </summary>

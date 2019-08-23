@@ -32,7 +32,7 @@ namespace WebApi.Controllers {
             return Ok(usuarios);
         }
 
-        // GET api/Usuario/5
+        // GET api/usuario/5
         /// <summary>
         /// Retrives a specific usuario
         /// </summary>

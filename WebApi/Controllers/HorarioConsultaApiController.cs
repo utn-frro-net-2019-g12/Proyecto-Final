@@ -11,9 +11,6 @@ using System.Web.Http.Results;
 using DataAccessLayer;
 
 namespace WebApi.Controllers {
-
-    
-
     [RoutePrefix("api/horariosConsulta")]
     public class HorarioConsultaApiController : ApiController {
         private readonly IUnitOfWork _unitOfWork;
@@ -21,7 +18,6 @@ namespace WebApi.Controllers {
         public HorarioConsultaApiController(IUnitOfWork unitOfWork) {
             _unitOfWork = unitOfWork;
         }
-
 
         /// <summary>
         /// Retrives all HorarioConsulta instances

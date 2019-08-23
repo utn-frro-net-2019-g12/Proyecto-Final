@@ -30,14 +30,13 @@ namespace DataAccessLayer {
 
             var usuarios = new List<Usuario> {
                 // Users Test: 1 Admin Full, 2 Alumno-Admin, 3 Profesor-Admin, 4 Alumno-Profesor, 5 Alumno Only, 6 Profesor Only, 7 Admin Only
-                new Usuario{ Id = 1, Username = "ale@example.com", Legajo = 44176, Matricula = "JOAQ-120", IsAdmin = true, Firstname = "Alejandro Pedro", Surname = "Recalde", Email = "alereca@gmail.com", Phone = 1502030 },
-                new Usuario{ Id = 2, Username = "nico@example.com", Legajo = 44852, IsAdmin = true, Firstname = "Nicolás Agustín", Surname = "Antonelli", Email = "niconelli2@gmail.com", Phone = 1530012 },
-                new Usuario{ Id = 3, Username = "RetroVitto", Matricula = "MECA-800", IsAdmin = true, Firstname = "Vittorio", Surname = "Retrivi", Email = "retrovitto@gmail.com", Phone = 1510911 },
-                new Usuario{ Id = 4, Username = "alumnoProfe", Legajo = 30755, Matricula = "CBOL-555", IsAdmin = false, Firstname = "AluProf", Surname = "NoAdm", Email = "aluprofnoadm@gmail.com", Phone = 1503030 },
-                new Usuario{ Id = 5, Username = "soloAlumno", Legajo = 40123, IsAdmin = false, Firstname = "Alumno", Surname = "Solo", Email = "aluonly@gmail.com", Phone = 1591111 },
-                new Usuario{ Id = 6, Username = "soloProfe",  Matricula = "BRES-001", IsAdmin = false, Firstname = "Profesor", Surname = "Solo", Email = "profonly@gmail.com", Phone = 1592222 },
-                new Usuario{ Id = 7, Username = "soloAdmin", IsAdmin = true, Firstname = "Admin", Surname = "Solo", Email = "adminonly@gmail.com", Phone = 1593333 },
-                // The values that were not explicited, will have a Null value
+                new Usuario{ Username = "ale@example.com", Legajo = 44176, Matricula = "JOAQ-120", IsAdmin = true, Firstname = "Alejandro Pedro", Surname = "Recalde", Email = "alereca@gmail.com", Phone1 = 1502030 },
+                new Usuario{ Username = "nico@example.com", Legajo = 44852, IsAdmin = true, Firstname = "Nicolás Agustín", Surname = "Antonelli", Email = "niconelli2@gmail.com", Phone1 = 1530012 },
+                new Usuario{ Username = "RetroVitto", Matricula = "MECA-800", IsAdmin = true, Firstname = "Vittorio", Surname = "Retrivi", Email = "retrovitto@gmail.com", Phone1 = 1510911 },
+                new Usuario{ Username = "alumnoProfe", Legajo = 30755, Matricula = "CBOL-555", IsAdmin = false, Firstname = "AluProf", Surname = "NoAdm", Email = "aluprofnoadm@gmail.com", Phone1 = 1503030 },
+                new Usuario{ Username = "soloAlumno", Legajo = 40123, IsAdmin = false, Firstname = "Alumno", Surname = "Solo", Email = "aluonly@gmail.com", Phone1 = 1591111 },
+                new Usuario{ Username = "soloProfe",  Matricula = "BRES-001", IsAdmin = false, Firstname = "Profesor", Surname = "Solo", Email = "profonly@gmail.com", Phone1 = 1592222 },
+                new Usuario{ Username = "soloAdmin", IsAdmin = true, Firstname = "Admin", Surname = "Solo", Email = "adminonly@gmail.com", Phone1 = 1593333, Phone2 = 0800999 },
             };
 
             // For the Users --> Remember Fix the username (Make a FK from IdentityFramework), and add "Photo" Attribue
@@ -46,8 +45,8 @@ namespace DataAccessLayer {
             unitOfWork.Complete();
 
             var horariosConsulta = new List<HorarioConsulta> {
-                new HorarioConsulta { Id = 1, Weekday = "Lunes", StartHour = "11:00", EndHour = "11:45", Place = "Aula 301", ProfesorId = usuarios[2].Id, Profesor = usuarios[2], MateriaId = materias[2].Id, Materia = materias[2] },
-                new HorarioConsulta { Id = 2, Weekday = "Martes", StartHour = "09:30", EndHour = "10:15", Place = "Sala de Profesores", ProfesorId = usuarios[2].Id, Profesor = usuarios[3], MateriaId = materias[1].Id, Materia = materias[1] },
+                new HorarioConsulta { Weekday = "Lunes", StartHour = "11:00", EndHour = "11:45", Place = "Aula 301", ProfesorId = usuarios[2].Id, Profesor = usuarios[2], MateriaId = materias[2].Id, Materia = materias[2] },
+                new HorarioConsulta { Weekday = "Martes", StartHour = "09:30", EndHour = "10:15", Place = "Sala de Profesores", ProfesorId = usuarios[2].Id, Profesor = usuarios[3], MateriaId = materias[1].Id, Materia = materias[1] },
                 // EliminationDate Must be only added if the HorarioConsulta were marked as "Deleted"
             };
 

@@ -13,6 +13,7 @@ namespace WebPresentationMVC.Models {
         public string Username { get; set; }
 
         // Legajo != Null --> Es Alumno
+        [DisplayName("Legajo")]
         public int? Legajo { get; set; }
         // Matrícula != Null --> Es Profesor
         [DisplayName("Matrícula")]
@@ -23,8 +24,10 @@ namespace WebPresentationMVC.Models {
         [DisplayName("Apellido")]
         public string Surname { get; set; }
         public string Email { get; set; }
-        [DisplayName("Telefono")]
-        public int? Phone { get; set; }
+        [DisplayName("Teléfono 1")]
+        public int? Phone1 { get; set; }
+        [DisplayName("Teléfono 2")]
+        public int? Phone2 { get; set; }
         // public Bitmap Photo { get; set; } --> Consultar
     }
 }

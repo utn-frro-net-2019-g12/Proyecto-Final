@@ -46,7 +46,7 @@ namespace WebApi.Controllers {
             return Ok(materias);
         }
 
-        // GET api/Materia/5
+        // GET api/materia/5
         /// <summary>
         /// Retrives a specific materia
         /// </summary>
@@ -64,7 +64,7 @@ namespace WebApi.Controllers {
             return Ok(materia);
         }
 
-        // GET api/Materia/5/Departamento
+        // GET api/materia/5/Departamento
         /// <summary>
         /// Retrives a specific materia
         /// </summary>
