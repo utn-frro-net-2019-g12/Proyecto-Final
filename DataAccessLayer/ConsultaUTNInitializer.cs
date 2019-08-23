@@ -20,9 +20,9 @@ namespace DataAccessLayer {
             unitOfWork.Complete();
 
             var materias = new List<Materia> {
-                new Materia{ Name = "Algoritmos Genéticos", Year = 3, IsElectiva = true, DepartamentoId = departamentos[0].Id, Departamento=departamentos[0] },
-                new Materia{ Name = "Diseño de Sistemas", Year = 3, IsElectiva = false, DepartamentoId = departamentos[0].Id, Departamento=departamentos[0] },
-                new Materia{ Name = "Análisis Matemático 2", Year = 2, IsElectiva = false, DepartamentoId = departamentos[5].Id, Departamento=departamentos[5] },
+                new Materia{ Name = "Algoritmos Genéticos", Year = 3, IsElectiva = true, DepartamentoId = departamentos[0].Id, Departamento = departamentos[0] },
+                new Materia{ Name = "Diseño de Sistemas", Year = 3, IsElectiva = false, DepartamentoId = departamentos[0].Id, Departamento = departamentos[0] },
+                new Materia{ Name = "Análisis Matemático 2", Year = 2, IsElectiva = false, DepartamentoId = departamentos[5].Id, Departamento = departamentos[5] },
             };
 
             unitOfWork.Materias.InsertRange(materias);
@@ -37,12 +37,21 @@ namespace DataAccessLayer {
                 new Usuario{ Id = 5, Username = "soloAlumno", Legajo = 40123, IsAdmin = false, Firstname = "Alumno", Surname = "Solo", Email = "aluonly@gmail.com", Phone = 1591111 },
                 new Usuario{ Id = 6, Username = "soloProfe",  Matricula = "BRES-001", IsAdmin = false, Firstname = "Profesor", Surname = "Solo", Email = "profonly@gmail.com", Phone = 1592222 },
                 new Usuario{ Id = 7, Username = "soloAdmin", IsAdmin = true, Firstname = "Admin", Surname = "Solo", Email = "adminonly@gmail.com", Phone = 1593333 },
-                // If we add "null" instead of "0", an exception ocurrs (JSON can't handle the nulls)
+                // The values that were not explicited, will have a Null value
             };
 
             // For the Users --> Remember Fix the username (Make a FK from IdentityFramework), and add "Photo" Attribue
 
             unitOfWork.Usuarios.InsertRange(usuarios);
+            unitOfWork.Complete();
+
+            var horariosConsulta = new List<HorarioConsulta> {
+                new HorarioConsulta { Id = 1, Weekday = "Lunes", StartHour = "11:00", EndHour = "11:45", Place = "Aula 301", ProfesorId = usuarios[2].Id, Profesor = usuarios[2], MateriaId = materias[2].Id, Materia = materias[2] },
+                new HorarioConsulta { Id = 2, Weekday = "Martes", StartHour = "09:30", EndHour = "10:15", Place = "Sala de Profesores", ProfesorId = usuarios[2].Id, Profesor = usuarios[3], MateriaId = materias[1].Id, Materia = materias[1] },
+                // EliminationDate Must be only added if the HorarioConsulta were marked as "Deleted"
+            };
+
+            unitOfWork.HorariosConsulta.InsertRange(horariosConsulta);
             unitOfWork.Complete();
         }
     }

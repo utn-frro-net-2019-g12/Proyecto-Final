@@ -5,6 +5,8 @@ namespace DataAccessLayer {
         public virtual DbSet<Materia> Materias { get; set; }
         public virtual DbSet<Departamento> Departamentos { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<HorarioConsulta> HorariosConsulta { get; set; }
+        // public virtual DbSet<Inscripcion> Inscripcion { get; set; }
 
         public ConsultaUTNContext() : base("name=ConsultaUTNContext") {
             Database.SetInitializer<ConsultaUTNContext>(new ConsultaUTNInitializer());

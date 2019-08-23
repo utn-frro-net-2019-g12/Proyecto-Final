@@ -14,88 +14,60 @@ namespace WebApi.Controllers {
 
     
 
-    [RoutePrefix("api/materias")]
-    public class MateriaApiController : ApiController {
+    [RoutePrefix("api/horariosConsulta")]
+    public class HorarioConsultaApiController : ApiController {
         private readonly IUnitOfWork _unitOfWork;
 
-        public MateriaApiController(IUnitOfWork unitOfWork) {
+        public HorarioConsultaApiController(IUnitOfWork unitOfWork) {
             _unitOfWork = unitOfWork;
         }
 
 
         /// <summary>
-        /// Retrives all materia instances
+        /// Retrives all HorarioConsulta instances
         /// </summary>
         [HttpGet]
         [Route("")]
         public IHttpActionResult GetAll() {
-            // Test of GetOrdered repository method
-            var materias = _unitOfWork.Materias.GetOrdered(e => e.Year, e => e.Year > 1);
+            var horariosconsulta = _unitOfWork.HorariosConsulta.GetHorariosConsultaWithProfesorAndMateria();
 
-            return Ok(materias);
+            return Ok(horariosconsulta);
+            // API Special Endpoint (No-Rest) --> [Route("profesor_materia")] (Unused)
         }
 
-        /// <summary>
-        /// Retrives all materia intances
-        /// </summary>
-        [HttpGet]
-        [Route("departamento")]
-        public IHttpActionResult GetMateriasWithDepto() {
-            var materias = _unitOfWork.Materias.GetMateriasWithDepto();
 
-            return Ok(materias);
-        }
-
-        // GET api/Materia/5
+        // GET api/horarioConsulta/5
         /// <summary>
-        /// Retrives a specific materia
+        /// Retrives a specific horarioConsulta
         /// </summary>
         [HttpGet]
         [Route("{id:int}")]
-        [ResponseType(typeof(Materia))]
+        [ResponseType(typeof(HorarioConsulta))]
         public IHttpActionResult Get(int id) {
-            var materia = _unitOfWork.Materias.GetById(id);
+            var horarioConsulta = _unitOfWork.HorariosConsulta.GetHorarioConsultaWithProfesorAndMateria(id);
 
-            if (materia == null)
+            if (horarioConsulta == null)
             {
                 return NotFound();
             }
 
-            return Ok(materia);
-        }
-
-        // GET api/Materia/5/Departamento
-        /// <summary>
-        /// Retrives a specific materia
-        /// </summary>
-        [HttpGet]
-        [Route("{id:int}/departamento")]
-        [ResponseType(typeof(Materia))]
-        public IHttpActionResult GetMateriaWithDepto(int id) {
-            var materia = _unitOfWork.Materias.GetMateriaWithDepto(id);
-
-            if (materia == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(materia);
+            return Ok(horarioConsulta);
         }
 
         // Remember to include { Content-Type: application/json } in Request Body when consuming
         [HttpPost]
-        [Route("", Name = "PostMateria")]
-        [ResponseType(typeof(Materia))]
-        public IHttpActionResult Post([FromBody] Materia materia) {
+        [Route("", Name = "PostHorarioConsulta")]
+        [ResponseType(typeof(HorarioConsulta))]
+        public IHttpActionResult Post([FromBody] HorarioConsulta horarioConsulta) {
             try {
                 if (!ModelState.IsValid) {
                     return BadRequest(ModelState);
                 }
 
-                _unitOfWork.Materias.Insert(materia);
+                _unitOfWork.HorariosConsulta.Insert(horarioConsulta);
                 _unitOfWork.Complete();
 
-                return CreatedAtRoute("PostMateria", new { id = materia.Id }, materia);
+                return CreatedAtRoute("PostHorioConsulta", new { id = horarioConsulta.Id }, horarioConsulta);
             }
             catch (Exception ex) {
                 // Send the exception as parameter
@@ -103,21 +75,20 @@ namespace WebApi.Controllers {
             }
         }
 
-        [Authorize]
         [HttpDelete]
         [Route("{id:int}")]
-        [ResponseType(typeof(Materia))]
+        [ResponseType(typeof(HorarioConsulta))]
         public IHttpActionResult Delete(int id) {
             try {
-                var materia = _unitOfWork.Materias.GetById(id);
-                if (materia == null) {
+                var horarioConsulta = _unitOfWork.HorariosConsulta.GetById(id);
+                if (horarioConsulta == null) {
                     return NotFound();
                 }
 
-                _unitOfWork.Materias.Delete(materia);
+                _unitOfWork.HorariosConsulta.Delete(horarioConsulta);
                 _unitOfWork.Complete();
 
-                return Ok(materia);
+                return Ok(horarioConsulta);
             }
             catch (Exception ex) {
                 // Send the exception as parameter
@@ -128,9 +99,9 @@ namespace WebApi.Controllers {
         // Remember to include { Content-Type: application/json } and state the Id in in Request Body when consuming
         [HttpPut]
         [Route("{id:int}")]
-        [ResponseType(typeof(Materia))]
-        public IHttpActionResult Put(int id, [FromBody] Materia sentMateria) {
-            if (id != sentMateria.Id) {
+        [ResponseType(typeof(HorarioConsulta))]
+        public IHttpActionResult Put(int id, [FromBody] HorarioConsulta sentHorarioConsulta) {
+            if (id != sentHorarioConsulta.Id) {
                 return BadRequest();
             }
 
@@ -139,11 +110,11 @@ namespace WebApi.Controllers {
                     return BadRequest(ModelState);
                 }
 
-                _unitOfWork.Materias.Update(sentMateria);
+                _unitOfWork.HorariosConsulta.Update(sentHorarioConsulta);
                 _unitOfWork.Complete();
             }
             catch(Exception) {
-                if (_unitOfWork.Materias.GetById(id) == null) {
+                if (_unitOfWork.HorariosConsulta.GetById(id) == null) {
                     return NotFound();
                 }
                 else {

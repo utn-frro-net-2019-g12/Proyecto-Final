@@ -11,12 +11,14 @@ namespace DataAccessLayer {
         public IMateriaRepository Materias { get; private set; }
         public IDepartamentoRepository Departamentos { get; private set; }
         public IUsuarioRepository Usuarios { get; private set; }
+        public IHorarioConsultaRepository HorariosConsulta { get; private set; }
 
         public UnitOfWork(ConsultaUTNContext context) {
             _context = context;
             Materias = new MateriaRepository(_context);
             Departamentos = new DepartamentoRepository(_context);
             Usuarios = new UsuarioRepository(_context);
+            HorariosConsulta = new HorarioConsultaRepository(_context);
         }
 
         // Add DBConcurrencyException here
