@@ -6,7 +6,63 @@
              xmlns:local="clr-namespace:DesktopPresentationWPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Red">
-            
+    <Grid Background="Blue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Header -->
+        <TextBlock Text="Materias" FontSize="48" Grid.Row="0"
+                   Grid.Column="0" Grid.ColumnSpan="3" Margin="0 0 0 20"/>
+
+        <!-- Column 0 -->
+        <Button x:Name="Add" Content="Add New"
+                    Padding="5" Grid.Column="0" Grid.Row="1"/>
+        <ListBox  x:Name="Materias" Grid.Row="2" Grid.Column="0"
+                 MinHeight="200" MinWidth="150" SelectedItem="{Binding SelectedMateria}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Name}" />
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Es Electiva: " FontSize="14" />
+                                <TextBlock Text="{Binding IsElectiva}" FontSize="14" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                                <TextBlock Text="Year: " FontSize="14" />
+                                <TextBlock Text="{Binding Year}" FontSize="14" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!-- Column 1 -->
+        <StackPanel Orientation="Vertical" Grid.Column="1"
+                    Grid.Row="2" Margin="20 0">
+            <Button x:Name="Delete" Content="Delete"
+                    Padding="5"/>
+        </StackPanel>
+
+        <Button x:Name="Save" Grid.Row="6" Grid.Column="2" Content="Save"
+                Margin="0 0 0 0" Padding="5"/>
+
     </Grid>
 </UserControl>

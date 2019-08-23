@@ -87,6 +87,8 @@
     </ApplicationDefinition>
     <Compile Include="Api\ApiHelper.cs" />
     <Compile Include="Api\IApiHelper.cs" />
+    <Compile Include="Api\IMateriaEndpoint.cs" />
+    <Compile Include="Api\MateriaEndpoint.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="EventModels\LogOnEvent.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
