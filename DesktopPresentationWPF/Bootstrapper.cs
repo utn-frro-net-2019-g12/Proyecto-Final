@@ -35,6 +35,9 @@ namespace DesktopPresentationWPF
                 .Singleton<IUsuarioLoggedModel, UsuarioLoggedInModel>()
                 .Singleton<IApiHelper, ApiHelper>();
 
+            _container.Instance(_container)
+                .PerRequest<IMateriaEndpoint, MateriaEndpoint>();
+
             // As we are using just a few ViewModels, using reflection is not that necessary
             GetType().Assembly.GetTypes()
                 .Where(type => type.IsClass)
