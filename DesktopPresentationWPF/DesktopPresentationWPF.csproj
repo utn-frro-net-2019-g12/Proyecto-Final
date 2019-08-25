@@ -94,6 +94,7 @@
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="Models\AuthenticatedUser.cs" />
     <Compile Include="Models\IUsuarioLoggedModel.cs" />
+    <Compile Include="Models\MateriaModel.cs" />
     <Compile Include="Models\UsuarioLoggedInModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MateriaViewModel.cs" />

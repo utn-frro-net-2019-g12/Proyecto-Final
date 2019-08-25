@@ -6,11 +6,11 @@ using System.Web;
 
 namespace DesktopPresentationWPF.Models {
     public class WpfMateriaModel : INotifyPropertyChanged {
-        private string _name;
-
         public int Id { get; set; }
 
-        public int Year { get; set; }
+        public int? Year { get; set; }
+
+        private string _name;
 
         public string Name
         {
@@ -21,11 +21,42 @@ namespace DesktopPresentationWPF.Models {
             set
             {
                 _name = value;
-                CallPropertyChanged(nameof(Name));
             }
         }
 
-        public bool IsElectiva { get; set; }
+        private bool? _isElectiva;
+
+        public bool? IsElectiva {
+            get
+            {
+                return _isElectiva;
+            }
+            set
+            {
+                _isElectiva = value;
+                CallPropertyChanged(nameof(IsElectivaDisplay));
+            }
+        }
+
+        public string IsElectivaDisplay
+        {
+            get
+            {
+                if (IsElectiva == null)
+                {
+                    return "Undefined";
+                }
+
+                if (IsElectiva == true)
+                {
+                    return "Electiva";
+                }
+                else
+                {
+                    return "Obligatoria";
+                }
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void CallPropertyChanged(string propertyName)

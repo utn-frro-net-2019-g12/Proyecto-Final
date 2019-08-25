@@ -11,9 +11,9 @@ namespace DesktopPresentationWPF.ViewModels
 {
     public class LoginViewModel : Screen
     {
-        private string _userName;
+        private string _userName = "nico@example.com";
         // TO-DO: Hash this
-        private string _password;
+        private string _password = "Example1?";
         private IApiHelper _apiHelper;
         private IEventAggregator _events;
 

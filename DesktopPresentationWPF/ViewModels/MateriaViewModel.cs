@@ -58,6 +58,16 @@ namespace DesktopPresentationWPF.ViewModels
                 _selectedMateria = value;
                 NotifyOfPropertyChange(() => SelectedMateria);
                 NotifyOfPropertyChange(() => CanDelete);
+                NotifyOfPropertyChange(() => IsEditVisible);
+                NotifyOfPropertyChange(() => IsCreateVisible);
+
+                NameInForm = SelectedMateria?.Name;
+                YearInForm = SelectedMateria?.Year;
+                IsElectivaInForm = SelectedMateria?.IsElectiva;
+
+                NotifyOfPropertyChange(() => NameInForm);
+                NotifyOfPropertyChange(() => YearInForm);
+                NotifyOfPropertyChange(() => IsElectivaInForm);
             }
         }
 
@@ -78,12 +88,61 @@ namespace DesktopPresentationWPF.ViewModels
 
         public async void Delete()
         {
-            // TO-DO catch errors thrown by Endpoints
-            await _materiaEndpoint.Delete(SelectedMateria.Id);
-            await LoadMaterias();
+            ErrorMessage = "";
+
+            try { 
+                await _materiaEndpoint.Delete(SelectedMateria.Id);
+                await LoadMaterias();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
         }
 
-        public bool CanSave
+        private string _nameInForm;
+
+        public string NameInForm
+        {
+            get
+            {
+                return _nameInForm;
+            }
+            set
+            {
+                _nameInForm = value;
+            }
+        }
+
+        private int? _yearInForm;
+
+        public int? YearInForm
+        {
+            get
+            {
+                return _yearInForm;
+            }
+            set
+            {
+                _yearInForm = value;
+            }
+        }
+
+        private bool? _isElectivaInForm;
+
+        public bool? IsElectivaInForm
+        {
+            get
+            {
+                return _isElectivaInForm;
+            }
+            set
+            {
+                _isElectivaInForm = value;
+            }
+        }
+
+        public bool IsEditVisible
         {
             get
             {
@@ -98,10 +157,90 @@ namespace DesktopPresentationWPF.ViewModels
             }
         }
 
-        public void Save()
+        public async void Edit()
         {
+            ErrorMessage = "";
 
+            var materia = new WpfMateriaModel { Id = SelectedMateria.Id, Name = NameInForm, Year = YearInForm, IsElectiva = IsElectivaInForm };
+
+            try
+            {
+                await _materiaEndpoint.Put(materia);
+                await LoadMaterias();
+            }
+            catch(Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
         }
 
+        public bool IsCreateVisible
+        {
+            get
+            {
+                bool output = false;
+
+                if(SelectedMateria == null)
+                {
+                    output = true;
+                }
+
+                return output;
+            }
+        }
+
+        public async void Create()
+        {
+            ErrorMessage = "";
+
+            var materia = new WpfMateriaModel { Name = NameInForm, Year = YearInForm, IsElectiva = IsElectivaInForm };
+
+            try { 
+                await _materiaEndpoint.Post(materia);
+                await LoadMaterias();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
+        }
+
+        public void Add()
+        {
+            SelectedMateria = null;
+
+            NotifyOfPropertyChange(() => SelectedMateria);
+        }
+
+        public bool IsErrorMessageVisible
+        {
+            get
+            {
+                var output = false;
+
+                if(ErrorMessage?.Length > 0)
+                {
+                    output = true;
+                }
+
+                return output;
+            }
+        }
+
+        private string _errorMessage;
+
+        public string ErrorMessage
+        {
+            get
+            {
+                return _errorMessage;
+            }
+            set
+            {
+                _errorMessage = value;
+                NotifyOfPropertyChange(() => ErrorMessage);
+                NotifyOfPropertyChange(() => IsErrorMessageVisible);
+            }
+        }
     }
 }

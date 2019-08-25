@@ -12,5 +12,7 @@ namespace DesktopPresentationWPF.Api
     {
         Task<BindingList<WpfMateriaModel>> GetAll();
         Task Delete(object id);
+        Task Post(WpfMateriaModel materia);
+        Task Put(WpfMateriaModel materia);
     }
 }

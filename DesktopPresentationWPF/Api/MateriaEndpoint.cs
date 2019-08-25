@@ -46,5 +46,27 @@ namespace DesktopPresentationWPF.Api
                 }
             }
         }
+
+        public async Task Post(WpfMateriaModel materia)
+        {
+            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/materias", materia))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task Put(WpfMateriaModel materia)
+        {
+            using(var response = await _apiHelper.ApiClient.PutAsJsonAsync("api/materias/" + materia.Id, materia))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

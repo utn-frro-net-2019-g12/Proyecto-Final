@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DesktopPresentationWPF.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" FontFamily="Segoe UI Light">
     <Grid Background="Blue">
         <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -16,37 +17,45 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
 
         <!-- Header -->
-        <TextBlock Text="Materias" FontSize="48" Grid.Row="0"
-                   Grid.Column="0" Grid.ColumnSpan="3" Margin="0 0 0 20"/>
+        <TextBlock Text="Materias" FontSize="48" Grid.Row="1"
+                   Grid.Column="1" Grid.ColumnSpan="3" Margin="0 0 0 20"/>
 
         <!-- Column 0 -->
         <Button x:Name="Add" Content="Add New"
-                    Padding="5" Grid.Column="0" Grid.Row="1"/>
-        <ListBox  x:Name="Materias" Grid.Row="2" Grid.Column="0"
-                 MinHeight="200" MinWidth="150" SelectedItem="{Binding SelectedMateria}">
+                    Padding="5" Grid.Column="1" Grid.Row="2"/>
+        
+        <ListBox  x:Name="Materias" Grid.Row="3" Grid.Column="1"
+                 MinHeight="200" MinWidth="150" Grid.RowSpan="10"
+                  SelectedItem="{Binding SelectedMateria}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{Binding Name}" />
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Es Electiva: " FontSize="14" />
-                                <TextBlock Text="{Binding IsElectiva}" FontSize="14" />
+                                <TextBlock Text="{Binding IsElectivaDisplay}" FontSize="11" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
-                                <TextBlock Text="Year: " FontSize="14" />
-                                <TextBlock Text="{Binding Year}" FontSize="14" />
+                                <TextBlock Text="Año: " FontSize="11" />
+                                <TextBlock Text="{Binding Year}" FontSize="11" />
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
@@ -55,14 +64,28 @@
         </ListBox>
 
         <!-- Column 1 -->
-        <StackPanel Orientation="Vertical" Grid.Column="1"
-                    Grid.Row="2" Margin="20 0">
-            <Button x:Name="Delete" Content="Delete"
-                    Padding="5"/>
-        </StackPanel>
+        <Button x:Name="Delete" Content="Delete Selected"
+            Grid.Column="1" Grid.Row="12"/>
 
-        <Button x:Name="Save" Grid.Row="6" Grid.Column="2" Content="Save"
-                Margin="0 0 0 0" Padding="5"/>
+        <TextBlock x:Name="ErrorMessage" Grid.Column="5" Grid.Row="2" 
+                   Foreground="Red" MaxWidth="300" TextWrapping="Wrap" Margin="0 0 0 20"
+                   Visibility="{Binding IsErrorMessageVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
 
+        <TextBlock Grid.Column="4" Grid.Row="3" Text="Nombre:"/>
+        <TextBox x:Name="NameInForm" Grid.Column="5" Grid.Row="3" Margin="10,0,0,0"/>
+
+        <TextBlock Grid.Column="4" Grid.Row="4" Text="Año:"/>
+        <TextBox x:Name="YearInForm" Grid.Column="5" Grid.Row="4" Margin="10,0,0,0"/>
+
+        <TextBlock Grid.Column="4" Grid.Row="5" Text="Departamento:"/>
+        <ComboBox x:Name="DepartamentosInForm" Grid.Column="5" Grid.Row="5" Margin="10,0,0,0"/>
+
+        <TextBlock Grid.Column="4" Grid.Row="6" Text="Es Electiva:"/>
+        <CheckBox x:Name="IsElectivaInForm" Grid.Column="5" Grid.Row="6" Margin="10,0,0,0"/>
+
+        <Button x:Name="Edit" Grid.Row="7" Grid.Column="4" Content="Edit"
+               Margin="10,5" Visibility="{Binding IsEditVisible,  Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
+        <Button x:Name="Create" Grid.Row="7" Grid.Column="4" Content="Create"
+               Margin="10,5" Visibility="{Binding IsCreateVisible,  Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
     </Grid>
 </UserControl>
