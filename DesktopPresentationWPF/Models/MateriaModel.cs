@@ -15,5 +15,6 @@ namespace DesktopPresentationWPF.Models
         public bool IsElectiva { get; set; }
 
         public int? DepartamentoId { get; set; }
+        // public virtual WpfDepartamentoModel Departamento { get; set; }
     }
 }

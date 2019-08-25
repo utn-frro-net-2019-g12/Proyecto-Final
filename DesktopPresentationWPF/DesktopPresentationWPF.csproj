@@ -96,6 +96,8 @@
     <Compile Include="Models\IUsuarioLoggedModel.cs" />
     <Compile Include="Models\MateriaModel.cs" />
     <Compile Include="Models\UsuarioLoggedInModel.cs" />
+    <Compile Include="Models\WpfInscripcionesModel.cs" />
+    <Compile Include="Models\WpfHorarioConsultaModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MateriaViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />

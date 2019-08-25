@@ -58,6 +58,9 @@ namespace DesktopPresentationWPF.Models {
             }
         }
 
+        // public int? DepartamentoId { get; set; }
+        // public virtual WpfDepartamentoModel Departamento { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void CallPropertyChanged(string propertyName)
         {

@@ -139,6 +139,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="GlobalApi.cs" />
+    <Compile Include="Models\MvcInscripcionesModel.cs" />
+    <Compile Include="Models\MvcHorarioConsultaModel.cs" />
     <Compile Include="Models\MvcUsuarioModel.cs" />
     <Compile Include="MyModelStateExtensions.cs" />
     <Compile Include="Models\MvcDepartamentoModel.cs" />
