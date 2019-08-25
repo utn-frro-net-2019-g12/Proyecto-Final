@@ -35,7 +35,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Header -->
-        <TextBlock Text="Materias" FontSize="48" Grid.Row="1"
+        <TextBlock Text="Materias" FontSize="48" Foreground="#FFFFFF" Grid.Row="1"
                    Grid.Column="1" Grid.ColumnSpan="3" Margin="0 0 0 20"/>
 
         <!-- Column 0 -->
@@ -71,16 +71,16 @@
                    Foreground="Red" MaxWidth="300" TextWrapping="Wrap" Margin="0 0 0 20"
                    Visibility="{Binding IsErrorMessageVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
 
-        <TextBlock Grid.Column="4" Grid.Row="3" Text="Nombre:"/>
+        <TextBlock Grid.Column="4" Grid.Row="3" Text="Nombre:" Foreground="#FFFFFF"/>
         <TextBox x:Name="NameInForm" Grid.Column="5" Grid.Row="3" Margin="10,0,0,0"/>
 
-        <TextBlock Grid.Column="4" Grid.Row="4" Text="Año:"/>
+        <TextBlock Grid.Column="4" Grid.Row="4" Text="Año:" Foreground="#FFFFFF"/>
         <TextBox x:Name="YearInForm" Grid.Column="5" Grid.Row="4" Margin="10,0,0,0"/>
 
-        <TextBlock Grid.Column="4" Grid.Row="5" Text="Departamento:"/>
+        <TextBlock Grid.Column="4" Grid.Row="5" Text="Departamento:" Foreground="#FFFFFF"/>
         <ComboBox x:Name="DepartamentosInForm" Grid.Column="5" Grid.Row="5" Margin="10,0,0,0"/>
 
-        <TextBlock Grid.Column="4" Grid.Row="6" Text="Es Electiva:"/>
+        <TextBlock Grid.Column="4" Grid.Row="6" Text="Es Electiva:" Foreground="#FFFFFF"/>
         <CheckBox x:Name="IsElectivaInForm" Grid.Column="5" Grid.Row="6" Margin="10,0,0,0"/>
 
         <Button x:Name="Edit" Grid.Row="7" Grid.Column="4" Content="Edit"
