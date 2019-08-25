@@ -20,7 +20,7 @@ namespace WebApi.Controllers {
         }
 
         /// <summary>
-        /// Retrives all HorarioConsulta instances
+        /// Retrives all horarioConsulta instances
         /// </summary>
         [HttpGet]
         [Route("")]
