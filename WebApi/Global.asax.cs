@@ -18,7 +18,7 @@ namespace WebApi
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            IoC.AutofacWebApiConfig.Register(GlobalConfiguration.Configuration);
+            IocConfig.RegisterDependencies(GlobalConfiguration.Configuration);
         }
     }
 }

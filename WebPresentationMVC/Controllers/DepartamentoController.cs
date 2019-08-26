@@ -9,6 +9,7 @@ using WebPresentationMVC.Models;
 
 namespace WebPresentationMVC.Controllers {
     public class DepartamentoController : Controller {
+
         // Index - GET Departamento
         public ActionResult Index() {
             var response = GlobalApi.WebApiClient.GetAsync("departamentos/").Result;
