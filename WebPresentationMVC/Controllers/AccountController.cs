@@ -13,6 +13,15 @@ namespace WebPresentationMVC.Controllers
 {
     public class AccountController : Controller
     {
+        [HttpGet]
+        public ActionResult Login(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
             var getTokenUrl = "http://localhost:2021/Token";

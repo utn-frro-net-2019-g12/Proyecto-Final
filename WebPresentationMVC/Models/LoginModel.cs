@@ -7,17 +7,7 @@ namespace WebPresentationMVC.Models
 {
     public class LoginModel
     {
-        public string EmailAddress {
-            get
-            {
-                return "ale@example.com";
-            }
-        }
-        public string Password {
-            get
-            {
-                return "Example1?";
-            }
-        }
+        public string EmailAddress { get; set; }
+        public string Password { get; set; }
     }
 }
