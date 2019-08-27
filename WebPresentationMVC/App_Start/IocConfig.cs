@@ -7,6 +7,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using System.Web.Mvc;
 using WebPresentationMVC.IocModules;
+using WebPresentationMVC.Models;
 
 namespace WebPresentationMVC.App_Start
 {
@@ -23,6 +24,8 @@ namespace WebPresentationMVC.App_Start
 
             builder.RegisterModule<ApiModule>();
 
+            builder.RegisterType<UserSession>().As<IUserSession>()
+                .InstancePerRequest();
             // May be unnecessary
             /*builder.RegisterModelBinders(typeof(MvcApplication).Assembly);
             builder.RegisterModelBinderProvider*/
