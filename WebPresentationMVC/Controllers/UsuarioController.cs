@@ -52,14 +52,29 @@ namespace WebPresentationMVC.Controllers {
 
         // Create - POST Usuario
         [HttpPost]
-        public ActionResult Create(MvcUsuarioModel usuarios) {
-            var response = GlobalApi.WebApiClient.PostAsJsonAsync("usuarios", usuarios).Result;
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(MvcUsuarioModel usuario) {
 
-            // Move this to an action filter
-            if (!response.IsSuccessStatusCode)
-            {
-                ModelState.AddModelErrorsFromResponse(response);
-                return PartialView("_Create", usuarios);
+            var account = new RegisterModel();
+            account.Email = usuario.Email;
+            account.Password = "defaultpassword";
+            account.ConfirmPassword = "defaultpassword";
+
+            var responseCreateAccount = GlobalApi.WebApiClient.PostAsJsonAsync("account/register", account).Result;
+
+            if (responseCreateAccount.IsSuccessStatusCode) {
+                var responseSaveUserData = GlobalApi.WebApiClient.PostAsJsonAsync("usuarios", usuario).Result;
+
+                if (!responseSaveUserData.IsSuccessStatusCode) {
+                    ModelState.AddModelErrorsFromResponse(responseSaveUserData);
+                    return PartialView("_Create", usuario);
+                }
+
+            } else {
+                // Move this to an action filter
+                ModelState.AddModelErrorsFromResponse(responseCreateAccount);
+                return PartialView("_Create", usuario);
             }
 
             return Content("OK");
@@ -87,7 +102,7 @@ namespace WebPresentationMVC.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         // Bind(Include = "...") is used to avoid overposting attacks
-        public ActionResult Edit([Bind(Include = "Id, Username, Legajo, Matricula, IsAdmin, Firstname, Surname, Email, Phone")]MvcUsuarioModel usuario) {
+        public ActionResult Edit([Bind(Include = "Id, Username, Legajo, Matricula, IsAdmin, Firstname, Surname, Email, Phone1, Phone2")]MvcUsuarioModel usuario) {
             var response = GlobalApi.WebApiClient.PutAsJsonAsync("usuarios/" + usuario.Id, usuario).Result;
 
             if (!response.IsSuccessStatusCode) {

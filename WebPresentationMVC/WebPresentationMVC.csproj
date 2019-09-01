@@ -150,6 +150,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\DepartamentoController.cs" />
     <Compile Include="Models\IUserSession.cs" />
+    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\Token.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\MateriaController.cs" />

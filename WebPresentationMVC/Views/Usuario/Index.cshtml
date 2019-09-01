@@ -24,6 +24,11 @@
     <!-- _Edit Partial View Calling -->
     <script type="text/javascript">
 
+        function addRequestVerificationToken(data) {
+            data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
+            return data;
+        };
+
         function modalCreate(data, url) {
             $('#modalCreateUserContent').html(data);
             $('#createForm').unbind();
@@ -32,14 +37,17 @@
                 $.ajax({
                     type: "POST",
                     url: url,
+                    // dataType: "json",
+                    // traditional: true,
                     data: $('#createForm').serialize(),
+                    data: addRequestVerificationToken({ "id": 1 }),
                     success: function (data) {
                         data != "OK" ? modalCreate(data, url) : window.location.reload();
                     }
                 });
             });
         }
-
+        
         $('#actionCreateUser').on('click', function () {
             let url = '/Usuario/Create';
             $.ajax({
