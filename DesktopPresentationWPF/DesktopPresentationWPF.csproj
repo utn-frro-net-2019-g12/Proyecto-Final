@@ -86,7 +86,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Api\ApiHelper.cs" />
+    <Compile Include="Api\DepartamentoEndpoint.cs" />
     <Compile Include="Api\IApiHelper.cs" />
+    <Compile Include="Api\IDepartamentoEndpoint.cs" />
     <Compile Include="Api\IMateriaEndpoint.cs" />
     <Compile Include="Api\MateriaEndpoint.cs" />
     <Compile Include="Bootstrapper.cs" />

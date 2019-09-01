@@ -21,7 +21,7 @@ namespace DesktopPresentationWPF.Api
 
         public async Task<BindingList<WpfMateriaModel>> GetAll()
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/materias"))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/materias/departamento"))
             {
                 if (response.IsSuccessStatusCode)
                 {

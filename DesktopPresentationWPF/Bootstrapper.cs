@@ -36,7 +36,8 @@ namespace DesktopPresentationWPF
                 .Singleton<IApiHelper, ApiHelper>();
 
             _container.Instance(_container)
-                .PerRequest<IMateriaEndpoint, MateriaEndpoint>();
+                .PerRequest<IMateriaEndpoint, MateriaEndpoint>()
+                .PerRequest<IDepartamentoEndpoint, DepartamentoEndpoint>();
 
             // As we are using just a few ViewModels, using reflection is not that necessary
             GetType().Assembly.GetTypes()

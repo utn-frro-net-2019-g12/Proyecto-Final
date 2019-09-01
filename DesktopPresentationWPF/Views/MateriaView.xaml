@@ -9,41 +9,38 @@
     <Grid Background="Blue">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="0.5*" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
 
         <!-- Header -->
-        <TextBlock Text="Materias" FontSize="48" Foreground="#FFFFFF" Grid.Row="1"
-                   Grid.Column="1" Grid.ColumnSpan="3" Margin="0 0 0 20"/>
+        <TextBlock Text="Materias" FontSize="42" Foreground="#FFFFFF" Grid.Row="1"
+                   Grid.Column="1" Grid.ColumnSpan="2" />
 
         <!-- Column 0 -->
         <Button x:Name="Add" Content="Add New"
                     Padding="5" Grid.Column="1" Grid.Row="2"/>
         
         <ListBox  x:Name="Materias" Grid.Row="3" Grid.Column="1"
-                 MinHeight="200" MinWidth="150" Grid.RowSpan="10"
+                 MinHeight="200" MinWidth="150" Grid.RowSpan="9"
                   SelectedItem="{Binding SelectedMateria}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -57,6 +54,9 @@
                                 <TextBlock Text="Año: " FontSize="11" />
                                 <TextBlock Text="{Binding Year}" FontSize="11" />
                             </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                                <TextBlock Text="{Binding Departamento.Name}" FontSize="11"/>
+                            </StackPanel>
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>
@@ -65,27 +65,30 @@
 
         <!-- Column 1 -->
         <Button x:Name="Delete" Content="Delete Selected"
-            Grid.Column="1" Grid.Row="12"/>
+            Grid.Column="1" Grid.Row="11"/>
 
-        <TextBlock x:Name="ErrorMessage" Grid.Column="5" Grid.Row="2" 
-                   Foreground="Red" MaxWidth="300" TextWrapping="Wrap" Margin="0 0 0 20"
+        <TextBlock x:Name="ErrorMessage" Grid.Column="4" Grid.Row="2" 
+                   Foreground="Red" TextWrapping="Wrap" Margin="0 0 0 3"
                    Visibility="{Binding IsErrorMessageVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
 
-        <TextBlock Grid.Column="4" Grid.Row="3" Text="Nombre:" Foreground="#FFFFFF"/>
-        <TextBox x:Name="NameInForm" Grid.Column="5" Grid.Row="3" Margin="10,0,0,0"/>
+        <TextBlock Grid.Column="3" Grid.Row="3" Text="Nombre:" Foreground="#FFFFFF"/>
+        <TextBox x:Name="NameInForm" Grid.Column="4" Grid.Row="3" Margin="10,0,0,3"/>
 
-        <TextBlock Grid.Column="4" Grid.Row="4" Text="Año:" Foreground="#FFFFFF"/>
-        <TextBox x:Name="YearInForm" Grid.Column="5" Grid.Row="4" Margin="10,0,0,0"/>
+        <TextBlock Grid.Column="3" Grid.Row="4" Text="Año:" Foreground="#FFFFFF"/>
+        <TextBox x:Name="YearInForm" Grid.Column="4" Grid.Row="4" Margin="10,0,0,3"/>
 
-        <TextBlock Grid.Column="4" Grid.Row="5" Text="Departamento:" Foreground="#FFFFFF"/>
-        <ComboBox x:Name="DepartamentosInForm" Grid.Column="5" Grid.Row="5" Margin="10,0,0,0"/>
+        <TextBlock Grid.Column="3" Grid.Row="5" Text="Departamento:" Foreground="#FFFFFF"/>
+        <ComboBox ItemsSource="{Binding DepartamentosInForm}"
+                  DisplayMemberPath="Name"
+                  SelectedItem="{Binding SelectedDepartamento}"
+                  Grid.Column="4" Grid.Row="5" Margin="10,0,0,3" />
 
-        <TextBlock Grid.Column="4" Grid.Row="6" Text="Es Electiva:" Foreground="#FFFFFF"/>
-        <CheckBox x:Name="IsElectivaInForm" Grid.Column="5" Grid.Row="6" Margin="10,0,0,0"/>
+        <TextBlock Grid.Column="3" Grid.Row="6" Text="Es Electiva:" Foreground="#FFFFFF"/>
+        <CheckBox x:Name="IsElectivaInForm" Grid.Column="4" Grid.Row="6" Margin="10,0,0,0"/>
 
-        <Button x:Name="Edit" Grid.Row="7" Grid.Column="4" Content="Edit"
-               Margin="10,5" Visibility="{Binding IsEditVisible,  Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
-        <Button x:Name="Create" Grid.Row="7" Grid.Column="4" Content="Create"
-               Margin="10,5" Visibility="{Binding IsCreateVisible,  Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
+        <Button x:Name="Edit" Grid.Row="7" Grid.Column="3" Content="Edit"
+               Margin="5,2" Visibility="{Binding IsEditVisible,  Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
+        <Button x:Name="Create" Grid.Row="7" Grid.Column="3" Content="Create"
+               Margin="5,2" Visibility="{Binding IsCreateVisible,  Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
     </Grid>
 </UserControl>

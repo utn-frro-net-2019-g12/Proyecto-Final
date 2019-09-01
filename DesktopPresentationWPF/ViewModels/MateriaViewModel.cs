@@ -13,16 +13,29 @@ namespace DesktopPresentationWPF.ViewModels
     public class MateriaViewModel : Screen
     {
         private IMateriaEndpoint _materiaEndpoint;
+        private IDepartamentoEndpoint _departamentoEndpoint;
 
-        public MateriaViewModel(IMateriaEndpoint materiaEndpoint)
+        public MateriaViewModel(IMateriaEndpoint materiaEndpoint, IDepartamentoEndpoint departamentoEndpoint)
         {
             _materiaEndpoint = materiaEndpoint;
+            _departamentoEndpoint = departamentoEndpoint;
         }
 
         protected override async void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
             await LoadMaterias();
+            await LoadDepartamentos(); 
+        }
+
+        public async Task LoadMaterias()
+        {
+            Materias = await _materiaEndpoint.GetAll();
+        }
+
+        public async Task LoadDepartamentos()
+        {
+            DepartamentosInForm = await _departamentoEndpoint.GetAll();
         }
 
         private BindingList<WpfMateriaModel> _materias;
@@ -40,9 +53,20 @@ namespace DesktopPresentationWPF.ViewModels
             }
         }
 
-        public async Task LoadMaterias()
+
+        public BindingList<WpfDepartamentoModel> _departamentosInForm;
+
+        public BindingList<WpfDepartamentoModel> DepartamentosInForm
         {
-            Materias = await _materiaEndpoint.GetAll();
+            get
+            {
+                return _departamentosInForm;
+            }
+            set
+            {
+                _departamentosInForm = value;
+                NotifyOfPropertyChange(() => DepartamentosInForm);
+            }
         }
 
         private WpfMateriaModel _selectedMateria;
@@ -64,39 +88,27 @@ namespace DesktopPresentationWPF.ViewModels
                 NameInForm = SelectedMateria?.Name;
                 YearInForm = SelectedMateria?.Year;
                 IsElectivaInForm = SelectedMateria?.IsElectiva;
+                SelectedDepartamento = SelectedMateria?.Departamento;
 
                 NotifyOfPropertyChange(() => NameInForm);
                 NotifyOfPropertyChange(() => YearInForm);
                 NotifyOfPropertyChange(() => IsElectivaInForm);
+                NotifyOfPropertyChange(() => SelectedDepartamento);
             }
         }
 
-        public bool CanDelete
+        private WpfDepartamentoModel _selectedDepartamento;
+
+        public WpfDepartamentoModel SelectedDepartamento
         {
             get
             {
-                bool output = false;
-
-                if(SelectedMateria != null)
-                {
-                    output = true;
-                }
-
-                return output;
+                return _selectedDepartamento;
             }
-        }
-
-        public async void Delete()
-        {
-            ErrorMessage = "";
-
-            try { 
-                await _materiaEndpoint.Delete(SelectedMateria.Id);
-                await LoadMaterias();
-            }
-            catch (Exception ex)
+            set
             {
-                ErrorMessage = ex.Message;
+                _selectedDepartamento = value;
+                NotifyOfPropertyChange(() => SelectedDepartamento);
             }
         }
 
@@ -142,6 +154,36 @@ namespace DesktopPresentationWPF.ViewModels
             }
         }
 
+        public bool CanDelete
+        {
+            get
+            {
+                bool output = false;
+
+                if (SelectedMateria != null)
+                {
+                    output = true;
+                }
+
+                return output;
+            }
+        }
+
+        public async void Delete()
+        {
+            ErrorMessage = "";
+
+            try
+            {
+                await _materiaEndpoint.Delete(SelectedMateria.Id);
+                await LoadMaterias();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
+        }
+
         public bool IsEditVisible
         {
             get
@@ -161,7 +203,8 @@ namespace DesktopPresentationWPF.ViewModels
         {
             ErrorMessage = "";
 
-            var materia = new WpfMateriaModel { Id = SelectedMateria.Id, Name = NameInForm, Year = YearInForm, IsElectiva = IsElectivaInForm };
+            var materia = new WpfMateriaModel { Id = SelectedMateria.Id, Name = NameInForm, Year = YearInForm, IsElectiva = IsElectivaInForm,
+                DepartamentoId = SelectedDepartamento.Id, Departamento = SelectedDepartamento};
 
             try
             {
@@ -193,7 +236,8 @@ namespace DesktopPresentationWPF.ViewModels
         {
             ErrorMessage = "";
 
-            var materia = new WpfMateriaModel { Name = NameInForm, Year = YearInForm, IsElectiva = IsElectivaInForm };
+            var materia = new WpfMateriaModel { Name = NameInForm, Year = YearInForm, IsElectiva = IsElectivaInForm,
+                DepartamentoId = SelectedDepartamento?.Id};
 
             try { 
                 await _materiaEndpoint.Post(materia);
@@ -208,6 +252,7 @@ namespace DesktopPresentationWPF.ViewModels
         public void Add()
         {
             SelectedMateria = null;
+            SelectedDepartamento = null;
 
             NotifyOfPropertyChange(() => SelectedMateria);
         }
