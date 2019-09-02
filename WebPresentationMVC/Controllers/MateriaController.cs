@@ -9,7 +9,9 @@ using WebPresentationMVC.Models;
 using WebPresentationMVC.ViewModels;
 
 namespace WebPresentationMVC.Controllers {
+
     // Note: This Controller Communicates with ViewModels (CreateMateriaViewModel and EditMateriaViewModel)
+    [Authorize]
     public class MateriaController : Controller {
         // Index - GET Materia
         public ActionResult Index() {

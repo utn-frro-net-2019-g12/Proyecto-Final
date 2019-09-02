@@ -9,6 +9,8 @@ using WebPresentationMVC.Models;
 using WebPresentationMVC.ViewModels;
 
 namespace WebPresentationMVC.Controllers {
+
+    [Authorize]
     public class UsuarioController : Controller {
         // Index - GET Usuario
         public ActionResult Index() {
@@ -52,7 +54,6 @@ namespace WebPresentationMVC.Controllers {
 
         // Create - POST Usuario
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Create(MvcUsuarioModel usuario) {
 
@@ -100,7 +101,6 @@ namespace WebPresentationMVC.Controllers {
 
         // Edit - PUT Usuario/ID (Secured)
         [HttpPost]
-        [ValidateAntiForgeryToken]
         // Bind(Include = "...") is used to avoid overposting attacks
         public ActionResult Edit([Bind(Include = "Id, Username, Legajo, Matricula, IsAdmin, Firstname, Surname, Email, Phone1, Phone2")]MvcUsuarioModel usuario) {
             var response = GlobalApi.WebApiClient.PutAsJsonAsync("usuarios/" + usuario.Id, usuario).Result;

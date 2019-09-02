@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using WebPresentationMVC.Models;
 
 namespace WebPresentationMVC.Controllers {
+
+    [Authorize]
     public class DepartamentoController : Controller {
 
         // Index - GET Departamento

@@ -18,7 +18,9 @@ namespace WebPresentationMVC.Controllers
         {
             ViewBag.ReturnUrl = returnUrl;
 
-            return View();
+            var usuarioDefaultModel = new LoginModel { EmailAddress = "ale@example.com", Password = "Example1?" };
+
+            return View(usuarioDefaultModel);
         }
 
         [HttpPost]
@@ -35,11 +37,16 @@ namespace WebPresentationMVC.Controllers
                     new KeyValuePair<string, string>("password", model.Password)
                 });
 
-                HttpResponseMessage result = httpClient.PostAsync(getTokenUrl, content).Result;
+                HttpResponseMessage response = httpClient.PostAsync(getTokenUrl, content).Result;
 
-                string resultContent = result.Content.ReadAsStringAsync().Result;
+                if(!response.IsSuccessStatusCode)
+                {
+                    ModelState.AddModelErrorsFromResponse(response);
 
-                var token = JsonConvert.DeserializeObject<Token>(resultContent);
+                    return View(model);
+                }
+
+                var token = response.Content.ReadAsAsync<Token>().Result;
 
                 AuthenticationProperties options = new AuthenticationProperties();
 
