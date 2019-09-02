@@ -85,8 +85,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Api\ApiException.cs" />
     <Compile Include="Api\ApiHelper.cs" />
     <Compile Include="Api\DepartamentoEndpoint.cs" />
+    <Compile Include="Api\ErrorResponse.cs" />
     <Compile Include="Api\IApiHelper.cs" />
     <Compile Include="Api\IDepartamentoEndpoint.cs" />
     <Compile Include="Api\IMateriaEndpoint.cs" />
@@ -96,7 +98,6 @@
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="Models\AuthenticatedUser.cs" />
     <Compile Include="Models\IUsuarioLoggedModel.cs" />
-    <Compile Include="Models\MateriaModel.cs" />
     <Compile Include="Models\UsuarioLoggedInModel.cs" />
     <Compile Include="Models\WpfInscripcionesModel.cs" />
     <Compile Include="Models\WpfHorarioConsultaModel.cs" />

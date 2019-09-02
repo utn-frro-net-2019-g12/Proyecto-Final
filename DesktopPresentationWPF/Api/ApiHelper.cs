@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using DesktopPresentationWPF.Models;
+using Newtonsoft.Json.Linq;
 
 namespace DesktopPresentationWPF.Api
 {
@@ -81,6 +82,29 @@ namespace DesktopPresentationWPF.Api
                     throw new Exception(response.ReasonPhrase);
                 }
             }
+        }
+
+        public async Task<ApiErrorsException> CreateApiErrorsException(HttpResponseMessage response)
+        {
+            var result = await response.Content.ReadAsAsync<ErrorResponse>();
+
+            var errors = result.ModelState.Select(kvp => string.Join(". ", kvp.Value));
+
+            var ex = new ApiErrorsException(response);
+
+            if (errors != null)
+            {
+                for(int i = 0; i < errors.Count(); i++)
+                {
+                    ex.Data.Add(i, errors.ElementAt(i));
+                }
+            }
+            else
+            {
+                ex.Data.Add(0, "No se recibieron detalles");
+            }
+
+            return ex;
         }
     }
 }

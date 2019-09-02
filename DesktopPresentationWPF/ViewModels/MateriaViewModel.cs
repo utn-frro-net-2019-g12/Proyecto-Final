@@ -171,16 +171,16 @@ namespace DesktopPresentationWPF.ViewModels
 
         public async void Delete()
         {
-            ErrorMessage = "";
+            ErrorMessages.Clear();
 
             try
             {
                 await _materiaEndpoint.Delete(SelectedMateria.Id);
                 await LoadMaterias();
             }
-            catch (Exception ex)
+            catch (ApiErrorsException ex)
             {
-                ErrorMessage = ex.Message;
+                ErrorMessages = new BindingList<string>(ex.Errors as IList<string>);
             }
         }
 
@@ -201,7 +201,7 @@ namespace DesktopPresentationWPF.ViewModels
 
         public async void Edit()
         {
-            ErrorMessage = "";
+            ErrorMessages.Clear();
 
             var materia = new WpfMateriaModel { Id = SelectedMateria.Id, Name = NameInForm, Year = YearInForm, IsElectiva = IsElectivaInForm,
                 DepartamentoId = SelectedDepartamento.Id, Departamento = SelectedDepartamento};
@@ -211,9 +211,9 @@ namespace DesktopPresentationWPF.ViewModels
                 await _materiaEndpoint.Put(materia);
                 await LoadMaterias();
             }
-            catch(Exception ex)
+            catch(ApiErrorsException ex)
             {
-                ErrorMessage = ex.Message;
+                ErrorMessages = new BindingList<string>(ex.Errors as IList<string>);
             }
         }
 
@@ -234,7 +234,7 @@ namespace DesktopPresentationWPF.ViewModels
 
         public async void Create()
         {
-            ErrorMessage = "";
+            ErrorMessages = null;
 
             var materia = new WpfMateriaModel { Name = NameInForm, Year = YearInForm, IsElectiva = IsElectivaInForm,
                 DepartamentoId = SelectedDepartamento?.Id};
@@ -243,9 +243,9 @@ namespace DesktopPresentationWPF.ViewModels
                 await _materiaEndpoint.Post(materia);
                 await LoadMaterias();
             }
-            catch (Exception ex)
+            catch (ApiErrorsException ex)
             {
-                ErrorMessage = ex.Message;
+                ErrorMessages = new BindingList<string>(ex.Errors as IList<string>);
             }
         }
 
@@ -257,13 +257,13 @@ namespace DesktopPresentationWPF.ViewModels
             NotifyOfPropertyChange(() => SelectedMateria);
         }
 
-        public bool IsErrorMessageVisible
+        public bool AreErrorMessagesVisible
         {
             get
             {
                 var output = false;
 
-                if(ErrorMessage?.Length > 0)
+                if(ErrorMessages?.Count() > 0)
                 {
                     output = true;
                 }
@@ -272,19 +272,19 @@ namespace DesktopPresentationWPF.ViewModels
             }
         }
 
-        private string _errorMessage;
+        private BindingList<string> _errorMessages;
 
-        public string ErrorMessage
+        public BindingList<string> ErrorMessages
         {
             get
             {
-                return _errorMessage;
+                return _errorMessages;
             }
             set
             {
-                _errorMessage = value;
-                NotifyOfPropertyChange(() => ErrorMessage);
-                NotifyOfPropertyChange(() => IsErrorMessageVisible);
+                _errorMessages = value;
+                NotifyOfPropertyChange(() => ErrorMessages);
+                NotifyOfPropertyChange(() => AreErrorMessagesVisible);
             }
         }
     }

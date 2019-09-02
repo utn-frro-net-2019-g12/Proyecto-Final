@@ -67,9 +67,9 @@
         <Button x:Name="Delete" Content="Delete Selected"
             Grid.Column="1" Grid.Row="11"/>
 
-        <TextBlock x:Name="ErrorMessage" Grid.Column="4" Grid.Row="2" 
-                   Foreground="Red" TextWrapping="Wrap" Margin="0 0 0 3"
-                   Visibility="{Binding IsErrorMessageVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
+        <ListBox x:Name="ErrorMessages" Grid.Column="4" Grid.Row="2" 
+                   Foreground="Red" Margin="0 0 0 3"
+                   Visibility="{Binding AreErrorMessagesVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
 
         <TextBlock Grid.Column="3" Grid.Row="3" Text="Nombre:" Foreground="#FFFFFF"/>
         <TextBox x:Name="NameInForm" Grid.Column="4" Grid.Row="3" Margin="10,0,0,3"/>

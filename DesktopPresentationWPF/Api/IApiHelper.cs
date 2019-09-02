@@ -13,5 +13,6 @@ namespace DesktopPresentationWPF.Api
         HttpClient ApiClient { get;}
         Task<AuthenticatedUser> Authenticate(string username, string password);
         Task GetLoggedInUserInfo(string token);
+        Task<ApiErrorsException> CreateApiErrorsException(HttpResponseMessage response);
     }
 }
