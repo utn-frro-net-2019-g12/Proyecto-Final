@@ -11,9 +11,11 @@ using WebPresentationMVC.Models;
 
 namespace WebPresentationMVC.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -24,6 +26,7 @@ namespace WebPresentationMVC.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
             var getTokenUrl = "http://localhost:2021/Token";
@@ -69,6 +72,7 @@ namespace WebPresentationMVC.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize]
         public ActionResult LogOut()
         {
             Request.GetOwinContext().Authentication.SignOut("ApplicationCookie");

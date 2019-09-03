@@ -28,7 +28,6 @@
             data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
             console.log(data);
             return data;
-
         };
 
         function modalCreate(data, url) {
@@ -41,10 +40,7 @@
                     url: url,
                     // dataType: "json",
                     // traditional: true,
-                    data: {
-                        createForm: $('#createForm').serialize(),
-                        antiForgeryToken: addRequestVerificationToken({ "id": 1 }),
-                    },
+                    data: $('#createForm').serialize(),
                     success: function (data) {
                         data != "OK" ? modalCreate(data, url) : window.location.reload();
                     }

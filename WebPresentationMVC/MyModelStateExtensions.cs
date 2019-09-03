@@ -9,23 +9,33 @@ namespace WebPresentationMVC
     {
         public static void AddModelErrorsFromResponse(this ModelStateDictionary modelState, HttpResponseMessage response)
         {
-            modelState.AddModelError("", "Por favor corrija las entradas");
-
             JObject httpError = response.Content.ReadAsAsync<JObject>().Result;
 
             JToken errors = httpError["ModelState"];
 
-            foreach (JProperty error in errors.Skip(1))
+            if(errors != null)
             {
-                // This decouples the name sent by the api from the one that's used to add a modelError
-                string errorKey = modelState.Keys.Where(e => e.Contains(error.Name.Substring(error.Name.IndexOf('.') + 1))).FirstOrDefault();
-                foreach (JArray messages in error)
+                foreach (JProperty error in errors.Skip(1))
                 {
-                    foreach (string message in messages)
+                    foreach (JArray messages in error)
                     {
-                        modelState.AddModelError(errorKey, message.ToString());
-                    } 
+                        foreach (string message in messages)
+                        {
+                            modelState.AddModelError(error.Name.Substring(error.Name.IndexOf('.') + 1), message.ToString());
+                        }
+                    }
                 }
+            }
+
+            JToken otherError = httpError["error_description"];
+
+            if(otherError != null)
+            {
+                modelState.AddModelError("", otherError.ToString());
+            }
+            else
+            {
+                modelState.AddModelError("", "Contacte a soporte para mas detalles");
             }
         }
     }

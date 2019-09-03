@@ -26,6 +26,7 @@ namespace DataAccessLayer {
         [StringLength(50)]
         public string Surname { get; set; }
         [Required]
+        [EmailAddress]
         [StringLength(50)]
         public string Email { get; set; }
         public int? Phone1 { get; set; }

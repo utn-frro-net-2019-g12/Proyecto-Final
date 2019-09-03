@@ -59,22 +59,25 @@ namespace WebPresentationMVC.Controllers {
 
             var account = new RegisterModel();
             account.Email = usuario.Email;
-            account.Password = "defaultpassword";
-            account.ConfirmPassword = "defaultpassword";
+            account.Password = "Default1?";
+            account.ConfirmPassword = "Default1?";
 
             var responseCreateAccount = GlobalApi.WebApiClient.PostAsJsonAsync("account/register", account).Result;
 
-            if (responseCreateAccount.IsSuccessStatusCode) {
-                var responseSaveUserData = GlobalApi.WebApiClient.PostAsJsonAsync("usuarios", usuario).Result;
+            if (!responseCreateAccount.IsSuccessStatusCode)
+            {
+                ModelState.AddModelErrorsFromResponse(responseCreateAccount); // May need this later
+            }
 
-                if (!responseSaveUserData.IsSuccessStatusCode) {
-                    ModelState.AddModelErrorsFromResponse(responseSaveUserData);
-                    return PartialView("_Create", usuario);
-                }
+            var responseSaveUserData = GlobalApi.WebApiClient.PostAsJsonAsync("usuarios", usuario).Result;
 
-            } else {
-                // Move this to an action filter
-                ModelState.AddModelErrorsFromResponse(responseCreateAccount);
+            if (!responseSaveUserData.IsSuccessStatusCode)
+            {
+                ModelState.AddModelErrorsFromResponse(responseSaveUserData);
+            }
+
+            if(!responseCreateAccount.IsSuccessStatusCode || !responseSaveUserData.IsSuccessStatusCode)
+            {
                 return PartialView("_Create", usuario);
             }
 

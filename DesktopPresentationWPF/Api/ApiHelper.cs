@@ -101,7 +101,7 @@ namespace DesktopPresentationWPF.Api
             }
             else
             {
-                ex.Data.Add(0, "No se recibieron detalles");
+                ex.Data.Add(0, "Contacte a soporte para mas detalles");
             }
 
             return ex;

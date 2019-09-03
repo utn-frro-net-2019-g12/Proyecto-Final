@@ -25,7 +25,7 @@ namespace DesktopPresentationWPF.ViewModels
         {
             base.OnViewLoaded(view);
             await LoadMaterias();
-            await LoadDepartamentos(); 
+            await LoadDepartamentos();
         }
 
         public async Task LoadMaterias()
@@ -171,7 +171,7 @@ namespace DesktopPresentationWPF.ViewModels
 
         public async void Delete()
         {
-            ErrorMessages.Clear();
+            ErrorMessages = null;
 
             try
             {
@@ -201,7 +201,7 @@ namespace DesktopPresentationWPF.ViewModels
 
         public async void Edit()
         {
-            ErrorMessages.Clear();
+            ErrorMessages = null;
 
             var materia = new WpfMateriaModel { Id = SelectedMateria.Id, Name = NameInForm, Year = YearInForm, IsElectiva = IsElectivaInForm,
                 DepartamentoId = SelectedDepartamento.Id, Departamento = SelectedDepartamento};

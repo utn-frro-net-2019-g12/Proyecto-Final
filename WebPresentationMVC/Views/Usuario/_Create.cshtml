@@ -10,6 +10,7 @@
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createForm" }))
 {
+    @Html.AntiForgeryToken()
     <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Crear Usuario</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
