@@ -16,7 +16,15 @@ namespace WebPresentationMVC.Controllers {
             _userSession = userSession;
         }
 
+        [AllowAnonymous]
         public ActionResult Index() {
+            ViewBag.Message = "Hello World.";
+
+            return View();
+        }
+
+        public ActionResult Dashboard()
+        {
             ViewBag.EmailAddress = _userSession.Username;
             ViewBag.AccessToken = _userSession.BearerToken;
 

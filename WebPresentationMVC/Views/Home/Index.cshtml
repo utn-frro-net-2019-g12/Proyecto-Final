@@ -1,12 +1,70 @@
 ﻿@{
-    ViewBag.Title = "Dashboard";
+    Layout = "";
+}
+@{
+    ViewBag.Title = "Index";
 }
 
-<div class="jumbotron">
-    <h1>Consultas</h1>
-    <p class="lead">Dashboard</p>
-    <p><a href="https://github.com/utn-frro-net-2019-g12/Proyecto-Final" class="btn btn-primary btn-lg">Github Repo &raquo;</a></p>
-    <p>
-        En construcción...
-    </p>
-</div>
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>@ViewBag.Title - Consultas</title>
+
+    @Styles.Render("~/Content/fontawesome")
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    @Styles.Render("~/Content/sb-2")
+
+    <style media="screen">
+        html,
+        body {
+        height: 100%;
+        width: 100%;
+        background-color: #333;
+        }
+
+        body {
+        background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("https://i.imgur.com/gWivjfG.png");
+        background-position: center;
+        background-size: cover;
+        }
+
+        .text {
+        max-width: 38rem;
+        }
+    </style>
+
+</head>
+
+<body class="text-center d-flex flex-column justify-content-center align-items-center">
+
+
+    <div class="mt-4 fixed-top text-light">
+        <a href="https://www.frro.utn.edu.ar/" class="alert-link text-light">Universidad Tecnológica Nacional</a>
+    </div>
+
+    <div class=" m-3 text card bg-light shadow-lg">
+        <div class="card-body">
+            <h1 class="card-title">AppName</h1>
+            <p class="card-text">
+                AppName fue pensado para facilitar y agilizar las consultas hacia profesores y acá va cualquier texto que rellene y quede lindo acerca de cualquier cosa que quieran.
+            </p>
+            <a href="@Url.Action("Login", "Account")" class="btn btn-lg btn-primary">Ingresar</a>
+        </div>
+    </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap-bundle")
+        <!-- Core plugin JavaScript-->
+        @Scripts.Render("~/bundles/jquery-easing")
+        <!-- Custom scripts for all pages-->
+        @Scripts.Render("~/bundles/sb-2")
+
+
+</body>

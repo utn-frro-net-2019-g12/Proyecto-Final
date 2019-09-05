@@ -69,7 +69,7 @@ namespace WebPresentationMVC.Controllers
 
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Dashboard", "Home");
         }
 
         [Authorize]

@@ -27,7 +27,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="@Url.Action("Index", "Home")">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="@Url.Action("Dashboard", "Home")">
                 <div class="sidebar-brand-icon">
                     <i class="fas fa-chalkboard-teacher"></i>
                 </div>
@@ -39,7 +39,7 @@
 
             <!-- Nav Item - Home -->
             <li class="nav-item active">
-                <a class="nav-link" href="@Url.Action("Index", "Home")">
+                <a class="nav-link" href="@Url.Action("Dashboard", "Home")">
                     <i class="fas fa-home"></i>
                     <span>Home</span>
                 </a>
@@ -193,7 +193,7 @@
                                     Opciones
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="@Url.Action("LogOut", "Account")">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Cerrar Sesión
                                 </a>
