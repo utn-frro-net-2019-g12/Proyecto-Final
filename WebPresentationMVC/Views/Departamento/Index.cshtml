@@ -156,15 +156,15 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
+                            <th class="d-none">@Html.DisplayNameFor(model => model.Id)</th>
+                            <th>@Html.DisplayNameFor(model => model.Name)</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
+                            <th class="d-none">@Html.DisplayNameFor(model => model.Id)</th>
+                            <th>@Html.DisplayNameFor(model => model.Name)</th>
                             <th>Acciones</th>
                         </tr>
                     </tfoot>
@@ -172,7 +172,7 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>
+                                <td class="d-none">
                                     @Html.DisplayFor(modelItem => item.Id)
                                 </td>
                                 <td>
