@@ -189,8 +189,7 @@
     <Content Include="Content\fontawesome.min.css" />
     <Content Include="Content\regular.css" />
     <Content Include="Content\regular.min.css" />
-    <Content Include="Content\sb-admin-2.css" />
-    <Content Include="Content\sb-admin-2.min.css" />
+    <Content Include="Content\sb-admin-2-custom.css" />
     <Content Include="Content\solid.css" />
     <Content Include="Content\solid.min.css" />
     <Content Include="Content\svg-with-js.css" />
@@ -226,6 +225,7 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Content\sb-admin-2-custom.css.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\fontawesome\all.js" />
     <Content Include="Scripts\fontawesome\all.min.js" />

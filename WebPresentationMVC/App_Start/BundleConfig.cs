@@ -39,7 +39,7 @@ namespace WebPresentationMVC
                       "~/Content/dataTables/dataTables.bootstrap4.min.css"));
 
             bundles.Add(new StyleBundle("~/Content/sb-2").Include(
-                      "~/Content/sb-admin-2.min.css"));
+                      "~/Content/sb-admin-2-custom.css"));
 
             bundles.Add(new StyleBundle("~/Content/fontawesome").Include(
                       "~/Content/fontawesome-all.min.css"));
