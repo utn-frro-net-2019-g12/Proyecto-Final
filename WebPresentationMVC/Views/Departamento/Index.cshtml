@@ -84,9 +84,11 @@
         /*------------------------------*/
 
         var idToDelete;
+        var toDeleteName = document.getElementById('toDeleteName');
 
         $('.actionDeleteDepartamento').on('click', function () {
             idToDelete = $(this).parent().siblings().first().text().trim();
+            toDeleteName.innerHTML = $(this).parent().siblings().first().next().text().trim();
         });
 
         $('#deleteConfirmButton').on('click', function () {
@@ -130,7 +132,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p> Seguro ? </p>
+                <p>¿Está seguro que desea eliminar a <span id="toDeleteName" class="badge badge-danger"></span> ? Esta acción no podrá deshacerse.</p>
             </div>
             <div class="modal-footer">
                 <button id="deleteConfirmButton" type="button" class="btn btn-danger">Eliminar</button>
@@ -143,8 +145,7 @@
 
 <!-- Index Departamento -->
 <div class="container-fluid">
-    <h1 class="h3 mb-2 text-gray-800">Editar Departamentos</h1>
-    <p class="mb-4">Las opciones aquí listadas son posibles debido a tu estado de administrador. Sé cuidadoso al modificar estas opciones (?</p>
+    <h1 class="h3 mb-4 text-gray-800">Administrar Departamentos</h1>
     <div class="row  mb-3">
         <div class="col col-auto d-flex">
             <button id="actionCreateDepartamento" class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalCreateDepartamento">Nuevo Departamento</button>
@@ -156,15 +157,23 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th class="d-none">@Html.DisplayNameFor(model => model.Id)</th>
-                            <th>@Html.DisplayNameFor(model => model.Name)</th>
+                            <th class="d-none">
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th class="d-none">@Html.DisplayNameFor(model => model.Id)</th>
-                            <th>@Html.DisplayNameFor(model => model.Name)</th>
+                            <th class="d-none">
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
                             <th>Acciones</th>
                         </tr>
                     </tfoot>

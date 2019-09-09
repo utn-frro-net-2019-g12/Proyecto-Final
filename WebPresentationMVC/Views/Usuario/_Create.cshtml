@@ -4,15 +4,11 @@
     ViewBag.Title = "_Create";
 }
 
-<!--
-    Partial View for "Create" Model on Index
--->
-
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "createForm" }))
 {
     @Html.AntiForgeryToken()
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Crear Usuario</h5>
+        <h5 class="modal-title">Crear Usuario</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -30,7 +26,7 @@
             </div>
             <div class="col-sm-6">
                 @*@Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "control-label" })*@
-                @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @placeholder = "Apellido", @class = "form-control" } })
+                @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @placeholder = "Apellido", @class = "form-control  form-control-user" } })
                 @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger m-0" })
             </div>
         </div>

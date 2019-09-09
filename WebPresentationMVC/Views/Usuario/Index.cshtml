@@ -92,9 +92,11 @@
         /*------------------------------*/
 
         var idToDelete;
+        var toDeleteName = document.getElementById('toDeleteName');
 
         $('.actionDeleteUser').on('click', function () {
             idToDelete = $(this).parent().siblings().first().text().trim();
+            toDeleteName.innerHTML = $(this).parent().siblings().first().next().text().trim() + " " + $(this).parent().siblings().first().next().next().text().trim();
         });
 
         $('#deleteConfirmButton').on('click', function () {
@@ -140,7 +142,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                  <p> Seguro ? </p>
+                    <p>¿Está seguro que desea eliminar a <span id="toDeleteName" class="badge badge-danger"></span> ? Esta acción no podrá deshacerse.</p>
                 </div>
                 <div class="modal-footer">
                     <button id="deleteConfirmButton" type="button" class="btn btn-danger">Eliminar</button>
@@ -154,8 +156,7 @@
 
 <div class="container-fluid">
     <!-- Index Usuario -->
-    <h1 class="h3 mb-2 text-gray-800">Editar Usuarios</h1>
-    <p class="mb-4">Las opciones aquí listadas son posibles debido a tu estado de administrador. Sé cuidadoso al modificar estas opciones (?</p>
+    <h1 class="h3 mb-4 text-gray-800">Administrar Usuarios</h1>
     <div class="row  mb-3">
         <div class="col col-auto d-flex">
             <button id="actionCreateUser" class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalCreateUser">Añadir Usuario</button>
@@ -177,13 +178,27 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th class="d-none">@Html.DisplayNameFor(model => model.Id)</th>
-                            <th>@Html.DisplayNameFor(model => model.Surname)</th>
-                            <th>@Html.DisplayNameFor(model => model.Firstname)</th>
-                            <th>@Html.DisplayNameFor(model => model.Username)</th>
-                            <th>@Html.DisplayNameFor(model => model.Legajo)</th>
-                            <th>@Html.DisplayNameFor(model => model.Matricula)</th>
-                            <th>@Html.DisplayNameFor(model => model.IsAdmin)</th>
+                            <th class="d-none">
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Surname)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Firstname)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Username)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Legajo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Matricula)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IsAdmin)
+                            </th>
                             <!--<th>[at]Html.DisplayNameFor(model => model.Phone1)</th>-->
                             <!--<th>[at]Html.DisplayNameFor(model => model.Phone2)</th>-->
                             <th>Acciones</th>
@@ -191,13 +206,27 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th class="d-none">@Html.DisplayNameFor(model => model.Id)</th>
-                            <th>@Html.DisplayNameFor(model => model.Surname)</th>
-                            <th>@Html.DisplayNameFor(model => model.Firstname)</th>
-                            <th>@Html.DisplayNameFor(model => model.Username)</th>
-                            <th>@Html.DisplayNameFor(model => model.Legajo)</th>
-                            <th>@Html.DisplayNameFor(model => model.Matricula)</th>
-                            <th>@Html.DisplayNameFor(model => model.IsAdmin)</th>
+                            <th class="d-none">
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Surname)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Firstname)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Username)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Legajo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Matricula)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IsAdmin)
+                            </th>
                             <!--<th>[at]Html.DisplayNameFor(model => model.Phone1)</th>-->
                             <!--<th>[at]Html.DisplayNameFor(model => model.Phone2)</th>-->
                             <th>Acciones</th>

@@ -24,19 +24,19 @@
     <style media="screen">
         html,
         body {
-        height: 100%;
-        width: 100%;
-        background-color: #333;
+            height: 100%;
+            width: 100%;
+            background-color: #333;
         }
 
         body {
-        background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("https://i.imgur.com/gWivjfG.png");
-        background-position: center;
-        background-size: cover;
+            background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("https://i.imgur.com/gWivjfG.png");
+            background-position: center;
+            background-size: cover;
         }
 
         .text {
-        max-width: 38rem;
+            max-width: 38rem;
         }
     </style>
 
@@ -44,14 +44,9 @@
 
 <body class="text-center d-flex flex-column justify-content-center align-items-center">
 
-
-    <div class="mt-4 fixed-top text-light">
-        <a href="https://www.frro.utn.edu.ar/" class="alert-link text-light">Universidad Tecnológica Nacional</a>
-    </div>
-
-    <div class=" m-3 text card bg-light shadow-lg">
+    <div class=" m-3 text card bg-light shadow">
         <div class="card-body">
-            <h1 class="card-title">AppName</h1>
+            <h1 class="card-title">Gestor de Consultas Académicas</h1>
             <p class="card-text">
                 AppName fue pensado para facilitar y agilizar las consultas hacia profesores y acá va cualquier texto que rellene y quede lindo acerca de cualquier cosa que quieran.
             </p>
@@ -59,12 +54,17 @@
         </div>
     </div>
 
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap-bundle")
-        <!-- Core plugin JavaScript-->
-        @Scripts.Render("~/bundles/jquery-easing")
-        <!-- Custom scripts for all pages-->
-        @Scripts.Render("~/bundles/sb-2")
+    <div class="m-4 fixed-bottom row justify-content-end">
+        <p class="h3"><a href="https://www.frro.utn.edu.ar/" class="badge badge-light">Universidad Tecnológica Nacional</a></p>
+    </div>
 
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap-bundle")
+    <!-- Core plugin JavaScript-->
+    @Scripts.Render("~/bundles/jquery-easing")
+    <!-- Custom scripts for all pages-->
+    @Scripts.Render("~/bundles/sb-2")
 
 </body>
+
+</html>
