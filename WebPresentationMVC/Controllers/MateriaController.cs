@@ -42,7 +42,7 @@ namespace WebPresentationMVC.Controllers {
             // Search what is TempData!
             TempData["SuccessMessage"] = "Deleted Sucessfully";
 
-            return RedirectToAction("Index");
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         // Create (Default)
@@ -52,7 +52,7 @@ namespace WebPresentationMVC.Controllers {
 
             var viewModel = new CreateMateriaViewModel(departamentos);
 
-            return View(viewModel);
+            return PartialView("_Create", viewModel);
         }
 
         // Create - Post Materia
@@ -68,10 +68,10 @@ namespace WebPresentationMVC.Controllers {
 
                 ModelState.AddModelErrorsFromResponse(response);
 
-                return View(viewModel);
+                return PartialView("_Create", viewModel);
             }
 
-            return RedirectToAction("Index");
+            return Content("OK");
         }
 
         // Edit - GET Materia/ID
@@ -93,8 +93,8 @@ namespace WebPresentationMVC.Controllers {
 
             var viewModel = new EditMateriaViewModel(departamentos, materia);
 
-            return View(viewModel);
-            // Edit for Partial View!
+            return PartialView("_Edit", viewModel);
+
         }
 
         // Edit - PUT Materia/ID (Secured)
@@ -110,11 +110,11 @@ namespace WebPresentationMVC.Controllers {
 
                 ModelState.AddModelErrorsFromResponse(response);
 
-                return View (viewModel);
+                return PartialView("_Edit", viewModel);
             }
 
-            return RedirectToAction("Index");
-            // Edit for Partial View!
+            return Content("OK");
+
         }
 
         // List of Departamentos - GET Departamentos

@@ -317,6 +317,8 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Materia\_Create.cshtml" />
+    <Content Include="Views\Materia\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Api\" />
