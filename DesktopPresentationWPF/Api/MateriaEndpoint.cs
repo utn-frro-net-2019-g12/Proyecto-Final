@@ -42,7 +42,9 @@ namespace DesktopPresentationWPF.Api
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception(response.ReasonPhrase);
+                    var ex = await _apiHelper.CreateApiErrorsException(response);
+
+                    throw ex;
                 }
             }
         }
@@ -66,7 +68,9 @@ namespace DesktopPresentationWPF.Api
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception(response.ReasonPhrase);
+                    var ex = await _apiHelper.CreateApiErrorsException(response);
+
+                    throw ex;
                 }
             }
         }

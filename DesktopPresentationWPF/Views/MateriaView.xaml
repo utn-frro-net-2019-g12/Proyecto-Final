@@ -67,15 +67,23 @@
         <Button x:Name="Delete" Content="Delete Selected"
             Grid.Column="1" Grid.Row="11"/>
 
-        <ListBox x:Name="ErrorMessages" Grid.Column="4" Grid.Row="2" 
-                   Foreground="Red" Margin="0 0 0 3"
-                   Visibility="{Binding AreErrorMessagesVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
+        <StackPanel Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" 
+                    Visibility="{Binding AreErrorMessagesVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
+                    VerticalAlignment="Center">
+            <ItemsControl ItemsSource="{Binding ErrorMessages}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" Foreground="Red"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
 
         <TextBlock Grid.Column="3" Grid.Row="3" Text="Nombre:" Foreground="#FFFFFF"/>
         <TextBox x:Name="NameInForm" Grid.Column="4" Grid.Row="3" Margin="10,0,0,3"/>
 
         <TextBlock Grid.Column="3" Grid.Row="4" Text="Año:" Foreground="#FFFFFF"/>
-        <TextBox x:Name="YearInForm" Grid.Column="4" Grid.Row="4" Margin="10,0,0,3"/>
+        <TextBox Text="{Binding YearInForm, Mode=TwoWay, TargetNullValue=''}"  Grid.Column="4" Grid.Row="4" Margin="10,0,0,3"/>
 
         <TextBlock Grid.Column="3" Grid.Row="5" Text="Departamento:" Foreground="#FFFFFF"/>
         <ComboBox ItemsSource="{Binding DepartamentosInForm}"

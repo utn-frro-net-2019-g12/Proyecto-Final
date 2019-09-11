@@ -89,11 +89,13 @@ namespace DesktopPresentationWPF.ViewModels
                 YearInForm = SelectedMateria?.Year;
                 IsElectivaInForm = SelectedMateria?.IsElectiva;
                 SelectedDepartamento = SelectedMateria?.Departamento;
+                ErrorMessages = null;
 
                 NotifyOfPropertyChange(() => NameInForm);
                 NotifyOfPropertyChange(() => YearInForm);
                 NotifyOfPropertyChange(() => IsElectivaInForm);
                 NotifyOfPropertyChange(() => SelectedDepartamento);
+                NotifyOfPropertyChange(() => ErrorMessages);
             }
         }
 

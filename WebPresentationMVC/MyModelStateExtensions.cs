@@ -20,9 +20,11 @@ namespace WebPresentationMVC
                 {
                     foreach (JArray messages in error)
                     {
+                        // This decouples the name sent by the api from the one that's used to add a modelError
+                        string errorKey = error.Name == "" ? "" : modelState.Keys.Where(e => e.Contains(error.Name.Substring(error.Name.IndexOf('.') + 1))).FirstOrDefault();
                         foreach (string message in messages)
                         {
-                            modelState.AddModelError(error.Name.Substring(error.Name.IndexOf('.') + 1), message.ToString());
+                            modelState.AddModelError(errorKey, message.ToString());
                         }
                     }
                 }
