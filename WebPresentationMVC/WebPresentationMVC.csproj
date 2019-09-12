@@ -327,12 +327,14 @@
     <Content Include="Views\Materia\_Edit.cshtml" />
     <Content Include="Views\HorarioConsulta\Index.cshtml" />
     <Content Include="Views\HorarioConsulta\Details.cshtml" />
-    <Content Include="Views\HorarioConsulta\_Create.cshtml" />
+    <Content Include="Views\HorarioConsulta\Create.cshtml" />
     <Content Include="Views\HorarioConsulta\_Edit.cshtml" />
     <Content Include="Views\Inscripcion\Index.cshtml" />
     <Content Include="Views\Inscripcion\Details.cshtml" />
     <Content Include="Views\Inscripcion\_Create.cshtml" />
     <Content Include="Views\Inscripcion\_Edit.cshtml" />
+    <Content Include="Views\HorarioConsulta\Edit.cshtml" />
+    <Content Include="Views\HorarioConsulta\_Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Api\" />
