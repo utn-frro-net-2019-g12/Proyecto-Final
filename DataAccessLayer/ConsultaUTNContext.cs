@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace DataAccessLayer {
     public class ConsultaUTNContext : DbContext {
@@ -6,7 +7,7 @@ namespace DataAccessLayer {
         public virtual DbSet<Departamento> Departamentos { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<HorarioConsulta> HorariosConsulta { get; set; }
-        //public virtual DbSet<Inscripcion> Inscripciones { get; set; }
+        public virtual DbSet<Inscripcion> Inscripciones { get; set; }
 
         public ConsultaUTNContext() : base("name=ConsultaUTNContext") {
             Database.SetInitializer<ConsultaUTNContext>(new ConsultaUTNInitializer());
@@ -15,5 +16,11 @@ namespace DataAccessLayer {
             this.Configuration.LazyLoadingEnabled = false;
             this.Configuration.ProxyCreationEnabled = false;
         }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder) {
+            // Prevent Circular Cascade Deletion
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+        }
+
     }
 }
