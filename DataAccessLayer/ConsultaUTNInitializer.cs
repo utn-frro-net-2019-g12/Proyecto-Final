@@ -53,15 +53,14 @@ namespace DataAccessLayer {
             unitOfWork.HorariosConsulta.InsertRange(horariosConsulta);
             unitOfWork.Complete();
 
-            /*
-            var inscripciones = new List<Inscripciones> {
-                new Inscripciones { Topic = "Derivadas", State = true, AlumnoId = usuarios[1].Id, Alumno = usuarios[1], HorarioConsultaId = horariosConsulta[1].Id, HorarioConsulta = horariosConsulta[1] },
-                State = Deleted or Still Active, Answer = Fast Response Optional for a Profersor, Observation = Also Optional
+            var inscripciones = new List<Inscripcion> {
+                new Inscripcion { Topic = "Derivadas", State = true, AlumnoId = usuarios[1].Id, Alumno = usuarios[1], HorarioConsultaId = horariosConsulta[1].Id, HorarioConsulta = horariosConsulta[1] },
+                // State = Deleted or Still Active, Answer = Fast Response Optional for a Profersor, Observation = Also Optional
             };
 
             unitOfWork.HorariosConsulta.InsertRange(horariosConsulta);
             unitOfWork.Complete();
-            */
+
 
         }
     }

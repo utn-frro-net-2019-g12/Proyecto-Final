@@ -98,7 +98,7 @@
             <!-- Nav Item - Usuarios -->
             <li class="nav-item">
                 <a class="nav-link" href="@Url.Action("Index", "Usuario")">
-                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-user-friends"></i>
                     <span>Administrar Usuarios</span>
                 </a>
             </li>
@@ -119,6 +119,26 @@
                         <a class="collapse-item" href="@Url.Action("Index", "Departamento")">
                             <i class="fas fa-fw fa-chart-area mr-2 text-gray-400"></i>
                             Administrar Deptos
+                        </a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - HorariosConsulta e Inscripciones -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseHCI" aria-expanded="true" aria-controls="collapseHCI">
+                    <i class="fas fa-file-alt fa-chart-area"></i>
+                    <span>Horarios e Inscripciones</span>
+                </a>
+                <div id="collapseHCI" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="@Url.Action("Index", "HorarioConsulta")">
+                            <i class="fas fa-file-alt fa-chart-area mr-2 text-gray-400"></i>
+                            Adm. Horarios
+                        </a>
+                        <a class="collapse-item" href="@Url.Action("Index", "Inscripcion")">
+                            <i class="fas fa-file-alt fa-chart-area mr-2 text-gray-400"></i>
+                            Adm. Inscripciones
                         </a>
                     </div>
                 </div>
