@@ -13,6 +13,7 @@ namespace DataAccessLayer {
         [Required]
         public bool? IsElectiva { get; set; }
 
+        [Required]
         [ForeignKey("Departamento")]
         public int? DepartamentoId { get; set; }
         public virtual Departamento Departamento { get; set; }
