@@ -35,6 +35,7 @@
                     data: $('#createForm').serialize(),
                     success: function (data) {
                         data != "OK" ? modalCreate(data, url) : window.location.reload();
+                        // Funciona el Create pero entra como si hubiese un error en el modal, no entra el Reload...
                     }
                 });
             });
@@ -95,12 +96,12 @@
 
         $('.actionDeleteHorarioConsulta').on('click', function () {
             idToDelete = $(this).parent().siblings().first().text().trim();
+            // No encuentra correctamente el ID a eliminar
             toDeleteName.innerHTML = $(this).parent().siblings().first().next().text().trim();
         });
 
         $('#deleteConfirmButton').on('click', function () {
-            // let url = `/HorarioConsulta/Delete/${idToDelete}`; --> Testing with 1
-            let url = `/HorarioConsulta/Delete/1`;
+            let url = `/HorarioConsulta/Delete/${idToDelete}`;
             $.ajax({
                 type: "POST",
                 url: url,
@@ -111,7 +112,7 @@
 }
 
 <!-- Modal Nuevo HorarioConsulta -->
-<div class="modal fade" id="modalHorarioConsulta" tabindex="-1" role="dialog" aria-labelledby="modalCreateHorarioConsulta" aria-hidden="true">
+<div class="modal fade" id="modalCreateHorarioConsulta" tabindex="-1" role="dialog" aria-labelledby="modalCreateHorarioConsulta" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" id="modalCreateHorarioConsultaContent">
             <p> Loading... </p>

@@ -9,18 +9,19 @@ namespace WebPresentationMVC.Models {
     public class MvcHorarioConsultaModel {
         public int Id { get; set; }
 
-        [DisplayName("Día de la semana")]
+        [DisplayName("Día de la Semana")]
         public string Weekday { get; set; }
 
-        [DisplayName("Hora de inicio")]
+        [DisplayName("Hora Inicio")]
         public string StartHour { get; set; }
 
-        [DisplayName("Hora de finalización")]
+        [DisplayName("Hora Finalización")]
         public string EndHour { get; set; }
 
         [DisplayName("Lugar")]
         public string Place { get; set; }
 
+        [DisplayName("Fecha Eliminación")]
         public string EliminationDate { get; set; }
 
         // Usuarios with Matricula != Null Only
