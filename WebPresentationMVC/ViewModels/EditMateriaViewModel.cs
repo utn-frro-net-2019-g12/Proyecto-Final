@@ -16,7 +16,9 @@ namespace WebPresentationMVC.ViewModels {
 
         public MvcMateriaModel Materia { get; set; }
         public int? VendorId { get; set; }
+        // VedorID???
         public IEnumerable<SelectListItem> DepartamentosList { get; set; }
+
         public void SetDepartamentosAsSelectList(IEnumerable<MvcDepartamentoModel> departamentos) {
             DepartamentosList = departamentos.Select(e => new SelectListItem() {
                 Value = e.Id.ToString(),
