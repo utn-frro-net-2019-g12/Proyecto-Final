@@ -149,6 +149,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\DepartamentoController.cs" />
+    <Compile Include="Controllers\HorarioConsultaController.cs" />
     <Compile Include="Models\IUserSession.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\Token.cs" />
@@ -323,6 +324,10 @@
     <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Materia\_Create.cshtml" />
     <Content Include="Views\Materia\_Edit.cshtml" />
+    <Content Include="Views\HorarioConsulta\Index.cshtml" />
+    <Content Include="Views\HorarioConsulta\Details.cshtml" />
+    <Content Include="Views\HorarioConsulta\_Create.cshtml" />
+    <Content Include="Views\HorarioConsulta\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Api\" />
