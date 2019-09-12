@@ -46,7 +46,7 @@ namespace DataAccessLayer {
 
             var horariosConsulta = new List<HorarioConsulta> {
                 new HorarioConsulta { Weekday = "Lunes", StartHour = "11:00", EndHour = "11:45", Place = "Aula 301", ProfesorId = usuarios[2].Id, Profesor = usuarios[2], MateriaId = materias[2].Id, Materia = materias[2] },
-                new HorarioConsulta { Weekday = "Martes", StartHour = "09:30", EndHour = "10:15", Place = "Sala de Profesores", ProfesorId = usuarios[2].Id, Profesor = usuarios[3], MateriaId = materias[1].Id, Materia = materias[1] },
+                new HorarioConsulta { Weekday = "Martes", StartHour = "09:30", EndHour = "10:15", Place = "Sala de Profesores", ProfesorId = usuarios[3].Id, Profesor = usuarios[3], MateriaId = materias[1].Id, Materia = materias[1] },
                 // EliminationDate Must be only added if the HorarioConsulta were marked as "Deleted"
             };
 
@@ -55,12 +55,12 @@ namespace DataAccessLayer {
 
             var inscripciones = new List<Inscripcion> {
                 new Inscripcion { Topic = "Derivadas", State = true, AlumnoId = usuarios[1].Id, Alumno = usuarios[1], HorarioConsultaId = horariosConsulta[1].Id, HorarioConsulta = horariosConsulta[1] },
+                new Inscripcion { Topic = "Axure", State = true, AlumnoId = usuarios[3].Id, Alumno = usuarios[3], HorarioConsultaId = horariosConsulta[0].Id, HorarioConsulta = horariosConsulta[0] },
                 // State = Deleted or Still Active, Answer = Fast Response Optional for a Profersor, Observation = Also Optional
             };
 
-            unitOfWork.HorariosConsulta.InsertRange(horariosConsulta);
+            unitOfWork.Inscripciones.InsertRange(inscripciones);
             unitOfWork.Complete();
-
 
         }
     }

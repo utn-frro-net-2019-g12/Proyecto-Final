@@ -124,7 +124,7 @@ namespace WebPresentationMVC.Controllers {
         }
 
         // List of Profesores - GET Profesores
-        // NOTA: Testear si funciona el LinQ para filtrar solo profesores
+        // NOTA: Testear si funciona el LinQ para filtrar solo Profesores
         public IEnumerable<MvcUsuarioModel> GetProfesores() {
             var response = GlobalApi.WebApiClient.GetAsync("usuarios").Result;
 
