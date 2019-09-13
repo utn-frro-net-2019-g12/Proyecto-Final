@@ -24,6 +24,7 @@ namespace WebPresentationMVC.Models {
         [DisplayName("Fecha Eliminación")]
         public string EliminationDate { get; set; }
 
+
         // Usuarios with Matricula != Null Only
         [ForeignKey("Profesor")]
         public int ProfesorId { get; set; }

@@ -63,7 +63,7 @@ namespace WebApi.Controllers {
                 _unitOfWork.HorariosConsulta.Insert(horarioConsulta);
                 _unitOfWork.Complete();
 
-                return CreatedAtRoute("PostHorioConsulta", new { id = horarioConsulta.Id }, horarioConsulta);
+                return CreatedAtRoute("PostHorarioConsulta", new { id = horarioConsulta.Id }, horarioConsulta);
             }
             catch (Exception ex) {
                 // Send the exception as parameter

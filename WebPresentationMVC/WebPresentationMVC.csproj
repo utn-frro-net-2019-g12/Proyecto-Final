@@ -331,10 +331,12 @@
     <Content Include="Views\HorarioConsulta\_Edit.cshtml" />
     <Content Include="Views\Inscripcion\Index.cshtml" />
     <Content Include="Views\Inscripcion\Details.cshtml" />
-    <Content Include="Views\Inscripcion\_Create.cshtml" />
-    <Content Include="Views\Inscripcion\_Edit.cshtml" />
+    <Content Include="Views\Inscripcion\Create.cshtml" />
+    <Content Include="Views\Inscripcion\Edit.cshtml" />
     <Content Include="Views\HorarioConsulta\Edit.cshtml" />
     <Content Include="Views\HorarioConsulta\_Create.cshtml" />
+    <Content Include="Views\Inscripcion\_Create.cshtml" />
+    <Content Include="Views\Inscripcion\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Api\" />

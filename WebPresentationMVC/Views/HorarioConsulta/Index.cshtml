@@ -157,6 +157,16 @@
         <div class="col col-auto d-flex">
             <button id="actionCreateHorarioConsulta" class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalCreateHorarioConsulta">Nuevo HorarioConsulta</button>
         </div>
+        <form class="col">
+            <div class="input-group">
+                <input type="text" class="form-control bg-light border border-primary p-4" placeholder="Buscar HorarioConsulta" aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
     <div class="card shadow mb-4">
         <div class="card-body">
@@ -242,7 +252,9 @@
                                     @Html.DisplayFor(modelItem => item.EliminationDate)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Profesor.Surname) <br /> @Html.DisplayFor(modelItem => item.Profesor.Firstname)
+                                    @Html.DisplayFor(modelItem => item.Profesor.Surname)
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.Profesor.Firstname)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Materia.Name)

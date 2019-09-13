@@ -16,6 +16,7 @@ namespace WebPresentationMVC.Models {
         [DisplayName("Estado")]
         public bool? State { get; set; }
 
+        [DisplayName("Respuesta Corta")]
         public string Answer { get; set; }
 
         [DisplayName("Observación")]
