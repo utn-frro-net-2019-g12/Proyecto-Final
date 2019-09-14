@@ -7,39 +7,83 @@ using System.Web;
 using System.Web.Mvc;
 using WebPresentationMVC.Models;
 using WebPresentationMVC.ViewModels;
+using WebPresentationMVC.Api;
+using System.Threading.Tasks;
 
 namespace WebPresentationMVC.Controllers {
 
     // Note: This Controller Communicates with ViewModels (CreateMateriaViewModel and EditMateriaViewModel)
     [Authorize]
     public class MateriaController : Controller {
+
+        private IMateriaEndpoint _materiaEndpoint;
+        private IDepartamentoEndpoint _departamentoEndpoint;
+
+        public MateriaController(IMateriaEndpoint materiaEndpoint, IDepartamentoEndpoint departamentoEndpoint)
+        {
+            _materiaEndpoint = materiaEndpoint;
+            _departamentoEndpoint = departamentoEndpoint;
+        }
+
         // Index - GET Materia
-        public ActionResult Index() {
-            var response = GlobalApi.WebApiClient.GetAsync("materias/departamento").Result;
+        public async Task<ActionResult> Index() {
+            try
+            {
+                var materias = await _materiaEndpoint.GetAll();
 
-            IEnumerable<MvcMateriaModel> materias = response.Content.ReadAsAsync<IEnumerable<MvcMateriaModel>>().Result;
-
-            return View(materias);
+                return View(materias);
+            }
+            catch(ApiErrorsException ex)
+            {
+                if(ex.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    return Content("No tiene acceso");
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(ex.StatusCode);
+                }
+            }
         }
 
         // Details - GET Materia/ID
-        public ActionResult Details(int id) {
-            var response = GlobalApi.WebApiClient.GetAsync("materias/" + id.ToString() + "/departamento").Result;
+        public async Task<ActionResult> Details(int id) {
+            try
+            {
+                var materia = await _materiaEndpoint.Get(id);
 
-            if (!response.IsSuccessStatusCode) {
-                return View(response.Content.ReadAsAsync<ModelState>().Result);
+                return View(materia);
             }
-
-            var materia = response.Content.ReadAsAsync<MvcMateriaModel>().Result;
-    
-            return View(materia);
+            catch (ApiErrorsException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    return Content("No tiene acceso");
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(ex.StatusCode);
+                }
+            }
         }
 
         // Delete - DELETE Materia/ID
-        public ActionResult Delete(int id) {
-            var response = GlobalApi.WebApiClient.DeleteAsync("materias/" + id.ToString()).Result;
+        public async Task<ActionResult> Delete(int id) {
+            try
+            {
+                await _materiaEndpoint.Delete(id);
+            }
+            catch (ApiErrorsException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    return Content("No tiene acceso");
+                }
 
-            // Search what is TempData!
+                // If Unauthorized status is returned, the user is automatically sent to the login page
+                return new HttpStatusCodeResult(ex.StatusCode);
+            }
+
             TempData["SuccessMessage"] = "Deleted Sucessfully";
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -47,8 +91,8 @@ namespace WebPresentationMVC.Controllers {
 
         // Create (Default)
         [HttpGet]
-        public ActionResult Create() {
-            var departamentos = GetDepartamentos();
+        public async Task<ActionResult> Create() {
+            var departamentos = await _departamentoEndpoint.GetAll();
 
             var viewModel = new CreateMateriaViewModel(departamentos);
 
@@ -57,18 +101,26 @@ namespace WebPresentationMVC.Controllers {
 
         // Create - Post Materia
         [HttpPost]
-        public ActionResult Create(CreateMateriaViewModel viewModel) {
-            var response = GlobalApi.WebApiClient.PostAsJsonAsync("materias", viewModel.Materia).Result;
+        public async Task<ActionResult> Create(CreateMateriaViewModel viewModel) {
+            try
+            {
+                await _materiaEndpoint.Post(viewModel.Materia);
+            }
+            catch (ApiErrorsException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    return Content("No tiene acceso");
+                }
+                if (ex.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    var departamentos = await _departamentoEndpoint.GetAll();
+                    viewModel.SetDepartamentosAsSelectList(departamentos);
 
-            // Move this to an action filter
-            if (!response.IsSuccessStatusCode) {
-                var departamentos = GetDepartamentos();
+                    ModelState.AddModelErrors(ex.Errors);
 
-                viewModel.SetDepartamentosAsSelectList(departamentos);
-
-                ModelState.AddModelErrorsFromResponse(response);
-
-                return PartialView("_Create", viewModel);
+                    return PartialView("_Create", viewModel);
+                }
             }
 
             return Content("OK");
@@ -76,52 +128,59 @@ namespace WebPresentationMVC.Controllers {
 
         // Edit - GET Materia/ID
         [HttpGet]
-        public ActionResult Edit(int? id) {
+        public async Task<ActionResult> Edit(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var response = GlobalApi.WebApiClient.GetAsync("materias/" + id).Result;
+            try
+            {
+                var materia = await _materiaEndpoint.Get(id);
 
-            if (!response.IsSuccessStatusCode) {
-                return HttpNotFound();
+                var departamentos = await _departamentoEndpoint.GetAll();
+
+                var viewModel = new EditMateriaViewModel(departamentos, materia);
+
+                return PartialView("_Edit", viewModel);
             }
+            catch (ApiErrorsException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    return Content("No tiene acceso");
+                }
 
-            MvcMateriaModel materia = response.Content.ReadAsAsync<MvcMateriaModel>().Result;
-
-            var departamentos = GetDepartamentos();
-
-            var viewModel = new EditMateriaViewModel(departamentos, materia);
-
-            return PartialView("_Edit", viewModel);
-
+                return new HttpStatusCodeResult(ex.StatusCode);
+            }
         }
 
         // Edit - PUT Materia/ID (Secured)
         [HttpPost]
         [ValidateAntiForgeryToken]
         // Bind(Include = "...") is used to avoid overposting attacks
-        public ActionResult Edit(EditMateriaViewModel viewModel) {
-            var response = GlobalApi.WebApiClient.PutAsJsonAsync("materias/" + viewModel.Materia.Id, viewModel.Materia).Result;
+        public async Task<ActionResult> Edit(EditMateriaViewModel viewModel) {
+            try
+            {
+                await _materiaEndpoint.Put(viewModel.Materia);
+            }
+            catch (ApiErrorsException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    return Content("No tiene acceso");
+                }
+                if (ex.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    var departamentos = await _departamentoEndpoint.GetAll();
+                    viewModel.SetDepartamentosAsSelectList(departamentos);
 
-            if (!response.IsSuccessStatusCode) {
-                var departamentos = GetDepartamentos();
-                viewModel.SetDepartamentosAsSelectList(departamentos);
+                    ModelState.AddModelErrors(ex.Errors);
 
-                ModelState.AddModelErrorsFromResponse(response);
-
-                return PartialView("_Edit", viewModel);
+                    return PartialView("_Edit", viewModel);
+                }
             }
 
             return Content("OK");
-
-        }
-
-        // List of Departamentos - GET Departamentos
-        public IEnumerable<MvcDepartamentoModel> GetDepartamentos() {
-            var response = GlobalApi.WebApiClient.GetAsync("departamentos").Result;
-
-            return response.Content.ReadAsAsync<IEnumerable<MvcDepartamentoModel>>().Result;
         }
     }
 }

@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using WebPresentationMVC.Api;
 using WebPresentationMVC.Models;
 
 namespace WebPresentationMVC.Controllers
@@ -14,6 +16,13 @@ namespace WebPresentationMVC.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private IAuthenticationEndpoint _authenticationEndpoint;
+
+        public AccountController(IAuthenticationEndpoint authenticationEndpoint)
+        {
+            _authenticationEndpoint = authenticationEndpoint;
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -27,29 +36,11 @@ namespace WebPresentationMVC.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Login(LoginModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginModel model, string returnUrl)
         {
-            var getTokenUrl = "http://localhost:2021/Token";
-
-            using (HttpClient httpClient = new HttpClient())
+            try
             {
-                HttpContent content = new FormUrlEncodedContent(new[]
-                {
-                    new KeyValuePair<string, string>("grant_type", "password"),
-                    new KeyValuePair<string, string>("username", model.EmailAddress),
-                    new KeyValuePair<string, string>("password", model.Password)
-                });
-
-                HttpResponseMessage response = httpClient.PostAsync(getTokenUrl, content).Result;
-
-                if(!response.IsSuccessStatusCode)
-                {
-                    ModelState.AddModelErrorsFromResponse(response);
-
-                    return View(model);
-                }
-
-                var token = response.Content.ReadAsAsync<Token>().Result;
+                var token = await _authenticationEndpoint.GetToken(model);
 
                 AuthenticationProperties options = new AuthenticationProperties();
 
@@ -67,9 +58,14 @@ namespace WebPresentationMVC.Controllers
 
                 Request.GetOwinContext().Authentication.SignIn(options, identity);
 
+                return RedirectToAction("Dashboard", "Home");
             }
+            catch(ApiErrorsException ex)
+            {
+                ModelState.AddModelErrors(ex.Errors);
 
-            return RedirectToAction("Dashboard", "Home");
+                return View(model);
+            }
         }
 
         [Authorize]

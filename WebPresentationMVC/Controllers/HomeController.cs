@@ -20,9 +20,15 @@ namespace WebPresentationMVC.Controllers {
         public ActionResult Index() {
             ViewBag.Message = "Hello World.";
 
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Dashboard");
+            }
+
             return View();
         }
 
+        [HttpGet]
         public ActionResult Dashboard()
         {
             ViewBag.EmailAddress = _userSession.Username;

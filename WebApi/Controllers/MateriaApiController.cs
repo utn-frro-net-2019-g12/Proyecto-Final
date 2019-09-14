@@ -11,9 +11,7 @@ using System.Web.Http.Results;
 using DataAccessLayer;
 
 namespace WebApi.Controllers {
-
-    
-
+    [Authorize]
     [RoutePrefix("api/materias")]
     public class MateriaApiController : ApiController {
         private readonly IUnitOfWork _unitOfWork;
@@ -39,6 +37,7 @@ namespace WebApi.Controllers {
         /// Retrives all materia intances
         /// </summary>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         [Route("departamento")]
         public IHttpActionResult GetMateriasWithDepto() {
             var materias = _unitOfWork.Materias.GetMateriasWithDepto();

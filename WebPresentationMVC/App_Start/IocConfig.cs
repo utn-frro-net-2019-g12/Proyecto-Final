@@ -22,10 +22,11 @@ namespace WebPresentationMVC.App_Start
 
             builder.RegisterAssemblyModules(typeof(MvcApplication).Assembly);
 
-            builder.RegisterModule<ApiModule>();
-
             builder.RegisterType<UserSession>().As<IUserSession>()
                 .InstancePerRequest();
+
+            builder.RegisterModule<ApiModule>();
+
             // May be unnecessary
             /*builder.RegisterModelBinders(typeof(MvcApplication).Assembly);
             builder.RegisterModelBinderProvider*/

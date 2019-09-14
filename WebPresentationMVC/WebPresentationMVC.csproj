@@ -141,6 +141,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\ApiException.cs" />
+    <Compile Include="Api\ApiHelper.cs" />
+    <Compile Include="Api\AuthenticationEndpoint.cs" />
+    <Compile Include="Api\DepartamentoEndpoint.cs" />
+    <Compile Include="Api\ErrorResponse.cs" />
+    <Compile Include="Api\IAccountEndpoint.cs" />
+    <Compile Include="Api\IApiHelper.cs" />
+    <Compile Include="Api\IDepartamentoEndpoint.cs" />
+    <Compile Include="Api\IEndpoint.cs" />
+    <Compile Include="Api\IMateriaEndpoint.cs" />
+    <Compile Include="Api\MateriaEndpoint.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IocConfig.cs" />
@@ -339,7 +350,6 @@
     <Content Include="Views\Inscripcion\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Api\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

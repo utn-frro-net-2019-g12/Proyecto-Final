@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using WebPresentationMVC.Api;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,14 @@ namespace WebPresentationMVC.IocModules
     {
         protected override void Load(ContainerBuilder builder)
         {
-
+            builder.RegisterType<ApiHelper>().As<IApiHelper>()
+                .SingleInstance(); // Singleton
+            builder.RegisterType<MateriaEndpoint>().As<IMateriaEndpoint>()
+                .InstancePerRequest();
+            builder.RegisterType<DepartamentoEndpoint>().As<IDepartamentoEndpoint>()
+                .InstancePerRequest();
+            builder.RegisterType<AuthenticationEndpoint>().As<IAuthenticationEndpoint>()
+                .InstancePerRequest();
         }
     }
 }
