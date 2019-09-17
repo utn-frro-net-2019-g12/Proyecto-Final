@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using WebPresentationMVC.Api;
 using WebPresentationMVC.Models;
 using WebPresentationMVC.ViewModels;
 
@@ -13,6 +15,13 @@ namespace WebPresentationMVC.Controllers {
     // Note: This Controller Communicates with ViewModels (CreateHorarioConsultaViewModel and EditHorarioConsultaViewModel)
     [Authorize]
     public class HorarioConsultaController : Controller {
+        private IMateriaEndpoint _materiaEndpoint;
+
+        public HorarioConsultaController(IMateriaEndpoint materiaEndpoint)
+        {
+            _materiaEndpoint = materiaEndpoint;
+        }
+
         // Index - GET HorarioConsulta
         public ActionResult Index() {
             var response = GlobalApi.WebApiClient.GetAsync("horariosConsulta").Result;
@@ -47,9 +56,9 @@ namespace WebPresentationMVC.Controllers {
 
         // Create (Default)
         [HttpGet]
-        public ActionResult Create() {
+        public async Task<ActionResult> Create() {
             var profesores = GetProfesores();
-            var materias = GetMaterias();
+            var materias = await _materiaEndpoint.GetAll(); // May throw an exception, so that is why the modal is not showing in nico user
 
             var viewModel = new CreateHorarioConsultaViewModel(profesores, materias);
 
@@ -58,13 +67,13 @@ namespace WebPresentationMVC.Controllers {
 
         // Create - Post HorarioConsulta
         [HttpPost]
-        public ActionResult Create(CreateHorarioConsultaViewModel viewModel) {
+        public async Task<ActionResult> Create(CreateHorarioConsultaViewModel viewModel) {
             var response = GlobalApi.WebApiClient.PostAsJsonAsync("horariosConsulta", viewModel.HorarioConsulta).Result;
 
             // Move this to an action filter
             if (!response.IsSuccessStatusCode) {
                 var profesores = GetProfesores();
-                var materias = GetMaterias();
+                var materias = await _materiaEndpoint.GetAll(); // May throw an exception, so that is why the modal is not showing in nico user
 
                 viewModel.SetProfesoresAsSelectList(profesores);
                 viewModel.SetMateriasAsSelectList(materias);
@@ -79,7 +88,7 @@ namespace WebPresentationMVC.Controllers {
 
         // Edit - GET HorarioConsulta/ID
         [HttpGet]
-        public ActionResult Edit(int? id) {
+        public async Task<ActionResult> Edit(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -93,7 +102,7 @@ namespace WebPresentationMVC.Controllers {
             MvcHorarioConsultaModel horarioConsulta = response.Content.ReadAsAsync<MvcHorarioConsultaModel>().Result;
 
             var profesores = GetProfesores();
-            var materias = GetMaterias();
+            var materias = await _materiaEndpoint.GetAll(); // May throw an exception, so that is why the modal is not showing in nico user
 
             var viewModel = new EditHorarioConsultaViewModel(profesores, materias, horarioConsulta);
 
@@ -105,12 +114,12 @@ namespace WebPresentationMVC.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         // Bind(Include = "...") is used to avoid overposting attacks
-        public ActionResult Edit(EditHorarioConsultaViewModel viewModel) {
+        public async Task<ActionResult> Edit(EditHorarioConsultaViewModel viewModel) {
             var response = GlobalApi.WebApiClient.PutAsJsonAsync("horariosConsulta/" + viewModel.HorarioConsulta.Id, viewModel.HorarioConsulta).Result;
 
             if (!response.IsSuccessStatusCode) {
                 var profesores = GetProfesores();
-                var materias = GetMaterias();
+                var materias = await _materiaEndpoint.GetAll(); // May throw an exception, so that is why the modal is not showing in nico user
                 viewModel.SetProfesoresAsSelectList(profesores);
                 viewModel.SetMateriasAsSelectList(materias);
 

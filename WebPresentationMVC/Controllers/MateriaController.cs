@@ -41,7 +41,7 @@ namespace WebPresentationMVC.Controllers {
                 }
                 else
                 {
-                    return new HttpStatusCodeResult(ex.StatusCode);
+                    return Content($"{ex.StatusCode.ToString()} Ha ocurrido un error. Por favor contacte a soporte");
                 }
             }
         }
@@ -62,7 +62,7 @@ namespace WebPresentationMVC.Controllers {
                 }
                 else
                 {
-                    return new HttpStatusCodeResult(ex.StatusCode);
+                    return Content($"{ex.StatusCode.ToString()} Ha ocurrido un error. Por favor contacte a soporte");
                 }
             }
         }
@@ -79,9 +79,10 @@ namespace WebPresentationMVC.Controllers {
                 {
                     return Content("No tiene acceso");
                 }
-
-                // If Unauthorized status is returned, the user is automatically sent to the login page
-                return new HttpStatusCodeResult(ex.StatusCode);
+                else
+                {
+                    return Content($"{ex.StatusCode.ToString()} Ha ocurrido un error. Por favor contacte a soporte");
+                }
             }
 
             TempData["SuccessMessage"] = "Deleted Sucessfully";
@@ -112,7 +113,7 @@ namespace WebPresentationMVC.Controllers {
                 {
                     return Content("No tiene acceso");
                 }
-                if (ex.StatusCode == HttpStatusCode.BadRequest)
+                else if (ex.StatusCode == HttpStatusCode.BadRequest)
                 {
                     var departamentos = await _departamentoEndpoint.GetAll();
                     viewModel.SetDepartamentosAsSelectList(departamentos);
@@ -120,6 +121,10 @@ namespace WebPresentationMVC.Controllers {
                     ModelState.AddModelErrors(ex.Errors);
 
                     return PartialView("_Create", viewModel);
+                }
+                else
+                {
+                    return Content($"{ex.StatusCode.ToString()} Ha ocurrido un error. Por favor contacte a soporte");
                 }
             }
 
@@ -149,8 +154,10 @@ namespace WebPresentationMVC.Controllers {
                 {
                     return Content("No tiene acceso");
                 }
-
-                return new HttpStatusCodeResult(ex.StatusCode);
+                else
+                {
+                    return Content($"{ex.StatusCode.ToString()} Ha ocurrido un error. Por favor contacte a soporte");
+                }
             }
         }
 
@@ -177,6 +184,10 @@ namespace WebPresentationMVC.Controllers {
                     ModelState.AddModelErrors(ex.Errors);
 
                     return PartialView("_Edit", viewModel);
+                }
+                else
+                {
+                    return Content($"{ex.StatusCode.ToString()} Ha ocurrido un error. Por favor contacte a soporte");
                 }
             }
 
