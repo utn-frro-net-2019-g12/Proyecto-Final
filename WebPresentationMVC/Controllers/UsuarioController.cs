@@ -7,39 +7,86 @@ using System.Web;
 using System.Web.Mvc;
 using WebPresentationMVC.Models;
 using WebPresentationMVC.ViewModels;
+using WebPresentationMVC.Api.Exceptions;
+using WebPresentationMVC.Api.Endpoints.Interfaces;
+using System.Threading.Tasks;
 
 namespace WebPresentationMVC.Controllers {
 
     [Authorize]
     public class UsuarioController : Controller {
+        private IAuthenticationEndpoint _authenticationEndpoint;
+        private IUsuarioEndpoint _usuarioEndpoint;
+
+        public UsuarioController(IUsuarioEndpoint usuarioEndpoint, IAuthenticationEndpoint authenticationEndpoint)
+        {
+            _authenticationEndpoint = authenticationEndpoint;
+            _usuarioEndpoint = usuarioEndpoint;
+        }
+
         // Index - GET Usuario
-        public ActionResult Index() {
-            var response = GlobalApi.WebApiClient.GetAsync("usuarios").Result;
+        public async Task<ActionResult> Index()
+        {
+            try
+            {
+                IEnumerable<MvcUsuarioModel> entities = await _usuarioEndpoint.GetAll();
 
-            IEnumerable<MvcUsuarioModel> usuarios = response.Content.ReadAsAsync<IEnumerable<MvcUsuarioModel>>().Result;
-
-            return View(usuarios);
+                return View(entities);
+            }
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+            }
         }
 
         // Details - GET Usuario/ID
-        public ActionResult Details(int id) {
-            var response = GlobalApi.WebApiClient.GetAsync("usuarios/" + id.ToString()).Result;
+        public async Task<ActionResult> Details(int id)
+        {
+            try
+            {
+                MvcUsuarioModel entity = await _usuarioEndpoint.Get(id);
 
-            if (!response.IsSuccessStatusCode) {
-                return View(response.Content.ReadAsAsync<ModelState>().Result);
+                return View(entity);
             }
-
-            var usuario = response.Content.ReadAsAsync<MvcUsuarioModel>().Result;
-    
-            return View(usuario);
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (NotFoundRequestException ex)
+            {
+                return Content($"{ex.StatusCode}: Elemento no encontrado");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+            }
         }
 
         // Delete - DELETE Usuario/ID
-        [HttpPost]
-        public ActionResult Delete(int id) {
-            var response = GlobalApi.WebApiClient.DeleteAsync("usuarios/" + id.ToString()).Result;
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                await _usuarioEndpoint.Delete(id);
+            }
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (NotFoundRequestException ex)
+            {
+                return Content($"{ex.StatusCode}: Elemento no encontrado");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+            }
 
-            // Search what is TempData!
+            // TempData may be used to check in the view whether the deletion was successful or not
             TempData["SuccessMessage"] = "Deleted Sucessfully";
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -55,30 +102,54 @@ namespace WebPresentationMVC.Controllers {
         // Create - POST Usuario
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(MvcUsuarioModel usuario) {
+        public async Task<ActionResult> Create(MvcUsuarioModel entity) {
 
-            var account = new RegisterModel();
-            account.Email = usuario.Email;
-            account.Password = "Default1?";
-            account.ConfirmPassword = "Default1?";
-
-            var responseCreateAccount = GlobalApi.WebApiClient.PostAsJsonAsync("account/register", account).Result;
-
-            if (!responseCreateAccount.IsSuccessStatusCode)
+            var account = new RegisterModel()
             {
-                ModelState.AddModelErrorsFromResponse(responseCreateAccount); // May need this later
+                Email = entity.Email,
+                Password = "Default1?",
+                ConfirmPassword = "Default1?"
+            };
+
+            bool errorBadRequest = false;
+
+            try
+            {
+                try
+                {
+                    await _authenticationEndpoint.RegisterAccount(account);
+                }
+                catch (BadRequestException ex)
+                {
+                    ModelState.AddModelErrors(ex.Errors);
+
+                    errorBadRequest = true;
+                }
+
+                try
+                {
+                    await _usuarioEndpoint.Post(entity);
+                }
+                catch (BadRequestException ex)
+                {
+                    ModelState.AddModelErrors(ex.Errors);
+
+                    errorBadRequest = true;
+                }
+            }
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
             }
 
-            var responseSaveUserData = GlobalApi.WebApiClient.PostAsJsonAsync("usuarios", usuario).Result;
 
-            if (!responseSaveUserData.IsSuccessStatusCode)
+            if (errorBadRequest)
             {
-                ModelState.AddModelErrorsFromResponse(responseSaveUserData);
-            }
-
-            if(!responseCreateAccount.IsSuccessStatusCode || !responseSaveUserData.IsSuccessStatusCode)
-            {
-                return PartialView("_Create", usuario);
+                return PartialView("_Create", entity);
             }
 
             return Content("OK");
@@ -86,36 +157,58 @@ namespace WebPresentationMVC.Controllers {
 
         // Edit - GET Usuario/ID
         [HttpGet]
-        public ActionResult Edit(int? id) {
-            if (id == null) {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        public async Task<ActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return Content("Debe incluir el id");
             }
 
-            var response = GlobalApi.WebApiClient.GetAsync("usuarios/" + id).Result;
+            try
+            {
+                MvcUsuarioModel entity = await _usuarioEndpoint.Get(id);
 
-            if (!response.IsSuccessStatusCode) {
-                return HttpNotFound();
+                return PartialView("_Edit", entity);
             }
-
-            MvcUsuarioModel usuario = response.Content.ReadAsAsync<MvcUsuarioModel>().Result;
-
-            return PartialView("_Edit", usuario);
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (NotFoundRequestException ex)
+            {
+                return Content($"{ex.StatusCode}: Elemento no encontrado");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+            }
         }
 
         // Edit - PUT Usuario/ID (Secured)
         [HttpPost]
         // Bind(Include = "...") is used to avoid overposting attacks
-        public ActionResult Edit([Bind(Include = "Id, Username, Legajo, Matricula, IsAdmin, Firstname, Surname, Email, Phone1, Phone2")]MvcUsuarioModel usuario) {
-            var response = GlobalApi.WebApiClient.PutAsJsonAsync("usuarios/" + usuario.Id, usuario).Result;
+        public async Task<ActionResult> Edit(MvcUsuarioModel entity)
+        {
+            try
+            {
+                await _usuarioEndpoint.Put(entity);
+            }
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (BadRequestException ex)
+            {
+                ModelState.AddModelErrors(ex.Errors);
 
-            if (!response.IsSuccessStatusCode) {
-                ModelState.AddModelErrorsFromResponse(response);
-
-                return PartialView("_Edit", usuario);
+                return PartialView("_Edit", entity);
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
             }
 
             return Content("OK");
         }
-        
     }
 }

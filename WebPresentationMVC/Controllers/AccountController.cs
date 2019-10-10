@@ -8,7 +8,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using WebPresentationMVC.Api;
+using WebPresentationMVC.Api.Endpoints.Interfaces;
+using WebPresentationMVC.Api.Exceptions;
 using WebPresentationMVC.Models;
 
 namespace WebPresentationMVC.Controllers

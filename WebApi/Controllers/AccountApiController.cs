@@ -18,7 +18,8 @@ using WebApi.Providers;
 using WebApi.Results;
 
 namespace WebApi.Controllers {
-    [Authorize]
+
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/Account")]
     public class AccountApiController : ApiController {
         private const string LocalLoginProvider = "Local";

@@ -7,7 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using WebPresentationMVC.Models;
 using WebPresentationMVC.ViewModels;
-using WebPresentationMVC.Api;
+using WebPresentationMVC.Api.Endpoints.Interfaces;
+using WebPresentationMVC.Api.Exceptions;
 using System.Threading.Tasks;
 
 namespace WebPresentationMVC.Controllers {
@@ -29,9 +30,9 @@ namespace WebPresentationMVC.Controllers {
         public async Task<ActionResult> Index() {
             try
             {
-                var materias = await _materiaEndpoint.GetAll();
+                IEnumerable<MvcMateriaModel> entities = await _materiaEndpoint.GetAll();
 
-                return View(materias);
+                return View(entities);
             }
             catch (UnauthorizedRequestException)
             {
@@ -47,13 +48,17 @@ namespace WebPresentationMVC.Controllers {
         public async Task<ActionResult> Details(int id) {
             try
             {
-                var materia = await _materiaEndpoint.Get(id);
+                MvcMateriaModel entity = await _materiaEndpoint.Get(id);
 
-                return View(materia);
+                return View(entity);
             }
             catch (UnauthorizedRequestException)
             {
                 return Content("No tiene acceso");
+            }
+            catch (NotFoundRequestException ex)
+            {
+                return Content($"{ex.StatusCode}: Elemento no encontrado");
             }
             catch (Exception ex)
             {
@@ -70,6 +75,10 @@ namespace WebPresentationMVC.Controllers {
             catch (UnauthorizedRequestException)
             {
                 return Content("No tiene acceso");
+            }
+            catch (NotFoundRequestException ex)
+            {
+                return Content($"{ex.StatusCode}: Elemento no encontrado");
             }
             catch (Exception ex)
             {
@@ -109,7 +118,7 @@ namespace WebPresentationMVC.Controllers {
             {
                 await _materiaEndpoint.Post(viewModel.Materia);
             }
-            catch (UnauthorizedRequestException ex)
+            catch (UnauthorizedRequestException)
             {
                 return Content("No tiene acceso");
             }
@@ -151,6 +160,10 @@ namespace WebPresentationMVC.Controllers {
             {
                 return Content("No tiene acceso");
             }
+            catch (NotFoundRequestException ex)
+            {
+                return Content($"{ex.StatusCode}: Elemento no encontrado");
+            }
             catch (Exception ex)
             {
                 return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
@@ -166,6 +179,10 @@ namespace WebPresentationMVC.Controllers {
             {
                 await _materiaEndpoint.Put(viewModel.Materia);
             }
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
             catch (BadRequestException ex)
             {
                 var departamentos = await _departamentoEndpoint.GetAll();
@@ -174,10 +191,6 @@ namespace WebPresentationMVC.Controllers {
                 ModelState.AddModelErrors(ex.Errors);
 
                 return PartialView("_Edit", viewModel);
-            }
-            catch (UnauthorizedRequestException)
-            {
-                return Content("No tiene acceso");
             }
             catch (Exception ex)
             {

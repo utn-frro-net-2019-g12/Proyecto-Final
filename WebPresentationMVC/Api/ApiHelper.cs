@@ -34,30 +34,5 @@ namespace WebPresentationMVC.Api
             _apiClient.DefaultRequestHeaders.Accept.Clear();
             _apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
-
-        public async Task<BadRequestException> CreateBadRequestException(HttpResponseMessage response)
-        {
-            var ex = new BadRequestException(response);
-
-            var result = await response.Content.ReadAsAsync<ErrorResponse>();
-            
-            if (result.ModelState != null)
-            {
-                foreach(KeyValuePair<string, string[]> item in result.ModelState)
-                {
-                    ex.Errors.Add(item.Key, string.Join(".", item.Value));
-                }
-            }
-            else if(result.Error_description != null)
-            {
-                ex.Errors.Add("", result.Error_description);
-            }
-            else
-            {
-                ex.Errors.Add("", "Contacte a soporte para mas detalles");
-            }
-
-            return ex;
-        }
     }
 }

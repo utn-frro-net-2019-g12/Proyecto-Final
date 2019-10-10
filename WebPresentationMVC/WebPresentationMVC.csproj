@@ -142,19 +142,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\ApiHelper.cs" />
-    <Compile Include="Api\AuthenticationEndpoint.cs" />
-    <Compile Include="Api\BadRequestException.cs" />
-    <Compile Include="Api\DepartamentoEndpoint.cs" />
+    <Compile Include="Api\Endpoints\Implementations\AuthenticationEndpoint.cs" />
+    <Compile Include="Api\Endpoints\Implementations\UsuarioEndpoint.cs" />
+    <Compile Include="Api\Endpoints\Interfaces\IUsuarioEndpoint.cs" />
+    <Compile Include="Api\Exceptions\BadRequestException.cs" />
+    <Compile Include="Api\Endpoints\Implementations\DepartamentoEndpoint.cs" />
     <Compile Include="Api\ErrorResponse.cs" />
+    <Compile Include="Api\Exceptions\NotFoundRequestException.cs" />
     <Compile Include="Api\HttpClientExtensions.cs" />
-    <Compile Include="Api\IAccountEndpoint.cs" />
-    <Compile Include="Api\IApiException.cs" />
+    <Compile Include="Api\Endpoints\Interfaces\IAccountEndpoint.cs" />
+    <Compile Include="Api\Exceptions\IApiException.cs" />
     <Compile Include="Api\IApiHelper.cs" />
-    <Compile Include="Api\IDepartamentoEndpoint.cs" />
-    <Compile Include="Api\IEndpoint.cs" />
-    <Compile Include="Api\IMateriaEndpoint.cs" />
-    <Compile Include="Api\MateriaEndpoint.cs" />
-    <Compile Include="Api\UnauthorizedRequestException.cs" />
+    <Compile Include="Api\Endpoints\Interfaces\IDepartamentoEndpoint.cs" />
+    <Compile Include="Api\Endpoints\Interfaces\IEndpoint.cs" />
+    <Compile Include="Api\Endpoints\Interfaces\IMateriaEndpoint.cs" />
+    <Compile Include="Api\Endpoints\Implementations\MateriaEndpoint.cs" />
+    <Compile Include="Api\Exceptions\UnauthorizedRequestException.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IocConfig.cs" />

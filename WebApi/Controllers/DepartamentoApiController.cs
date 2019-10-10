@@ -11,6 +11,8 @@ using System.Web.Http.Results;
 using DataAccessLayer;
 
 namespace WebApi.Controllers {
+
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/departamentos")]
     public class DepartamentoApiController : ApiController {
         private UnitOfWork _unitOfWork = new UnitOfWork(new ConsultaUTNContext());

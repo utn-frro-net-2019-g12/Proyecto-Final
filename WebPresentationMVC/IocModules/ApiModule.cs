@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using WebPresentationMVC.Api;
+using WebPresentationMVC.Api.Endpoints.Interfaces;
+using WebPresentationMVC.Api.Endpoints.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,8 @@ namespace WebPresentationMVC.IocModules
             builder.RegisterType<DepartamentoEndpoint>().As<IDepartamentoEndpoint>()
                 .InstancePerRequest();
             builder.RegisterType<AuthenticationEndpoint>().As<IAuthenticationEndpoint>()
+                .InstancePerRequest();
+            builder.RegisterType<UsuarioEndpoint>().As<IUsuarioEndpoint>()
                 .InstancePerRequest();
         }
     }

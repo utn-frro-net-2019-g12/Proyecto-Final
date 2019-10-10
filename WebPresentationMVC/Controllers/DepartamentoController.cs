@@ -6,41 +6,84 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using WebPresentationMVC.Models;
-using WebPresentationMVC.Api;
+using WebPresentationMVC.Api.Endpoints.Interfaces;
+using WebPresentationMVC.Api.Exceptions;
+using System.Threading.Tasks;
 
 namespace WebPresentationMVC.Controllers {
 
     [Authorize]
     public class DepartamentoController : Controller {
+        private IDepartamentoEndpoint _departamentoEndpoint;
+
+        public DepartamentoController(IDepartamentoEndpoint departamentoEndpoint)
+        {
+            _departamentoEndpoint = departamentoEndpoint;
+        }
 
         // Index - GET Departamento
-        public ActionResult Index() {
-            var response = GlobalApi.WebApiClient.GetAsync("departamentos/").Result;
+        public async Task<ActionResult> Index()
+        {
+            try
+            {
+                IEnumerable<MvcDepartamentoModel> entities = await _departamentoEndpoint.GetAll();
 
-            IEnumerable<MvcDepartamentoModel> departamentos = response.Content.ReadAsAsync<IEnumerable<MvcDepartamentoModel>>().Result;
-
-            return View(departamentos);
+                return View(entities);
+            }
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+            }
         }
 
         // Details - GET Departamento/ID
-        public ActionResult Details(int id) {
-            var response = GlobalApi.WebApiClient.GetAsync("departamentos/" + id.ToString()).Result;
+        public async Task<ActionResult> Details(int id)
+        {
+            try
+            {
+                MvcDepartamentoModel entity = await _departamentoEndpoint.Get(id);
 
-            if (!response.IsSuccessStatusCode) {
-                return View(response.Content.ReadAsAsync<ModelState>().Result);
+                return View(entity);
             }
-
-            var departamento = response.Content.ReadAsAsync<MvcDepartamentoModel>().Result;
-    
-            return View(departamento);
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (NotFoundRequestException ex)
+            {
+                return Content($"{ex.StatusCode}: Elemento no encontrado");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+            }
         }
 
         // Delete - DELETE Departamento/ID
-        [HttpPost]
-        public ActionResult Delete(int id) {
-            var response = GlobalApi.WebApiClient.DeleteAsync("departamentos/" + id.ToString()).Result;
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                await _departamentoEndpoint.Delete(id);
+            }
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (NotFoundRequestException ex)
+            {
+                return Content($"{ex.StatusCode}: Elemento no encontrado");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+            }
 
-            // Search what is TempData!
+            // TempData may be used to check in the view whether the deletion was successful or not
             TempData["SuccessMessage"] = "Deleted Sucessfully";
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -54,14 +97,24 @@ namespace WebPresentationMVC.Controllers {
 
         // Create - POST Departamento
         [HttpPost]
-        public ActionResult Create(MvcDepartamentoModel departamentos) {
-            var response = GlobalApi.WebApiClient.PostAsJsonAsync("departamentos", departamentos).Result;
+        public async Task<ActionResult> Create(MvcDepartamentoModel entity) {
+            try
+            {
+                await _departamentoEndpoint.Post(entity);
+            }
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (BadRequestException ex)
+            {
+                    ModelState.AddModelErrors(ex.Errors);
 
-            // Move this to an action filter
-            if (!response.IsSuccessStatusCode) {
-                ModelState.AddModelErrorsFromResponse(response);
-
-                return PartialView("_Create");
+                    return PartialView("_Create", entity);
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
             }
 
             return Content("OK");
@@ -69,33 +122,56 @@ namespace WebPresentationMVC.Controllers {
 
         // Edit - GET Departamento/ID
         [HttpGet]
-        public ActionResult Edit(int? id) {
-            if (id == null) {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        public async Task<ActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return Content("Debe incluir el id");
             }
 
-            var response = GlobalApi.WebApiClient.GetAsync("departamentos/" + id).Result;
+            try
+            {
+                MvcDepartamentoModel entity = await _departamentoEndpoint.Get(id);
 
-            if (!response.IsSuccessStatusCode) {
-                return HttpNotFound();
+                return PartialView("_Edit", entity);
             }
-
-            MvcDepartamentoModel departamento = response.Content.ReadAsAsync<MvcDepartamentoModel>().Result;
-
-            return PartialView("_Edit", departamento);
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (NotFoundRequestException ex)
+            {
+                return Content($"{ex.StatusCode}: Elemento no encontrado");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+            }
         }
 
         // Edit - PUT Departamento/ID (Secured)
         [HttpPost]
         [ValidateAntiForgeryToken]
         // Bind(Include = "...") is used to avoid overposting attacks
-        public ActionResult Edit([Bind(Include = "Id, Name")]MvcDepartamentoModel departamento) {
-            var response = GlobalApi.WebApiClient.PutAsJsonAsync("departamentos/" + departamento.Id, departamento).Result;
+        public async Task<ActionResult> Edit(MvcDepartamentoModel entity)
+        {
+            try
+            {
+                await _departamentoEndpoint.Put(entity);
+            }
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (BadRequestException ex)
+            {
+                ModelState.AddModelErrors(ex.Errors);
 
-            if (!response.IsSuccessStatusCode) {
-                ModelState.AddModelErrorsFromResponse(response);
-
-                return PartialView("_Edit", departamento);
+                return PartialView("_Edit", entity);
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
             }
 
             return Content("OK");

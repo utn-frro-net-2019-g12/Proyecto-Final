@@ -11,6 +11,5 @@ namespace WebPresentationMVC.Api
     public interface IApiHelper
     { 
         HttpClient ApiClient { get;}
-        Task<BadRequestException> CreateBadRequestException(HttpResponseMessage response);
     }
 }
