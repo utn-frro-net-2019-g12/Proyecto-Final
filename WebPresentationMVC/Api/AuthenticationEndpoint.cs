@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
@@ -28,18 +29,20 @@ namespace WebPresentationMVC.Api
 
             using(var response = await _apiHelper.ApiClient.PostAsync("/Token", content))
             {
-                if (response.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<Token>();
-
-                    return result;
+                    switch (response.StatusCode)
+                    {
+                        case HttpStatusCode.BadRequest:
+                            throw new BadRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
                 }
-                else
-                {
-                    var ex = await _apiHelper.CreateApiErrorsException(response);
 
-                    throw ex;
-                }
+                var result = await response.Content.ReadAsAsync<Token>();
+
+                return result;
             }
         }
     }

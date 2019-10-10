@@ -60,7 +60,7 @@ namespace WebPresentationMVC.Controllers
 
                 return RedirectToAction("Dashboard", "Home");
             }
-            catch(ApiErrorsException ex)
+            catch(BadRequestException ex)
             {
                 ModelState.AddModelErrors(ex.Errors);
 

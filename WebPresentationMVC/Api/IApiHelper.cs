@@ -11,7 +11,6 @@ namespace WebPresentationMVC.Api
     public interface IApiHelper
     { 
         HttpClient ApiClient { get;}
-        void AddTokenToHeaders(string token);
-        Task<ApiErrorsException> CreateApiErrorsException(HttpResponseMessage response);
+        Task<BadRequestException> CreateBadRequestException(HttpResponseMessage response);
     }
 }

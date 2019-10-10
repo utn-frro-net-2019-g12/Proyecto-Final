@@ -33,16 +33,13 @@ namespace WebPresentationMVC.Controllers {
 
                 return View(materias);
             }
-            catch(ApiErrorsException ex)
+            catch (UnauthorizedRequestException)
             {
-                if(ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    return Content("No tiene acceso");
-                }
-                else
-                {
-                    return Content($"{ex.StatusCode.ToString()} Ha ocurrido un error. Por favor contacte a soporte");
-                }
+                return Content("No tiene acceso");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
             }
         }
 
@@ -54,16 +51,13 @@ namespace WebPresentationMVC.Controllers {
 
                 return View(materia);
             }
-            catch (ApiErrorsException ex)
+            catch (UnauthorizedRequestException)
             {
-                if (ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    return Content("No tiene acceso");
-                }
-                else
-                {
-                    return Content($"{ex.StatusCode.ToString()} Ha ocurrido un error. Por favor contacte a soporte");
-                }
+                return Content("No tiene acceso");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
             }
         }
 
@@ -73,18 +67,16 @@ namespace WebPresentationMVC.Controllers {
             {
                 await _materiaEndpoint.Delete(id);
             }
-            catch (ApiErrorsException ex)
+            catch (UnauthorizedRequestException)
             {
-                if (ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    return Content("No tiene acceso");
-                }
-                else
-                {
-                    return Content($"{ex.StatusCode.ToString()} Ha ocurrido un error. Por favor contacte a soporte");
-                }
+                return Content("No tiene acceso");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
             }
 
+            // TempData may be used to check in the view whether the deletion was successful or not
             TempData["SuccessMessage"] = "Deleted Sucessfully";
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -93,11 +85,21 @@ namespace WebPresentationMVC.Controllers {
         // Create (Default)
         [HttpGet]
         public async Task<ActionResult> Create() {
-            var departamentos = await _departamentoEndpoint.GetAll();
+            try
+            {
+                var departamentos = await _departamentoEndpoint.GetAll();
+                var viewModel = new CreateMateriaViewModel(departamentos);
 
-            var viewModel = new CreateMateriaViewModel(departamentos);
-
-            return PartialView("_Create", viewModel);
+                return PartialView("_Create", viewModel);
+            }
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }      
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+            }
         }
 
         // Create - Post Materia
@@ -107,25 +109,22 @@ namespace WebPresentationMVC.Controllers {
             {
                 await _materiaEndpoint.Post(viewModel.Materia);
             }
-            catch (ApiErrorsException ex)
+            catch (UnauthorizedRequestException ex)
             {
-                if (ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    return Content("No tiene acceso");
-                }
-                else if (ex.StatusCode == HttpStatusCode.BadRequest)
-                {
+                return Content("No tiene acceso");
+            }
+            catch (BadRequestException ex)
+            {
                     var departamentos = await _departamentoEndpoint.GetAll();
                     viewModel.SetDepartamentosAsSelectList(departamentos);
 
                     ModelState.AddModelErrors(ex.Errors);
 
                     return PartialView("_Create", viewModel);
-                }
-                else
-                {
-                    return Content($"{ex.StatusCode.ToString()} Ha ocurrido un error. Por favor contacte a soporte");
-                }
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
             }
 
             return Content("OK");
@@ -135,7 +134,7 @@ namespace WebPresentationMVC.Controllers {
         [HttpGet]
         public async Task<ActionResult> Edit(int? id) {
             if (id == null) {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return Content("Debe incluir el id");
             }
 
             try
@@ -148,16 +147,13 @@ namespace WebPresentationMVC.Controllers {
 
                 return PartialView("_Edit", viewModel);
             }
-            catch (ApiErrorsException ex)
+            catch (UnauthorizedRequestException)
             {
-                if (ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    return Content("No tiene acceso");
-                }
-                else
-                {
-                    return Content($"{ex.StatusCode.ToString()} Ha ocurrido un error. Por favor contacte a soporte");
-                }
+                return Content("No tiene acceso");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
             }
         }
 
@@ -170,25 +166,22 @@ namespace WebPresentationMVC.Controllers {
             {
                 await _materiaEndpoint.Put(viewModel.Materia);
             }
-            catch (ApiErrorsException ex)
+            catch (BadRequestException ex)
             {
-                if (ex.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    return Content("No tiene acceso");
-                }
-                if (ex.StatusCode == HttpStatusCode.BadRequest)
-                {
-                    var departamentos = await _departamentoEndpoint.GetAll();
-                    viewModel.SetDepartamentosAsSelectList(departamentos);
+                var departamentos = await _departamentoEndpoint.GetAll();
+                viewModel.SetDepartamentosAsSelectList(departamentos);
 
-                    ModelState.AddModelErrors(ex.Errors);
+                ModelState.AddModelErrors(ex.Errors);
 
-                    return PartialView("_Edit", viewModel);
-                }
-                else
-                {
-                    return Content($"{ex.StatusCode.ToString()} Ha ocurrido un error. Por favor contacte a soporte");
-                }
+                return PartialView("_Edit", viewModel);
+            }
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
             }
 
             return Content("OK");

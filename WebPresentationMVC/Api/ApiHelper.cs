@@ -35,17 +35,9 @@ namespace WebPresentationMVC.Api
             _apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public void AddTokenToHeaders(string token)
+        public async Task<BadRequestException> CreateBadRequestException(HttpResponseMessage response)
         {
-            _apiClient.DefaultRequestHeaders.Clear();
-            _apiClient.DefaultRequestHeaders.Accept.Clear();
-            _apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            _apiClient.DefaultRequestHeaders.Add("Authorization", token);
-        }
-
-        public async Task<ApiErrorsException> CreateApiErrorsException(HttpResponseMessage response)
-        {
-            var ex = new ApiErrorsException(response);
+            var ex = new BadRequestException(response);
 
             var result = await response.Content.ReadAsAsync<ErrorResponse>();
             

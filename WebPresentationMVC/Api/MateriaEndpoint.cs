@@ -7,6 +7,7 @@ using WebPresentationMVC.Models;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.ComponentModel;
+using System.Net;
 
 namespace WebPresentationMVC.Api
 {
@@ -19,86 +20,108 @@ namespace WebPresentationMVC.Api
         {
             _apiHelper = apiHelper;
             _userSession = userSession;
-
-            // This happens per request
-            _apiHelper.AddTokenToHeaders(userSession.BearerToken);
         }
 
         public async Task<IEnumerable<MvcMateriaModel>> GetAll()
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/materias/departamento"))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/materias/departamento", x => SetToken(x)))
             {
-                if (response.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<IEnumerable<MvcMateriaModel>>();
-
-                    return result;
+                    switch (response.StatusCode)
+                    {
+                        case HttpStatusCode.Unauthorized:
+                            throw new UnauthorizedRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
                 }
-                else
-                {
-                    ApiErrorsException ex = await _apiHelper.CreateApiErrorsException(response);
 
-                    throw ex;
-                }
+                var result = await response.Content.ReadAsAsync<IEnumerable<MvcMateriaModel>>();
+
+                return result;
             }
         }
 
         public async Task<MvcMateriaModel> Get(object id)
         {
-            using(var response = await _apiHelper.ApiClient.GetAsync("api/materias/" + id))
+            using (var response = await _apiHelper.ApiClient.GetAsync("api/materias/" + id, x => SetToken(x)))
             {
-                if (response.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<MvcMateriaModel>();
-
-                    return result;
+                    switch (response.StatusCode) // Add NotFound Case
+                    {
+                        case HttpStatusCode.Unauthorized:
+                            throw new UnauthorizedRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
                 }
-                else
-                {
-                    ApiErrorsException ex = await _apiHelper.CreateApiErrorsException(response);
 
-                    throw ex;
-                }
+                var result = await response.Content.ReadAsAsync<MvcMateriaModel>();
+
+                return result;
             }
         }
 
         public async Task Delete(object id)
         {
-            using (HttpResponseMessage response= await _apiHelper.ApiClient.DeleteAsync("api/materias/" + id))
+            using (HttpResponseMessage response= await _apiHelper.ApiClient.DeleteAsync("api/materias/" + id, x => SetToken(x)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    var ex = await _apiHelper.CreateApiErrorsException(response);
-
-                    throw ex;
+                    switch (response.StatusCode)
+                    {
+                        case HttpStatusCode.Unauthorized:
+                            throw new UnauthorizedRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
                 }
             }
         }
 
         public async Task Post(MvcMateriaModel materia)
         {
-            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/materias", materia))
+            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/materias", materia, x => SetToken(x)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    ApiErrorsException ex = await _apiHelper.CreateApiErrorsException(response);
-
-                    throw ex; 
+                    switch (response.StatusCode)
+                    {
+                        case HttpStatusCode.Unauthorized:
+                            throw new UnauthorizedRequestException(response);
+                        case HttpStatusCode.BadRequest:
+                            throw new BadRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
                 }
             }
         }
 
         public async Task Put(MvcMateriaModel materia)
         {
-            using(var response = await _apiHelper.ApiClient.PutAsJsonAsync("api/materias/" + materia.Id, materia))
+            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync("api/materias/" + materia.Id, materia, x => SetToken(x)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    var ex = await _apiHelper.CreateApiErrorsException(response);
-
-                    throw ex;
+                    switch (response.StatusCode)
+                    {
+                        case HttpStatusCode.Unauthorized:
+                            throw new UnauthorizedRequestException(response);
+                        case HttpStatusCode.BadRequest:
+                            throw new BadRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
                 }
             }
+        }
+
+        private void SetToken(HttpRequestMessage r)
+        {
+            r.Headers.Authorization = AuthenticationHeaderValue.Parse(_userSession.BearerToken);
         }
     }
 }

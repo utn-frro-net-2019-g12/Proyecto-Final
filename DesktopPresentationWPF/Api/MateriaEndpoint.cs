@@ -29,7 +29,7 @@ namespace DesktopPresentationWPF.Api
 
                     return result;
                 }
-                else
+                else 
                 {
                     throw new Exception(response.ReasonPhrase);
                 }
