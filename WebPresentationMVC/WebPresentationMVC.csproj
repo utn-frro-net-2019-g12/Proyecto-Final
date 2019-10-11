@@ -53,6 +53,9 @@
     <Reference Include="Autofac.Integration.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.Mvc5.4.0.2\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.5\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
     </Reference>
@@ -141,25 +144,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\ApiHelper.cs" />
-    <Compile Include="Api\Endpoints\Implementations\AuthenticationEndpoint.cs" />
-    <Compile Include="Api\Endpoints\Implementations\HorarioConsulaEndpoint.cs" />
-    <Compile Include="Api\Endpoints\Implementations\UsuarioEndpoint.cs" />
-    <Compile Include="Api\Endpoints\Interfaces\IHorarioConsultaEndpoint.cs" />
-    <Compile Include="Api\Endpoints\Interfaces\IUsuarioEndpoint.cs" />
-    <Compile Include="Api\Exceptions\BadRequestException.cs" />
-    <Compile Include="Api\Endpoints\Implementations\DepartamentoEndpoint.cs" />
-    <Compile Include="Api\ErrorResponse.cs" />
-    <Compile Include="Api\Exceptions\NotFoundRequestException.cs" />
-    <Compile Include="Api\HttpClientExtensions.cs" />
-    <Compile Include="Api\Endpoints\Interfaces\IAccountEndpoint.cs" />
-    <Compile Include="Api\Exceptions\IApiException.cs" />
-    <Compile Include="Api\IApiHelper.cs" />
-    <Compile Include="Api\Endpoints\Interfaces\IDepartamentoEndpoint.cs" />
-    <Compile Include="Api\Endpoints\Interfaces\IEndpoint.cs" />
-    <Compile Include="Api\Endpoints\Interfaces\IMateriaEndpoint.cs" />
-    <Compile Include="Api\Endpoints\Implementations\MateriaEndpoint.cs" />
-    <Compile Include="Api\Exceptions\UnauthorizedRequestException.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IocConfig.cs" />
@@ -170,9 +154,8 @@
     <Compile Include="Controllers\DepartamentoController.cs" />
     <Compile Include="Controllers\InscripcionController.cs" />
     <Compile Include="Controllers\HorarioConsultaController.cs" />
+    <Compile Include="IocModules\AutoMapperModule.cs" />
     <Compile Include="Models\IUserSession.cs" />
-    <Compile Include="Models\RegisterModel.cs" />
-    <Compile Include="Models\Token.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\MateriaController.cs" />
     <Compile Include="Global.asax.cs">
@@ -180,7 +163,6 @@
     </Compile>
     <Compile Include="GlobalApi.cs" />
     <Compile Include="IocModules\ApiModule.cs" />
-    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\MvcInscripcionModel.cs" />
     <Compile Include="Models\MvcHorarioConsultaModel.cs" />
     <Compile Include="Models\MvcUsuarioModel.cs" />
@@ -368,6 +350,12 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Presentation.Library\Presentation.Library.csproj">
+      <Project>{d063afbb-fe07-4e15-925c-f17e5ed7b2b1}</Project>
+      <Name>Presentation.Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

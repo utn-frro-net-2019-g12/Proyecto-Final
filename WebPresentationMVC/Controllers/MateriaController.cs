@@ -7,9 +7,11 @@ using System.Web;
 using System.Web.Mvc;
 using WebPresentationMVC.Models;
 using WebPresentationMVC.ViewModels;
-using WebPresentationMVC.Api.Endpoints.Interfaces;
-using WebPresentationMVC.Api.Exceptions;
+using Presentation.Library.Models;
+using Presentation.Library.Api.Endpoints.Interfaces;
+using Presentation.Library.Api.Exceptions;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace WebPresentationMVC.Controllers {
 
@@ -19,20 +21,27 @@ namespace WebPresentationMVC.Controllers {
 
         private IMateriaEndpoint _materiaEndpoint;
         private IDepartamentoEndpoint _departamentoEndpoint;
+        private IUserSession _userSession;
+        private IMapper _mapper;
 
-        public MateriaController(IMateriaEndpoint materiaEndpoint, IDepartamentoEndpoint departamentoEndpoint)
+        public MateriaController(IMateriaEndpoint materiaEndpoint, IDepartamentoEndpoint departamentoEndpoint
+            , IUserSession userSession, IMapper mapper)
         {
             _materiaEndpoint = materiaEndpoint;
             _departamentoEndpoint = departamentoEndpoint;
+            _userSession = userSession;
+            _mapper = mapper;
         }
 
         // Index - GET Materia
         public async Task<ActionResult> Index() {
             try
             {
-                IEnumerable<MvcMateriaModel> entities = await _materiaEndpoint.GetAll();
+                IEnumerable<Materia> entities = await _materiaEndpoint.GetAll(_userSession.BearerToken);
 
-                return View(entities);
+                var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(entities);
+
+                return View(materias);
             }
             catch (UnauthorizedRequestException)
             {
@@ -48,9 +57,11 @@ namespace WebPresentationMVC.Controllers {
         public async Task<ActionResult> Details(int id) {
             try
             {
-                MvcMateriaModel entity = await _materiaEndpoint.Get(id);
+                Materia entity = await _materiaEndpoint.Get(id, _userSession.BearerToken);
 
-                return View(entity);
+                var materia = _mapper.Map<MvcMateriaModel>(entity);
+
+                return View(materia);
             }
             catch (UnauthorizedRequestException)
             {
@@ -70,7 +81,7 @@ namespace WebPresentationMVC.Controllers {
         public async Task<ActionResult> Delete(int id) {
             try
             {
-                await _materiaEndpoint.Delete(id);
+                await _materiaEndpoint.Delete(id, _userSession.BearerToken);
             }
             catch (UnauthorizedRequestException)
             {
@@ -96,7 +107,10 @@ namespace WebPresentationMVC.Controllers {
         public async Task<ActionResult> Create() {
             try
             {
-                var departamentos = await _departamentoEndpoint.GetAll();
+                IEnumerable<Departamento> entities = await _departamentoEndpoint.GetAll(_userSession.BearerToken);
+
+                var departamentos = _mapper.Map<IEnumerable<MvcDepartamentoModel>>(entities);
+
                 var viewModel = new CreateMateriaViewModel(departamentos);
 
                 return PartialView("_Create", viewModel);
@@ -116,7 +130,9 @@ namespace WebPresentationMVC.Controllers {
         public async Task<ActionResult> Create(CreateMateriaViewModel viewModel) {
             try
             {
-                await _materiaEndpoint.Post(viewModel.Materia);
+                var entity = _mapper.Map<Materia>(viewModel.Materia);
+
+                await _materiaEndpoint.Post(entity, _userSession.BearerToken);
             }
             catch (UnauthorizedRequestException)
             {
@@ -124,7 +140,10 @@ namespace WebPresentationMVC.Controllers {
             }
             catch (BadRequestException ex)
             {
-                    var departamentos = await _departamentoEndpoint.GetAll();
+                    IEnumerable<Departamento> entities = await _departamentoEndpoint.GetAll(_userSession.BearerToken);
+
+                    var departamentos = _mapper.Map< IEnumerable<MvcDepartamentoModel>>(entities);
+
                     viewModel.SetDepartamentosAsSelectList(departamentos);
 
                     ModelState.AddModelErrors(ex.Errors);
@@ -148,11 +167,15 @@ namespace WebPresentationMVC.Controllers {
 
             try
             {
-                var materia = await _materiaEndpoint.Get(id);
+                var materiaTask = _materiaEndpoint.Get(id, _userSession.BearerToken);
+                var departamentosTask = _departamentoEndpoint.GetAll(_userSession.BearerToken);
 
-                var departamentos = await _departamentoEndpoint.GetAll();
+                await Task.WhenAll(materiaTask, departamentosTask);
 
-                var viewModel = new EditMateriaViewModel(departamentos, materia);
+                var materia = _mapper.Map<MvcMateriaModel>(materiaTask.Result);
+                var departamentos = _mapper.Map<IEnumerable<MvcDepartamentoModel>>(departamentosTask.Result);
+
+                var viewModel = new EditMateriaViewModel(materia: materia, departamentos: departamentos);
 
                 return PartialView("_Edit", viewModel);
             }
@@ -177,7 +200,9 @@ namespace WebPresentationMVC.Controllers {
         public async Task<ActionResult> Edit(EditMateriaViewModel viewModel) {
             try
             {
-                await _materiaEndpoint.Put(viewModel.Materia);
+                var entity = _mapper.Map<Materia>(viewModel.Materia);
+
+                await _materiaEndpoint.Put(entity, _userSession.BearerToken);
             }
             catch (UnauthorizedRequestException)
             {
@@ -185,7 +210,9 @@ namespace WebPresentationMVC.Controllers {
             }
             catch (BadRequestException ex)
             {
-                var departamentos = await _departamentoEndpoint.GetAll();
+                IEnumerable<Departamento> entities = await _departamentoEndpoint.GetAll(_userSession.BearerToken);
+
+                var departamentos = _mapper.Map< IEnumerable<MvcDepartamentoModel>>(entities);
                 viewModel.SetDepartamentosAsSelectList(departamentos);
 
                 ModelState.AddModelErrors(ex.Errors);

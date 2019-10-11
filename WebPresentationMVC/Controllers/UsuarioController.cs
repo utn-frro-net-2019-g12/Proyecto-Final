@@ -7,9 +7,11 @@ using System.Web;
 using System.Web.Mvc;
 using WebPresentationMVC.Models;
 using WebPresentationMVC.ViewModels;
-using WebPresentationMVC.Api.Exceptions;
-using WebPresentationMVC.Api.Endpoints.Interfaces;
+using Presentation.Library.Models;
+using Presentation.Library.Api.Exceptions;
+using Presentation.Library.Api.Endpoints.Interfaces;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace WebPresentationMVC.Controllers {
 
@@ -17,11 +19,16 @@ namespace WebPresentationMVC.Controllers {
     public class UsuarioController : Controller {
         private IAuthenticationEndpoint _authenticationEndpoint;
         private IUsuarioEndpoint _usuarioEndpoint;
+        private IUserSession _userSession;
+        private IMapper _mapper;
 
-        public UsuarioController(IUsuarioEndpoint usuarioEndpoint, IAuthenticationEndpoint authenticationEndpoint)
+        public UsuarioController(IUsuarioEndpoint usuarioEndpoint, IAuthenticationEndpoint authenticationEndpoint
+            , IUserSession userSession, IMapper mapper)
         {
             _authenticationEndpoint = authenticationEndpoint;
             _usuarioEndpoint = usuarioEndpoint;
+            _userSession = userSession;
+            _mapper = mapper;
         }
 
         // Index - GET Usuario
@@ -29,9 +36,11 @@ namespace WebPresentationMVC.Controllers {
         {
             try
             {
-                IEnumerable<MvcUsuarioModel> entities = await _usuarioEndpoint.GetAll();
+                IEnumerable<Usuario> entities = await _usuarioEndpoint.GetAll(_userSession.BearerToken);
 
-                return View(entities);
+                var usuarios = _mapper.Map<IEnumerable<MvcUsuarioModel>>(entities);
+
+                return View(usuarios);
             }
             catch (UnauthorizedRequestException)
             {
@@ -48,9 +57,11 @@ namespace WebPresentationMVC.Controllers {
         {
             try
             {
-                MvcUsuarioModel entity = await _usuarioEndpoint.Get(id);
+                Usuario entity = await _usuarioEndpoint.Get(id, _userSession.BearerToken);
 
-                return View(entity);
+                var usuario = _mapper.Map<MvcUsuarioModel>(entity);
+
+                return View(usuario);
             }
             catch (UnauthorizedRequestException)
             {
@@ -71,7 +82,7 @@ namespace WebPresentationMVC.Controllers {
         {
             try
             {
-                await _usuarioEndpoint.Delete(id);
+                await _usuarioEndpoint.Delete(id, _userSession.BearerToken);
             }
             catch (UnauthorizedRequestException)
             {
@@ -102,11 +113,11 @@ namespace WebPresentationMVC.Controllers {
         // Create - POST Usuario
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(MvcUsuarioModel entity) {
+        public async Task<ActionResult> Create(MvcUsuarioModel usuario) {
 
             var account = new RegisterModel()
             {
-                Email = entity.Email,
+                Email = usuario.Email,
                 Password = "Default1?",
                 ConfirmPassword = "Default1?"
             };
@@ -117,7 +128,7 @@ namespace WebPresentationMVC.Controllers {
             {
                 try
                 {
-                    await _authenticationEndpoint.RegisterAccount(account);
+                    await _authenticationEndpoint.RegisterAccount(account, _userSession.BearerToken);
                 }
                 catch (BadRequestException ex)
                 {
@@ -128,7 +139,9 @@ namespace WebPresentationMVC.Controllers {
 
                 try
                 {
-                    await _usuarioEndpoint.Post(entity);
+                    var entity = _mapper.Map<Usuario>(usuario);
+
+                    await _usuarioEndpoint.Post(entity, _userSession.BearerToken);
                 }
                 catch (BadRequestException ex)
                 {
@@ -149,7 +162,7 @@ namespace WebPresentationMVC.Controllers {
 
             if (errorBadRequest)
             {
-                return PartialView("_Create", entity);
+                return PartialView("_Create", usuario);
             }
 
             return Content("OK");
@@ -166,9 +179,11 @@ namespace WebPresentationMVC.Controllers {
 
             try
             {
-                MvcUsuarioModel entity = await _usuarioEndpoint.Get(id);
+                Usuario entity = await _usuarioEndpoint.Get(id, _userSession.BearerToken);
 
-                return PartialView("_Edit", entity);
+                var usuario = _mapper.Map<MvcUsuarioModel>(entity);
+
+                return PartialView("_Edit",usuario);
             }
             catch (UnauthorizedRequestException)
             {
@@ -187,11 +202,13 @@ namespace WebPresentationMVC.Controllers {
         // Edit - PUT Usuario/ID (Secured)
         [HttpPost]
         // Bind(Include = "...") is used to avoid overposting attacks
-        public async Task<ActionResult> Edit(MvcUsuarioModel entity)
+        public async Task<ActionResult> Edit(MvcUsuarioModel usuario)
         {
             try
             {
-                await _usuarioEndpoint.Put(entity);
+                var entity = _mapper.Map<Usuario>(usuario);
+
+                await _usuarioEndpoint.Put(entity, _userSession.BearerToken);
             }
             catch (UnauthorizedRequestException)
             {
@@ -201,7 +218,7 @@ namespace WebPresentationMVC.Controllers {
             {
                 ModelState.AddModelErrors(ex.Errors);
 
-                return PartialView("_Edit", entity);
+                return PartialView("_Edit", usuario);
             }
             catch (Exception ex)
             {

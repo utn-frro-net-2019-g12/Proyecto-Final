@@ -1,7 +1,7 @@
 ﻿using Autofac;
-using WebPresentationMVC.Api;
-using WebPresentationMVC.Api.Endpoints.Interfaces;
-using WebPresentationMVC.Api.Endpoints.Implementations;
+using Presentation.Library.Api;
+using Presentation.Library.Api.Endpoints.Interfaces;
+using Presentation.Library.Api.Endpoints.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;

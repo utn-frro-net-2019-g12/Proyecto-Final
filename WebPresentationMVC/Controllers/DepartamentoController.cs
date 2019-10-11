@@ -6,19 +6,25 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using WebPresentationMVC.Models;
-using WebPresentationMVC.Api.Endpoints.Interfaces;
-using WebPresentationMVC.Api.Exceptions;
+using Presentation.Library.Models;
+using Presentation.Library.Api.Endpoints.Interfaces;
+using Presentation.Library.Api.Exceptions;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace WebPresentationMVC.Controllers {
 
     [Authorize]
     public class DepartamentoController : Controller {
         private IDepartamentoEndpoint _departamentoEndpoint;
+        private IUserSession _userSession;
+        private IMapper _mapper;
 
-        public DepartamentoController(IDepartamentoEndpoint departamentoEndpoint)
+        public DepartamentoController(IDepartamentoEndpoint departamentoEndpoint, IUserSession userSession, IMapper mapper)
         {
             _departamentoEndpoint = departamentoEndpoint;
+            _userSession = userSession;
+            _mapper = mapper;
         }
 
         // Index - GET Departamento
@@ -26,9 +32,11 @@ namespace WebPresentationMVC.Controllers {
         {
             try
             {
-                IEnumerable<MvcDepartamentoModel> entities = await _departamentoEndpoint.GetAll();
+                IEnumerable<Departamento> entities = await _departamentoEndpoint.GetAll(_userSession.BearerToken);
 
-                return View(entities);
+                var departamentos = _mapper.Map<IEnumerable<MvcDepartamentoModel>>(entities);
+
+                return View(departamentos);
             }
             catch (UnauthorizedRequestException)
             {
@@ -45,9 +53,11 @@ namespace WebPresentationMVC.Controllers {
         {
             try
             {
-                MvcDepartamentoModel entity = await _departamentoEndpoint.Get(id);
+                Departamento entity = await _departamentoEndpoint.Get(id, _userSession.BearerToken);
 
-                return View(entity);
+                var departamento = _mapper.Map<MvcDepartamentoModel>(entity);
+
+                return View(departamento);
             }
             catch (UnauthorizedRequestException)
             {
@@ -68,7 +78,7 @@ namespace WebPresentationMVC.Controllers {
         {
             try
             {
-                await _departamentoEndpoint.Delete(id);
+                await _departamentoEndpoint.Delete(id, _userSession.BearerToken);
             }
             catch (UnauthorizedRequestException)
             {
@@ -97,10 +107,12 @@ namespace WebPresentationMVC.Controllers {
 
         // Create - POST Departamento
         [HttpPost]
-        public async Task<ActionResult> Create(MvcDepartamentoModel entity) {
+        public async Task<ActionResult> Create(MvcDepartamentoModel departamento) {
             try
             {
-                await _departamentoEndpoint.Post(entity);
+                var entity = _mapper.Map<Departamento>(departamento);
+
+                await _departamentoEndpoint.Post(entity, _userSession.BearerToken);
             }
             catch (UnauthorizedRequestException)
             {
@@ -110,7 +122,7 @@ namespace WebPresentationMVC.Controllers {
             {
                     ModelState.AddModelErrors(ex.Errors);
 
-                    return PartialView("_Create", entity);
+                    return PartialView("_Create", departamento);
             }
             catch (Exception ex)
             {
@@ -131,9 +143,11 @@ namespace WebPresentationMVC.Controllers {
 
             try
             {
-                MvcDepartamentoModel entity = await _departamentoEndpoint.Get(id);
+                Departamento entity = await _departamentoEndpoint.Get(id, _userSession.BearerToken);
 
-                return PartialView("_Edit", entity);
+                var departamento = _mapper.Map<MvcDepartamentoModel>(entity);
+
+                return PartialView("_Edit", departamento);
             }
             catch (UnauthorizedRequestException)
             {
@@ -153,11 +167,13 @@ namespace WebPresentationMVC.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         // Bind(Include = "...") is used to avoid overposting attacks
-        public async Task<ActionResult> Edit(MvcDepartamentoModel entity)
+        public async Task<ActionResult> Edit(MvcDepartamentoModel departamento)
         {
             try
             {
-                await _departamentoEndpoint.Put(entity);
+                var entity = _mapper.Map<Departamento>(departamento);
+
+                await _departamentoEndpoint.Put(entity, _userSession.BearerToken);
             }
             catch (UnauthorizedRequestException)
             {
@@ -167,7 +183,7 @@ namespace WebPresentationMVC.Controllers {
             {
                 ModelState.AddModelErrors(ex.Errors);
 
-                return PartialView("_Edit", entity);
+                return PartialView("_Edit", departamento);
             }
             catch (Exception ex)
             {

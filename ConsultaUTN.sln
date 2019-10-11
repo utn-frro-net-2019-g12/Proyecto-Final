@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopPresentationWPF", "DesktopPresentationWPF\DesktopPresentationWPF.csproj", "{9D530180-78CE-45A8-AC1B-E6AAEFFDEEB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Library", "Presentation.Library\Presentation.Library.csproj", "{D063AFBB-FE07-4E15-925C-F17E5ED7B2B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{9D530180-78CE-45A8-AC1B-E6AAEFFDEEB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D530180-78CE-45A8-AC1B-E6AAEFFDEEB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D530180-78CE-45A8-AC1B-E6AAEFFDEEB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D063AFBB-FE07-4E15-925C-F17E5ED7B2B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D063AFBB-FE07-4E15-925C-F17E5ED7B2B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D063AFBB-FE07-4E15-925C-F17E5ED7B2B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D063AFBB-FE07-4E15-925C-F17E5ED7B2B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

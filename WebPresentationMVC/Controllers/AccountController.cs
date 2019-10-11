@@ -8,8 +8,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using WebPresentationMVC.Api.Endpoints.Interfaces;
-using WebPresentationMVC.Api.Exceptions;
+using Presentation.Library.Models;
+using Presentation.Library.Api.Endpoints.Interfaces;
+using Presentation.Library.Api.Exceptions;
 using WebPresentationMVC.Models;
 
 namespace WebPresentationMVC.Controllers
@@ -18,10 +19,12 @@ namespace WebPresentationMVC.Controllers
     public class AccountController : Controller
     {
         private IAuthenticationEndpoint _authenticationEndpoint;
+        private IUserSession _userSession;
 
-        public AccountController(IAuthenticationEndpoint authenticationEndpoint)
+        public AccountController(IAuthenticationEndpoint authenticationEndpoint, IUserSession userSession)
         {
             _authenticationEndpoint = authenticationEndpoint;
+            _userSession = userSession;
         }
 
         [HttpGet]

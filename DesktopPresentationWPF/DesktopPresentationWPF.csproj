@@ -172,6 +172,11 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Presentation.Library\Presentation.Library.csproj">
+      <Project>{d063afbb-fe07-4e15-925c-f17e5ed7b2b1}</Project>
+      <Name>Presentation.Library</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

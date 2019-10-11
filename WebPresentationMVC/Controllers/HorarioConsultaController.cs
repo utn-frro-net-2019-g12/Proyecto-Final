@@ -6,10 +6,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using WebPresentationMVC.Api.Endpoints.Interfaces;
-using WebPresentationMVC.Api.Exceptions;
+using Presentation.Library.Models;
+using Presentation.Library.Api.Endpoints.Interfaces;
+using Presentation.Library.Api.Exceptions;
 using WebPresentationMVC.Models;
 using WebPresentationMVC.ViewModels;
+using AutoMapper;
 
 namespace WebPresentationMVC.Controllers {
 
@@ -19,13 +21,18 @@ namespace WebPresentationMVC.Controllers {
         private IMateriaEndpoint _materiaEndpoint;
         private IUsuarioEndpoint _usuarioEndpoint;
         private IHorarioConsultaEndpoint _horarioConsultaEndpoint;
+        private IUserSession _userSession;
+        private IMapper _mapper;
 
-        public HorarioConsultaController(IMateriaEndpoint materiaEndpoint, IUsuarioEndpoint usuarioEndpoint, IHorarioConsultaEndpoint horarioConsultaEndpoint)
+
+        public HorarioConsultaController(IMateriaEndpoint materiaEndpoint, IUsuarioEndpoint usuarioEndpoint
+            , IHorarioConsultaEndpoint horarioConsultaEndpoint, IUserSession userSession, IMapper mapper)
         {
             _materiaEndpoint = materiaEndpoint;
             _usuarioEndpoint = usuarioEndpoint;
             _horarioConsultaEndpoint = horarioConsultaEndpoint;
-
+            _userSession = userSession;
+            _mapper = mapper;
         }
 
         // Index - GET HorarioConsulta
@@ -33,9 +40,11 @@ namespace WebPresentationMVC.Controllers {
         {
             try
             {
-                IEnumerable<MvcHorarioConsultaModel> entities = await _horarioConsultaEndpoint.GetAll();
+                IEnumerable<HorarioConsulta> entities = await _horarioConsultaEndpoint.GetAll(_userSession.BearerToken);
 
-                return View(entities);
+                var horariosConsulta = _mapper.Map<IEnumerable<MvcHorarioConsultaModel>>(entities);
+
+                return View(horariosConsulta);
             }
             catch (UnauthorizedRequestException)
             {
@@ -52,9 +61,11 @@ namespace WebPresentationMVC.Controllers {
         {
             try
             {
-                MvcHorarioConsultaModel entity = await _horarioConsultaEndpoint.Get(id);
+                HorarioConsulta entity = await _horarioConsultaEndpoint.Get(id, _userSession.BearerToken);
 
-                return View(entity);
+                var horarioConsulta = _mapper.Map<MvcHorarioConsultaModel>(entity);
+
+                return View(horarioConsulta);
             }
             catch (UnauthorizedRequestException)
             {
@@ -75,7 +86,7 @@ namespace WebPresentationMVC.Controllers {
         {
             try
             {
-                await _horarioConsultaEndpoint.Delete(id);
+                await _horarioConsultaEndpoint.Delete(id, _userSession.BearerToken);
             }
             catch (UnauthorizedRequestException)
             {
@@ -102,12 +113,15 @@ namespace WebPresentationMVC.Controllers {
             try
             {
                 // These tasks run in parallel until they are awaited by Task.WhenAll method
-                var profesoresTask = _usuarioEndpoint.GetAll();
-                var materiasTask = _materiaEndpoint.GetAll();
+                var profesoresTask = _usuarioEndpoint.GetAll(_userSession.BearerToken);
+                var materiasTask = _materiaEndpoint.GetAll(_userSession.BearerToken);
 
                 await Task.WhenAll(profesoresTask, materiasTask);
 
-                var viewModel = new CreateHorarioConsultaViewModel(profesoresTask.Result, materiasTask.Result);
+                var profesores = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: profesoresTask.Result);
+                var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(source: materiasTask.Result);
+
+                var viewModel = new CreateHorarioConsultaViewModel(materias: materias, profesores: profesores);
 
                 return PartialView("_Create", viewModel);
             }
@@ -126,7 +140,9 @@ namespace WebPresentationMVC.Controllers {
         public async Task<ActionResult> Create(CreateHorarioConsultaViewModel viewModel) {
             try
             {
-                await _horarioConsultaEndpoint.Post(viewModel.HorarioConsulta);
+                var entity = _mapper.Map<HorarioConsulta>(source: viewModel.HorarioConsulta);
+
+                await _horarioConsultaEndpoint.Post(entity, _userSession.BearerToken);
             }
             catch (UnauthorizedRequestException)
             {
@@ -134,13 +150,16 @@ namespace WebPresentationMVC.Controllers {
             }
             catch (BadRequestException ex)
             {
-                var profesoresTask = _usuarioEndpoint.GetAll();
-                var materiasTask = _materiaEndpoint.GetAll(); 
+                var profesoresTask = _usuarioEndpoint.GetAll(_userSession.BearerToken);
+                var materiasTask = _materiaEndpoint.GetAll(_userSession.BearerToken); 
 
                 await Task.WhenAll(profesoresTask, materiasTask);
 
-                viewModel.SetProfesoresAsSelectList(profesoresTask.Result);
-                viewModel.SetMateriasAsSelectList(materiasTask.Result);
+                var profesores = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: profesoresTask.Result);
+                var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(source: materiasTask.Result);
+
+                viewModel.SetProfesoresAsSelectList(profesores);
+                viewModel.SetMateriasAsSelectList(materias);
 
                 ModelState.AddModelErrors(ex.Errors);
 
@@ -164,13 +183,17 @@ namespace WebPresentationMVC.Controllers {
 
             try
             {
-                var horarioConsultaTask = _horarioConsultaEndpoint.Get(id);
-                var profesoresTask = _usuarioEndpoint.GetAll();
-                var materiasTask = _materiaEndpoint.GetAll();
+                var horarioConsultaTask = _horarioConsultaEndpoint.Get(id, _userSession.BearerToken);
+                var profesoresTask = _usuarioEndpoint.GetAll(_userSession.BearerToken);
+                var materiasTask = _materiaEndpoint.GetAll(_userSession.BearerToken);
 
                 await Task.WhenAll(horarioConsultaTask, profesoresTask, materiasTask);
 
-                var viewModel = new EditHorarioConsultaViewModel(profesoresTask.Result, materiasTask.Result, horarioConsultaTask.Result);
+                var horarioConsulta = _mapper.Map<MvcHorarioConsultaModel>(source: horarioConsultaTask.Result);
+                var profesores = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: profesoresTask.Result);
+                var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(source: materiasTask.Result);
+
+                var viewModel = new EditHorarioConsultaViewModel(horarioConsulta: horarioConsulta ,materias: materias, profesores: profesores);
 
                 return PartialView("_Edit", viewModel);
             }
@@ -195,7 +218,9 @@ namespace WebPresentationMVC.Controllers {
         public async Task<ActionResult> Edit(EditHorarioConsultaViewModel viewModel) {
             try
             {
-                await _horarioConsultaEndpoint.Put(viewModel.HorarioConsulta);
+                var entity = _mapper.Map<HorarioConsulta>(viewModel.HorarioConsulta);
+
+                await _horarioConsultaEndpoint.Put(entity, _userSession.BearerToken);
             }
             catch (UnauthorizedRequestException)
             {
@@ -203,13 +228,16 @@ namespace WebPresentationMVC.Controllers {
             }
             catch (BadRequestException ex)
             {
-                var profesoresTask = _usuarioEndpoint.GetAll();
-                var materiasTask = _materiaEndpoint.GetAll(); // May throw an exception, so that is why the modal is not showing in nico user
+                var profesoresTask = _usuarioEndpoint.GetAll(_userSession.BearerToken);
+                var materiasTask = _materiaEndpoint.GetAll(_userSession.BearerToken); // May throw an exception, so that is why the modal is not showing in nico user
 
                 await Task.WhenAll(profesoresTask, materiasTask);
 
-                viewModel.SetProfesoresAsSelectList(profesoresTask.Result);
-                viewModel.SetMateriasAsSelectList(materiasTask.Result);
+                var profesores = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: profesoresTask.Result);
+                var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(source: materiasTask.Result);
+
+                viewModel.SetProfesoresAsSelectList(profesores);
+                viewModel.SetMateriasAsSelectList(materias);
 
                 ModelState.AddModelErrors(ex.Errors);
 

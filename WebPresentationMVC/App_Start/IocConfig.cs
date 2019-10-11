@@ -26,6 +26,7 @@ namespace WebPresentationMVC.App_Start
                 .InstancePerRequest();
 
             builder.RegisterModule<ApiModule>();
+            builder.RegisterModule<AutoMapperModule>();
 
             // May be unnecessary
             /*builder.RegisterModelBinders(typeof(MvcApplication).Assembly);
