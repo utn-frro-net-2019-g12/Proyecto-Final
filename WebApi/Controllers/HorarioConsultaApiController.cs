@@ -11,6 +11,8 @@ using System.Web.Http.Results;
 using DataAccessLayer;
 
 namespace WebApi.Controllers {
+
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/horariosConsulta")]
     public class HorarioConsultaApiController : ApiController {
         private readonly IUnitOfWork _unitOfWork;

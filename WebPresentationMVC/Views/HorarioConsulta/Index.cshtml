@@ -96,7 +96,6 @@
 
         $('.actionDeleteHorarioConsulta').on('click', function () {
             idToDelete = $(this).parent().siblings().first().text().trim();
-            // No encuentra correctamente el ID a eliminar
             toDeleteName.innerHTML = $(this).parent().siblings().first().next().text().trim();
         });
 
@@ -264,7 +263,7 @@
                                         <i class="fas fa-edit fa-xs m-1"></i>
                                         <p class="d-none d-md-block m-0">Editar</p>
                                     </button>
-                                    <button data-toggle="modal" data-target="#modalDeleteHorarioConsulta" class="actionDeleteHorarioCosulta d-flex align-items-center btn btn-danger m-1">
+                                    <button data-toggle="modal" data-target="#modalDeleteHorarioConsulta" class="actionDeleteHorarioConsulta d-flex align-items-center btn btn-danger m-1">
                                         <i class="fas fa-trash-alt fa-xs m-1"></i>
                                         <p class="d-none d-md-block m-0">Eliminar</p>
                                     </button>

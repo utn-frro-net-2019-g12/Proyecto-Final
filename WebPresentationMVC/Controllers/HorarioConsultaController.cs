@@ -17,39 +17,80 @@ namespace WebPresentationMVC.Controllers {
     [Authorize]
     public class HorarioConsultaController : Controller {
         private IMateriaEndpoint _materiaEndpoint;
+        private IUsuarioEndpoint _usuarioEndpoint;
+        private IHorarioConsultaEndpoint _horarioConsultaEndpoint;
 
-        public HorarioConsultaController(IMateriaEndpoint materiaEndpoint)
+        public HorarioConsultaController(IMateriaEndpoint materiaEndpoint, IUsuarioEndpoint usuarioEndpoint, IHorarioConsultaEndpoint horarioConsultaEndpoint)
         {
             _materiaEndpoint = materiaEndpoint;
+            _usuarioEndpoint = usuarioEndpoint;
+            _horarioConsultaEndpoint = horarioConsultaEndpoint;
+
         }
 
         // Index - GET HorarioConsulta
-        public ActionResult Index() {
-            var response = GlobalApi.WebApiClient.GetAsync("horariosConsulta").Result;
+        public async Task<ActionResult> Index()
+        {
+            try
+            {
+                IEnumerable<MvcHorarioConsultaModel> entities = await _horarioConsultaEndpoint.GetAll();
 
-            IEnumerable<MvcHorarioConsultaModel> horariosConsulta = response.Content.ReadAsAsync<IEnumerable<MvcHorarioConsultaModel>>().Result;
-
-            return View(horariosConsulta);
+                return View(entities);
+            }
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+            }
         }
 
         // Details - GET HorarioConsulta/ID
-        public ActionResult Details(int id) {
-            var response = GlobalApi.WebApiClient.GetAsync("horariosConsulta/" + id.ToString()).Result;
+        public async Task<ActionResult> Details(int id)
+        {
+            try
+            {
+                MvcHorarioConsultaModel entity = await _horarioConsultaEndpoint.Get(id);
 
-            if (!response.IsSuccessStatusCode) {
-                return View(response.Content.ReadAsAsync<ModelState>().Result);
+                return View(entity);
             }
-
-            var horarioConsulta = response.Content.ReadAsAsync<MvcHorarioConsultaModel>().Result;
-
-            return View(horarioConsulta);
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (NotFoundRequestException ex)
+            {
+                return Content($"{ex.StatusCode}: Elemento no encontrado");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+            }
         }
 
         // Delete - DELETE HorarioConsulta/ID
-        public ActionResult Delete(int id) {
-            var response = GlobalApi.WebApiClient.DeleteAsync("horariosConsulta/" + id.ToString()).Result;
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                await _horarioConsultaEndpoint.Delete(id);
+            }
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (NotFoundRequestException ex)
+            {
+                return Content($"{ex.StatusCode}: Elemento no encontrado");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+            }
 
-            // Search what is TempData!
+            // TempData may be used to check in the view whether the deletion was successful or not
             TempData["SuccessMessage"] = "Deleted Sucessfully";
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);
@@ -58,30 +99,56 @@ namespace WebPresentationMVC.Controllers {
         // Create (Default)
         [HttpGet]
         public async Task<ActionResult> Create() {
-            var profesores = GetProfesores();
-            var materias = await _materiaEndpoint.GetAll(); // May throw an exception, so that is why the modal is not showing in nico user
+            try
+            {
+                // These tasks run in parallel until they are awaited by Task.WhenAll method
+                var profesoresTask = _usuarioEndpoint.GetAll();
+                var materiasTask = _materiaEndpoint.GetAll();
 
-            var viewModel = new CreateHorarioConsultaViewModel(profesores, materias);
+                await Task.WhenAll(profesoresTask, materiasTask);
 
-            return PartialView("_Create", viewModel);
+                var viewModel = new CreateHorarioConsultaViewModel(profesoresTask.Result, materiasTask.Result);
+
+                return PartialView("_Create", viewModel);
+            }
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+            }
         }
 
         // Create - Post HorarioConsulta
         [HttpPost]
         public async Task<ActionResult> Create(CreateHorarioConsultaViewModel viewModel) {
-            var response = GlobalApi.WebApiClient.PostAsJsonAsync("horariosConsulta", viewModel.HorarioConsulta).Result;
+            try
+            {
+                await _horarioConsultaEndpoint.Post(viewModel.HorarioConsulta);
+            }
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (BadRequestException ex)
+            {
+                var profesoresTask = _usuarioEndpoint.GetAll();
+                var materiasTask = _materiaEndpoint.GetAll(); 
 
-            // Move this to an action filter
-            if (!response.IsSuccessStatusCode) {
-                var profesores = GetProfesores();
-                var materias = await _materiaEndpoint.GetAll(); // May throw an exception, so that is why the modal is not showing in nico user
+                await Task.WhenAll(profesoresTask, materiasTask);
 
-                viewModel.SetProfesoresAsSelectList(profesores);
-                viewModel.SetMateriasAsSelectList(materias);
+                viewModel.SetProfesoresAsSelectList(profesoresTask.Result);
+                viewModel.SetMateriasAsSelectList(materiasTask.Result);
 
-                ModelState.AddModelErrorsFromResponse(response);
+                ModelState.AddModelErrors(ex.Errors);
 
                 return PartialView("_Create", viewModel);
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
             }
 
             return Content("OK");
@@ -90,25 +157,35 @@ namespace WebPresentationMVC.Controllers {
         // Edit - GET HorarioConsulta/ID
         [HttpGet]
         public async Task<ActionResult> Edit(int? id) {
-            if (id == null) {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (id == null)
+            {
+                return Content("Debe incluir el id");
             }
 
-            var response = GlobalApi.WebApiClient.GetAsync("horariosConsulta/" + id).Result;
+            try
+            {
+                var horarioConsultaTask = _horarioConsultaEndpoint.Get(id);
+                var profesoresTask = _usuarioEndpoint.GetAll();
+                var materiasTask = _materiaEndpoint.GetAll();
 
-            if (!response.IsSuccessStatusCode) {
-                return HttpNotFound();
+                await Task.WhenAll(horarioConsultaTask, profesoresTask, materiasTask);
+
+                var viewModel = new EditHorarioConsultaViewModel(profesoresTask.Result, materiasTask.Result, horarioConsultaTask.Result);
+
+                return PartialView("_Edit", viewModel);
             }
-
-            MvcHorarioConsultaModel horarioConsulta = response.Content.ReadAsAsync<MvcHorarioConsultaModel>().Result;
-
-            var profesores = GetProfesores();
-            var materias = await _materiaEndpoint.GetAll(); // May throw an exception, so that is why the modal is not showing in nico user
-
-            var viewModel = new EditHorarioConsultaViewModel(profesores, materias, horarioConsulta);
-
-            return PartialView("_Edit", viewModel);
-
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (NotFoundRequestException ex)
+            {
+                return Content($"{ex.StatusCode}: Elemento no encontrado");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+            }
         }
 
         // Edit - PUT HorarioConsulta/ID (Secured)
@@ -116,36 +193,34 @@ namespace WebPresentationMVC.Controllers {
         [ValidateAntiForgeryToken]
         // Bind(Include = "...") is used to avoid overposting attacks
         public async Task<ActionResult> Edit(EditHorarioConsultaViewModel viewModel) {
-            var response = GlobalApi.WebApiClient.PutAsJsonAsync("horariosConsulta/" + viewModel.HorarioConsulta.Id, viewModel.HorarioConsulta).Result;
+            try
+            {
+                await _horarioConsultaEndpoint.Put(viewModel.HorarioConsulta);
+            }
+            catch (UnauthorizedRequestException)
+            {
+                return Content("No tiene acceso");
+            }
+            catch (BadRequestException ex)
+            {
+                var profesoresTask = _usuarioEndpoint.GetAll();
+                var materiasTask = _materiaEndpoint.GetAll(); // May throw an exception, so that is why the modal is not showing in nico user
 
-            if (!response.IsSuccessStatusCode) {
-                var profesores = GetProfesores();
-                var materias = await _materiaEndpoint.GetAll(); // May throw an exception, so that is why the modal is not showing in nico user
-                viewModel.SetProfesoresAsSelectList(profesores);
-                viewModel.SetMateriasAsSelectList(materias);
+                await Task.WhenAll(profesoresTask, materiasTask);
 
-                ModelState.AddModelErrorsFromResponse(response);
+                viewModel.SetProfesoresAsSelectList(profesoresTask.Result);
+                viewModel.SetMateriasAsSelectList(materiasTask.Result);
+
+                ModelState.AddModelErrors(ex.Errors);
 
                 return PartialView("_Edit", viewModel);
             }
+            catch (Exception ex)
+            {
+                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+            }
 
             return Content("OK");
-
-        }
-
-        // List of Profesores - GET Profesores
-        // NOTA: Testear si funciona el LinQ para filtrar solo Profesores
-        public IEnumerable<MvcUsuarioModel> GetProfesores() {
-            var response = GlobalApi.WebApiClient.GetAsync("usuarios").Result;
-
-            return response.Content.ReadAsAsync<IEnumerable<MvcUsuarioModel>>().Result;
-        }
-
-        // List of Materias - GET Materias
-        public IEnumerable<MvcMateriaModel> GetMaterias() {
-            var response = GlobalApi.WebApiClient.GetAsync("materias").Result;
-
-            return response.Content.ReadAsAsync<IEnumerable<MvcMateriaModel>>().Result;
         }
     }
 }

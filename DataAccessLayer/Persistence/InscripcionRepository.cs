@@ -29,18 +29,26 @@ namespace DataAccessLayer.Persistence {
 
         public IEnumerable<Inscripcion> GetInscripcionesOrderedByAlumno() {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Inscripciones.OrderByDescending(e => e.Alumno.Surname).ThenByDescending(e => e.Alumno.Firstname).ToList();
+            return ConsultaUTNContext.Inscripciones.OrderByDescending(e => e.Alumno.Surname)
+                .ThenByDescending(e => e.Alumno.Firstname).ToList();
         }
 
         public IEnumerable<Inscripcion> GetInscripcionesWithAlumnoAndHorario() {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Inscripciones.Include(p => p.Alumno).Include(p => p.HorarioConsulta);
+            return ConsultaUTNContext.Inscripciones
+                .Include(p => p.Alumno)
+                .Include(p => p.HorarioConsulta)
+                .Include(p => p.HorarioConsulta.Profesor)
+                .Include(p => p.HorarioConsulta.Materia);
         }
 
         public Inscripcion GetInscripcionWithAlumnoAndHorario(int id) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Inscripciones.Where(p => p.Id == id).Include(p => p.Alumno)
-                .Include(p => p.HorarioConsulta).FirstOrDefault();
+            return ConsultaUTNContext.Inscripciones.Where(p => p.Id == id)
+                .Include(p => p.Alumno)
+                .Include(p => p.HorarioConsulta)
+                .Include(p => p.HorarioConsulta.Profesor)
+                .Include(p => p.HorarioConsulta.Materia).FirstOrDefault();
         }
     }
 }

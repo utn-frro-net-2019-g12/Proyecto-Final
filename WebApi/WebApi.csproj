@@ -207,7 +207,6 @@
     <Compile Include="Controllers\HorarioConsultaApiController.cs" />
     <Compile Include="Controllers\UsuarioApiController.cs" />
     <Compile Include="Controllers\MateriaApiController.cs" />
-    <Compile Include="Controllers\ValuesApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -143,7 +143,9 @@
   <ItemGroup>
     <Compile Include="Api\ApiHelper.cs" />
     <Compile Include="Api\Endpoints\Implementations\AuthenticationEndpoint.cs" />
+    <Compile Include="Api\Endpoints\Implementations\HorarioConsulaEndpoint.cs" />
     <Compile Include="Api\Endpoints\Implementations\UsuarioEndpoint.cs" />
+    <Compile Include="Api\Endpoints\Interfaces\IHorarioConsultaEndpoint.cs" />
     <Compile Include="Api\Endpoints\Interfaces\IUsuarioEndpoint.cs" />
     <Compile Include="Api\Exceptions\BadRequestException.cs" />
     <Compile Include="Api\Endpoints\Implementations\DepartamentoEndpoint.cs" />

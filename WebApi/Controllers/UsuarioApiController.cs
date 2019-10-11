@@ -12,6 +12,8 @@ using DataAccessLayer;
 using Microsoft.AspNet.Identity;
 
 namespace WebApi.Controllers {
+
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/usuarios")]
     public class UsuarioApiController : ApiController {
         private readonly IUnitOfWork _unitOfWork;
