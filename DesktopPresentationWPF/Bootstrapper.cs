@@ -1,7 +1,11 @@
-﻿using Caliburn.Micro;
-using DesktopPresentationWPF.Api;
+﻿using AutoMapper;
+using Caliburn.Micro;
 using DesktopPresentationWPF.Models;
 using DesktopPresentationWPF.ViewModels;
+using Presentation.Library.Models;
+using Presentation.Library.Api;
+using Presentation.Library.Api.Endpoints.Interfaces;
+using Presentation.Library.Api.Endpoints.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,17 +31,39 @@ namespace DesktopPresentationWPF
                 "PasswordChanged");
         }
 
+        private IMapper ConfigureAutomapper()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Materia, WpfMateriaModel>();
+                cfg.CreateMap<WpfMateriaModel, Materia>();
+                cfg.CreateMap<Departamento, WpfDepartamentoModel>();
+                cfg.CreateMap<WpfDepartamentoModel, Departamento>();
+                cfg.CreateMap<Usuario, WpfUsuarioModel>();
+                cfg.CreateMap<WpfUsuarioModel, Usuario>();
+                cfg.CreateMap<HorarioConsulta, WpfHorarioConsultaModel>();
+                cfg.CreateMap<WpfHorarioConsultaModel, HorarioConsulta>();
+            });
+
+            return config.CreateMapper();
+        }
+
         protected override void Configure()
         {
+            _container.Instance(ConfigureAutomapper());
+
             _container
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
-                .Singleton<IUsuarioLoggedModel, UsuarioLoggedInModel>()
+                .Singleton<IUsuarioLogged, UsuarioLogged>()
                 .Singleton<IApiHelper, ApiHelper>();
 
             _container.Instance(_container)
                 .PerRequest<IMateriaEndpoint, MateriaEndpoint>()
-                .PerRequest<IDepartamentoEndpoint, DepartamentoEndpoint>();
+                .PerRequest<IDepartamentoEndpoint, DepartamentoEndpoint>()
+                .PerRequest<IUsuarioEndpoint, UsuarioEndpoint>()
+                .PerRequest<IHorarioConsultaEndpoint, HorarioConsulaEndpoint>()
+                .PerRequest<IAuthenticationEndpoint, AuthenticationEndpoint>();
 
             // As we are using just a few ViewModels, using reflection is not that necessary
             GetType().Assembly.GetTypes()

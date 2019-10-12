@@ -76,6 +76,8 @@ namespace Presentation.Library.Api.Endpoints.Implementations
                     {
                         case HttpStatusCode.Unauthorized:
                             throw new UnauthorizedRequestException(response);
+                        case HttpStatusCode.BadRequest:
+                            throw new BadRequestException(response);
                         case HttpStatusCode.NotFound:
                             throw new NotFoundRequestException(response, id);
                         default:

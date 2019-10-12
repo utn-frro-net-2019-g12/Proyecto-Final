@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
@@ -85,22 +88,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Api\ApiException.cs" />
-    <Compile Include="Api\ApiHelper.cs" />
-    <Compile Include="Api\DepartamentoEndpoint.cs" />
-    <Compile Include="Api\ErrorResponse.cs" />
-    <Compile Include="Api\IApiHelper.cs" />
-    <Compile Include="Api\IDepartamentoEndpoint.cs" />
-    <Compile Include="Api\IMateriaEndpoint.cs" />
-    <Compile Include="Api\MateriaEndpoint.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="EventModels\LogOnEvent.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="Models\AuthenticatedUser.cs" />
-    <Compile Include="Models\IUsuarioLoggedModel.cs" />
-    <Compile Include="Models\UsuarioLoggedInModel.cs" />
-    <Compile Include="Models\WpfInscripcionesModel.cs" />
+    <Compile Include="Models\IUsuarioLogged.cs" />
+    <Compile Include="Models\UsuarioLogged.cs" />
     <Compile Include="Models\WpfHorarioConsultaModel.cs" />
+    <Compile Include="Models\WpfInscripcionModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MateriaViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />

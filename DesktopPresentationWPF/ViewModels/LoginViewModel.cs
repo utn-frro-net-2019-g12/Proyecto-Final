@@ -1,11 +1,15 @@
 ﻿using Caliburn.Micro;
 using DesktopPresentationWPF.EventModels;
-using DesktopPresentationWPF.Api;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DesktopPresentationWPF.Models;
+using Presentation.Library.Api.Exceptions;
+using Presentation.Library.Api.Endpoints.Interfaces;
+using Presentation.Library.Models;
+using System.ComponentModel;
 
 namespace DesktopPresentationWPF.ViewModels
 {
@@ -14,12 +18,14 @@ namespace DesktopPresentationWPF.ViewModels
         private string _userName = "nico@example.com";
         // TO-DO: Hash this
         private string _password = "Example1?";
-        private IApiHelper _apiHelper;
+        private IAuthenticationEndpoint _authenticationEndpoint;
         private IEventAggregator _events;
+        private IUsuarioLogged _usuarioLogged;
 
-        public LoginViewModel(IApiHelper apiHelper,IEventAggregator events)
+        public LoginViewModel(IAuthenticationEndpoint authenticationEndpoint, IUsuarioLogged usuarioLogged, IEventAggregator events)
         {
-            _apiHelper = apiHelper;
+            _authenticationEndpoint = authenticationEndpoint;
+            _usuarioLogged = usuarioLogged;
             _events = events;
         }
 
@@ -45,26 +51,29 @@ namespace DesktopPresentationWPF.ViewModels
             }
         }
 
-        private string _errorMessage;
+        private BindingList<string> _errorMessages;
 
-        public string ErrorMessage
-        {
-            get { return _errorMessage; }
-            set
-            {
-                _errorMessage = value;
-                NotifyOfPropertyChange(() => IsErrorVisible);
-                NotifyOfPropertyChange(() => ErrorMessage);
-            }
-        }
-
-        public bool IsErrorVisible
+        public BindingList<string> ErrorMessages
         {
             get
             {
-                bool output = false;
+                return _errorMessages;
+            }
+            set
+            {
+                _errorMessages = value;
+                NotifyOfPropertyChange(() => ErrorMessages);
+                NotifyOfPropertyChange(() => AreErrorMessagesVisible);
+            }
+        }
 
-                if (ErrorMessage?.Length > 0)
+        public bool AreErrorMessagesVisible
+        {
+            get
+            {
+                var output = false;
+
+                if (ErrorMessages?.Count() > 0)
                 {
                     output = true;
                 }
@@ -77,7 +86,6 @@ namespace DesktopPresentationWPF.ViewModels
         {
             get
             {
-                // Not Working, Revise this
                 bool output = false;
 
                 if (UserName?.Length > 0 && Password?.Length > 0)
@@ -91,20 +99,29 @@ namespace DesktopPresentationWPF.ViewModels
 
         public async Task LogIn()
         {
+            ErrorMessages = null;
+
+            var loginModel = new LoginModel() { EmailAddress = UserName, Password = Password };
+
             try
             {
-                ErrorMessage = "";
+                var token = await _authenticationEndpoint.GetToken(loginModel);
 
-                var response = await _apiHelper.Authenticate(UserName, Password);
-
-                // Capture information about the user in apiHelper singleton instance
-                await _apiHelper.GetLoggedInUserInfo(response.Access_Token);
+                _usuarioLogged.Set(userName: token.UserName, token: token.FullToken);
 
                 _events.PublishOnUIThread(new LogOnEvent());
             }
-            catch(Exception ex)
+            catch (UnauthorizedRequestException)
             {
-                ErrorMessage = ex.Message;
+                ErrorMessages = new BindingList<string> { "No tiene acceso" };
+            }
+            catch (BadRequestException ex)
+            {
+                ErrorMessages = new BindingList<string>(ex.Errors.Select(kvp => string.Join(". ", kvp.Value)).ToList());
+            }
+            catch (Exception ex)
+            {
+                ErrorMessages = new BindingList<string> { $"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte" };
             }
         }
     }

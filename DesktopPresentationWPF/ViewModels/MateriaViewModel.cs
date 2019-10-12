@@ -1,12 +1,15 @@
 ﻿using Caliburn.Micro;
-using DesktopPresentationWPF.Api;
 using DesktopPresentationWPF.Models;
+using Presentation.Library.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Presentation.Library.Api.Endpoints.Interfaces;
+using Presentation.Library.Api.Exceptions;
+using AutoMapper;
 
 namespace DesktopPresentationWPF.ViewModels
 {
@@ -14,11 +17,16 @@ namespace DesktopPresentationWPF.ViewModels
     {
         private IMateriaEndpoint _materiaEndpoint;
         private IDepartamentoEndpoint _departamentoEndpoint;
+        private IUsuarioLogged _usuarioLogged;
+        private IMapper _mapper;
 
-        public MateriaViewModel(IMateriaEndpoint materiaEndpoint, IDepartamentoEndpoint departamentoEndpoint)
+        public MateriaViewModel(IMateriaEndpoint materiaEndpoint, IDepartamentoEndpoint departamentoEndpoint
+            , IUsuarioLogged usuarioLogged, IMapper mapper)
         {
             _materiaEndpoint = materiaEndpoint;
             _departamentoEndpoint = departamentoEndpoint;
+            _usuarioLogged = usuarioLogged;
+            _mapper = mapper;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -30,12 +38,38 @@ namespace DesktopPresentationWPF.ViewModels
 
         public async Task LoadMaterias()
         {
-            Materias = await _materiaEndpoint.GetAll();
+            try
+            {
+                IEnumerable<Materia> entities = await _materiaEndpoint.GetAll(_usuarioLogged.Token);
+
+                Materias = _mapper.Map<BindingList<WpfMateriaModel>>(entities);
+            }
+            catch (UnauthorizedRequestException)
+            {
+                ErrorMessages = new BindingList<string> { "No tiene acceso" };
+            }
+            catch (Exception ex)
+            {
+                ErrorMessages = new BindingList<string> { $"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte" };
+            }
         }
 
         public async Task LoadDepartamentos()
         {
-            DepartamentosInForm = await _departamentoEndpoint.GetAll();
+            try
+            {
+                IEnumerable<Departamento> entities = await _departamentoEndpoint.GetAll(_usuarioLogged.Token);
+
+                DepartamentosInForm = _mapper.Map<BindingList<WpfDepartamentoModel>>(entities);
+            }
+            catch (UnauthorizedRequestException)
+            {
+                ErrorMessages = new BindingList<string> { "No tiene acceso" };
+            }
+            catch (Exception ex)
+            {
+                ErrorMessages = new BindingList<string> { $"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte" };
+            }
         }
 
         private BindingList<WpfMateriaModel> _materias;
@@ -177,12 +211,24 @@ namespace DesktopPresentationWPF.ViewModels
 
             try
             {
-                await _materiaEndpoint.Delete(SelectedMateria.Id);
+                await _materiaEndpoint.Delete(SelectedMateria.Id, _usuarioLogged.Token);
                 await LoadMaterias();
             }
-            catch (ApiErrorsException ex)
+            catch (UnauthorizedRequestException)
             {
-                ErrorMessages = new BindingList<string>(ex.Errors as IList<string>);
+                ErrorMessages = new BindingList<string> { "No tiene acceso" };
+            }
+            catch (BadRequestException ex)
+            {
+                ErrorMessages = new BindingList<string>(ex.Errors.Select(kvp => string.Join(". ", kvp.Value)).ToList());
+            }
+            catch (NotFoundRequestException ex)
+            {
+                ErrorMessages = new BindingList<string> { $"{ex.NotFoundElement}: Elemento no encontrado" };
+            }
+            catch (Exception ex)
+            {
+                ErrorMessages = new BindingList<string> { $"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte" };
             }
         }
 
@@ -210,12 +256,22 @@ namespace DesktopPresentationWPF.ViewModels
 
             try
             {
-                await _materiaEndpoint.Put(materia);
+                var entity = _mapper.Map<Materia>(materia);
+
+                await _materiaEndpoint.Put(entity, _usuarioLogged.Token);
                 await LoadMaterias();
             }
-            catch(ApiErrorsException ex)
+            catch (UnauthorizedRequestException)
             {
-                ErrorMessages = new BindingList<string>(ex.Errors as IList<string>);
+                ErrorMessages = new BindingList<string> { "No tiene acceso" };
+            }
+            catch (BadRequestException ex)
+            {
+                ErrorMessages = new BindingList<string>(ex.Errors.Select(kvp => string.Join(". ", kvp.Value)).ToList());
+            }
+            catch (Exception ex)
+            {
+                ErrorMessages = new BindingList<string> { $"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte" };
             }
         }
 
@@ -241,13 +297,23 @@ namespace DesktopPresentationWPF.ViewModels
             var materia = new WpfMateriaModel { Name = NameInForm, Year = YearInForm, IsElectiva = IsElectivaInForm,
                 DepartamentoId = SelectedDepartamento?.Id};
 
-            try { 
-                await _materiaEndpoint.Post(materia);
+            try {
+                var entity = _mapper.Map<Materia>(materia);
+
+                await _materiaEndpoint.Post(entity, _usuarioLogged.Token);
                 await LoadMaterias();
             }
-            catch (ApiErrorsException ex)
+            catch (UnauthorizedRequestException)
             {
-                ErrorMessages = new BindingList<string>(ex.Errors as IList<string>);
+                ErrorMessages = new BindingList<string> { "No tiene acceso" };
+            }
+            catch (BadRequestException ex)
+            {
+                ErrorMessages = new BindingList<string>(ex.Errors.Select(kvp => string.Join(". ", kvp.Value)).ToList());
+            }
+            catch (Exception ex)
+            {
+                ErrorMessages = new BindingList<string> { $"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte" };
             }
         }
 

@@ -54,7 +54,7 @@ namespace Presentation.Library.Api.Exceptions
             }
             else
             {
-                errors.Add("", "Contacte a soporte para mas detalles");
+                errors.Add("", "Error No Validado: Contacte a soporte para mas detalles");
             }
 
             return errors;

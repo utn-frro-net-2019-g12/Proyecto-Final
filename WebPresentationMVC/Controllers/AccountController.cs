@@ -50,12 +50,12 @@ namespace WebPresentationMVC.Controllers
 
                 options.AllowRefresh = true;
                 options.IsPersistent = true;
-                options.ExpiresUtc = DateTime.UtcNow.AddSeconds(int.Parse(token.expires_in));
+                options.ExpiresUtc = DateTime.UtcNow.AddSeconds(int.Parse(token.Expires_in));
 
                 var claims = new[]
                 {
                     new Claim(ClaimTypes.Name, model.EmailAddress),
-                    new Claim("AcessToken", string.Format("Bearer {0}", token.access_token)),
+                    new Claim("AcessToken", token.FullToken),
                 };
 
                 var identity = new ClaimsIdentity(claims, "ApplicationCookie");

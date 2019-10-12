@@ -15,10 +15,10 @@ namespace DesktopPresentationWPF.ViewModels
         private IEventAggregator _events;
         private MateriaViewModel _materiaVM;
         private UsuarioViewModel _usuarioVM;
-        private IUsuarioLoggedModel _user;
+        private IUsuarioLogged _user;
 
         public ShellViewModel(IEventAggregator events, MateriaViewModel materiaVM, UsuarioViewModel usuarioVM,
-            IUsuarioLoggedModel user) {
+            IUsuarioLogged user) {
             _events = events;
             _materiaVM = materiaVM;
             _usuarioVM = usuarioVM;
