@@ -27,9 +27,9 @@ namespace WebApi.Controllers {
         [HttpGet]
         [Route("")]
         public IHttpActionResult GetAll() {
-            var horariosconsulta = _unitOfWork.HorariosConsulta.GetHorariosConsultaWithProfesorAndMateria();
+            var horariosConsulta = _unitOfWork.HorariosConsulta.GetHorariosConsultaWithProfesorAndMateria();
 
-            return Ok(horariosconsulta);
+            return Ok(horariosConsulta);
             // API Special Endpoint (No-Rest) --> [Route("profesor_materia")] (Unused)
         }
 

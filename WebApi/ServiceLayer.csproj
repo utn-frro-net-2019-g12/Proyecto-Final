@@ -203,6 +203,7 @@
     <Compile Include="Controllers\AccountApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\DepartamentoApiController.cs" />
+    <Compile Include="Controllers\HorarioConsultaFechadoApiController.cs" />
     <Compile Include="Controllers\InscripcionApiController.cs" />
     <Compile Include="Controllers\HorarioConsultaApiController.cs" />
     <Compile Include="Controllers\UsuarioApiController.cs" />

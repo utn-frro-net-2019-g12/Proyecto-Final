@@ -16,13 +16,13 @@ namespace DataAccessLayer.Persistence {
             }
         }
 
-        public IEnumerable<HorarioConsulta> GetHorariosConsultasOrderedByMateria()
+        public IEnumerable<HorarioConsulta> GetHorariosConsultaOrderedByMateria()
         {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
             return ConsultaUTNContext.HorariosConsulta.OrderByDescending(e => e.Materia.Name).ToList();
         }
 
-        public IEnumerable<HorarioConsulta> GetHorariosConsultasOrderedByProfesor()
+        public IEnumerable<HorarioConsulta> GetHorariosConsultaOrderedByProfesor()
         {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
             return ConsultaUTNContext.HorariosConsulta.OrderByDescending(e => e.Profesor.Surname)

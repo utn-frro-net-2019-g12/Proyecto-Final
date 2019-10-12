@@ -12,6 +12,7 @@ namespace DataAccessLayer {
         public IDepartamentoRepository Departamentos { get; private set; }
         public IUsuarioRepository Usuarios { get; private set; }
         public IHorarioConsultaRepository HorariosConsulta { get; private set; }
+        public IHorarioConsultaFechadoRepository HorariosConsultaFechados { get; private set; }
         public IInscripcionRepository Inscripciones { get; private set; }
 
         public UnitOfWork(ConsultaUTNContext context) {
@@ -20,6 +21,7 @@ namespace DataAccessLayer {
             Departamentos = new DepartamentoRepository(_context);
             Usuarios = new UsuarioRepository(_context);
             HorariosConsulta = new HorarioConsultaRepository(_context);
+            HorariosConsultaFechados = new HorarioConsultaFechadoRepository(_context);
             Inscripciones = new InscripcionRepository(_context);
         }
 

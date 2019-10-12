@@ -7,6 +7,7 @@ namespace DataAccessLayer {
         IDepartamentoRepository Departamentos { get; }
         IUsuarioRepository Usuarios { get; }
         IHorarioConsultaRepository HorariosConsulta { get; }
+        IHorarioConsultaFechadoRepository HorariosConsultaFechados { get; }
         IInscripcionRepository Inscripciones { get; }
         int Complete();
     }

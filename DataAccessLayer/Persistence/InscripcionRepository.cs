@@ -18,13 +18,15 @@ namespace DataAccessLayer.Persistence {
 
         public IEnumerable<Inscripcion> GetInscripcionesOrderedByMateria() {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Inscripciones.OrderByDescending(e => e.HorarioConsulta.Materia.Name).ToList();
+            return ConsultaUTNContext.Inscripciones
+                .OrderByDescending(e => e.HorarioConsultaFechado.HorarioConsulta.Materia.Name).ToList();
         }
 
         public IEnumerable<Inscripcion> GetInscripcionesOrderedByProfesor() {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Inscripciones.OrderByDescending(e => e.HorarioConsulta.Profesor.Surname)
-                .ThenByDescending(e => e.HorarioConsulta.Profesor.Firstname).ToList();
+            return ConsultaUTNContext.Inscripciones
+                .OrderByDescending(e => e.HorarioConsultaFechado.HorarioConsulta.Profesor.Surname)
+                .ThenByDescending(e => e.HorarioConsultaFechado.HorarioConsulta.Profesor.Firstname).ToList();
         }
 
         public IEnumerable<Inscripcion> GetInscripcionesOrderedByAlumno() {
@@ -37,18 +39,20 @@ namespace DataAccessLayer.Persistence {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
             return ConsultaUTNContext.Inscripciones
                 .Include(p => p.Alumno)
-                .Include(p => p.HorarioConsulta)
-                .Include(p => p.HorarioConsulta.Profesor)
-                .Include(p => p.HorarioConsulta.Materia);
+                .Include(p => p.HorarioConsultaFechado)
+                .Include(p => p.HorarioConsultaFechado.HorarioConsulta)
+                .Include(p => p.HorarioConsultaFechado.HorarioConsulta.Profesor)
+                .Include(p => p.HorarioConsultaFechado.HorarioConsulta.Materia);
         }
 
         public Inscripcion GetInscripcionWithAlumnoAndHorario(int id) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
             return ConsultaUTNContext.Inscripciones.Where(p => p.Id == id)
                 .Include(p => p.Alumno)
-                .Include(p => p.HorarioConsulta)
-                .Include(p => p.HorarioConsulta.Profesor)
-                .Include(p => p.HorarioConsulta.Materia).FirstOrDefault();
+                .Include(p => p.HorarioConsultaFechado)
+                .Include(p => p.HorarioConsultaFechado.HorarioConsulta)
+                .Include(p => p.HorarioConsultaFechado.HorarioConsulta.Profesor)
+                .Include(p => p.HorarioConsultaFechado.HorarioConsulta.Materia).FirstOrDefault();
         }
     }
 }

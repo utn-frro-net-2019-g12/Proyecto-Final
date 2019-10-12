@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DataAccessLayer {
     public class ConsultaUTNInitializer : System.Data.Entity.DropCreateDatabaseAlways<ConsultaUTNContext> {
@@ -53,9 +54,19 @@ namespace DataAccessLayer {
             unitOfWork.HorariosConsulta.InsertRange(horariosConsulta);
             unitOfWork.Complete();
 
+            var horariosConsultaFechados = new List<HorarioConsultaFechado> {
+                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[0].Id, HorarioConsulta = horariosConsulta[0], Date = new DateTime(2019, 11, 04) },
+                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[0].Id, HorarioConsulta = horariosConsulta[0], Date = new DateTime(2019, 11, 11) },
+                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[1].Id, HorarioConsulta = horariosConsulta[1], Date = new DateTime(2019, 11, 05) },
+                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[1].Id, HorarioConsulta = horariosConsulta[1], Date = new DateTime(2019, 11, 12) },
+            };
+
+            unitOfWork.HorariosConsultaFechados.InsertRange(horariosConsultaFechados);
+            unitOfWork.Complete();
+
             var inscripciones = new List<Inscripcion> {
-                new Inscripcion { Topic = "Derivadas", State = true, AlumnoId = usuarios[1].Id, Alumno = usuarios[1], HorarioConsultaId = horariosConsulta[1].Id, HorarioConsulta = horariosConsulta[1] },
-                new Inscripcion { Topic = "Axure", State = true, AlumnoId = usuarios[3].Id, Alumno = usuarios[3], HorarioConsultaId = horariosConsulta[0].Id, HorarioConsulta = horariosConsulta[0] },
+                new Inscripcion { Topic = "Derivadas", State = true, AlumnoId = usuarios[1].Id, Alumno = usuarios[1], HorarioConsultaFechadoId = horariosConsulta[1].Id, HorarioConsultaFechado = horariosConsultaFechados[1] },
+                new Inscripcion { Topic = "Axure", State = true, AlumnoId = usuarios[3].Id, Alumno = usuarios[3], HorarioConsultaFechadoId = horariosConsulta[0].Id, HorarioConsultaFechado = horariosConsultaFechados[0] },
                 // State = Deleted or Still Active, Answer = Fast Response Optional for a Profersor, Observation = Also Optional
             };
 

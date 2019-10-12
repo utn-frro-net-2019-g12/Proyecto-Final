@@ -7,6 +7,7 @@ namespace DataAccessLayer {
         public virtual DbSet<Departamento> Departamentos { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<HorarioConsulta> HorariosConsulta { get; set; }
+        public virtual DbSet<HorarioConsultaFechado> HorariosConsultaFechados { get; set; }
         public virtual DbSet<Inscripcion> Inscripciones { get; set; }
 
         public ConsultaUTNContext() : base("name=ConsultaUTNContext") {
