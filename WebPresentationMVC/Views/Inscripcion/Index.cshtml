@@ -246,21 +246,11 @@
                                 @Html.DisplayFor(modelItem => item.Alumno.Firstname)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.HorarioConsultaFechadoId)
-                            </td>
-                            <!--
-                            <td>
-                                @*
-                                // Aparecen Vacíos estos elementos, quizás demasiados objetos anidados
-                                // Dejo HorarioConsultaId provicionalmente
-                                @Html.DisplayFor(modelItem => item.HorarioConsulta.Profesor.Surname)
+                                @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Profesor.Surname)
+                                @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Profesor.Firstname)
                                 <br />
-                                @Html.DisplayFor(modelItem => item.HorarioConsulta.Profesor.Firstname)
-                                <br />
-                                @Html.DisplayFor(modelItem => item.HorarioConsulta.Materia.Name)
-                                *@
+                                @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Materia.Name)
                             </td>
-                            -->
                             <td class="d-flex align-items-center p-0">
                                 <button data-toggle="modal" data-target="#modalEditInscripcion" type="button" class="actionEditInscripcion d-flex align-items-center btn btn-warning m-1">
                                     <i class="fas fa-edit fa-xs m-1"></i>

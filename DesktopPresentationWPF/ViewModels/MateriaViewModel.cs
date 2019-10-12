@@ -10,19 +10,22 @@ using System.Threading.Tasks;
 using Presentation.Library.Api.Endpoints.Interfaces;
 using Presentation.Library.Api.Exceptions;
 using AutoMapper;
+using DesktopPresentationWPF.EventModels;
 
 namespace DesktopPresentationWPF.ViewModels
 {
     public class MateriaViewModel : Screen
     {
+        private IEventAggregator _events;
         private IMateriaEndpoint _materiaEndpoint;
         private IDepartamentoEndpoint _departamentoEndpoint;
         private IUsuarioLogged _usuarioLogged;
         private IMapper _mapper;
 
-        public MateriaViewModel(IMateriaEndpoint materiaEndpoint, IDepartamentoEndpoint departamentoEndpoint
-            , IUsuarioLogged usuarioLogged, IMapper mapper)
+        public MateriaViewModel(IEventAggregator events, IMateriaEndpoint materiaEndpoint
+            , IDepartamentoEndpoint departamentoEndpoint, IUsuarioLogged usuarioLogged, IMapper mapper)
         {
+            _events = events;
             _materiaEndpoint = materiaEndpoint;
             _departamentoEndpoint = departamentoEndpoint;
             _usuarioLogged = usuarioLogged;
@@ -46,7 +49,7 @@ namespace DesktopPresentationWPF.ViewModels
             }
             catch (UnauthorizedRequestException)
             {
-                ErrorMessages = new BindingList<string> { "No tiene acceso" };
+                _events.PublishOnUIThread(new NotAuthorizedEvent());
             }
             catch (Exception ex)
             {

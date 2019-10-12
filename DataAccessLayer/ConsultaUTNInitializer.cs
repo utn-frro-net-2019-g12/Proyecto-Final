@@ -20,9 +20,9 @@ namespace DataAccessLayer {
             unitOfWork.Complete();
 
             var materias = new List<Materia> {
-                new Materia{ Name = "Algoritmos Genéticos", Year = 3, IsElectiva = true, DepartamentoId = departamentos[0].Id, Departamento = departamentos[0] },
-                new Materia{ Name = "Diseño de Sistemas", Year = 3, IsElectiva = false, DepartamentoId = departamentos[0].Id, Departamento = departamentos[0] },
-                new Materia{ Name = "Análisis Matemático 2", Year = 2, IsElectiva = false, DepartamentoId = departamentos[5].Id, Departamento = departamentos[5] },
+                new Materia{ Name = "Algoritmos Genéticos", Year = 3, IsElectiva = true, DepartamentoId = departamentos[0].Id },
+                new Materia{ Name = "Diseño de Sistemas", Year = 3, IsElectiva = false, DepartamentoId = departamentos[0].Id },
+                new Materia{ Name = "Análisis Matemático 2", Year = 2, IsElectiva = false, DepartamentoId = departamentos[5].Id },
             };
 
             unitOfWork.Materias.InsertRange(materias);
@@ -45,8 +45,8 @@ namespace DataAccessLayer {
             unitOfWork.Complete();
 
             var horariosConsulta = new List<HorarioConsulta> {
-                new HorarioConsulta { Weekday = "Lunes", StartHour = "11:00", EndHour = "11:45", Place = "Aula 301", ProfesorId = usuarios[2].Id, Profesor = usuarios[2], MateriaId = materias[2].Id, Materia = materias[2] },
-                new HorarioConsulta { Weekday = "Martes", StartHour = "09:30", EndHour = "10:15", Place = "Sala de Profesores", ProfesorId = usuarios[3].Id, Profesor = usuarios[3], MateriaId = materias[1].Id, Materia = materias[1] },
+                new HorarioConsulta { Weekday = "Lunes", StartHour = "11:00", EndHour = "11:45", Place = "Aula 301", ProfesorId = usuarios[2].Id, MateriaId = materias[2].Id },
+                new HorarioConsulta { Weekday = "Martes", StartHour = "09:30", EndHour = "10:15", Place = "Sala de Profesores", ProfesorId = usuarios[3].Id, MateriaId = materias[1].Id },
                 // EliminationDate Must be only added if the HorarioConsulta were marked as "Deleted"
             };
 
@@ -54,18 +54,18 @@ namespace DataAccessLayer {
             unitOfWork.Complete();
 
             var horariosConsultaFechados = new List<HorarioConsultaFechado> {
-                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[0].Id, HorarioConsulta = horariosConsulta[0], Date = new System.DateTime(2019, 11, 04) },
-                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[0].Id, HorarioConsulta = horariosConsulta[0], Date = new System.DateTime(2019, 11, 11) },
-                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[1].Id, HorarioConsulta = horariosConsulta[1], Date = new System.DateTime(2019, 11, 05) },
-                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[1].Id, HorarioConsulta = horariosConsulta[1], Date = new System.DateTime(2019, 11, 12) },
+                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[0].Id, Date = new System.DateTime(2019, 11, 04) },
+                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[0].Id, Date = new System.DateTime(2019, 11, 11) },
+                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[1].Id, Date = new System.DateTime(2019, 11, 05) },
+                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[1].Id, Date = new System.DateTime(2019, 11, 12) },
             };
 
             unitOfWork.HorariosConsultaFechados.InsertRange(horariosConsultaFechados);
             unitOfWork.Complete();
 
             var inscripciones = new List<Inscripcion> {
-                new Inscripcion { Topic = "Derivadas", State = true, AlumnoId = usuarios[1].Id, Alumno = usuarios[1], HorarioConsultaFechadoId = horariosConsulta[1].Id, HorarioConsultaFechado = horariosConsultaFechados[1] },
-                new Inscripcion { Topic = "Axure", State = true, AlumnoId = usuarios[3].Id, Alumno = usuarios[3], HorarioConsultaFechadoId = horariosConsulta[0].Id, HorarioConsultaFechado = horariosConsultaFechados[0] },
+                new Inscripcion { Topic = "Derivadas", State = true, AlumnoId = usuarios[1].Id, Alumno = usuarios[1], HorarioConsultaFechadoId = horariosConsultaFechados[1].Id },
+                new Inscripcion { Topic = "Axure", State = true, AlumnoId = usuarios[3].Id, Alumno = usuarios[3], HorarioConsultaFechadoId = horariosConsultaFechados[3].Id },
                 // State = Deleted or Still Active, Answer = Fast Response Optional for a Profersor, Observation = Also Optional
             };
 

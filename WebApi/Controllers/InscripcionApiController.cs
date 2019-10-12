@@ -11,6 +11,8 @@ using System.Web.Http.Results;
 using DataAccessLayer;
 
 namespace WebApi.Controllers {
+
+    [Authorize]
     [RoutePrefix("api/inscripciones")]
     public class InscripcionApiController : ApiController {
         private readonly IUnitOfWork _unitOfWork;

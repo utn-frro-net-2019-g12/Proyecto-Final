@@ -90,6 +90,7 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="EventModels\LogOnEvent.cs" />
+    <Compile Include="EventModels\NotAuthorizedEvent.cs" />
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
     <Compile Include="Models\AuthenticatedUser.cs" />
     <Compile Include="Models\IUsuarioLogged.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Models\WpfInscripcionModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MateriaViewModel.cs" />
+    <Compile Include="ViewModels\NotAuthorizedViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\UsuarioViewModel.cs" />
     <Compile Include="Views\LoginView.xaml.cs">
@@ -106,6 +108,9 @@
     </Compile>
     <Compile Include="Views\MateriaView.xaml.cs">
       <DependentUpon>MateriaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NotAuthorizedView.xaml.cs">
+      <DependentUpon>NotAuthorizedView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -124,6 +129,10 @@
     <Page Include="Views\MateriaView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NotAuthorizedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>

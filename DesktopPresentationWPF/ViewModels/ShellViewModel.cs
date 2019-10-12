@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DesktopPresentationWPF.ViewModels
 {
-    public class ShellViewModel : Conductor<Object>, IHandle<LogOnEvent>
+    public class ShellViewModel : Conductor<Object>, IHandle<LogOnEvent>, IHandle<NotAuthorizedEvent>
     {
         private IEventAggregator _events;
         private MateriaViewModel _materiaVM;
@@ -70,8 +70,13 @@ namespace DesktopPresentationWPF.ViewModels
         public void Handle(LogOnEvent message)
         {
             // When user is logged, this will be activated
-            ActivateItem(_materiaVM);
+            ActivateItem(IoC.Get<MateriaViewModel>());
             NotifyOfPropertyChange(() => IsLoggedIn);
+        }
+
+        public void Handle(NotAuthorizedEvent message)
+        {
+            ActivateItem(IoC.Get<NotAuthorizedViewModel>());
         }
     }
 }
