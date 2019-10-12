@@ -62,7 +62,7 @@ namespace DesktopPresentationWPF
                 .PerRequest<IMateriaEndpoint, MateriaEndpoint>()
                 .PerRequest<IDepartamentoEndpoint, DepartamentoEndpoint>()
                 .PerRequest<IUsuarioEndpoint, UsuarioEndpoint>()
-                .PerRequest<IHorarioConsultaEndpoint, HorarioConsulaEndpoint>()
+                .PerRequest<IHorarioConsultaEndpoint, HorarioConsultaEndpoint>()
                 .PerRequest<IAuthenticationEndpoint, AuthenticationEndpoint>();
 
             // As we are using just a few ViewModels, using reflection is not that necessary

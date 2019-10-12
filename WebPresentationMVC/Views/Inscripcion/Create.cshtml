@@ -59,14 +59,14 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Inscripcion.HorarioConsultaId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Inscripcion.HorarioConsultaFechadoId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(
-                    model => model.Inscripcion.HorarioConsultaId,
+                    model => model.Inscripcion.HorarioConsultaFechadoId,
                     Model.AlumnosList,
                     new {@class = "form-control"}
                     )
-                @Html.ValidationMessageFor(model => model.Inscripcion.HorarioConsultaId, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Inscripcion.HorarioConsultaFechadoId, "", new { @class = "text-danger" })
             </div>
         </div>
 

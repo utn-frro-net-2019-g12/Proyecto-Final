@@ -23,7 +23,7 @@ namespace WebPresentationMVC.IocModules
                 .InstancePerRequest();
             builder.RegisterType<UsuarioEndpoint>().As<IUsuarioEndpoint>()
                 .InstancePerRequest();
-            builder.RegisterType<HorarioConsulaEndpoint>().As<IHorarioConsultaEndpoint>()
+            builder.RegisterType<HorarioConsultaEndpoint>().As<IHorarioConsultaEndpoint>()
                 .InstancePerRequest();
         }
     }

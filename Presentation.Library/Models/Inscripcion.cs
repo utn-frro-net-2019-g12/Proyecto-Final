@@ -11,7 +11,7 @@
         public int AlumnoId { get; set; }
         public virtual Usuario Alumno { get; set; }
 
-        public int HorarioConsultaId { get; set; }
-        public virtual HorarioConsulta HorarioConsulta { get; set; }
+        public int HorarioConsultaFechadoId { get; set; }
+        public virtual HorarioConsultaFechado HorarioConsultaFechado { get; set; }
     }
 }

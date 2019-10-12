@@ -28,8 +28,8 @@ namespace WebPresentationMVC.Models {
         public int AlumnoId { get; set; }
         public virtual MvcUsuarioModel Alumno { get; set; }
 
-        [ForeignKey("HorarioConsulta")]
-        public int HorarioConsultaId { get; set; }
-        public virtual MvcHorarioConsultaModel HorarioConsulta { get; set; }
+        [ForeignKey("HorarioConsultaFechado")]
+        public int HorarioConsultaFechadoId { get; set; }
+        public virtual MvcHorarioConsultaFechadoModel HorarioConsultaFechado { get; set; }
     }
 }

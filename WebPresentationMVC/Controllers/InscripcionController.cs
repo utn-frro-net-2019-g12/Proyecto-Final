@@ -49,7 +49,7 @@ namespace WebPresentationMVC.Controllers {
         [HttpGet]
         public ActionResult Create() {
             var alumnos = GetAlumnos();
-            var horariosConsulta = GetHorariosConsulta();
+            var horariosConsulta = GetHorariosConsultaFechados();
 
             var viewModel = new CreateInscripcionViewModel(alumnos, horariosConsulta);
 
@@ -64,10 +64,10 @@ namespace WebPresentationMVC.Controllers {
             // Move this to an action filter
             if (!response.IsSuccessStatusCode) {
                 var alumnos = GetAlumnos();
-                var horariosConsulta = GetHorariosConsulta();
+                var horariosConsultaFechados = GetHorariosConsultaFechados();
 
                 viewModel.SetAlumnosAsSelectList(alumnos);
-                viewModel.SetHorariosConsultaAsSelectList(horariosConsulta);
+                viewModel.SetHorariosConsultaFechadosAsSelectList(horariosConsultaFechados);
 
                 ModelState.AddModelErrorsFromResponse(response);
 
@@ -93,9 +93,9 @@ namespace WebPresentationMVC.Controllers {
             MvcInscripcionModel inscripcion = response.Content.ReadAsAsync<MvcInscripcionModel>().Result;
 
             var alumnos = GetAlumnos();
-            var horariosConsulta = GetHorariosConsulta();
+            var horariosConsultaFechados = GetHorariosConsultaFechados();
 
-            var viewModel = new EditInscripcionViewModel(alumnos, horariosConsulta, inscripcion);
+            var viewModel = new EditInscripcionViewModel(alumnos, horariosConsultaFechados, inscripcion);
 
             return PartialView("_Edit", viewModel);
 
@@ -110,9 +110,9 @@ namespace WebPresentationMVC.Controllers {
 
             if (!response.IsSuccessStatusCode) {
                 var alumnos = GetAlumnos();
-                var horariosConsulta = GetHorariosConsulta();
+                var horariosConsultaFechados = GetHorariosConsultaFechados();
                 viewModel.SetAlumnosAsSelectList(alumnos);
-                viewModel.SetHorariosConsultaAsSelectList(horariosConsulta);
+                viewModel.SetHorariosConsultaFechadosAsSelectList(horariosConsultaFechados);
 
                 ModelState.AddModelErrorsFromResponse(response);
 
@@ -131,11 +131,11 @@ namespace WebPresentationMVC.Controllers {
             return response.Content.ReadAsAsync<IEnumerable<MvcUsuarioModel>>().Result;
         }
 
-        // List of HorariosConsulta - GET HorariosConsulta
-        public IEnumerable<MvcHorarioConsultaModel> GetHorariosConsulta() {
-            var response = GlobalApi.WebApiClient.GetAsync("horariosConsulta").Result;
+        // List of HorariosConsultaFechados - GET HorariosConsultaFechados
+        public IEnumerable<MvcHorarioConsultaFechadoModel> GetHorariosConsultaFechados() {
+            var response = GlobalApi.WebApiClient.GetAsync("horariosConsultaFechados").Result;
 
-            return response.Content.ReadAsAsync<IEnumerable<MvcHorarioConsultaModel>>().Result;
+            return response.Content.ReadAsAsync<IEnumerable<MvcHorarioConsultaFechadoModel>>().Result;
         }
     }
 }

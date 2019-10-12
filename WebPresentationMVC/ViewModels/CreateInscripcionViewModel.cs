@@ -9,26 +9,27 @@ namespace WebPresentationMVC.ViewModels {
     public class CreateInscripcionViewModel {
         public CreateInscripcionViewModel() { }
 
-        public CreateInscripcionViewModel(IEnumerable<MvcUsuarioModel> alumnos, IEnumerable<MvcHorarioConsultaModel> horariosConsulta) {
+        public CreateInscripcionViewModel(IEnumerable<MvcUsuarioModel> alumnos, IEnumerable<MvcHorarioConsultaFechadoModel> horariosConsultaFechados) {
             this.SetAlumnosAsSelectList(alumnos);
-            this.SetHorariosConsultaAsSelectList(horariosConsulta);
+            this.SetHorariosConsultaFechadosAsSelectList(horariosConsultaFechados);
         }
 
         public MvcInscripcionModel Inscripcion { get; set; }
         public IEnumerable<SelectListItem> AlumnosList { get; set; }
-        public IEnumerable<SelectListItem> HorariosConsultaList { get; set; }
+        public IEnumerable<SelectListItem> HorariosConsultaFechadosList { get; set; }
 
-        public void SetAlumnosAsSelectList(IEnumerable<MvcUsuarioModel> profesores)  {
+        public void SetAlumnosAsSelectList(IEnumerable<MvcUsuarioModel> profesores) {
             AlumnosList = profesores.Where(e => e.Legajo != null).Select(e => new SelectListItem() {
                 Value = e.Id.ToString(),
                 Text = e.Surname + " " + e.Firstname
             }) as IEnumerable<SelectListItem>;
         }
 
-        public void SetHorariosConsultaAsSelectList(IEnumerable<MvcHorarioConsultaModel> horariosConsulta) {
-            HorariosConsultaList = horariosConsulta.Select(e => new SelectListItem() {
+        public void SetHorariosConsultaFechadosAsSelectList(IEnumerable<MvcHorarioConsultaFechadoModel> horariosConsultaFechados) {
+            HorariosConsultaFechadosList = horariosConsultaFechados.Select(e => new SelectListItem() {
                 Value = e.Id.ToString(),
-                Text = e.Profesor.Surname + " " + e.Profesor.Firstname + " /// " + e.Materia.Name
+                Text = e.HorarioConsulta.Profesor.Surname + " " + e.HorarioConsulta.Profesor.Firstname + " /// " +
+                       e.HorarioConsulta.Materia.Name + " Fecha: " + e.Date
             }) as IEnumerable<SelectListItem>;
         }
     }

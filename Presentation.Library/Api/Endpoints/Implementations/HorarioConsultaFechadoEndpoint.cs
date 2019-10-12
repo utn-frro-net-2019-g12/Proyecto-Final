@@ -1,29 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using Presentation.Library.Api.Exceptions;
-using Presentation.Library.Api.Endpoints.Interfaces;
-using System.Threading.Tasks;
-using System.Net.Http;
 using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Web;
+using Presentation.Library.Api.Endpoints.Interfaces;
+using Presentation.Library.Api.Exceptions;
 using Presentation.Library.Models;
 
 namespace Presentation.Library.Api.Endpoints.Implementations
 {
-    public class UsuarioEndpoint : IUsuarioEndpoint
+    public class HorarioConsultaFechadoEndpoint : IHorarioConsultaFechadoEndpoint
     {
         private IApiHelper _apiHelper;
 
-        public UsuarioEndpoint(IApiHelper apiHelper)
+        public HorarioConsultaFechadoEndpoint(IApiHelper apiHelper)
         {
             _apiHelper = apiHelper;
         }
 
-        public async Task<IEnumerable<Usuario>> GetAll(string token)
+        public async Task<IEnumerable<HorarioConsultaFechado>> GetAll(string token)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/usuarios", x => SetToken(x, token)))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/horariosConsultaFechados", x => SetToken(x, token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -36,15 +36,15 @@ namespace Presentation.Library.Api.Endpoints.Implementations
                     }
                 }
 
-                var result = await response.Content.ReadAsAsync<IEnumerable<Usuario>>();
+                var result = await response.Content.ReadAsAsync<IEnumerable<HorarioConsultaFechado>>();
 
                 return result;
             }
         }
 
-        public async Task<Usuario> Get(object id, string token)
+        public async Task<HorarioConsultaFechado> Get(object id, string token)
         {
-            using (var response = await _apiHelper.ApiClient.GetAsync("api/usuarios/" + id, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.GetAsync("api/horariosConsultaFechado/" + id, x => SetToken(x, token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -59,7 +59,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
                     }
                 }
 
-                var result = await response.Content.ReadAsAsync<Usuario>();
+                var result = await response.Content.ReadAsAsync<HorarioConsultaFechado>();
 
                 return result;
             }
@@ -67,14 +67,15 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task Delete(object id, string token)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync("api/usuarios/" + id, x => SetToken(x, token)))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync("api/horariosConsultaFechado/" + id, x => SetToken(x, token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
+                    // BadRequest might be received as well
                     switch (response.StatusCode)
                     {
                         case HttpStatusCode.Unauthorized:
-                            throw new UnauthorizedRequestException(response);
+                            throw new UnauthorizedRequestException(response);   
                         case HttpStatusCode.NotFound:
                             throw new NotFoundRequestException(response, id);
                         default:
@@ -84,11 +85,9 @@ namespace Presentation.Library.Api.Endpoints.Implementations
             }
         }
 
-
-
-        public async Task Post(Usuario entity, string token)
+        public async Task Post(HorarioConsultaFechado entity, string token)
         {
-            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/usuarios", entity, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/horariosConsultaFechado", entity, x => SetToken(x, token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -105,9 +104,9 @@ namespace Presentation.Library.Api.Endpoints.Implementations
             }
         }
 
-        public async Task Put(Usuario entity, string token)
+        public async Task Put(HorarioConsultaFechado entity, string token)
         {
-            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync("api/usuarios/" + entity.Id, entity, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync("api/horariosConsultaFechado/" + entity.Id, entity, x => SetToken(x, token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {

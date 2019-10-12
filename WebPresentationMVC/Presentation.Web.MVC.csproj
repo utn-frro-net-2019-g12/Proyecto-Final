@@ -152,6 +152,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\DepartamentoController.cs" />
+    <Compile Include="Controllers\HorarioConsultaFechadoController.cs" />
     <Compile Include="Controllers\InscripcionController.cs" />
     <Compile Include="Controllers\HorarioConsultaController.cs" />
     <Compile Include="IocModules\AutoMapperModule.cs" />
@@ -163,6 +164,7 @@
     </Compile>
     <Compile Include="GlobalApi.cs" />
     <Compile Include="IocModules\ApiModule.cs" />
+    <Compile Include="Models\MvcHorarioConsultaFechadoModel.cs" />
     <Compile Include="Models\MvcInscripcionModel.cs" />
     <Compile Include="Models\MvcHorarioConsultaModel.cs" />
     <Compile Include="Models\MvcUsuarioModel.cs" />
@@ -172,9 +174,11 @@
     <Compile Include="Models\MvcMateriaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CreateHorarioConsultaFechadoViewModel.cs" />
     <Compile Include="ViewModels\CreateInscripcionViewModel.cs" />
     <Compile Include="ViewModels\CreateHorarioConsultaViewModel.cs" />
     <Compile Include="ViewModels\CreateMateriaViewModel.cs" />
+    <Compile Include="ViewModels\EditHorarioConsultaFechadoViewModel.cs" />
     <Compile Include="ViewModels\EditInscripcionViewModel.cs" />
     <Compile Include="ViewModels\EditHorarioConsultaViewModel.cs" />
     <Compile Include="ViewModels\EditMateriaViewModel.cs" />

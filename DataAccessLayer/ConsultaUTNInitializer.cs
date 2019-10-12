@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DataAccessLayer {
     public class ConsultaUTNInitializer : System.Data.Entity.DropCreateDatabaseAlways<ConsultaUTNContext> {
@@ -55,10 +54,10 @@ namespace DataAccessLayer {
             unitOfWork.Complete();
 
             var horariosConsultaFechados = new List<HorarioConsultaFechado> {
-                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[0].Id, HorarioConsulta = horariosConsulta[0], Date = new DateTime(2019, 11, 04) },
-                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[0].Id, HorarioConsulta = horariosConsulta[0], Date = new DateTime(2019, 11, 11) },
-                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[1].Id, HorarioConsulta = horariosConsulta[1], Date = new DateTime(2019, 11, 05) },
-                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[1].Id, HorarioConsulta = horariosConsulta[1], Date = new DateTime(2019, 11, 12) },
+                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[0].Id, HorarioConsulta = horariosConsulta[0], Date = new System.DateTime(2019, 11, 04) },
+                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[0].Id, HorarioConsulta = horariosConsulta[0], Date = new System.DateTime(2019, 11, 11) },
+                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[1].Id, HorarioConsulta = horariosConsulta[1], Date = new System.DateTime(2019, 11, 05) },
+                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[1].Id, HorarioConsulta = horariosConsulta[1], Date = new System.DateTime(2019, 11, 12) },
             };
 
             unitOfWork.HorariosConsultaFechados.InsertRange(horariosConsultaFechados);

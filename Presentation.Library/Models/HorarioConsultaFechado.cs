@@ -1,14 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace DataAccessLayer {
+﻿namespace Presentation.Library.Models
+{
     public class HorarioConsultaFechado {
         public int Id { get; set; }
-        
-        [Required]
+
         public System.DateTime Date { get; set; }
 
-        [ForeignKey("HorarioConsulta")]
         public int HorarioConsultaId { get; set; }
         public virtual HorarioConsulta HorarioConsulta { get; set; }
     }

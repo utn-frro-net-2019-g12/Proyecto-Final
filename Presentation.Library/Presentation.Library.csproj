@@ -62,13 +62,17 @@
     <Compile Include="Api\ApiHelper.cs" />
     <Compile Include="Api\Endpoints\Implementations\AuthenticationEndpoint.cs" />
     <Compile Include="Api\Endpoints\Implementations\DepartamentoEndpoint.cs" />
-    <Compile Include="Api\Endpoints\Implementations\HorarioConsulaEndpoint.cs" />
+    <Compile Include="Api\Endpoints\Implementations\HorarioConsultaFechadoEndpoint.cs" />
+    <Compile Include="Api\Endpoints\Implementations\HorarioConsultaEndpoint.cs" />
+    <Compile Include="Api\Endpoints\Implementations\InscripcionEndpoint.cs" />
     <Compile Include="Api\Endpoints\Implementations\MateriaEndpoint.cs" />
     <Compile Include="Api\Endpoints\Implementations\UsuarioEndpoint.cs" />
     <Compile Include="Api\Endpoints\Interfaces\IAccountEndpoint.cs" />
     <Compile Include="Api\Endpoints\Interfaces\IDepartamentoEndpoint.cs" />
     <Compile Include="Api\Endpoints\Interfaces\IEndpoint.cs" />
+    <Compile Include="Api\Endpoints\Interfaces\IHorarioConsultaFechadoEndpoint.cs" />
     <Compile Include="Api\Endpoints\Interfaces\IHorarioConsultaEndpoint.cs" />
+    <Compile Include="Api\Endpoints\Interfaces\IInscripcionEndpoint.cs" />
     <Compile Include="Api\Endpoints\Interfaces\IMateriaEndpoint.cs" />
     <Compile Include="Api\Endpoints\Interfaces\IUsuarioEndpoint.cs" />
     <Compile Include="Api\ErrorResponse.cs" />
@@ -80,6 +84,7 @@
     <Compile Include="Api\IApiHelper.cs" />
     <Compile Include="Models\Departamento.cs" />
     <Compile Include="Models\HorarioConsulta.cs" />
+    <Compile Include="Models\HorarioConsultaFechado.cs" />
     <Compile Include="Models\Inscripcion.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Materia.cs" />

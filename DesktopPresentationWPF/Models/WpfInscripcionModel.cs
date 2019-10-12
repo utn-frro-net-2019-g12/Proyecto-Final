@@ -15,7 +15,7 @@ namespace DesktopPresentationWPF.Models {
         public int AlumnoId { get; set; }
         public virtual WpfUsuarioModel Alumno { get; set; }
 
-        public int HorarioConsultaId { get; set; }
-        public virtual WpfHorarioConsultaModel HorarioConsulta { get; set; }
+        public int HorarioConsultaFechadoId { get; set; }
+        public virtual WpfHorarioConsultaFechadoModel HorarioConsultaFechado { get; set; }
     }
 }

@@ -50,12 +50,12 @@
             </div>
             <div class="col-md-6">
                 @Html.DropDownListFor(
-                    model => model.Inscripcion.HorarioConsultaId,
-                    Model.HorariosConsultaList,
+                    model => model.Inscripcion.HorarioConsultaFechadoId,
+                    Model.HorariosConsultaFechadosList,
                     "HorarioConsulta",
                     new { @class = "form-control" }
                     )
-                @Html.ValidationMessageFor(model => model.Inscripcion.HorarioConsultaId, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Inscripcion.HorarioConsultaFechadoId, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
