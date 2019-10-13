@@ -67,7 +67,7 @@ namespace DesktopPresentationWPF.ViewModels
             }
             catch (UnauthorizedRequestException)
             {
-                ErrorMessages = new BindingList<string> { "No tiene acceso" };
+                _events.PublishOnUIThread(new NotAuthorizedEvent());
             }
             catch (Exception ex)
             {

@@ -12,10 +12,11 @@ using Presentation.Library.Api.Exceptions;
 using Presentation.Library.Api.Endpoints.Interfaces;
 using System.Threading.Tasks;
 using AutoMapper;
+using WebPresentationMVC.Filters;
 
 namespace WebPresentationMVC.Controllers {
 
-    [Authorize]
+    [AuthorizeSelected(Roles = "Admin")]
     public class UsuarioController : Controller {
         private IAuthenticationEndpoint _authenticationEndpoint;
         private IUsuarioEndpoint _usuarioEndpoint;

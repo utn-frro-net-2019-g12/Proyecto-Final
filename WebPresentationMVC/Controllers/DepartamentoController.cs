@@ -11,10 +11,11 @@ using Presentation.Library.Api.Endpoints.Interfaces;
 using Presentation.Library.Api.Exceptions;
 using System.Threading.Tasks;
 using AutoMapper;
+using WebPresentationMVC.Filters;
 
 namespace WebPresentationMVC.Controllers {
 
-    [Authorize]
+    [AuthorizeSelected(Roles = "Admin")]
     public class DepartamentoController : Controller {
         private IDepartamentoEndpoint _departamentoEndpoint;
         private IUserSession _userSession;

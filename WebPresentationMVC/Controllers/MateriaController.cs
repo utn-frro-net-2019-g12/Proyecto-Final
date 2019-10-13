@@ -12,11 +12,12 @@ using Presentation.Library.Api.Endpoints.Interfaces;
 using Presentation.Library.Api.Exceptions;
 using System.Threading.Tasks;
 using AutoMapper;
+using WebPresentationMVC.Filters;
 
 namespace WebPresentationMVC.Controllers {
 
     // Note: This Controller Communicates with ViewModels (CreateMateriaViewModel and EditMateriaViewModel)
-    [Authorize]
+    [AuthorizeSelected(Roles = "Admin")]
     public class MateriaController : Controller {
 
         private IMateriaEndpoint _materiaEndpoint;
@@ -45,7 +46,7 @@ namespace WebPresentationMVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No tiene acceso");
+                return RedirectToAction("Unauthorized", "Account");
             }
             catch (Exception ex)
             {
@@ -65,7 +66,7 @@ namespace WebPresentationMVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No tiene acceso");
+                return RedirectToAction("Unauthorized", "Account");
             }
             catch (NotFoundRequestException ex)
             {
@@ -196,7 +197,6 @@ namespace WebPresentationMVC.Controllers {
         // Edit - PUT Materia/ID (Secured)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // Bind(Include = "...") is used to avoid overposting attacks
         public async Task<ActionResult> Edit(EditMateriaViewModel viewModel) {
             try
             {

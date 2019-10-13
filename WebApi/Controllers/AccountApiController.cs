@@ -19,7 +19,7 @@ using WebApi.Results;
 
 namespace WebApi.Controllers {
 
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountApiController : ApiController {
         private const string LocalLoginProvider = "Local";
@@ -318,6 +318,17 @@ namespace WebApi.Controllers {
                 return GetErrorResult(result); 
             }
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("GetUserRoles")]
+        public async Task<IHttpActionResult> GetUserRoles()
+        {
+            string userId = RequestContext.Principal.Identity.GetUserId();
+
+            var userRoles = await UserManager.GetRolesAsync(userId);
+
+            return Ok(userRoles);
         }
 
         protected override void Dispose(bool disposing) {

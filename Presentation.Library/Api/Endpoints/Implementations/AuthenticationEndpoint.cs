@@ -68,6 +68,16 @@ namespace Presentation.Library.Api.Endpoints.Implementations
             }
         }
 
+        public async Task<IEnumerable<string>> GetUserRoles(string token)
+        {
+            using (var response = await _apiHelper.ApiClient.GetAsync("api/account/getUserRoles", x => SetToken(x, token)))
+            {
+                var result = await response.Content.ReadAsAsync<IEnumerable<string>>();
+
+                return result;
+            }
+        }
+
 
         private void SetToken(HttpRequestMessage r, string token)
         {

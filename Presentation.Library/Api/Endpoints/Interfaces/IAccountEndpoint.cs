@@ -11,5 +11,6 @@ namespace Presentation.Library.Api.Endpoints.Interfaces
     {
         Task<Token> GetToken(LoginModel model);
         Task RegisterAccount(RegisterModel model, string token);
+        Task<IEnumerable<string>> GetUserRoles(string token);
     }
 }

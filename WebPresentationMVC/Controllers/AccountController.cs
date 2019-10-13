@@ -45,6 +45,7 @@ namespace WebPresentationMVC.Controllers
             try
             {
                 var token = await _authenticationEndpoint.GetToken(model);
+                var roles = await _authenticationEndpoint.GetUserRoles(token.FullToken);
 
                 AuthenticationProperties options = new AuthenticationProperties();
 
@@ -52,15 +53,20 @@ namespace WebPresentationMVC.Controllers
                 options.IsPersistent = true;
                 options.ExpiresUtc = DateTime.UtcNow.AddSeconds(int.Parse(token.Expires_in));
 
-                var claims = new[]
+                var claims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.Name, model.EmailAddress),
-                    new Claim("AcessToken", token.FullToken),
+                    new Claim(type: ClaimTypes.Name, value: model.EmailAddress),
+                    new Claim(type: "AcessToken", value: token.FullToken),
                 };
 
-                var identity = new ClaimsIdentity(claims, "ApplicationCookie");
+                foreach(string role in roles)
+                {
+                    claims.Add(new Claim(type: ClaimTypes.Role, value: role));
+                }
 
-                Request.GetOwinContext().Authentication.SignIn(options, identity);
+                var identity = new ClaimsIdentity(claims: claims, authenticationType: "ApplicationCookie");
+
+                Request.GetOwinContext().Authentication.SignIn(properties: options, identities: identity);
 
                 return RedirectToAction("Dashboard", "Home");
             }
@@ -70,6 +76,12 @@ namespace WebPresentationMVC.Controllers
 
                 return View(model);
             }
+        }
+
+        [Authorize]
+        public ActionResult Unauthorized()
+        {
+            return View();
         }
 
         [Authorize]
