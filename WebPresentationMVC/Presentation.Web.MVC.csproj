@@ -163,7 +163,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="GlobalApi.cs" />
     <Compile Include="IocModules\ApiModule.cs" />
     <Compile Include="Models\MvcHorarioConsultaFechadoModel.cs" />
     <Compile Include="Models\MvcInscripcionModel.cs" />

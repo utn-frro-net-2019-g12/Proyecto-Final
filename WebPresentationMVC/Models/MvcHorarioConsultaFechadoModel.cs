@@ -14,7 +14,7 @@ namespace WebPresentationMVC.Models {
         public System.DateTime Date { get; set; }
 
         [ForeignKey("HorarioConsulta")]
-        public int HorarioConsultaId { get; set; }
+        public int? HorarioConsultaId { get; set; }
         public virtual MvcHorarioConsultaModel HorarioConsulta { get; set; }
     }
 }

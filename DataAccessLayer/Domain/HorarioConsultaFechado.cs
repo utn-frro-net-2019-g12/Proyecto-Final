@@ -8,8 +8,9 @@ namespace DataAccessLayer {
         [Required]
         public System.DateTime Date { get; set; }
 
+        [Required]
         [ForeignKey("HorarioConsulta")]
-        public int HorarioConsultaId { get; set; }
+        public int? HorarioConsultaId { get; set; }
         public virtual HorarioConsulta HorarioConsulta { get; set; }
     }
 }

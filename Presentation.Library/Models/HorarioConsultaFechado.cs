@@ -5,7 +5,7 @@
 
         public System.DateTime Date { get; set; }
 
-        public int HorarioConsultaId { get; set; }
+        public int? HorarioConsultaId { get; set; }
         public virtual HorarioConsulta HorarioConsulta { get; set; }
     }
 }

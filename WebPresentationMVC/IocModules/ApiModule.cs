@@ -25,6 +25,10 @@ namespace WebPresentationMVC.IocModules
                 .InstancePerRequest();
             builder.RegisterType<HorarioConsultaEndpoint>().As<IHorarioConsultaEndpoint>()
                 .InstancePerRequest();
+            builder.RegisterType<HorarioConsultaFechadoEndpoint>().As<IHorarioConsultaFechadoEndpoint>()
+                .InstancePerRequest();
+            builder.RegisterType<InscripcionEndpoint>().As<IInscripcionEndpoint>()
+                .InstancePerRequest();
         }
     }
 }

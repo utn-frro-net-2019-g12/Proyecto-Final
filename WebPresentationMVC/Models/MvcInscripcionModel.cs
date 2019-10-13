@@ -25,11 +25,11 @@ namespace WebPresentationMVC.Models {
 
         // Usuarios with Legajo != Null Only
         [ForeignKey("Alumno")]
-        public int AlumnoId { get; set; }
+        public int? AlumnoId { get; set; }
         public virtual MvcUsuarioModel Alumno { get; set; }
 
         [ForeignKey("HorarioConsultaFechado")]
-        public int HorarioConsultaFechadoId { get; set; }
+        public int? HorarioConsultaFechadoId { get; set; }
         public virtual MvcHorarioConsultaFechadoModel HorarioConsultaFechado { get; set; }
     }
 }

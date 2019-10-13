@@ -9,10 +9,10 @@
         public string Place { get; set; }
         public string EliminationDate { get; set; }
 
-        public int ProfesorId { get; set; }
+        public int? ProfesorId { get; set; }
         public virtual Usuario Profesor { get; set; }
 
-        public int MateriaId { get; set; }
+        public int? MateriaId { get; set; }
         public virtual Materia Materia { get; set; }
     }
 }

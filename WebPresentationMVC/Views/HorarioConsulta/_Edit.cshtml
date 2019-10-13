@@ -44,10 +44,10 @@
         <div class="form-group row ">
             <div class="col-md-6">
                 @Html.DropDownListFor(
-             model => model.HorarioConsulta.ProfesorId,
-             Model.ProfesoresList,
-             "Profesor",
-             new { @class = "form-control" }
+             expression: model => model.HorarioConsulta.ProfesorId,
+             selectList: Model.ProfesoresList,
+             optionLabel: "Profesor",
+             htmlAttributes: new { @class = "form-control" }
              )
                 @Html.ValidationMessageFor(model => model.HorarioConsulta.ProfesorId, "", new { @class = "text-danger" })
             </div>

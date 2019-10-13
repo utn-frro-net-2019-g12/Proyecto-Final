@@ -17,12 +17,14 @@ namespace DataAccessLayer {
         public string EliminationDate { get; set; }
 
         // Usuarios with Matricula != Null Only
+        [Required]
         [ForeignKey("Profesor")]
-        public int ProfesorId { get; set; }
+        public int? ProfesorId { get; set; }
         public virtual Usuario Profesor { get; set; }
 
+        [Required]
         [ForeignKey("Materia")]
-        public int MateriaId { get; set; }
+        public int? MateriaId { get; set; }
         public virtual Materia Materia { get; set; }
     }
 }

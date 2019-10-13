@@ -30,6 +30,8 @@ namespace WebPresentationMVC.IocModules
                 cfg.CreateMap<MvcDepartamentoModel, Departamento>();
                 cfg.CreateMap<HorarioConsulta, MvcHorarioConsultaModel>();
                 cfg.CreateMap<MvcHorarioConsultaModel, HorarioConsulta>();
+                cfg.CreateMap<HorarioConsultaFechado, MvcHorarioConsultaFechadoModel>();
+                cfg.CreateMap<MvcHorarioConsultaFechadoModel, HorarioConsultaFechado>();
                 cfg.CreateMap<Inscripcion, MvcInscripcionModel>();
                 cfg.CreateMap<MvcInscripcionModel, Inscripcion>();
             });

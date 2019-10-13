@@ -10,15 +10,17 @@ namespace DataAccessLayer {
         public string Topic { get; set; }
         public bool? State { get; set; }
         public string Answer { get; set; }
-        public string Observation { get; set; }   
-      
+        public string Observation { get; set; }
+
         // Usuarios with Legajo != Null Only
+        [Required]
         [ForeignKey("Alumno")]
-        public int AlumnoId { get; set; }
+        public int? AlumnoId { get; set; }
         public virtual Usuario Alumno { get; set; }
 
+        [Required]
         [ForeignKey("HorarioConsultaFechado")]
-        public int HorarioConsultaFechadoId { get; set; }
+        public int? HorarioConsultaFechadoId { get; set; }
         public virtual HorarioConsultaFechado HorarioConsultaFechado { get; set; }
     }
 }

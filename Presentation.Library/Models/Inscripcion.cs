@@ -8,10 +8,10 @@
         public string Answer { get; set; }
         public string Observation { get; set; }   
       
-        public int AlumnoId { get; set; }
+        public int? AlumnoId { get; set; }
         public virtual Usuario Alumno { get; set; }
 
-        public int HorarioConsultaFechadoId { get; set; }
+        public int? HorarioConsultaFechadoId { get; set; }
         public virtual HorarioConsultaFechado HorarioConsultaFechado { get; set; }
     }
 }
