@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Mis Inscripciones";
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Nueva Consulta</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1 class="h3 mb-4 text-gray-800">Mis Consultas Actuales</h1>
+        <br />
+        <div class="row mb-3">
+            <div class="col col-auto d-flex">
+                <button id="actionHistorialInscripciones" class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalHistorialInscripciones">Historial de Inscripciones</button>
+            </div>
+            <!-- Lista de Inscripciones Activas, con Acciones -->
+            <!-- Si no hay ninguna, este contenido debe ser un texto informando que aún no hay ninguna inscripción activa -->
+            <!-- Funcionalidades: remover inscripción, ver detalles inscripcion, ver detalles HCFechado, agregar comentario? -->
+    </div>
+</body>
+
+</html>

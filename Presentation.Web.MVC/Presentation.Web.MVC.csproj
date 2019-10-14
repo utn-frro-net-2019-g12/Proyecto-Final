@@ -343,6 +343,10 @@
     <Content Include="Views\Inscripcion\_Create.cshtml" />
     <Content Include="Views\Inscripcion\_Edit.cshtml" />
     <Content Include="Views\Account\Unauthorized.cshtml" />
+    <Content Include="Views\Home\NuevaConsulta.cshtml" />
+    <Content Include="Views\Home\MisInscripciones.cshtml" />
+    <Content Include="Views\Home\MisHorarios.cshtml" />
+    <Content Include="Views\Home\InscripcionesRecibidas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
