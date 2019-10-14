@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using Presentation.Web.MVC.Models;
+
+namespace Presentation.Web.MVC.ViewModels {
+    public class EditInscripcionViewModel {
+        public EditInscripcionViewModel() { }
+
+        public EditInscripcionViewModel(IEnumerable<MvcUsuarioModel> alumnos, IEnumerable<MvcHorarioConsultaFechadoModel> horariosConsultaFechados, MvcInscripcionModel inscripcion) {
+            this.SetAlumnosAsSelectList(alumnos);
+            this.SetHorariosConsultaFechadosAsSelectList(horariosConsultaFechados);
+            this.Inscripcion = inscripcion;
+        }
+
+        public MvcInscripcionModel Inscripcion { get; set; }
+        public IEnumerable<SelectListItem> AlumnosList { get; set; }
+        public IEnumerable<SelectListItem> HorariosConsultaFechadosList { get; set; }
+
+        public void SetAlumnosAsSelectList(IEnumerable<MvcUsuarioModel> profesores) {
+            AlumnosList = profesores.Where(e => e.Legajo != null).Select(e => new SelectListItem() {
+                Value = e.Id.ToString(),
+                Text = e.Surname + " " + e.Firstname
+            }) as IEnumerable<SelectListItem>;
+        }
+
+        public void SetHorariosConsultaFechadosAsSelectList(IEnumerable<MvcHorarioConsultaFechadoModel> horariosConsultaFechados) {
+            HorariosConsultaFechadosList = horariosConsultaFechados.Select(e => new SelectListItem() {
+                Value = e.Id.ToString(),
+                Text = e.HorarioConsulta.Profesor.Surname + " " + e.HorarioConsulta.Profesor.Firstname + " /// " +
+                       e.HorarioConsulta.Materia.Name + " Fecha: " + e.Date
+            }) as IEnumerable<SelectListItem>;
+        }
+    }
+}

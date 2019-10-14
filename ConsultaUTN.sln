@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Web.MVC", "WebPresentationMVC\Presentation.Web.MVC.csproj", "{64AF4A0B-78FB-46E7-8715-4987574244D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Web.MVC", "Presentation.Web.MVC\Presentation.Web.MVC.csproj", "{64AF4A0B-78FB-46E7-8715-4987574244D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccessLayer\DataAccess.csproj", "{FB518FE7-EEEE-486F-BFBC-AA333D0EA21A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{FB518FE7-EEEE-486F-BFBC-AA333D0EA21A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "WebApi\Service.csproj", "{B98FBEA9-C7B1-4FF2-B55D-AD7CB18F57DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{B98FBEA9-C7B1-4FF2-B55D-AD7CB18F57DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Desktop.WPF", "DesktopPresentationWPF\Presentation.Desktop.WPF.csproj", "{9D530180-78CE-45A8-AC1B-E6AAEFFDEEB5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Desktop.WPF", "Presentation.Desktop.WPF\Presentation.Desktop.WPF.csproj", "{9D530180-78CE-45A8-AC1B-E6AAEFFDEEB5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation.Library", "Presentation.Library\Presentation.Library.csproj", "{D063AFBB-FE07-4E15-925C-F17E5ED7B2B1}"
 EndProject
