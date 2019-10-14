@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace WebPresentationMVC.Filters
+namespace Presentation.Web.MVC.Filters
 {
     public class AuthorizeSelected : AuthorizeAttribute
     {

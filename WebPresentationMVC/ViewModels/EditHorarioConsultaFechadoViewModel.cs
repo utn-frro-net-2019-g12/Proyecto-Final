@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebPresentationMVC.Models;
+using Presentation.Web.MVC.Models;
 
-namespace WebPresentationMVC.ViewModels {
+namespace Presentation.Web.MVC.ViewModels {
     public class EditHorarioConsultaFechadoViewModel {
         public EditHorarioConsultaFechadoViewModel() { }
 

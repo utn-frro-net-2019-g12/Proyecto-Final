@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace DesktopPresentationWPF.Views
+namespace Presentation.Desktop.WPF.Views
 {
     /// <summary>
     /// Lógica de interacción para ShellView.xaml

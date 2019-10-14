@@ -10,10 +10,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using WebPresentationMVC.Models;
-using WebPresentationMVC.ViewModels;
+using Presentation.Web.MVC.Models;
+using Presentation.Web.MVC.ViewModels;
 
-namespace WebPresentationMVC.Controllers {
+namespace Presentation.Web.MVC.Controllers {
 
     // Note: This Controller Communicates with ViewModels (CreateInscripcionViewModel and EditInscripcionViewModel)
     [Authorize]

@@ -1,14 +1,14 @@
 ﻿using Caliburn.Micro;
-using DesktopPresentationWPF.EventModels;
-using DesktopPresentationWPF.Models;
-using DesktopPresentationWPF.ViewModels;
+using Presentation.Desktop.WPF.EventModels;
+using Presentation.Desktop.WPF.Models;
+using Presentation.Desktop.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DesktopPresentationWPF.ViewModels
+namespace Presentation.Desktop.WPF.ViewModels
 {
     public class ShellViewModel : Conductor<Object>, IHandle<LogOnEvent>, IHandle<NotAuthorizedEvent>
     {

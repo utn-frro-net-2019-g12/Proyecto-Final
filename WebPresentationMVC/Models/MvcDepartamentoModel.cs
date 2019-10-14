@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
-namespace WebPresentationMVC.Models {
+namespace Presentation.Web.MVC.Models {
     public class MvcDepartamentoModel {
         public int Id { get; set; }
 

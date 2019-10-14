@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace DataAccessLayer.Repositories {
+namespace DataAccess.Repositories {
     public interface IRepository<TEntity> where TEntity : class {
         TEntity GetById(object id);
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filterExp = null);

@@ -1,4 +1,4 @@
-﻿namespace WebPresentationMVC.Models
+﻿namespace Presentation.Web.MVC.Models
 {
     public interface IUserSession
     {

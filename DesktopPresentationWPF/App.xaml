@@ -1,7 +1,7 @@
-﻿<Application x:Class="DesktopPresentationWPF.App"
+﻿<Application x:Class="Presentation.Desktop.WPF.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:DesktopPresentationWPF">
+             xmlns:local="clr-namespace:Presentation.Desktop.WPF">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

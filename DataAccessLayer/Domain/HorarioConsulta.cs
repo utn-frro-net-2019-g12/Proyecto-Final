@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataAccessLayer {
+namespace DataAccess {
     public class HorarioConsulta {
         public int Id { get; set; }
 
@@ -14,7 +15,7 @@ namespace DataAccessLayer {
         [Required]
         [StringLength(50)]
         public string Place { get; set; }
-        public string EliminationDate { get; set; }
+        public DateTime? EliminationDate { get; set; }
 
         // Usuarios with Matricula != Null Only
         [Required]

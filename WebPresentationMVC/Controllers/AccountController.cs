@@ -11,9 +11,9 @@ using System.Web.Mvc;
 using Presentation.Library.Models;
 using Presentation.Library.Api.Endpoints.Interfaces;
 using Presentation.Library.Api.Exceptions;
-using WebPresentationMVC.Models;
+using Presentation.Web.MVC.Models;
 
-namespace WebPresentationMVC.Controllers
+namespace Presentation.Web.MVC.Controllers
 {
     [Authorize]
     public class AccountController : Controller

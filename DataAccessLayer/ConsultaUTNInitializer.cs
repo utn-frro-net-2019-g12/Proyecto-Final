@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DataAccessLayer {
+namespace DataAccess {
     public class ConsultaUTNInitializer : System.Data.Entity.DropCreateDatabaseAlways<ConsultaUTNContext> {
         // For Test --> System.Data.Entity.DropCreateDatabaseAlways<ConsultaUTNContext> {
         protected override void Seed(ConsultaUTNContext context) {

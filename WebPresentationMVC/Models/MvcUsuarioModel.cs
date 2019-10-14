@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace WebPresentationMVC.Models {
+namespace Presentation.Web.MVC.Models {
     public class MvcUsuarioModel {
         public int Id { get; set; }
 

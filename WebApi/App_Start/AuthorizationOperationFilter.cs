@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Http.Description;
 using Swashbuckle.Swagger;
 
-namespace WebApi.App_Start
+namespace Service.App_Start
 {
     public class AuthorizationOperationFilter : IOperationFilter
     {

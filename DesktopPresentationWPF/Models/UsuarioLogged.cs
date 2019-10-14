@@ -1,4 +1,4 @@
-﻿namespace DesktopPresentationWPF.Models
+﻿namespace Presentation.Desktop.WPF.Models
 {
     class UsuarioLogged : IUsuarioLogged
     {

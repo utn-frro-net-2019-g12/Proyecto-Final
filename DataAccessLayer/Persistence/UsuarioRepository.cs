@@ -4,9 +4,9 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using DataAccessLayer.Repositories;
+using DataAccess.Repositories;
 
-namespace DataAccessLayer.Persistence {
+namespace DataAccess.Persistence {
     public class UsuarioRepository : Repository<Usuario>, IUsuarioRepository {
         public UsuarioRepository(ConsultaUTNContext context) : base(context) { }
 

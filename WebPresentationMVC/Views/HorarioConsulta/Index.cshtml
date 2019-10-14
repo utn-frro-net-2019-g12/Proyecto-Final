@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebPresentationMVC.Models.MvcHorarioConsultaModel>
+﻿@model IEnumerable<Presentation.Web.MVC.Models.MvcHorarioConsultaModel>
 
 @{
     ViewBag.Title = "Index";
@@ -189,9 +189,6 @@
                                 @Html.DisplayNameFor(model => model.Place)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.EliminationDate)
-                            </th>
-                            <th>
                                 Profesor
                             </th>
                             <th>
@@ -216,9 +213,6 @@
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.Place)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.EliminationDate)
                             </th>
                             <th>
                                 Profesor
@@ -246,9 +240,6 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Place)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.EliminationDate)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Profesor.Surname)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace TRMDesktopUI.Helpers
+namespace Presentation.Desktop.WPF.Helpers
 {
     public static class PasswordBoxHelper
     {

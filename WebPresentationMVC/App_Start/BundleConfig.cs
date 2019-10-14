@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace WebPresentationMVC
+namespace Presentation.Web.MVC
 {
     public class BundleConfig
     {

@@ -282,7 +282,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Content\Site.css" />
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
@@ -304,9 +306,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
+    <ProjectReference Include="..\DataAccessLayer\DataAccess.csproj">
       <Project>{fb518fe7-eeee-486f-bfbc-aa333d0ea21a}</Project>
-      <Name>DataAccessLayer</Name>
+      <Name>DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

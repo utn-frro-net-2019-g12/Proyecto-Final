@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DesktopPresentationWPF.Properties {
+namespace Presentation.Desktop.WPF.Properties {
 
 
     /// <summary>
@@ -38,7 +38,7 @@ namespace DesktopPresentationWPF.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if ((resourceMan == null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DesktopPresentationWPF.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Presentation.Desktop.WPF.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

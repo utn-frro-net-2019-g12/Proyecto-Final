@@ -8,9 +8,9 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Results;
-using DataAccessLayer;
+using DataAccess;
 
-namespace WebApi.Controllers {
+namespace Service.Controllers {
 
     [Authorize(Roles = "Admin")]
     [RoutePrefix("api/horariosConsulta")]

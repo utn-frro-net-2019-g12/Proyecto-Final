@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace DesktopPresentationWPF.Models {
+namespace Presentation.Desktop.WPF.Models {
     public class WpfUsuarioModel {
         public int Id { get; set; }
 

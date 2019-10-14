@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DesktopPresentationWPF.Properties {
+namespace Presentation.Desktop.WPF.Properties {
 
 
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

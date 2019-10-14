@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace DesktopPresentationWPF {
+namespace Presentation.Desktop.WPF {
     /// <summary>
     /// Lógica de interacción para App.xaml
     /// </summary>

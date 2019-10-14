@@ -1,13 +1,13 @@
 ﻿using Autofac;
-using DataAccessLayer;
+using DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WebApi.IocModules
+namespace Service.IocModules
 {
-    public class DataAccessLayerModule : Module
+    public class DataAccessModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

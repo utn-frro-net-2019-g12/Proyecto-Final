@@ -1,5 +1,5 @@
 ﻿using Caliburn.Micro;
-using DesktopPresentationWPF.Models;
+using Presentation.Desktop.WPF.Models;
 using Presentation.Library.Models;
 using System;
 using System.Collections.Generic;
@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 using Presentation.Library.Api.Endpoints.Interfaces;
 using Presentation.Library.Api.Exceptions;
 using AutoMapper;
-using DesktopPresentationWPF.EventModels;
+using Presentation.Desktop.WPF.EventModels;
 
-namespace DesktopPresentationWPF.ViewModels
+namespace Presentation.Desktop.WPF.ViewModels
 {
     public class MateriaViewModel : Screen
     {

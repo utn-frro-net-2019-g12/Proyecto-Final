@@ -1,9 +1,9 @@
-﻿using DataAccessLayer.Repositories;
-using DataAccessLayer.Persistence;
+﻿using DataAccess.Repositories;
+using DataAccess.Persistence;
 using System.Data.Entity.Infrastructure;
 using System;
 
-namespace DataAccessLayer {
+namespace DataAccess {
     public class UnitOfWork : IUnitOfWork {
         private readonly ConsultaUTNContext _context;
         private bool _disposed = false;

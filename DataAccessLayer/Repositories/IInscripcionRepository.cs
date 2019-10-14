@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DataAccessLayer.Repositories {
+namespace DataAccess.Repositories {
     public interface IInscripcionRepository : IRepository<Inscripcion> {
         IEnumerable<Inscripcion> GetInscripcionesOrderedByMateria();
         IEnumerable<Inscripcion> GetInscripcionesOrderedByProfesor();

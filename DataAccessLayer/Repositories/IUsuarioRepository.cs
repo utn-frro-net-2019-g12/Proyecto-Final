@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DataAccessLayer.Repositories {
+namespace DataAccess.Repositories {
     public interface IUsuarioRepository : IRepository<Usuario> {
         bool? IsAdmin(int userId);
         int? GetLegajo(int userId); // Null --> No es Alumno

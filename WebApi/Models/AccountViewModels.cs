@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebApi.Models
+namespace Service.Models
 {
     // Modelos devueltos por las acciones de AccountController.
 

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebPresentationMVC.Models;
+using Presentation.Web.MVC.Models;
 
-namespace WebPresentationMVC.Controllers {
+namespace Presentation.Web.MVC.Controllers {
 
     [Authorize]
     public class HomeController : Controller {

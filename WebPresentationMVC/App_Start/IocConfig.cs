@@ -6,10 +6,10 @@ using System.Reflection;
 using Autofac;
 using Autofac.Integration.Mvc;
 using System.Web.Mvc;
-using WebPresentationMVC.IocModules;
-using WebPresentationMVC.Models;
+using Presentation.Web.MVC.IocModules;
+using Presentation.Web.MVC.Models;
 
-namespace WebPresentationMVC.App_Start
+namespace Presentation.Web.MVC.App_Start
 {
     public class IocConfig
     {

@@ -9,11 +9,11 @@ using System.Web.Mvc;
 using Presentation.Library.Models;
 using Presentation.Library.Api.Endpoints.Interfaces;
 using Presentation.Library.Api.Exceptions;
-using WebPresentationMVC.Models;
-using WebPresentationMVC.ViewModels;
+using Presentation.Web.MVC.Models;
+using Presentation.Web.MVC.ViewModels;
 using AutoMapper;
 
-namespace WebPresentationMVC.Controllers {
+namespace Presentation.Web.MVC.Controllers {
 
     // Note: This Controller Communicates with ViewModels (CreateHorarioConsultaViewModel and EditHorarioConsultaViewModel)
     [Authorize]

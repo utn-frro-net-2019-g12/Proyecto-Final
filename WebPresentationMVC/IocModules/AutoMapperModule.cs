@@ -1,13 +1,13 @@
 ﻿using Autofac;
 using AutoMapper;
 using Presentation.Library.Models;
-using WebPresentationMVC.Models;
+using Presentation.Web.MVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WebPresentationMVC.IocModules
+namespace Presentation.Web.MVC.IocModules
 {
     public class AutoMapperModule : Module
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DataAccessLayer.Repositories {
+namespace DataAccess.Repositories {
     public interface IHorarioConsultaRepository : IRepository<HorarioConsulta> {
         IEnumerable<HorarioConsulta> GetHorariosConsultaOrderedByMateria();
         IEnumerable<HorarioConsulta> GetHorariosConsultaOrderedByProfesor();

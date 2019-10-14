@@ -7,9 +7,9 @@ using System.Web.Http;
 using Autofac.Integration.WebApi;
 using System.Reflection;
 using System.Data.Entity;
-using WebApi.IocModules;
+using Service.IocModules;
 
-namespace WebApi
+namespace Service
 {
     public class IocConfig
     {
@@ -19,7 +19,7 @@ namespace WebApi
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
-            builder.RegisterModule<DataAccessLayerModule>();
+            builder.RegisterModule<DataAccessModule>();
 
             IContainer container = builder.Build();
 

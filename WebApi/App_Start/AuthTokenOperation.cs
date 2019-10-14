@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http.Description;
 
-namespace WebApi.App_Start
+namespace Service.App_Start
 {
     public class AuthTokenOperation : IDocumentFilter
     {

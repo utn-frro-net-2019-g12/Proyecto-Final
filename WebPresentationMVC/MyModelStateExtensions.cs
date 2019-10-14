@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Web.Mvc;
 
-namespace WebPresentationMVC
+namespace Presentation.Web.MVC
 {
     public static class MyModelStateExtensions
     {

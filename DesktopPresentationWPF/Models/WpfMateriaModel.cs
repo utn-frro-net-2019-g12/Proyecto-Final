@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
-namespace DesktopPresentationWPF.Models {
+namespace Presentation.Desktop.WPF.Models {
     public class WpfMateriaModel : INotifyPropertyChanged {
         public int Id { get; set; }
 

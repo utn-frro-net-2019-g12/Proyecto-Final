@@ -1,7 +1,7 @@
 ﻿using System;
-using DataAccessLayer.Repositories;
+using DataAccess.Repositories;
 
-namespace DataAccessLayer {
+namespace DataAccess {
     public interface IUnitOfWork : IDisposable {
         IMateriaRepository Materias { get; }
         IDepartamentoRepository Departamentos { get; }

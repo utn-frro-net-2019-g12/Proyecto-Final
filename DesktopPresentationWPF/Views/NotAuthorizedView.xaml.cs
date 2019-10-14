@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DesktopPresentationWPF.Views
+namespace Presentation.Desktop.WPF.Views
 {
     /// <summary>
     /// Lógica de interacción para NotAuthorizedView.xaml

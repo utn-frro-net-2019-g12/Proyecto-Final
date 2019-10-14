@@ -4,9 +4,9 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using DataAccessLayer.Repositories;
+using DataAccess.Repositories;
 
-namespace DataAccessLayer.Persistence {
+namespace DataAccess.Persistence {
     public class HorarioConsultaFechadoRepository : Repository<HorarioConsultaFechado>, IHorarioConsultaFechadoRepository {
         public HorarioConsultaFechadoRepository(ConsultaUTNContext context) : base(context) { }
 

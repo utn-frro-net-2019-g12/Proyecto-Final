@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
 
-namespace DataAccessLayer {
+namespace DataAccess {
     public class Usuario {
         public int Id { get; set; }
 

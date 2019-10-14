@@ -7,9 +7,9 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using WebPresentationMVC.App_Start;
+using Presentation.Web.MVC.App_Start;
 
-namespace WebPresentationMVC
+namespace Presentation.Web.MVC
 {
     public class MvcApplication : System.Web.HttpApplication
     {

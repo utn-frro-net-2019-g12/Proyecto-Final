@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataAccessLayer {
+namespace DataAccess {
     public class Inscripcion {
         public int Id { get; set; }
         

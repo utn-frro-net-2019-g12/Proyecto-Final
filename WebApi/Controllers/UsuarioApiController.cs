@@ -8,10 +8,10 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Results;
-using DataAccessLayer;
+using DataAccess;
 using Microsoft.AspNet.Identity;
 
-namespace WebApi.Controllers {
+namespace Service.Controllers {
 
     [Authorize(Roles = "Admin")]
     [RoutePrefix("api/usuarios")]

@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
-namespace DataAccessLayer {
+namespace DataAccess {
     public class ConsultaUTNContext : DbContext {
         public virtual DbSet<Materia> Materias { get; set; }
         public virtual DbSet<Departamento> Departamentos { get; set; }

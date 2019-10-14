@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Caliburn.Micro;
-using DesktopPresentationWPF.Models;
-using DesktopPresentationWPF.ViewModels;
+using Presentation.Desktop.WPF.Models;
+using Presentation.Desktop.WPF.ViewModels;
 using Presentation.Library.Models;
 using Presentation.Library.Api;
 using Presentation.Library.Api.Endpoints.Interfaces;
@@ -13,9 +13,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using TRMDesktopUI.Helpers;
+using Presentation.Desktop.WPF.Helpers;
 
-namespace DesktopPresentationWPF
+namespace Presentation.Desktop.WPF
 {
     public class Bootstrapper : BootstrapperBase
     {

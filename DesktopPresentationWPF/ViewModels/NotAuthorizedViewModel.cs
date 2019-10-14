@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DesktopPresentationWPF.ViewModels
+namespace Presentation.Desktop.WPF.ViewModels
 {
     public class NotAuthorizedViewModel : Screen
     {

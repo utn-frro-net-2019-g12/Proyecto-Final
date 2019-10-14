@@ -5,16 +5,16 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
-using WebPresentationMVC.Models;
-using WebPresentationMVC.ViewModels;
+using Presentation.Web.MVC.Models;
+using Presentation.Web.MVC.ViewModels;
 using Presentation.Library.Models;
 using Presentation.Library.Api.Endpoints.Interfaces;
 using Presentation.Library.Api.Exceptions;
 using System.Threading.Tasks;
 using AutoMapper;
-using WebPresentationMVC.Filters;
+using Presentation.Web.MVC.Filters;
 
-namespace WebPresentationMVC.Controllers {
+namespace Presentation.Web.MVC.Controllers {
 
     // Note: This Controller Communicates with ViewModels (CreateMateriaViewModel and EditMateriaViewModel)
     [AuthorizeSelected(Roles = "Admin")]

@@ -1,17 +1,17 @@
 ﻿using Caliburn.Micro;
-using DesktopPresentationWPF.EventModels;
+using Presentation.Desktop.WPF.EventModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DesktopPresentationWPF.Models;
+using Presentation.Desktop.WPF.Models;
 using Presentation.Library.Api.Exceptions;
 using Presentation.Library.Api.Endpoints.Interfaces;
 using Presentation.Library.Models;
 using System.ComponentModel;
 
-namespace DesktopPresentationWPF.ViewModels
+namespace Presentation.Desktop.WPF.ViewModels
 {
     public class LoginViewModel : Screen
     {
