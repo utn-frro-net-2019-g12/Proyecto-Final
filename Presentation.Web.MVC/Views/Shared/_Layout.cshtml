@@ -45,8 +45,7 @@
                     </a>
                 </li>
 
-                @if (User.IsInRole("Alumno"))
-                {
+                @if (User.IsInRole("Alumno")) {
                     <!-- Divider -->
                     <hr class="sidebar-divider">
 
@@ -65,13 +64,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <i class="fas fa-history"></i>
-                            <span>Consultas Realizadas</span>
+                            <span>Mis Inscripciones</span>
                         </a>
                     </li>
                 }
 
-                @if (User.IsInRole("Profesor"))
-                {
+                @if (User.IsInRole("Profesor")) {
                     <!-- Divider -->
                     <hr class="sidebar-divider">
 
@@ -82,7 +80,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <i class="fas fa-file-alt"></i>
-                            <span>Consultas Recibidas</span>
+                            <span>Inscripciones Recibidas</span>
                         </a>
                     </li>
 
@@ -95,8 +93,7 @@
                     </li>
                 }
 
-                @if (User.IsInRole("Admin"))
-                {
+                @if (User.IsInRole("Admin")) {
                     <!-- Divider -->
                     <hr class="sidebar-divider">
 
@@ -119,7 +116,7 @@
                             <i class="fas fa-fw fa-chart-area"></i>
                             <span>Materias y Deptos</span>
                         </a>
-                        <div id="collapseMD" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div id="collapseMD" class="collapse" aria-labelledby="headingMD" data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <!--<h6 class="collapse-header">Configuraciones</h6>-->
                                 <a class="collapse-item" href="@Url.Action("Index", "Materia")">
@@ -140,7 +137,7 @@
                             <i class="fas fa-file-alt fa-chart-area"></i>
                             <span>Horarios e Inscripciones</span>
                         </a>
-                        <div id="collapseHCI" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div id="collapseHCI" class="collapse" aria-labelledby="headingHCI" data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <a class="collapse-item" href="@Url.Action("Index", "HorarioConsulta")">
                                     <i class="fas fa-file-alt fa-chart-area mr-2 text-gray-400"></i>
@@ -158,13 +155,35 @@
                 <!-- Divider -->
                 <hr class="sidebar-divider my-0">
 
-                <!-- Nav Item - Pages Collapse Menu -->
+                <!-- Nav Item - ConsultaUTN -->
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUs" aria-expanded="true" aria-controls="collapseUs">
+                        <i class="fas fa-university fa-cog"></i>
+                        <span>ConsultaUTN</span>
+                    </a>
+                    <div id="collapseUs" class="collapse" aria-labelledby="headingUs" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <!--<h6 class="collapse-header">Configuraciones</h6>-->
+                            <a class="collapse-item" href="@Url.Action("Index", "Home/About")">
+                                <i class="fas fa-address-card fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Sobre Nosotros
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="collapse-item" href="@Url.Action("Index", "Home/Contact")">
+                                <i class="fas fa-address-book fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Contacto
+                            </a>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Nav Item - Configuraciones -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseConfig" aria-expanded="true" aria-controls="collapseConfig">
                         <i class="fas fa-fw fa-cog"></i>
                         <span>Configuraciones</span>
                     </a>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div id="collapseConfig" class="collapse" aria-labelledby="headingConfig" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <!--<h6 class="collapse-header">Configuraciones</h6>-->
                             <a class="collapse-item" href="#">
