@@ -20,5 +20,11 @@ namespace DataAccess.Persistence {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
             return ConsultaUTNContext.Departamentos.OrderByDescending(e => e.Name).ToList();
         }
+
+        public IEnumerable<Departamento> GetDepartamentosByPartialDesc(string desc) {
+            ConsultaUTNContext.Database.Log = message => Trace.Write(message);
+            return ConsultaUTNContext.Departamentos.Where(e => e.Name.ToLower().Contains(desc.ToLower()))
+                .OrderByDescending(e => e.Name).ToList();
+        }
     }
 }

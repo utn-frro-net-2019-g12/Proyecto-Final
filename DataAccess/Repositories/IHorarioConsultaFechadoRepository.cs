@@ -5,6 +5,8 @@ namespace DataAccess.Repositories {
         IEnumerable<HorarioConsultaFechado> GetHorariosConsultaFechadosOrderedByMateria();
         IEnumerable<HorarioConsultaFechado> GetHorariosConsultaFechadosOrderedByProfesor();
         IEnumerable<HorarioConsultaFechado> GetHorariosConsultaFechadosWithProfesorAndMateria();
+        IEnumerable<HorarioConsultaFechado> GetHorariosConsultaFechadosByHorarioConsulta(int id_horario_consulta);
+        IEnumerable<HorarioConsultaFechado> GetHorariosConsultaFechadosByProfesor(int id_profesor);
         HorarioConsultaFechado GetHorarioConsultaFechadoWithProfesorAndMateria(int id);
     }
 }

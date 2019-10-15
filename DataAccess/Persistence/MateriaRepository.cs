@@ -23,12 +23,23 @@ namespace DataAccess.Persistence {
 
         public IEnumerable<Materia> GetMateriasWithDepto() {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Materias.Include(p => p.Departamento);
+            return ConsultaUTNContext.Materias.Include(e => e.Departamento).ToList();
+        }
+
+        public IEnumerable<Materia> GetMateriasByDepto(int id_depto) {
+            ConsultaUTNContext.Database.Log = message => Trace.Write(message);
+            return ConsultaUTNContext.Materias.Where(e => e.DepartamentoId == id_depto).OrderByDescending(e => e.Name).ToList();
+        }
+
+        public IEnumerable<Materia> GetMateriasByPartialDesc(string desc) {
+            ConsultaUTNContext.Database.Log = message => Trace.Write(message);
+            return ConsultaUTNContext.Materias.Where(e => e.Name.ToLower().Contains(desc.ToLower())).Include(e => e.Departamento)
+                .OrderByDescending(e => e.Name).ToList();
         }
 
         public Materia GetMateriaWithDepto(int id) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Materias.Where(p => p.Id == id).Include(p => p.Departamento).FirstOrDefault();
+            return ConsultaUTNContext.Materias.Where(e => e.Id == id).Include(e => e.Departamento).FirstOrDefault();
         }
     }
 }

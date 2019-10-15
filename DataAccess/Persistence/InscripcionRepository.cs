@@ -38,21 +38,53 @@ namespace DataAccess.Persistence {
         public IEnumerable<Inscripcion> GetInscripcionesWithAlumnoAndHorario() {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
             return ConsultaUTNContext.Inscripciones
-                .Include(p => p.Alumno)
-                .Include(p => p.HorarioConsultaFechado)
-                .Include(p => p.HorarioConsultaFechado.HorarioConsulta)
-                .Include(p => p.HorarioConsultaFechado.HorarioConsulta.Profesor)
-                .Include(p => p.HorarioConsultaFechado.HorarioConsulta.Materia);
+                .Include(e => e.Alumno)
+                .Include(e => e.HorarioConsultaFechado)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta.Profesor)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta.Materia).ToList();
+        }
+
+        public IEnumerable<Inscripcion> GetInscripcionesByAlumno(int id_alumno) {
+            ConsultaUTNContext.Database.Log = message => Trace.Write(message);
+            return ConsultaUTNContext.Inscripciones.Where(e => e.AlumnoId == id_alumno).OrderByDescending(e => e.Alumno.Legajo)
+                .Include(e => e.Alumno)
+                .Include(e => e.HorarioConsultaFechado)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta.Profesor)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta.Materia).ToList();
+        }
+
+        public IEnumerable<Inscripcion> GetInscripcionesActivasByAlumno(int id_alumno) {
+            ConsultaUTNContext.Database.Log = message => Trace.Write(message);
+            return ConsultaUTNContext.Inscripciones.Where(e => (e.AlumnoId == id_alumno) && (e.State != false)).OrderByDescending(e => e.Alumno.Legajo)
+                .Include(e => e.Alumno)
+                .Include(e => e.HorarioConsultaFechado)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta.Profesor)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta.Materia).ToList();
+        }
+
+        public IEnumerable<Inscripcion> GetInscripcionesByProfesor(int id_profesor) {
+            ConsultaUTNContext.Database.Log = message => Trace.Write(message);
+            return ConsultaUTNContext.Inscripciones.Where(e => e.HorarioConsultaFechado.HorarioConsulta.ProfesorId == id_profesor)
+                .OrderByDescending(e => e.HorarioConsultaFechado.HorarioConsulta.Profesor.Surname)
+                .ThenByDescending(e => e.HorarioConsultaFechado.HorarioConsulta.Profesor.Firstname)
+                .Include(e => e.Alumno)
+                .Include(e => e.HorarioConsultaFechado)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta.Profesor)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta.Materia).ToList();
         }
 
         public Inscripcion GetInscripcionWithAlumnoAndHorario(int id) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Inscripciones.Where(p => p.Id == id)
-                .Include(p => p.Alumno)
-                .Include(p => p.HorarioConsultaFechado)
-                .Include(p => p.HorarioConsultaFechado.HorarioConsulta)
-                .Include(p => p.HorarioConsultaFechado.HorarioConsulta.Profesor)
-                .Include(p => p.HorarioConsultaFechado.HorarioConsulta.Materia).FirstOrDefault();
+            return ConsultaUTNContext.Inscripciones.Where(e => e.Id == id)
+                .Include(e => e.Alumno)
+                .Include(e => e.HorarioConsultaFechado)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta.Profesor)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta.Materia).FirstOrDefault();
         }
     }
 }

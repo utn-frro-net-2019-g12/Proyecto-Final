@@ -6,6 +6,9 @@ namespace DataAccess.Repositories {
         IEnumerable<Inscripcion> GetInscripcionesOrderedByProfesor();
         IEnumerable<Inscripcion> GetInscripcionesOrderedByAlumno();
         IEnumerable<Inscripcion> GetInscripcionesWithAlumnoAndHorario();
+        IEnumerable<Inscripcion> GetInscripcionesByAlumno(int id_alumno);
+        IEnumerable<Inscripcion> GetInscripcionesActivasByAlumno(int id_alumno);
+        IEnumerable<Inscripcion> GetInscripcionesByProfesor(int id_profesor);
         Inscripcion GetInscripcionWithAlumnoAndHorario(int id);
     }
 }

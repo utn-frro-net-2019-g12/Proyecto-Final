@@ -23,8 +23,7 @@ namespace DataAccess.Persistence {
 
         public IEnumerable<TEntity> Get(
             Expression<Func<TEntity, bool>> filterExp = null
-            )
-        {
+            ) {
             IQueryable<TEntity> query = _entities;
 
             if (filterExp != null) {
@@ -37,8 +36,7 @@ namespace DataAccess.Persistence {
         public IEnumerable<TEntity> GetOrdered<TKey>(
             Expression<Func<TEntity, TKey>> orderByExp,
             Expression<Func<TEntity, bool>> filterExp = null
-            )
-        {
+            ) {
             Context.Database.Log = message => Trace.Write(message);
             IQueryable<TEntity> query = _entities;
 

@@ -18,19 +18,19 @@ namespace DataAccess.Persistence {
 
         public bool? IsAdmin(int userId) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Usuarios.Where(p => p.Id == userId).Select(p => p.IsAdmin).SingleOrDefault();
+            return ConsultaUTNContext.Usuarios.Where(e => e.Id == userId).Select(e => e.IsAdmin).SingleOrDefault();
         }
 
         // Null --> No es Alumno
         public int? GetLegajo(int userId) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Usuarios.Where(p => p.Id == userId).Select(p => p.Legajo != null ? p.Legajo : null).SingleOrDefault();
+            return ConsultaUTNContext.Usuarios.Where(e => e.Id == userId).Select(e => e.Legajo != null ? e.Legajo : null).SingleOrDefault();
         }
 
         // Null --> No es Profesor
         public string GetMatricula(int userId) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Usuarios.Where(p => p.Id == userId).Select(p => p.Matricula != null ? p.Matricula : null).SingleOrDefault();
+            return ConsultaUTNContext.Usuarios.Where(e => e.Id == userId).Select(e => e.Matricula != null ? e.Matricula : null).SingleOrDefault();
         }
 
         public IEnumerable<Usuario> GetUsuariosOrderedByUsername() {
@@ -44,36 +44,54 @@ namespace DataAccess.Persistence {
             return ConsultaUTNContext.Usuarios.OrderByDescending(e => e.Surname).ThenByDescending(e => e.Firstname).ToList();
         }
 
-        public IEnumerable<Usuario> GetUsuariosAlumnosOrderedByLegajo() {
+        public IEnumerable<Usuario> GetUsuariosProfesoresOrderedByFullName() {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Usuarios.Where(p => p.Legajo != null).OrderByDescending(e => e.Legajo).ToList();
+            return ConsultaUTNContext.Usuarios.Where(e => e.Matricula != null)
+                .OrderByDescending(e => e.Surname).ThenByDescending(e => e.Firstname).ToList();
         }
 
+        public IEnumerable<Usuario> GetUsuariosAlumnosOrderedByLegajo() {
+            ConsultaUTNContext.Database.Log = message => Trace.Write(message);
+            return ConsultaUTNContext.Usuarios.Where(e => e.Legajo != null).OrderByDescending(e => e.Legajo).ToList();
+        }
+
+        public IEnumerable<Usuario> GetUsuariosAlumnosByPartialDesc(string desc) {
+            ConsultaUTNContext.Database.Log = message => Trace.Write(message);
+            return ConsultaUTNContext.Usuarios.Where(e => (e.Legajo != null) &&
+                ((e.Surname.ToLower() + " " + e.Firstname.ToLower()).Contains(desc.ToLower())))
+                .OrderByDescending(e => e.Surname).ThenByDescending(e => e.Firstname).ToList();
+        }
+
+        public IEnumerable<Usuario> GetUsuariosProfesoresByPartialDesc(string desc) {
+            ConsultaUTNContext.Database.Log = message => Trace.Write(message);
+            return ConsultaUTNContext.Usuarios.Where(e => (e.Matricula != null) &&
+                ((e.Surname.ToLower() + " " + e.Firstname.ToLower()).Contains(desc.ToLower())))
+                .OrderByDescending(e => e.Surname).ThenByDescending(e => e.Firstname).ToList();
+        }
 
         public Usuario GetUsuarioById(int userId) { 
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Usuarios.Where(p => p.Id == userId).FirstOrDefault();
+            return ConsultaUTNContext.Usuarios.Where(e => e.Id == userId).FirstOrDefault();
         }
 
         public Usuario GetUsuarioByUsername(string username) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Usuarios.Where(p => p.Username == username).FirstOrDefault();
+            return ConsultaUTNContext.Usuarios.Where(e => e.Username == username).FirstOrDefault();
         }
 
         public Usuario GetUsuarioByFullname(string surname, string firstname) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Usuarios.Where(p => p.Surname == surname & p.Firstname == firstname).FirstOrDefault();
+            return ConsultaUTNContext.Usuarios.Where(e => e.Surname == surname & e.Firstname == firstname).FirstOrDefault();
         }
 
         public Usuario GetUsuarioAlumnoByLegajo(int legajo) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Usuarios.Where(p => p.Legajo == legajo).FirstOrDefault();
+            return ConsultaUTNContext.Usuarios.Where(e => e.Legajo == legajo).FirstOrDefault();
         }
 
         public Usuario GetUsuarioProfesorByMatricula(string matricula) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Usuarios.Where(p => p.Matricula == matricula).FirstOrDefault();
+            return ConsultaUTNContext.Usuarios.Where(e => e.Matricula == matricula).FirstOrDefault();
         }
-
     }
 }
