@@ -9,5 +9,6 @@ namespace Presentation.Library.Api.Endpoints.Interfaces
 {
     public interface IHorarioConsultaEndpoint : IEndpoint<HorarioConsulta>
     {
+        Task<IEnumerable<HorarioConsulta>> GetByCurrentUserProfessor(string token);
     }
 }

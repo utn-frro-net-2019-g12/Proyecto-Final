@@ -33,8 +33,6 @@ namespace Service.Controllers {
         /// </summary>
         [HttpGet]
         [Route("search")]
-        // [Route("?desc={desc:string}")]
-        // [Route("", Name = "GetByPartialDescription")]
         public IHttpActionResult GetByPartialDescription(string desc) {
             var departamentos = _unitOfWork.Departamentos.GetDepartamentosByPartialDesc(desc);
             return Ok(departamentos);

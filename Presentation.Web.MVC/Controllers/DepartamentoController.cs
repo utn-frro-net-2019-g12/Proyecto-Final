@@ -17,9 +17,9 @@ namespace Presentation.Web.MVC.Controllers {
 
     [AuthorizeSelected(Roles = "Admin")]
     public class DepartamentoController : Controller {
-        private IDepartamentoEndpoint _departamentoEndpoint;
-        private IUserSession _userSession;
-        private IMapper _mapper;
+        private readonly IDepartamentoEndpoint _departamentoEndpoint;
+        private readonly IUserSession _userSession;
+        private readonly IMapper _mapper;
 
         public DepartamentoController(IDepartamentoEndpoint departamentoEndpoint, IUserSession userSession, IMapper mapper)
         {

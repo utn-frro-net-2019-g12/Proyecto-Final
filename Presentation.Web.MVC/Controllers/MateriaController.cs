@@ -20,10 +20,10 @@ namespace Presentation.Web.MVC.Controllers {
     [AuthorizeSelected(Roles = "Admin")]
     public class MateriaController : Controller {
 
-        private IMateriaEndpoint _materiaEndpoint;
-        private IDepartamentoEndpoint _departamentoEndpoint;
-        private IUserSession _userSession;
-        private IMapper _mapper;
+        private readonly IMateriaEndpoint _materiaEndpoint;
+        private readonly IDepartamentoEndpoint _departamentoEndpoint;
+        private readonly IUserSession _userSession;
+        private readonly IMapper _mapper;
 
         public MateriaController(IMateriaEndpoint materiaEndpoint, IDepartamentoEndpoint departamentoEndpoint
             , IUserSession userSession, IMapper mapper)

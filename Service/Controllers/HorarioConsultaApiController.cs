@@ -9,6 +9,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Results;
 using DataAccess;
+using Microsoft.AspNet.Identity;
 
 namespace Service.Controllers {
 
@@ -37,9 +38,25 @@ namespace Service.Controllers {
         /// Retrives horarioConsulta instances that matches with an id_profesor
         /// </summary>
         [HttpGet]
-        [Route("searchByProfesor")]
+        [Route("profesores/{id_profesor:int}")]
         public IHttpActionResult GetByProfesor(int id_profesor) {
             var horariosConsulta = _unitOfWork.HorariosConsulta.GetHorariosConsultaByProfesor(id_profesor);
+            return Ok(horariosConsulta);
+        }
+
+
+        /// <summary>
+        /// Retrives horarioConsulta instances that matches with current profesor
+        /// </summary>
+        [HttpGet]
+        [Route("profesores/current")]
+        public IHttpActionResult GetByCurrentProfesor()
+        {
+            string username = RequestContext.Principal.Identity.GetUserName();
+
+            var usuario = _unitOfWork.Usuarios.GetUsuarioByUsername(username);
+
+            var horariosConsulta = _unitOfWork.HorariosConsulta.GetHorariosConsultaByProfesor(usuario.Id);
             return Ok(horariosConsulta);
         }
 
@@ -47,7 +64,7 @@ namespace Service.Controllers {
         /// Retrives horarioConsulta instances that matches with an id_materia
         /// </summary>
         [HttpGet]
-        [Route("searchByMateria")]
+        [Route("materias/{id_materia:int}")]
         public IHttpActionResult GetByMateriaOrderByProfesor(int id_materia) {
             var horariosConsulta = _unitOfWork.HorariosConsulta.GetHorariosConsultaByMateriaOrderByProfesor(id_materia);
             return Ok(horariosConsulta);

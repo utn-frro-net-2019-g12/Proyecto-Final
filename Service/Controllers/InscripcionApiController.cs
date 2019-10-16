@@ -9,6 +9,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Results;
 using DataAccess;
+using Microsoft.AspNet.Identity;
 
 namespace Service.Controllers {
 
@@ -37,7 +38,7 @@ namespace Service.Controllers {
         /// Retrives inscripcion instances that matches with an id_alumno
         /// </summary>
         [HttpGet]
-        [Route("searchByAlumno")]
+        [Route("alumnos/{id_alumno:int}")]
         public IHttpActionResult GetByAlumno(int id_alumno) {
             var inscripciones = _unitOfWork.Inscripciones.GetInscripcionesByAlumno(id_alumno);
             return Ok(inscripciones);
@@ -47,7 +48,7 @@ namespace Service.Controllers {
         /// Retrives inscripcion instances that matches with an id_alumno and have active state
         /// </summary>
         [HttpGet]
-        [Route("searchActivasByAlumno")]
+        [Route("activas/alumnos/{id_alumno:int}")]
         public IHttpActionResult GetActivasByAlumno(int id_alumno) {
             var inscripciones = _unitOfWork.Inscripciones.GetInscripcionesActivasByAlumno(id_alumno);
             return Ok(inscripciones);
@@ -57,9 +58,24 @@ namespace Service.Controllers {
         /// Retrives inscripcion instances that matches with an id_profesor
         /// </summary>
         [HttpGet]
-        [Route("searchByProfesor")]
+        [Route("profesores/{id_profesor:int}")]
         public IHttpActionResult GetByProfesor(int id_profesor) {
             var inscripciones = _unitOfWork.Inscripciones.GetInscripcionesByProfesor(id_profesor);
+            return Ok(inscripciones);
+        }
+
+        /// <summary>
+        /// Retrives inscripcion instances that matches with the current profesor user
+        /// </summary>
+        [HttpGet]
+        [Route("profesores/current")]
+        public IHttpActionResult GetByCurrentProfesorUser()
+        {
+            string userName = RequestContext.Principal.Identity.GetUserName();
+
+            var usuario = _unitOfWork.Usuarios.GetUsuarioByUsername(userName);
+
+            var inscripciones = _unitOfWork.Inscripciones.GetInscripcionesByProfesor(usuario.Id);
             return Ok(inscripciones);
         }
 

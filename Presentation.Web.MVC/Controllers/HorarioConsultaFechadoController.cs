@@ -18,10 +18,10 @@ namespace Presentation.Web.MVC.Controllers {
     // Note: This Controller Communicates with ViewModels (CreateHorarioConsultaFechadoViewModel and EditHorarioConsultaFechadoViewModel)
     [Authorize]
     public class HorarioConsultaFechadoController : Controller {
-        private IHorarioConsultaEndpoint _horarioConsultaEndpoint;
-        private IHorarioConsultaFechadoEndpoint _horarioConsultaFechadoEndpoint;
-        private IUserSession _userSession;
-        private IMapper _mapper;
+        private readonly IHorarioConsultaEndpoint _horarioConsultaEndpoint;
+        private readonly IHorarioConsultaFechadoEndpoint _horarioConsultaFechadoEndpoint;
+        private readonly IUserSession _userSession;
+        private readonly IMapper _mapper;
 
 
         public HorarioConsultaFechadoController(IHorarioConsultaEndpoint horarioConsultaEndpoint

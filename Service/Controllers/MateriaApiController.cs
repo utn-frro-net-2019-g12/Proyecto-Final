@@ -38,7 +38,7 @@ namespace Service.Controllers {
         /// Retrives all materia intances
         /// </summary>
         [HttpGet]
-        [Route("departamento")]
+        [Route("departamentos")]
         public IHttpActionResult GetMateriasWithDepto() {
             var materias = _unitOfWork.Materias.GetMateriasWithDepto();
 
@@ -50,7 +50,6 @@ namespace Service.Controllers {
         /// </summary>
         [HttpGet]
         [Route("search")]
-        // [Route("?desc={desc:string}")]
         public IHttpActionResult GetByPartialDescription(string desc) {
             var materias = _unitOfWork.Materias.GetMateriasByPartialDesc(desc);
             return Ok(materias);
@@ -60,9 +59,7 @@ namespace Service.Controllers {
         /// Retrives materia instances that matches with an id_departamento
         /// </summary>
         [HttpGet]
-        [Route("searchByDepto")]
-        // [Route("searchByDepto/{id_departamento:int}")]
-        // [Route("?depto={id_departamento:int}")]
+        [Route("departamentos/{id_departamento:int}")]
         public IHttpActionResult GetByDepartamento(int id_departamento) {
             var materias = _unitOfWork.Materias.GetMateriasByDepto(id_departamento);
             return Ok(materias);

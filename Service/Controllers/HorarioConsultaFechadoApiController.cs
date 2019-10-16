@@ -38,7 +38,7 @@ namespace Service.Controllers {
         /// Retrives horarioConsultaFechadi instances that matches with an id_profesor
         /// </summary>
         [HttpGet]
-        [Route("searchByProfesor")]
+        [Route("profesores/{id_profesor:int}")]
         public IHttpActionResult GetByProfesor(int id_profesor) {
             var horariosConsultaFechados = _unitOfWork.HorariosConsultaFechados.GetHorariosConsultaFechadosByProfesor(id_profesor);
             return Ok(horariosConsultaFechados);
@@ -48,7 +48,7 @@ namespace Service.Controllers {
         /// Retrives horarioConsultaFechado instances that matches with an id_horario_consulta
         /// </summary>
         [HttpGet]
-        [Route("searchByHorarioConsulta")]
+        [Route("horariosConsulta/{id_horario_consulta:int}")]
         public IHttpActionResult GetByHorarioConsulta(int id_horario_consulta) {
             var horariosConsultaFechados = _unitOfWork.HorariosConsultaFechados.GetHorariosConsultaFechadosByHorarioConsulta(id_horario_consulta);
             return Ok(horariosConsultaFechados);

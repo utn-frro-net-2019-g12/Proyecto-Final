@@ -18,11 +18,11 @@ namespace Presentation.Web.MVC.Controllers {
     // Note: This Controller Communicates with ViewModels (CreateInscripcionViewModel and EditInscripcionViewModel)
     [Authorize]
     public class InscripcionController : Controller {
-        private IInscripcionEndpoint _inscripcionEndpoint;
-        private IUsuarioEndpoint _usuarioEndpoint;
-        private IHorarioConsultaFechadoEndpoint _horarioConsultaFechadoEndpoint;
-        private IUserSession _userSession;
-        private IMapper _mapper;
+        private readonly IInscripcionEndpoint _inscripcionEndpoint;
+        private readonly IUsuarioEndpoint _usuarioEndpoint;
+        private readonly IHorarioConsultaFechadoEndpoint _horarioConsultaFechadoEndpoint;
+        private readonly IUserSession _userSession;
+        private readonly IMapper _mapper;
 
         public InscripcionController(IInscripcionEndpoint inscripcionEndpoint, IUserSession userSession, 
             IUsuarioEndpoint usuarioEndpoint, IHorarioConsultaFechadoEndpoint horarioConsultaFechadoEndpoint ,IMapper mapper)

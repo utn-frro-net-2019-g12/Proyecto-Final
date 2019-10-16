@@ -10,5 +10,6 @@ namespace Presentation.Library.Api.Endpoints.Interfaces
 {
     public interface IInscripcionEndpoint : IEndpoint<Inscripcion>
     {
+        Task<IEnumerable<Inscripcion>> GetByCurrentProfesorUser(string token);
     }
 }

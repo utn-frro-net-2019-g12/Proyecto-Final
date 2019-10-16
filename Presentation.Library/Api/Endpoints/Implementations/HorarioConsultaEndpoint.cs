@@ -42,6 +42,27 @@ namespace Presentation.Library.Api.Endpoints.Implementations
             }
         }
 
+        public async Task<IEnumerable<HorarioConsulta>> GetByCurrentUserProfessor(string token)
+        {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/horariosConsulta/profesores/current", x => SetToken(x, token)))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    switch (response.StatusCode)
+                    {
+                        case HttpStatusCode.Unauthorized:
+                            throw new UnauthorizedRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
+                }
+
+                var result = await response.Content.ReadAsAsync<IEnumerable<HorarioConsulta>>();
+
+                return result;
+            }
+        }
+
         public async Task<HorarioConsulta> Get(object id, string token)
         {
             using (var response = await _apiHelper.ApiClient.GetAsync("api/horariosConsulta/" + id, x => SetToken(x, token)))

@@ -18,10 +18,10 @@ namespace Presentation.Web.MVC.Controllers {
 
     [AuthorizeSelected(Roles = "Admin")]
     public class UsuarioController : Controller {
-        private IAuthenticationEndpoint _authenticationEndpoint;
-        private IUsuarioEndpoint _usuarioEndpoint;
-        private IUserSession _userSession;
-        private IMapper _mapper;
+        private readonly IAuthenticationEndpoint _authenticationEndpoint;
+        private readonly IUsuarioEndpoint _usuarioEndpoint;
+        private readonly IUserSession _userSession;
+        private readonly IMapper _mapper;
 
         public UsuarioController(IUsuarioEndpoint usuarioEndpoint, IAuthenticationEndpoint authenticationEndpoint
             , IUserSession userSession, IMapper mapper)

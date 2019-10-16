@@ -18,8 +18,8 @@ namespace Presentation.Web.MVC.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private IAuthenticationEndpoint _authenticationEndpoint;
-        private IUserSession _userSession;
+        private readonly IAuthenticationEndpoint _authenticationEndpoint;
+        private readonly IUserSession _userSession;
 
         public AccountController(IAuthenticationEndpoint authenticationEndpoint, IUserSession userSession)
         {

@@ -155,6 +155,7 @@
     <Compile Include="Controllers\HorarioConsultaFechadoController.cs" />
     <Compile Include="Controllers\InscripcionController.cs" />
     <Compile Include="Controllers\HorarioConsultaController.cs" />
+    <Compile Include="Controllers\ProfesorController.cs" />
     <Compile Include="Filters\AuthorizeSelectedAttributte.cs" />
     <Compile Include="IocModules\AutoMapperModule.cs" />
     <Compile Include="Models\IUserSession.cs" />
@@ -347,6 +348,8 @@
     <Content Include="Views\Home\MisInscripciones.cshtml" />
     <Content Include="Views\Home\MisHorarios.cshtml" />
     <Content Include="Views\Home\InscripcionesRecibidas.cshtml" />
+    <Content Include="Views\Profesor\MisHorariosConsulta.cshtml" />
+    <Content Include="Views\Profesor\InscripcionesRecibidas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
