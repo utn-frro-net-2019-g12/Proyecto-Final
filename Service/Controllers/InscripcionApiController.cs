@@ -33,6 +33,35 @@ namespace Service.Controllers {
             // API Special Endpoint (No-Rest) --> [Route("alumno_horario")] (Unused)
         }
 
+        /// <summary>
+        /// Retrives inscripcion instances that matches with an id_alumno
+        /// </summary>
+        [HttpGet]
+        [Route("searchByAlumno")]
+        public IHttpActionResult GetByAlumno(int id_alumno) {
+            var inscripciones = _unitOfWork.Inscripciones.GetInscripcionesByAlumno(id_alumno);
+            return Ok(inscripciones);
+        }
+
+        /// <summary>
+        /// Retrives inscripcion instances that matches with an id_alumno and have active state
+        /// </summary>
+        [HttpGet]
+        [Route("searchActivasByAlumno")]
+        public IHttpActionResult GetActivasByAlumno(int id_alumno) {
+            var inscripciones = _unitOfWork.Inscripciones.GetInscripcionesActivasByAlumno(id_alumno);
+            return Ok(inscripciones);
+        }
+
+        /// <summary>
+        /// Retrives inscripcion instances that matches with an id_profesor
+        /// </summary>
+        [HttpGet]
+        [Route("searchByProfesor")]
+        public IHttpActionResult GetByProfesor(int id_profesor) {
+            var inscripciones = _unitOfWork.Inscripciones.GetInscripcionesByProfesor(id_profesor);
+            return Ok(inscripciones);
+        }
 
         // GET api/inscripcion/5
         /// <summary>

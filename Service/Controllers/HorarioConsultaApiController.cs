@@ -33,6 +33,25 @@ namespace Service.Controllers {
             // API Special Endpoint (No-Rest) --> [Route("profesor_materia")] (Unused)
         }
 
+        /// <summary>
+        /// Retrives horarioConsulta instances that matches with an id_profesor
+        /// </summary>
+        [HttpGet]
+        [Route("searchByProfesor")]
+        public IHttpActionResult GetByProfesor(int id_profesor) {
+            var horariosConsulta = _unitOfWork.HorariosConsulta.GetHorariosConsultaByProfesor(id_profesor);
+            return Ok(horariosConsulta);
+        }
+
+        /// <summary>
+        /// Retrives horarioConsulta instances that matches with an id_materia
+        /// </summary>
+        [HttpGet]
+        [Route("searchByMateria")]
+        public IHttpActionResult GetByMateriaOrderByProfesor(int id_materia) {
+            var horariosConsulta = _unitOfWork.HorariosConsulta.GetHorariosConsultaByMateriaOrderByProfesor(id_materia);
+            return Ok(horariosConsulta);
+        }
 
         // GET api/horarioConsulta/5
         /// <summary>

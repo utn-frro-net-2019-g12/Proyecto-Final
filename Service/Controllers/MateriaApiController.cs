@@ -45,6 +45,29 @@ namespace Service.Controllers {
             return Ok(materias);
         }
 
+        /// <summary>
+        /// Retrives mmateria instances that matches a partial description
+        /// </summary>
+        [HttpGet]
+        [Route("search")]
+        // [Route("?desc={desc:string}")]
+        public IHttpActionResult GetByPartialDescription(string desc) {
+            var materias = _unitOfWork.Materias.GetMateriasByPartialDesc(desc);
+            return Ok(materias);
+        }
+        
+        /// <summary>
+        /// Retrives materia instances that matches with an id_departamento
+        /// </summary>
+        [HttpGet]
+        [Route("searchByDepto")]
+        // [Route("searchByDepto/{id_departamento:int}")]
+        // [Route("?depto={id_departamento:int}")]
+        public IHttpActionResult GetByDepartamento(int id_departamento) {
+            var materias = _unitOfWork.Materias.GetMateriasByDepto(id_departamento);
+            return Ok(materias);
+        }
+
         // GET api/materia/5
         /// <summary>
         /// Retrives a specific materia

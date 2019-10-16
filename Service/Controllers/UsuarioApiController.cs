@@ -34,6 +34,36 @@ namespace Service.Controllers {
             return Ok(usuarios);
         }
 
+        /// <summary>
+        /// Retrives All usuario (profesor) instances ordered by Full Name
+        /// </summary>
+        [HttpGet]
+        [Route("profesores")]
+        public IHttpActionResult GetAllProfesores() {
+            var profesores = _unitOfWork.Usuarios.GetUsuariosProfesoresOrderedByFullName();
+            return Ok(profesores);
+        }
+
+        /// <summary>
+        /// Retrives usuario (profesor) instances that matches a partial description
+        /// </summary>
+        [HttpGet]
+        [Route("profSearch")]
+        public IHttpActionResult GetProfesoresByPartialDescription(string desc) {
+            var profesores = _unitOfWork.Usuarios.GetUsuariosProfesoresByPartialDesc(desc);
+            return Ok(profesores);
+        }
+
+        /// <summary>
+        /// Retrives usuario (alumno) instances that matches a partial description
+        /// </summary>
+        [HttpGet]
+        [Route("aluSearch")]
+        public IHttpActionResult GetAlumnosByPartialDescription(string desc) {
+            var alumnos = _unitOfWork.Usuarios.GetUsuariosAlumnosByPartialDesc(desc);
+            return Ok(alumnos);
+        }
+
         // GET api/usuario/5
         /// <summary>
         /// Retrives a specific usuario
