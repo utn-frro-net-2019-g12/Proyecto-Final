@@ -64,9 +64,9 @@ namespace DataAccess {
             unitOfWork.Complete();
 
             var inscripciones = new List<Inscripcion> {
-                new Inscripcion { Topic = "Derivadas", State = true, AlumnoId = usuarios[1].Id, Alumno = usuarios[1], HorarioConsultaFechadoId = horariosConsultaFechados[1].Id },
-                new Inscripcion { Topic = "Axure", State = true, AlumnoId = usuarios[3].Id, Alumno = usuarios[3], HorarioConsultaFechadoId = horariosConsultaFechados[3].Id },
-                // State = Deleted or Still Active, Answer = Fast Response Optional for a Profersor, Observation = Also Optional
+                new Inscripcion { Topic = "Derivadas", State = Inscripcion.States.active, AlumnoId = usuarios[1].Id, Alumno = usuarios[1], HorarioConsultaFechadoId = horariosConsultaFechados[1].Id },
+                new Inscripcion { Topic = "Axure", State = Inscripcion.States.active, AlumnoId = usuarios[3].Id, Alumno = usuarios[3], HorarioConsultaFechadoId = horariosConsultaFechados[3].Id },
+                // State = Active/Deleted/Finalized, Answer = Fast Response Optional for a Profersor, Observation = Also Optional
             };
 
             unitOfWork.Inscripciones.InsertRange(inscripciones);

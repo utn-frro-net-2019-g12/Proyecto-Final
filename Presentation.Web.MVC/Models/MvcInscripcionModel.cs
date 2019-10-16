@@ -14,7 +14,7 @@ namespace Presentation.Web.MVC.Models {
         public string Topic { get; set; }
 
         [DisplayName("Estado")]
-        public bool? State { get; set; }
+        public States? State { get; set; }
 
         [DisplayName("Respuesta Corta")]
         public string Answer { get; set; }
@@ -31,5 +31,12 @@ namespace Presentation.Web.MVC.Models {
         [ForeignKey("HorarioConsultaFechado")]
         public int? HorarioConsultaFechadoId { get; set; }
         public virtual MvcHorarioConsultaFechadoModel HorarioConsultaFechado { get; set; }
+
+        // States Enumeration
+        public enum States {
+            active,
+            canceled,
+            finalized
+        }
     }
 }
