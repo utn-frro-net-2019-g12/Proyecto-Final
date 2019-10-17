@@ -35,7 +35,6 @@
                     data: $('#createForm').serialize(),
                     success: function (data) {
                         data != "OK" ? modalCreate(data, url) : window.location.reload();
-                        // Funciona el Create pero entra como si hubiese un error en el modal, no entra el Reload...
                     }
                 });
             });
@@ -77,9 +76,6 @@
                 type: "GET",
                 url: url,
                 success: function (data) {
-                    console.log("gg")
-                    console.log(data);
-                    console.log(url);
                     modalEdit(data, url)
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {

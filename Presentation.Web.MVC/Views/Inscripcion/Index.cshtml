@@ -76,9 +76,6 @@
                 type: "GET",
                 url: url,
                 success: function (data) {
-                    console.log("gg")
-                    console.log(data);
-                    console.log(url);
                     modalEdit(data, url)
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -250,6 +247,8 @@
                                 @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Profesor.Firstname)
                                 <br />
                                 @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Materia.Name)
+                                <br />
+                                @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.Date)
                             </td>
                             <td class="d-flex align-items-center p-0">
                                 <button data-toggle="modal" data-target="#modalEditInscripcion" type="button" class="actionEditInscripcion d-flex align-items-center btn btn-warning m-1">

@@ -64,6 +64,27 @@ namespace Presentation.Library.Api.Endpoints.Implementations
             }
         }
 
+        public async Task<IEnumerable<Inscripcion>> GetByCurrentAlumnoUser(string token)
+        {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/inscripciones/activas/alumnos/current", x => SetToken(x, token)))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    switch (response.StatusCode)
+                    {
+                        case HttpStatusCode.Unauthorized:
+                            throw new UnauthorizedRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
+                }
+
+                var result = await response.Content.ReadAsAsync<IEnumerable<Inscripcion>>();
+
+                return result;
+            }
+        }
+
         public async Task<Inscripcion> Get(object id, string token)
         {
             using (var response = await _apiHelper.ApiClient.GetAsync("api/inscripciones/" + id, x => SetToken(x, token)))

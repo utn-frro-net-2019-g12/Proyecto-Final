@@ -46,7 +46,7 @@ namespace DataAccess {
 
             var horariosConsulta = new List<HorarioConsulta> {
                 new HorarioConsulta { Weekday = "Lunes", StartHour = "11:00", EndHour = "11:45", Place = "Aula 301", ProfesorId = usuarios[2].Id, MateriaId = materias[2].Id },
-                new HorarioConsulta { Weekday = "Martes", StartHour = "09:30", EndHour = "10:15", Place = "Sala de Profesores", ProfesorId = usuarios[3].Id, MateriaId = materias[1].Id },
+                new HorarioConsulta { Weekday = "Martes", StartHour = "09:30", EndHour = "10:15", Place = "Sala de Profesores", ProfesorId = usuarios[0].Id, MateriaId = materias[1].Id },
                 // EliminationDate Must be only added if the HorarioConsulta were marked as "Deleted"
             };
 

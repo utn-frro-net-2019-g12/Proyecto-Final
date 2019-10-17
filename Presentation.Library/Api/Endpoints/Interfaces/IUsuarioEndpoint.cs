@@ -9,5 +9,6 @@ namespace Presentation.Library.Api.Endpoints.Interfaces
 {
     public interface IUsuarioEndpoint : IEndpoint<Usuario>
     {
+        Task<Usuario> GetCurrentUsuario(string token);
     }
 }

@@ -150,6 +150,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AlumnoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\DepartamentoController.cs" />
     <Compile Include="Controllers\HorarioConsultaFechadoController.cs" />
@@ -179,10 +180,12 @@
     <Compile Include="ViewModels\CreateInscripcionViewModel.cs" />
     <Compile Include="ViewModels\CreateHorarioConsultaViewModel.cs" />
     <Compile Include="ViewModels\CreateMateriaViewModel.cs" />
+    <Compile Include="ViewModels\CreateOwnHorarioConsultaViewModel.cs" />
     <Compile Include="ViewModels\EditHorarioConsultaFechadoViewModel.cs" />
     <Compile Include="ViewModels\EditInscripcionViewModel.cs" />
     <Compile Include="ViewModels\EditHorarioConsultaViewModel.cs" />
     <Compile Include="ViewModels\EditMateriaViewModel.cs" />
+    <Compile Include="ViewModels\EditOwnHorarioConsultaViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -350,6 +353,9 @@
     <Content Include="Views\Home\InscripcionesRecibidas.cshtml" />
     <Content Include="Views\Profesor\MisHorariosConsulta.cshtml" />
     <Content Include="Views\Profesor\InscripcionesRecibidas.cshtml" />
+    <Content Include="Views\Alumno\MisInscripciones.cshtml" />
+    <Content Include="Views\Profesor\_EditOwnHorario.cshtml" />
+    <Content Include="Views\Profesor\_CreateOwnHorario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

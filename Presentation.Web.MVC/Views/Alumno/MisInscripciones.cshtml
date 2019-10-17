@@ -1,0 +1,258 @@
+﻿@model IEnumerable<Presentation.Web.MVC.Models.MvcInscripcionModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section styleDataTable {
+    @Styles.Render("~/Content/dataTables")
+}
+
+@section scriptsDataTable {
+    @Scripts.Render("~/bundles/dataTables")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#dataTable').DataTable({ "bFilter": false });
+            //  $('#dataTable').DataTable();
+        });
+    </script>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <!-- _Edit Partial View Calling -->
+    <script type="text/javascript">
+
+        function modalCreate(data, url) {
+            $('#modalCreateInscripcionContent').html(data);
+            $('#createForm').unbind();
+            $('#createForm').bind("submit", function (event) {
+                event.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $('#createForm').serialize(),
+                    success: function (data) {
+                        data != "OK" ? modalCreate(data, url) : window.location.reload();
+                    }
+                });
+            });
+        }
+
+        $('#actionCreateInscripcion').on('click', function () {
+            let url = '/Inscripcion/Create';
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (data) {
+                    modalCreate(data, url)
+                }
+            });
+        });
+
+        /*------------------------------*/
+
+        function modalEdit(data, url) {
+            $('#modalEditInscripcionContent').html(data);
+            $('#editForm').unbind();
+            $('#editForm').bind("submit", function (event) {
+                event.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $('#editForm').serialize(),
+                    success: function (data) {
+                        data != "OK" ? modalEdit(data, url) : window.location.reload();
+                    }
+                });
+            });
+        }
+
+        $('.actionEditInscripcion').on('click', function () {
+            let index = $(this).parent().siblings().first().text().trim();
+            let url = `/Inscripcion/Edit/${index}`;
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (data) {
+                    modalEdit(data, url)
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest, textStatus, errorThrown);
+                    console.log(url);
+                }
+            });
+        });
+
+        /*------------------------------*/
+
+        var idToDelete;
+        var toDeleteName = document.getElementById('toDeleteName');
+
+        $('.actionDeleteInscripcion').on('click', function () {
+            idToDelete = $(this).parent().siblings().first().text().trim();
+            toDeleteName.innerHTML = $(this).parent().siblings().first().next().text().trim();
+        });
+
+        $('#deleteConfirmButton').on('click', function () {
+            let url = `/Inscripcion/Delete/${idToDelete}`;
+            $.ajax({
+                type: "POST",
+                url: url,
+                success: function (data) { window.location.reload() }
+            });
+        });
+    </script>
+}
+
+<!-- Modal Nuevo Inscripcion -->
+<div class="modal fade" id="modalCreateInscripcion" tabindex="-1" role="dialog" aria-labelledby="modalCreateInscripcion" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" id="modalCreateInscripcionContent">
+            <p> Loading... </p>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Modificar Inscripcion -->
+<div class="modal fade" id="modalEditInscripcion" tabindex="-1" role="dialog" aria-labelledby="modalEditInscripcion" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" id="modalEditInscripcionContent">
+            <p> Loading... </p>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Eliminar Inscripcion -->
+<div class="modal fade" id="modalDeleteInscripcion" tabindex="-1" role="dialog" aria-labelledby="modalDeleteInscripcion" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" id="modalDeleteInscripcionContent">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Eliminar Inscripcion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro que desea eliminar a <span id="toDeleteName" class="badge badge-danger"></span> ? Esta acción no podrá deshacerse.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="deleteConfirmButton" type="button" class="btn btn-danger">Eliminar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Index Inscripcion -->
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Administrar Inscripciones a Consultas</h1>
+    <div class="row  mb-3">
+        <div class="col col-auto d-flex">
+            <button id="actionCreateInscripcion" class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalCreateInscripcion">Nueva Inscripcion</button>
+        </div>
+        <form class="col">
+            <div class="input-group">
+                <input type="text" class="form-control bg-light border border-primary p-4" placeholder="Buscar Inscripción" aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th class="d-none">
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Topic)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.State)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Answer)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Observation)
+                            </th>
+                            <th>
+                                HorarioConsultaFechado
+                            </th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th class="d-none">
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Topic)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.State)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Answer)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Observation)
+                            </th>
+                            <th>
+                                HorarioConsultaFechado
+                            </th>
+                            <th>Acciones</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Topic)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.State)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Answer)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Observation)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Profesor.Surname)
+                                    @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Profesor.Firstname)
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Materia.Name)
+                                </td>
+                                <td class="d-flex align-items-center p-0">
+                                    <button data-toggle="modal" data-target="#modalEditInscripcion" type="button" class="actionEditInscripcion d-flex align-items-center btn btn-warning m-1">
+                                        <i class="fas fa-edit fa-xs m-1"></i>
+                                        <p class="d-none d-md-block m-0">Editar</p>
+                                    </button>
+                                    <button data-toggle="modal" data-target="#modalDeleteInscripcion" class="actionDeleteInscripcion d-flex align-items-center btn btn-danger m-1">
+                                        <i class="fas fa-trash-alt fa-xs m-1"></i>
+                                        <p class="d-none d-md-block m-0">Eliminar</p>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -55,6 +55,21 @@ namespace Service.Controllers {
         }
 
         /// <summary>
+        /// Retrives inscripcion instances that matches with the current alunmno user and have active state
+        /// </summary>
+        [HttpGet]
+        [Route("activas/alumnos/current")]
+        public IHttpActionResult GetActivasByCurrentAlumno()
+        {
+            string userName = RequestContext.Principal.Identity.GetUserName();
+
+            var usuario = _unitOfWork.Usuarios.GetUsuarioByUsername(userName);
+            
+            var inscripciones = _unitOfWork.Inscripciones.GetInscripcionesActivasByAlumno(usuario.Id);
+            return Ok(inscripciones);
+        }
+
+        /// <summary>
         /// Retrives inscripcion instances that matches with an id_profesor
         /// </summary>
         [HttpGet]

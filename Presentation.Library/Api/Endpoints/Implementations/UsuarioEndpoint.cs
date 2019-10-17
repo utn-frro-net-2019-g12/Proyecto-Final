@@ -44,11 +44,11 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task<Usuario> Get(object id, string token)
         {
-            using (var response = await _apiHelper.ApiClient.GetAsync("api/usuarios/" + id, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/{id}", x => SetToken(x, token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    switch (response.StatusCode) // Add NotFound Case
+                    switch (response.StatusCode)
                     {
                         case HttpStatusCode.Unauthorized:
                             throw new UnauthorizedRequestException(response);
@@ -67,7 +67,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task Delete(object id, string token)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync("api/usuarios/" + id, x => SetToken(x, token)))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync($"api/usuarios/{id}", x => SetToken(x, token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -107,7 +107,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task Put(Usuario entity, string token)
         {
-            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync("api/usuarios/" + entity.Id, entity, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync($"api/usuarios/{entity.Id}", entity, x => SetToken(x, token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -123,6 +123,27 @@ namespace Presentation.Library.Api.Endpoints.Implementations
                             throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
                     }
                 }
+            }
+        }
+
+        public async Task<Usuario> GetCurrentUsuario(string token)
+        {
+            using (var response = await _apiHelper.ApiClient.GetAsync("api/usuarios/current", x => SetToken(x, token)))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    switch (response.StatusCode)
+                    {
+                        case HttpStatusCode.Unauthorized:
+                            throw new UnauthorizedRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
+                }
+
+                var result = await response.Content.ReadAsAsync<Usuario>();
+
+                return result;
             }
         }
 
