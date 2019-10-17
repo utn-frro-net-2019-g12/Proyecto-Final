@@ -23,36 +23,6 @@
 
     <!-- _Edit Partial View Calling -->
     <script type="text/javascript">
-
-        function modalCreate(data, url) {
-            $('#modalCreateInscripcionContent').html(data);
-            $('#createForm').unbind();
-            $('#createForm').bind("submit", function (event) {
-                event.preventDefault();
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: $('#createForm').serialize(),
-                    success: function (data) {
-                        data != "OK" ? modalCreate(data, url) : window.location.reload();
-                    }
-                });
-            });
-        }
-
-        $('#actionCreateInscripcion').on('click', function () {
-            let url = '/Inscripcion/Create';
-            $.ajax({
-                type: "GET",
-                url: url,
-                success: function (data) {
-                    modalCreate(data, url)
-                }
-            });
-        });
-
-        /*------------------------------*/
-
         function modalEdit(data, url) {
             $('#modalEditInscripcionContent').html(data);
             $('#editForm').unbind();
@@ -106,15 +76,6 @@
     </script>
 }
 
-<!-- Modal Nuevo Inscripcion -->
-<div class="modal fade" id="modalCreateInscripcion" tabindex="-1" role="dialog" aria-labelledby="modalCreateInscripcion" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content" id="modalCreateInscripcionContent">
-            <p> Loading... </p>
-        </div>
-    </div>
-</div>
-
 <!-- Modal Modificar Inscripcion -->
 <div class="modal fade" id="modalEditInscripcion" tabindex="-1" role="dialog" aria-labelledby="modalEditInscripcion" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -149,9 +110,6 @@
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Administrar Inscripciones a Consultas</h1>
     <div class="row  mb-3">
-        <div class="col col-auto d-flex">
-            <button id="actionCreateInscripcion" class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalCreateInscripcion">Nueva Inscripcion</button>
-        </div>
         <form class="col">
             <div class="input-group">
                 <input type="text" class="form-control bg-light border border-primary p-4" placeholder="Buscar Inscripción" aria-label="Search" aria-describedby="basic-addon2">
