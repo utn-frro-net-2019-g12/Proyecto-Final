@@ -151,6 +151,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AlumnoController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\DepartamentoController.cs" />
     <Compile Include="Controllers\HorarioConsultaFechadoController.cs" />
@@ -356,6 +357,7 @@
     <Content Include="Views\Alumno\MisInscripciones.cshtml" />
     <Content Include="Views\Profesor\_EditOwnHorario.cshtml" />
     <Content Include="Views\Profesor\_CreateOwnHorario.cshtml" />
+    <Content Include="Views\Error\PageNotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
