@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "AccessDenied";
+}
+
+<!-- Access Denied -->
+<div class="jumbotron bg-transparent">
+    <div class="text-center">
+        <div class="error mx-auto" data-text=""><i class="fas fa-exclamation-triangle text-danger"></i></div>
+        <p class="lead text-gray-800 mb-2">Acceso Denegado</p>
+        <p class="text-gray-500 mb-4">No posees los permisos suficientes para acceder a este sitio.</p>
+        <a href="@Url.Action("Dashboard", "Home")">&larr; Regresar al Inicio</a>
+    </div>
+</div>

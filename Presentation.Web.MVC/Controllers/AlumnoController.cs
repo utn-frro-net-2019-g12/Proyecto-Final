@@ -41,7 +41,7 @@ namespace Presentation.Web.MVC.Controllers
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No tiene acceso");
+                return RedirectToAction("AccessDenied", "Error");
             }
             catch (Exception ex)
             {

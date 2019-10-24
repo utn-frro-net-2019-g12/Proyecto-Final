@@ -49,7 +49,7 @@ namespace Presentation.Web.MVC.Controllers
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No tiene acceso");
+                return RedirectToAction("AccessDenied", "Error");
             }
             catch (Exception ex)
             {
@@ -69,7 +69,7 @@ namespace Presentation.Web.MVC.Controllers
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No tiene acceso");
+                return RedirectToAction("AccessDenied", "Error");
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace Presentation.Web.MVC.Controllers
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No tiene acceso");
+                return RedirectToAction("AccessDenied", "Error");
             }
             catch (Exception ex)
             {
@@ -114,7 +114,7 @@ namespace Presentation.Web.MVC.Controllers
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No tiene acceso");
+                return RedirectToAction("AccessDenied", "Error");
             }
             catch (BadRequestException ex)
             {
@@ -160,7 +160,7 @@ namespace Presentation.Web.MVC.Controllers
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No tiene acceso");
+                return RedirectToAction("AccessDenied", "Error");
             }
             catch (NotFoundRequestException ex)
             {
@@ -188,7 +188,7 @@ namespace Presentation.Web.MVC.Controllers
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No tiene acceso");
+                return RedirectToAction("AccessDenied", "Error");
             }
             catch (BadRequestException ex)
             {

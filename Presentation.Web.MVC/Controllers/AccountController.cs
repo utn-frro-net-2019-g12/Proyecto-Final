@@ -81,7 +81,7 @@ namespace Presentation.Web.MVC.Controllers
         [Authorize]
         public ActionResult Unauthorized()
         {
-            return View();
+            return RedirectToAction("AccessDenied", "Error");
         }
 
         [Authorize]

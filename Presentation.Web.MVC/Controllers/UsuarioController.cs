@@ -45,7 +45,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No tiene acceso");
+                return RedirectToAction("AccessDenied", "Error");
             }
             catch (Exception ex)
             {
@@ -66,7 +66,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No tiene acceso");
+                return RedirectToAction("AccessDenied", "Error");
             }
             catch (NotFoundRequestException ex)
             {
@@ -87,7 +87,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No tiene acceso");
+                return RedirectToAction("AccessDenied", "Error");
             }
             catch (NotFoundRequestException ex)
             {
@@ -153,7 +153,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No tiene acceso");
+                return RedirectToAction("AccessDenied", "Error");
             }
             catch (Exception ex)
             {
@@ -175,7 +175,7 @@ namespace Presentation.Web.MVC.Controllers {
         {
             if (id == null)
             {
-                return Content("Debe incluir el id");
+                return RedirectToAction("AccessDenied", "Error");
             }
 
             try
@@ -188,7 +188,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No tiene acceso");
+                return RedirectToAction("AccessDenied", "Error");
             }
             catch (NotFoundRequestException ex)
             {
@@ -213,7 +213,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No tiene acceso");
+                return RedirectToAction("AccessDenied", "Error");
             }
             catch (BadRequestException ex)
             {
