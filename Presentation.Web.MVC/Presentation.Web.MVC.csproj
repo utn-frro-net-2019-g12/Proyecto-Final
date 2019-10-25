@@ -290,7 +290,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
@@ -347,7 +346,6 @@
     <Content Include="Views\HorarioConsulta\_Create.cshtml" />
     <Content Include="Views\Inscripcion\_Create.cshtml" />
     <Content Include="Views\Inscripcion\_Edit.cshtml" />
-    <Content Include="Views\Account\Unauthorized.cshtml" />
     <Content Include="Views\Home\NuevaConsulta.cshtml" />
     <Content Include="Views\Home\MisInscripciones.cshtml" />
     <Content Include="Views\Home\MisHorarios.cshtml" />
@@ -359,6 +357,7 @@
     <Content Include="Views\Profesor\_CreateOwnHorario.cshtml" />
     <Content Include="Views\Error\PageNotFound.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
+    <Content Include="Views\Error\SpecificError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

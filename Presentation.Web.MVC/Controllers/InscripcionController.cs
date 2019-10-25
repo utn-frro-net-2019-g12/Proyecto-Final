@@ -51,7 +51,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (Exception ex)
             {
-                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
             }
         }
 
@@ -76,7 +76,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (Exception ex)
             {
-                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
             }
         }
 
@@ -97,7 +97,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (Exception ex)
             {
-                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
             }
 
             // TempData may be used to check in the view whether the deletion was successful or not
@@ -131,7 +131,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (Exception ex)
             {
-                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
             }
         }
 
@@ -168,7 +168,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (Exception ex)
             {
-                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
             }
 
             return Content("OK");
@@ -210,7 +210,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (Exception ex)
             {
-                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
             }
         }
 
@@ -249,7 +249,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (Exception ex)
             {
-                return Content($"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte");
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
             }
 
             return Content("OK");

@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "SpecificError";
+}
+
+<!-- Specific Error -->
+<div class="jumbotron bg-transparent">
+    <div class="text-center">
+        <div class="error mx-auto mb-3" data-text=""><i class="fas fa-exclamation-circle text-info"></i></div>
+        <p class="lead text-gray-800 mb-2">Ups, algo ha salido mal.</p>
+        <p class="text-gray-500 mb-4">Por favor, intenta de nuevo más tarde. Si el problema persiste contacte a soporte.</p>
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-secondary" role="alert">@ViewBag.ErrorMessage</div>
+        }
+        <a href="@Url.Action("Dashboard", "Home")">&larr; Regresar al Inicio</a>
+    </div>
+</div>

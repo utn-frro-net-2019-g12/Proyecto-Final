@@ -23,5 +23,11 @@ namespace WebPresentationMVC.Controllers
         {
             return View();
         }
+
+        public ActionResult SpecificError(string error)
+        {
+            ViewBag.ErrorMessage = error;
+            return View();
+        }
     }
 }
