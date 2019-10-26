@@ -43,6 +43,23 @@ namespace Presentation.Library.Api.Endpoints.Implementations
             }
         }
 
+        public async Task<IEnumerable<Materia>> GetByPartialDesc(string partialDesc, string token) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/materias/search/?desc={partialDesc}", x => SetToken(x, token))) {
+                if (!response.IsSuccessStatusCode) {
+                    switch (response.StatusCode) {
+                        case HttpStatusCode.Unauthorized:
+                            throw new UnauthorizedRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
+                }
+
+                var result = await response.Content.ReadAsAsync<IEnumerable<Materia>>();
+
+                return result;
+            }
+        }
+
         public async Task<IEnumerable<Materia>> GetByDepto(int id_departamento, string token)
         {
             using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/materias/departamentos/{id_departamento}", x => SetToken(x, token)))

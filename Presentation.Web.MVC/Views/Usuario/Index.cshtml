@@ -21,9 +21,7 @@
 @section scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-    <!-- _Edit Partial View Calling -->
     <script type="text/javascript">
-
         function addRequestVerificationToken(data) {
             data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
             console.log(data);
@@ -108,6 +106,21 @@
             });
         });
 
+        /*------------------------------*/
+
+        $("#searchButton").on('click', function () {
+            let partialDesc = $("#searchText").val();
+            if (partialDesc != null && partialDesc != "") {
+                url = `/Usuario/Search`;
+                $.ajax({
+                    type: "POST",
+                    data: ({ partialDesc: $("#searchText").val() }),
+                    url: url,
+                    success: function (data) { window.location.href = url; }
+                });
+                console.log(partialDesc);
+            }
+        });
     </script>
 }
 
@@ -159,9 +172,9 @@
         </div>
         <form class="col">
             <div class="input-group">
-                <input type="text" class="form-control bg-light border border-primary p-4" placeholder="Buscar Usuario" aria-label="Search" aria-describedby="basic-addon2">
+                <input type="text" class="form-control bg-light border border-primary p-4" id="searchText" placeholder="Buscar Usuario" aria-label="Search" aria-describedby="basic-addon2">
                 <div class="input-group-append">
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" id="searchButton" type="button">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>

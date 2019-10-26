@@ -54,6 +54,21 @@ namespace Presentation.Web.MVC.Controllers {
             }
         }
 
+        // Search - GET Materia by Partial Descripcion
+        public async Task<ActionResult> Search(string partialDesc) {
+            try {
+                IEnumerable<Materia> entities = await _materiaEndpoint.GetByPartialDesc(partialDesc, _userSession.BearerToken);
+
+                var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(entities);
+
+                return View("Index", materias);
+            } catch (UnauthorizedRequestException) {
+                return RedirectToAction("AccessDenied", "Error");
+            } catch (Exception ex) {
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+            }
+        }
+
         // Details - GET Materia/ID
         public async Task<ActionResult> Details(int id) {
             try

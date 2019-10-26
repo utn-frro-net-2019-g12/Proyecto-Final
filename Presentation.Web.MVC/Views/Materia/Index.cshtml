@@ -21,9 +21,7 @@
 @section scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-    <!-- _Edit Partial View Calling -->
     <script type="text/javascript">
-
         function modalCreate(data, url) {
             $('#modalCreateMateriaContent').html(data);
             $('#createForm').unbind();
@@ -103,6 +101,26 @@
                 success: function (data) { window.location.reload() }
             });
         });
+
+        /*------------------------------*/
+
+        $("#searchButton").on('click', function () {
+            let partialDesc = $("#searchText").val();
+            if (partialDesc != null && partialDesc != "") {
+                url = `/Materia/Search`;
+                // url = `/Materia/Search/?desc=${partialDesc}`;
+                // window.location.href = '[at]Url.Action("Search", "Materia", new { partialDesc = "partialDesc" })'.replace("partialDesc", partialDesc);
+                $.ajax({
+                    type: "POST",
+                    // data: partialDesc
+                    data: ({ partialDesc: $("#searchText").val() }),
+                    url: url,
+                    success: function (data) { window.location.href = url; }
+                });
+                console.log(partialDesc);
+                // window.location.href = url;
+            }
+        });
     </script>
 }
 
@@ -154,9 +172,9 @@
         </div>
         <form class="col">
             <div class="input-group">
-                <input type="text" class="form-control bg-light border border-primary p-4" placeholder="Buscar Materia" aria-label="Search" aria-describedby="basic-addon2">
+                <input type="text" class="form-control bg-light border border-primary p-4" id="searchText" placeholder="Buscar Materia" aria-label="Search" aria-describedby="basic-addon2">
                 <div class="input-group-append">
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" id="searchButton" type="button">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
