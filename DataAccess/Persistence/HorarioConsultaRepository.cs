@@ -27,9 +27,17 @@ namespace DataAccess.Persistence {
                 .ThenByDescending(e => e.Profesor.Firstname).ToList();
         }
 
+
         public IEnumerable<HorarioConsulta> GetHorariosConsultaWithProfesorAndMateria() {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
             return ConsultaUTNContext.HorariosConsulta.Include(e => e.Profesor).Include(e => e.Materia).ToList();
+        }
+
+        public IEnumerable<HorarioConsulta> GetHorariosConsultaByPartialDesc(string desc) {
+            ConsultaUTNContext.Database.Log = message => Trace.Write(message);
+            return ConsultaUTNContext.HorariosConsulta.Where(e => (e.Materia.Name.ToLower().Contains(desc.ToLower()) ||
+                (e.Profesor.Surname.ToLower() + " " + e.Profesor.Firstname.ToLower()).Contains(desc.ToLower())))
+                .Include(e => e.Profesor).Include(e => e.Materia).ToList().OrderByDescending(e => e.Materia.Name).ToList();
         }
 
         public IEnumerable<HorarioConsulta> GetHorariosConsultaByProfesor(int id_profesor) {

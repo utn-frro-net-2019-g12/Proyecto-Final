@@ -35,6 +35,16 @@ namespace Service.Controllers {
         }
 
         /// <summary>
+        /// Retrives inscripciones instances that matches a partial description
+        /// </summary>
+        [HttpGet]
+        [Route("search")]
+        public IHttpActionResult GetByPartialDescription(string desc) {
+            var inscripciones = _unitOfWork.Inscripciones.GetInscripcionesByPartialDesc(desc);
+            return Ok(inscripciones);
+        }
+
+        /// <summary>
         /// Retrives inscripcion instances that matches with an id_alumno
         /// </summary>
         [HttpGet]

@@ -60,7 +60,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
         }
 
         public async Task<IEnumerable<Usuario>> GetProfesoresByPartialDesc(string partialDesc, string token) {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/profesores/?desc={partialDesc}", x => SetToken(x, token))) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/profesores/search/?desc={partialDesc}", x => SetToken(x, token))) {
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
@@ -77,7 +77,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
         }
 
         public async Task<IEnumerable<Usuario>> GetAlumnosByPartialDesc(string partialDesc, string token) {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/alumnos/?desc={partialDesc}", x => SetToken(x, token))) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/alumnos/search/?desc={partialDesc}", x => SetToken(x, token))) {
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:

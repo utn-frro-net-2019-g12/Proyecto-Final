@@ -35,6 +35,16 @@ namespace Service.Controllers {
         }
 
         /// <summary>
+        /// Retrives horariosConsulta instances that matches a partial description
+        /// </summary>
+        [HttpGet]
+        [Route("search")]
+        public IHttpActionResult GetByPartialDescription(string desc) {
+            var horariosConsulta = _unitOfWork.HorariosConsulta.GetHorariosConsultaByPartialDesc(desc);
+            return Ok(horariosConsulta);
+        }
+
+        /// <summary>
         /// Retrives horarioConsulta instances that matches with an id_profesor
         /// </summary>
         [HttpGet]

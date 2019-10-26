@@ -45,6 +45,20 @@ namespace DataAccess.Persistence {
                 .Include(e => e.HorarioConsultaFechado.HorarioConsulta.Materia).ToList();
         }
 
+        public IEnumerable<Inscripcion> GetInscripcionesByPartialDesc(string desc) {
+            ConsultaUTNContext.Database.Log = message => Trace.Write(message);
+            return ConsultaUTNContext.Inscripciones.Where(e => ( e.Topic.ToLower().Contains(desc.ToLower())) ||
+                e.HorarioConsultaFechado.HorarioConsulta.Materia.Name.ToLower().Contains(desc.ToLower()) ||
+                (e.Alumno.Surname.ToLower() + " " + e.Alumno.Firstname.ToLower()).Contains(desc.ToLower()) ||
+                (e.HorarioConsultaFechado.HorarioConsulta.Profesor.Surname.ToLower() + " " + e.HorarioConsultaFechado.HorarioConsulta.Profesor.Firstname.ToLower()).Contains(desc.ToLower()))
+                .Include(e => e.Alumno)
+                .Include(e => e.HorarioConsultaFechado)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta.Profesor)
+                .Include(e => e.HorarioConsultaFechado.HorarioConsulta.Materia)
+                .OrderByDescending(e => e.HorarioConsultaFechado.HorarioConsulta.Materia.Name).ToList();
+        }
+
         public IEnumerable<Inscripcion> GetInscripcionesByAlumno(int id_alumno) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
             return ConsultaUTNContext.Inscripciones.Where(e => e.AlumnoId == id_alumno).OrderByDescending(e => e.Alumno.Legajo)

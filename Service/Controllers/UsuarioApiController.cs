@@ -48,7 +48,7 @@ namespace Service.Controllers {
         /// Retrives usuario instances that matches a partial description
         /// </summary>
         [HttpGet]
-        [Route("search/{desc}")]
+        [Route("search")]
         public IHttpActionResult GetByPartialDescription(string desc) {
             var usuarios = _unitOfWork.Usuarios.GetUsuariosByPartialDesc(desc);
             return Ok(usuarios);
@@ -58,7 +58,7 @@ namespace Service.Controllers {
         /// Retrives usuario (profesor) instances that matches a partial description
         /// </summary>
         [HttpGet]
-        [Route("profesores/{desc}")]
+        [Route("profesores/search")]
         public IHttpActionResult GetProfesoresByPartialDescription(string desc) {
             var profesores = _unitOfWork.Usuarios.GetUsuariosProfesoresByPartialDesc(desc);
             return Ok(profesores);
@@ -68,7 +68,7 @@ namespace Service.Controllers {
         /// Retrives usuario (alumno) instances that matches a partial description
         /// </summary>
         [HttpGet]
-        [Route("alumnos/{desc}")]
+        [Route("alumnos/search")]
         public IHttpActionResult GetAlumnosByPartialDescription(string desc) {
             var alumnos = _unitOfWork.Usuarios.GetUsuariosAlumnosByPartialDesc(desc);
             return Ok(alumnos);
