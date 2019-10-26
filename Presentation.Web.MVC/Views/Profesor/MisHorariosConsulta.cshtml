@@ -107,7 +107,7 @@
         $("#searchButton").on('click', function () {
             let partialDesc = $("#searchText").val();
             if (partialDesc != null && partialDesc != "") {
-                url = `/Profesor/MisHorariosConsulta/Search`;
+                let url = `/Profesor/MisHorariosConsulta/Search`;
                 $.ajax({
                     type: "POST",
                     data: ({ partialDesc: $("#searchText").val() }),

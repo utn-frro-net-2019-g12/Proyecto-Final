@@ -111,7 +111,9 @@
         $("#searchButton").on('click', function () {
             let partialDesc = $("#searchText").val();
             if (partialDesc != null && partialDesc != "") {
-                url = `/Usuario/Search`;
+                let url = `/Usuario/Search`;
+                let urlp = `/Usuario/ProfesorSearch`;
+                let urla = `/Usuario/AlumnoSearch`;
                 $.ajax({
                     type: "POST",
                     data: ({ partialDesc: $("#searchText").val() }),

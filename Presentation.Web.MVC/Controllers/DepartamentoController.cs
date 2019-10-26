@@ -49,6 +49,21 @@ namespace Presentation.Web.MVC.Controllers {
             }
         }
 
+        // Search - GET Departamento by Partial Descripcion
+        public async Task<ActionResult> Search(string partialDesc) {
+            try {
+                IEnumerable<Departamento> entities = await _departamentoEndpoint.GetByPartialDesc(partialDesc, _userSession.BearerToken);
+
+                var departamentos = _mapper.Map<IEnumerable<MvcDepartamentoModel>>(entities);
+
+                return View("Index", departamentos);
+            } catch (UnauthorizedRequestException) {
+                return RedirectToAction("AccessDenied", "Error");
+            } catch (Exception ex) {
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+            }
+        }
+
         // Details - GET Departamento/ID
         public async Task<ActionResult> Details(int id)
         {

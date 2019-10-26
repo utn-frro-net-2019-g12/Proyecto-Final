@@ -53,6 +53,51 @@ namespace Presentation.Web.MVC.Controllers {
             }
         }
 
+        // Search - GET Usuario by Partial Descripcion
+        public async Task<ActionResult> Search(string partialDesc) {
+            try {
+                IEnumerable<Usuario> entities = await _usuarioEndpoint.GetByPartialDesc(partialDesc, _userSession.BearerToken);
+
+                var usuarios = _mapper.Map<IEnumerable<MvcUsuarioModel>>(entities);
+
+                return View("Index", usuarios);
+            } catch (UnauthorizedRequestException) {
+                return RedirectToAction("AccessDenied", "Error");
+            } catch (Exception ex) {
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+            }
+        }
+
+        // Search - GET Usuario (Profesor) by Partial Descripcion
+        public async Task<ActionResult> SearchProfesor(string partialDesc) {
+            try {
+                IEnumerable<Usuario> entities = await _usuarioEndpoint.GetProfesoresByPartialDesc(partialDesc, _userSession.BearerToken);
+
+                var profesores = _mapper.Map<IEnumerable<MvcUsuarioModel>>(entities);
+
+                return View("Index", profesores);
+            } catch (UnauthorizedRequestException) {
+                return RedirectToAction("AccessDenied", "Error");
+            } catch (Exception ex) {
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+            }
+        }
+
+        // Search - GET Usuario (Alumno) by Partial Descripcion
+        public async Task<ActionResult> SearchAlumno(string partialDesc) {
+            try {
+                IEnumerable<Usuario> entities = await _usuarioEndpoint.GetAlumnosByPartialDesc(partialDesc, _userSession.BearerToken);
+
+                var alumnos = _mapper.Map<IEnumerable<MvcUsuarioModel>>(entities);
+
+                return View("Index", alumnos);
+            } catch (UnauthorizedRequestException) {
+                return RedirectToAction("AccessDenied", "Error");
+            } catch (Exception ex) {
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+            }
+        }
+
         // Details - GET Usuario/ID
         public async Task<ActionResult> Details(int id)
         {

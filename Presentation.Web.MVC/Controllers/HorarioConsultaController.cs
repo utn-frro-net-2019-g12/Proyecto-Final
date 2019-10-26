@@ -56,6 +56,21 @@ namespace Presentation.Web.MVC.Controllers {
             }
         }
 
+        // Search - GET HorarioConsulta by Partial Descripcion
+        public async Task<ActionResult> Search(string partialDesc) {
+            try {
+                IEnumerable<HorarioConsulta> entities = await _horarioConsultaEndpoint.GetByPartialDesc(partialDesc, _userSession.BearerToken);
+
+                var horariosConsulta = _mapper.Map<IEnumerable<MvcHorarioConsultaModel>>(entities);
+
+                return View("Index", horariosConsulta);
+            } catch (UnauthorizedRequestException) {
+                return RedirectToAction("AccessDenied", "Error");
+            } catch (Exception ex) {
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+            }
+        }
+
         // Details - GET HorarioConsulta/ID
         public async Task<ActionResult> Details(int id)
         {

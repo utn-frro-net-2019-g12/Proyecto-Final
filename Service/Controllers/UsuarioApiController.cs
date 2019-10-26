@@ -45,6 +45,16 @@ namespace Service.Controllers {
         }
 
         /// <summary>
+        /// Retrives usuario instances that matches a partial description
+        /// </summary>
+        [HttpGet]
+        [Route("search/{desc}")]
+        public IHttpActionResult GetByPartialDescription(string desc) {
+            var usuarios = _unitOfWork.Usuarios.GetUsuariosByPartialDesc(desc);
+            return Ok(usuarios);
+        }
+
+        /// <summary>
         /// Retrives usuario (profesor) instances that matches a partial description
         /// </summary>
         [HttpGet]

@@ -107,7 +107,7 @@
         $("#searchButton").on('click', function () {
             let partialDesc = $("#searchText").val();
             if (partialDesc != null && partialDesc != "") {
-                url = `/Materia/Search`;
+                let url = `/Materia/Search`;
                 // url = `/Materia/Search/?desc=${partialDesc}`;
                 // window.location.href = '[at]Url.Action("Search", "Materia", new { partialDesc = "partialDesc" })'.replace("partialDesc", partialDesc);
                 $.ajax({

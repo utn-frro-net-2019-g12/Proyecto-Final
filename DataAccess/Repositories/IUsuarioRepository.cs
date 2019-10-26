@@ -10,6 +10,7 @@ namespace DataAccess.Repositories {
         IEnumerable<Usuario> GetUsuariosOrderedByFullname(); // By Surname, then Firstname
         IEnumerable<Usuario> GetUsuariosProfesoresOrderedByFullName();
         IEnumerable<Usuario> GetUsuariosAlumnosOrderedByLegajo();
+        IEnumerable<Usuario> GetUsuariosByPartialDesc(string desc);
         IEnumerable<Usuario> GetUsuariosAlumnosByPartialDesc(string desc);
         IEnumerable<Usuario> GetUsuariosProfesoresByPartialDesc(string desc);
 

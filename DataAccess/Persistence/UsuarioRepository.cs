@@ -55,6 +55,12 @@ namespace DataAccess.Persistence {
             return ConsultaUTNContext.Usuarios.Where(e => e.Legajo != null).OrderByDescending(e => e.Legajo).ToList();
         }
 
+        public IEnumerable<Usuario> GetUsuariosByPartialDesc(string desc) {
+            ConsultaUTNContext.Database.Log = message => Trace.Write(message);
+            return ConsultaUTNContext.Usuarios.Where(e => (e.Surname.ToLower() + " " + e.Firstname.ToLower()).Contains(desc.ToLower()))
+                .OrderByDescending(e => e.Surname).ThenByDescending(e => e.Firstname).ToList();
+        }
+
         public IEnumerable<Usuario> GetUsuariosAlumnosByPartialDesc(string desc) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
             return ConsultaUTNContext.Usuarios.Where(e => (e.Legajo != null) &&

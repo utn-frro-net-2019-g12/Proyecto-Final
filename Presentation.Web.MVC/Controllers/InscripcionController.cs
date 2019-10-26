@@ -55,6 +55,21 @@ namespace Presentation.Web.MVC.Controllers {
             }
         }
 
+        // Search - GET Inscripción by Partial Descripcion
+        public async Task<ActionResult> Search(string partialDesc) {
+            try {
+                IEnumerable<Inscripcion> entities = await _inscripcionEndpoint.GetByPartialDesc(partialDesc, _userSession.BearerToken);
+
+                var inscripciones = _mapper.Map<IEnumerable<MvcInscripcionModel>>(entities);
+
+                return View("Index", inscripciones);
+            } catch (UnauthorizedRequestException) {
+                return RedirectToAction("AccessDenied", "Error");
+            } catch (Exception ex) {
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+            }
+        }
+
         // Details - GET Inscripcion/ID
         public async Task<ActionResult> Details(int id)
         {

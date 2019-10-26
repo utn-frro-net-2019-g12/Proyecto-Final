@@ -42,6 +42,57 @@ namespace Presentation.Library.Api.Endpoints.Implementations
             }
         }
 
+        public async Task<IEnumerable<Usuario>> GetByPartialDesc(string partialDesc, string token) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/search/?desc={partialDesc}", x => SetToken(x, token))) {
+                if (!response.IsSuccessStatusCode) {
+                    switch (response.StatusCode) {
+                        case HttpStatusCode.Unauthorized:
+                            throw new UnauthorizedRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
+                }
+
+                var result = await response.Content.ReadAsAsync<IEnumerable<Usuario>>();
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Usuario>> GetProfesoresByPartialDesc(string partialDesc, string token) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/profesores/?desc={partialDesc}", x => SetToken(x, token))) {
+                if (!response.IsSuccessStatusCode) {
+                    switch (response.StatusCode) {
+                        case HttpStatusCode.Unauthorized:
+                            throw new UnauthorizedRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
+                }
+
+                var result = await response.Content.ReadAsAsync<IEnumerable<Usuario>>();
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Usuario>> GetAlumnosByPartialDesc(string partialDesc, string token) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/alumnos/?desc={partialDesc}", x => SetToken(x, token))) {
+                if (!response.IsSuccessStatusCode) {
+                    switch (response.StatusCode) {
+                        case HttpStatusCode.Unauthorized:
+                            throw new UnauthorizedRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
+                }
+
+                var result = await response.Content.ReadAsAsync<IEnumerable<Usuario>>();
+
+                return result;
+            }
+        }
+
         public async Task<Usuario> Get(object id, string token)
         {
             using (var response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/{id}", x => SetToken(x, token)))
@@ -83,8 +134,6 @@ namespace Presentation.Library.Api.Endpoints.Implementations
                 }
             }
         }
-
-
 
         public async Task Post(Usuario entity, string token)
         {
