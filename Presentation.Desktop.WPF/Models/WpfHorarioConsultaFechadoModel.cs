@@ -14,6 +14,12 @@ namespace Presentation.Desktop.WPF.Models {
         public int HorarioConsultaId { get; set; }
         public virtual WpfHorarioConsultaModel HorarioConsulta { get; set; }
 
+        public string ReturnDateForDisplay {
+            get {
+                return this.Date.ToString("dd/MM/yyyy");
+            }
+        }
+
         // HorarioConsultaFechado's Enumeration of States
         public enum HCFStates {
             active,

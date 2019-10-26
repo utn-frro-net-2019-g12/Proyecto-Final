@@ -12,13 +12,22 @@ namespace Presentation.Web.MVC.Models {
 
         [DisplayName("Fecha")]
         public System.DateTime Date { get; set; }
+        [DisplayName("Estado")]
         public HCFStates? State { get; set; }
+        [DisplayName("Observación")]
         public string Observation { get; set; }
+        [DisplayName("Fecha Pospuesta")]
         public System.DateTime? PostponementDate { get; set; }
 
         [ForeignKey("HorarioConsulta")]
         public int? HorarioConsultaId { get; set; }
         public virtual MvcHorarioConsultaModel HorarioConsulta { get; set; }
+
+        public string ReturnDateForDisplay {
+            get {
+                return this.Date.ToString("dd/MM/yyyy");
+            }
+        }
 
         // HorarioConsultaFechado's Enumeration of States
         public enum HCFStates {

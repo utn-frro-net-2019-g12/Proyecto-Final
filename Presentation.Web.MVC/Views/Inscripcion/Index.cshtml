@@ -243,12 +243,11 @@
                                 @Html.DisplayFor(modelItem => item.Alumno.Firstname)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Profesor.Surname)
-                                @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Profesor.Firstname)
-                                <br />
                                 @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Materia.Name)
                                 <br />
-                                @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.Date)
+                                @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.Date.DayOfWeek) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.ReturnDateForDisplay) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.StartHour) to @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.EndHour)
+                                <br />
+                                @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Place)
                             </td>
                             <td class="d-flex align-items-center p-0">
                                 <button data-toggle="modal" data-target="#modalEditInscripcion" type="button" class="actionEditInscripcion d-flex align-items-center btn btn-warning m-1">

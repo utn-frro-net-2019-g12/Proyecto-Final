@@ -118,7 +118,9 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Materia.Name)
                                     <br />
-                                    @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.Date)
+                                    @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.Date.DayOfWeek) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.ReturnDateForDisplay) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.StartHour) to @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.EndHour)
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Place)
                                 </td>
                             </tr>
                         }
