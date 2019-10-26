@@ -7,7 +7,7 @@ namespace Presentation.Desktop.WPF.Models {
     public class WpfInscripcionModel {
         public int Id { get; set; }
         public string Topic { get; set; }
-        public States? State { get; set; }
+        public InscripcionStates? State { get; set; }
         public string Answer { get; set; }
         public string Observation { get; set; }
 
@@ -18,8 +18,8 @@ namespace Presentation.Desktop.WPF.Models {
         public int HorarioConsultaFechadoId { get; set; }
         public virtual WpfHorarioConsultaFechadoModel HorarioConsultaFechado { get; set; }
 
-        // States Enumeration
-        public enum States {
+        // Inscripcion's Enumeration of States
+        public enum InscripcionStates {
             active,
             canceled,
             finalized

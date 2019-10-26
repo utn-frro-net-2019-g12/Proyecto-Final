@@ -57,7 +57,7 @@ namespace DataAccess.Persistence {
 
         public IEnumerable<Inscripcion> GetInscripcionesActivasByAlumno(int id_alumno) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.Inscripciones.Where(e => (e.AlumnoId == id_alumno) && (e.State == Inscripcion.States.active))
+            return ConsultaUTNContext.Inscripciones.Where(e => (e.AlumnoId == id_alumno) && (e.State == Inscripcion.InscripcionStates.active))
                 .OrderByDescending(e => e.Alumno.Legajo)
                 .Include(e => e.Alumno)
                 .Include(e => e.HorarioConsultaFechado)

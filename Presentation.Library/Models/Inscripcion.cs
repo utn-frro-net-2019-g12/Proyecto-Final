@@ -4,7 +4,7 @@
         public int Id { get; set; }
 
         public string Topic { get; set; }
-        public States? State { get; set; }
+        public InscripcionStates? State { get; set; }
         public string Answer { get; set; }
         public string Observation { get; set; }   
       
@@ -14,8 +14,8 @@
         public int? HorarioConsultaFechadoId { get; set; }
         public virtual HorarioConsultaFechado HorarioConsultaFechado { get; set; }
 
-        // States Enumeration
-        public enum States {
+        // Inscripcion's Enumeration of States
+        public enum InscripcionStates {
             active,
             canceled,
             finalized

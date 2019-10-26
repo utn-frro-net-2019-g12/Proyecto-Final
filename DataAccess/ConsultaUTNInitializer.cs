@@ -54,18 +54,18 @@ namespace DataAccess {
             unitOfWork.Complete();
 
             var horariosConsultaFechados = new List<HorarioConsultaFechado> {
-                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[0].Id, Date = new System.DateTime(2019, 11, 04) },
-                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[0].Id, Date = new System.DateTime(2019, 11, 11) },
-                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[1].Id, Date = new System.DateTime(2019, 11, 05) },
-                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[1].Id, Date = new System.DateTime(2019, 11, 12) },
+                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[0].Id, Date = new System.DateTime(2019, 11, 04), State = HorarioConsultaFechado.HCFStates.active },
+                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[0].Id, Date = new System.DateTime(2019, 11, 11), State = HorarioConsultaFechado.HCFStates.active },
+                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[1].Id, Date = new System.DateTime(2019, 11, 05), State = HorarioConsultaFechado.HCFStates.active },
+                new HorarioConsultaFechado { HorarioConsultaId = horariosConsulta[1].Id, Date = new System.DateTime(2019, 11, 12), State = HorarioConsultaFechado.HCFStates.active },
             };
 
             unitOfWork.HorariosConsultaFechados.InsertRange(horariosConsultaFechados);
             unitOfWork.Complete();
 
             var inscripciones = new List<Inscripcion> {
-                new Inscripcion { Topic = "Derivadas", State = Inscripcion.States.active, AlumnoId = usuarios[1].Id, Alumno = usuarios[1], HorarioConsultaFechadoId = horariosConsultaFechados[1].Id },
-                new Inscripcion { Topic = "Axure", State = Inscripcion.States.active, AlumnoId = usuarios[3].Id, Alumno = usuarios[3], HorarioConsultaFechadoId = horariosConsultaFechados[3].Id },
+                new Inscripcion { Topic = "Derivadas", State = Inscripcion.InscripcionStates.active, AlumnoId = usuarios[1].Id, Alumno = usuarios[1], HorarioConsultaFechadoId = horariosConsultaFechados[1].Id },
+                new Inscripcion { Topic = "Axure", State = Inscripcion.InscripcionStates.active, AlumnoId = usuarios[3].Id, Alumno = usuarios[3], HorarioConsultaFechadoId = horariosConsultaFechados[3].Id },
                 // State = Active/Deleted/Finalized, Answer = Fast Response Optional for a Profersor, Observation = Also Optional
             };
 
