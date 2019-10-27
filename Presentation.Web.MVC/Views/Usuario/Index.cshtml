@@ -6,6 +6,12 @@
 
 @section styleDataTable {
     @Styles.Render("~/Content/dataTables")
+
+    <style media="screen">
+        tr td, tr th {
+            white-space: nowrap;
+        }
+    </style>
 }
 
 @section scriptsDataTable {
@@ -156,7 +162,7 @@
             $('#modalEditUserContent').html(data);
             $('#editForm').unbind();
             checkTypes(isPostBack, "edit");
-            
+
             // Si un Checked es true, activar el Input correspondiente y viceversa
             $('#alumnoCheck').bind("click", function () {
                 if ($(this).prop("checked") == true) {
@@ -180,7 +186,7 @@
             // Validaciones en Cambios
             $('#alumnoCheck, #profesorCheck, #adminCheck').bind("click", function () { validateTypes(); });
             $("#legajoInput, #matriculaInput").on('change', function () { validateTypes(); });
-            
+
             $('#editForm').bind("submit", function (event) {
                 event.preventDefault();
                 $.ajax({
@@ -380,49 +386,53 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach (var item in Model) {
-                        <tr>
-                            <td class="d-none">
-                                @Html.DisplayFor(modelItem => item.Id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Surname)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Firstname)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Username)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Legajo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Matricula)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Phone1)
-                                <br />
-                                @Html.DisplayFor(modelItem => item.Phone2)
-                            </td>
-                            <td>
-                                @if (item.IsAdmin) {
-                                    <i class="d-flex justify-content-center fas fa-check fa-lg text-success"></i>
-                                } else {
-                                    <i class="d-flex justify-content-center fas fa-times fa-lg text-danger"></i>
-                                }
-                            </td>
-                            <td class="d-flex align-items-center p-0">
-                                <button data-toggle="modal" data-target="#modalEditUser" type="button" class="actionEditUser d-flex align-items-center btn btn-warning m-1">
-                                    <i class="fas fa-edit fa-xs m-1"></i>
-                                    <p class="d-none d-md-block m-0">Editar</p>
-                                </button>
-                                <button data-toggle="modal" data-target="#modalDeleteUser" type="button" class="actionDeleteUser d-flex align-items-center btn btn-danger m-1">
-                                    <i class="fas fa-trash-alt fa-xs m-1"></i>
-                                    <p class="d-none d-md-block m-0">Eliminar</p>
-                                </button>
-                            </td>
-                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Surname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Firstname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Username)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Legajo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Matricula)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Phone1)
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.Phone2)
+                                </td>
+                                <td>
+                                    @if (item.IsAdmin)
+                                    {
+                                        <i class="d-flex justify-content-center fas fa-check fa-lg text-success"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="d-flex justify-content-center fas fa-times fa-lg text-danger"></i>
+                                    }
+                                </td>
+                                <td class="d-flex align-items-center p-0">
+                                    <button data-toggle="modal" data-target="#modalEditUser" type="button" class="actionEditUser d-flex align-items-center btn btn-warning m-1">
+                                        <i class="fas fa-edit fa-xs m-1"></i>
+                                        <p class="d-none d-md-block m-0">Editar</p>
+                                    </button>
+                                    <button data-toggle="modal" data-target="#modalDeleteUser" type="button" class="actionDeleteUser d-flex align-items-center btn btn-danger m-1">
+                                        <i class="fas fa-trash-alt fa-xs m-1"></i>
+                                        <p class="d-none d-md-block m-0">Eliminar</p>
+                                    </button>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>

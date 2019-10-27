@@ -6,6 +6,12 @@
 
 @section styleDataTable {
     @Styles.Render("~/Content/dataTables")
+
+    <style media="screen">
+        tr td, tr th {
+            white-space: nowrap;
+        }
+    </style>
 }
 
 @section scriptsDataTable {
@@ -234,7 +240,8 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach (var item in Model) {
+                        @foreach (var item in Model)
+                        {
                             <tr>
                                 <td class="d-none">
                                     @Html.DisplayFor(modelItem => item.Id)

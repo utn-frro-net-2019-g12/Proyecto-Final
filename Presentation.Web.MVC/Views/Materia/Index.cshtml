@@ -6,6 +6,12 @@
 
 @section styleDataTable {
     @Styles.Render("~/Content/dataTables")
+
+    <style media="screen">
+        tr td, tr th {
+            white-space: nowrap;
+        }
+    </style>
 }
 
 @section scriptsDataTable {
@@ -228,40 +234,40 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                        <tr>
-                            <td class="d-none">
-                                @Html.DisplayFor(modelItem => item.Id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Year)
-                            </td>
-                            <td>
-                                @if (item.IsElectiva)
-                                {
-                                    <i class="d-flex justify-content-center fas fa-check fa-lg text-success"></i>
-                                }
-                                else
-                                {
-                                    <i class="d-flex justify-content-center fas fa-times fa-lg text-danger"></i>
-                                }
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Departamento.Name)
-                            </td>
-                            <td class="d-flex align-items-center p-0">
-                                <button data-toggle="modal" data-target="#modalEditMateria" type="button" class="actionEditMateria d-flex align-items-center btn btn-warning m-1">
-                                    <i class="fas fa-edit fa-xs m-1"></i>
-                                    <p class="d-none d-md-block m-0">Editar</p>
-                                </button>
-                                <button data-toggle="modal" data-target="#modalDeleteMateria" class="actionDeleteMateria d-flex align-items-center btn btn-danger m-1">
-                                    <i class="fas fa-trash-alt fa-xs m-1"></i>
-                                    <p class="d-none d-md-block m-0">Eliminar</p>
-                                </button>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Year)
+                                </td>
+                                <td>
+                                    @if (item.IsElectiva)
+                                    {
+                                        <i class="d-flex justify-content-center fas fa-check fa-lg text-success"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="d-flex justify-content-center fas fa-times fa-lg text-danger"></i>
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Departamento.Name)
+                                </td>
+                                <td class="d-flex align-items-center p-0">
+                                    <button data-toggle="modal" data-target="#modalEditMateria" type="button" class="actionEditMateria d-flex align-items-center btn btn-warning m-1">
+                                        <i class="fas fa-edit fa-xs m-1"></i>
+                                        <p class="d-none d-md-block m-0">Editar</p>
+                                    </button>
+                                    <button data-toggle="modal" data-target="#modalDeleteMateria" class="actionDeleteMateria d-flex align-items-center btn btn-danger m-1">
+                                        <i class="fas fa-trash-alt fa-xs m-1"></i>
+                                        <p class="d-none d-md-block m-0">Eliminar</p>
+                                    </button>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>

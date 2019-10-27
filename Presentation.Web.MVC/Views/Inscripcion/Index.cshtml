@@ -6,6 +6,12 @@
 
 @section styleDataTable {
     @Styles.Render("~/Content/dataTables")
+
+    <style media="screen">
+        tr td, tr th {
+            white-space: nowrap;
+        }
+    </style>
 }
 
 @section scriptsDataTable {
@@ -235,46 +241,47 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach (var item in Model) {
-                        <tr>
-                            <td class="d-none">
-                                @Html.DisplayFor(modelItem => item.Id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Topic)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.State)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Answer)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Observation)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Alumno.Surname)
-                                <br />
-                                @Html.DisplayFor(modelItem => item.Alumno.Firstname)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Materia.Name)
-                                <br />
-                                @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.Date.DayOfWeek) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.ReturnDateForDisplay) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.StartHour) to @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.EndHour)
-                                <br />
-                                @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Place)
-                            </td>
-                            <td class="d-flex align-items-center p-0">
-                                <button data-toggle="modal" data-target="#modalEditInscripcion" type="button" class="actionEditInscripcion d-flex align-items-center btn btn-warning m-1">
-                                    <i class="fas fa-edit fa-xs m-1"></i>
-                                    <p class="d-none d-md-block m-0">Editar</p>
-                                </button>
-                                <button data-toggle="modal" data-target="#modalDeleteInscripcion" class="actionDeleteInscripcion d-flex align-items-center btn btn-danger m-1">
-                                    <i class="fas fa-trash-alt fa-xs m-1"></i>
-                                    <p class="d-none d-md-block m-0">Eliminar</p>
-                                </button>
-                            </td>
-                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="d-none">
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Topic)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.State)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Answer)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Observation)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Alumno.Surname)
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.Alumno.Firstname)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Materia.Name)
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.Date.DayOfWeek) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.ReturnDateForDisplay) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.StartHour) to @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.EndHour)
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Place)
+                                </td>
+                                <td class="d-flex align-items-center p-0">
+                                    <button data-toggle="modal" data-target="#modalEditInscripcion" type="button" class="actionEditInscripcion d-flex align-items-center btn btn-warning m-1">
+                                        <i class="fas fa-edit fa-xs m-1"></i>
+                                        <p class="d-none d-md-block m-0">Editar</p>
+                                    </button>
+                                    <button data-toggle="modal" data-target="#modalDeleteInscripcion" class="actionDeleteInscripcion d-flex align-items-center btn btn-danger m-1">
+                                        <i class="fas fa-trash-alt fa-xs m-1"></i>
+                                        <p class="d-none d-md-block m-0">Eliminar</p>
+                                    </button>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
