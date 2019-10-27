@@ -69,9 +69,13 @@
         <hr>
         <div class="row justify-content-around">
             <div class="form-check">
-                @if (Model.Legajo != null) {
-                    <input class="form-check-input" type="checkbox" value="" id="alumnoCheck" checked>
-                } else {
+                @try {
+                    if (Model.Legajo != null) {
+                        <input class="form-check-input" type="checkbox" value="" id="alumnoCheck" checked>
+                    } else {
+                        <input class="form-check-input" type="checkbox" value="" id="alumnoCheck">
+                    }
+                } catch {
                     <input class="form-check-input" type="checkbox" value="" id="alumnoCheck">
                 }
                 <label class="form-check-label" for="alumnoCheck">
@@ -79,9 +83,13 @@
                 </label>
             </div>
             <div class="form-check">
-                @if (Model.Matricula != null && Model.Matricula != "") {
-                    <input class="form-check-input" type="checkbox" value="" id="profesorCheck" checked>
-                } else {
+                @try {
+                    if (Model.Matricula != null && Model.Matricula != "") {
+                        <input class="form-check-input" type="checkbox" value="" id="profesorCheck" checked>
+                    } else {
+                        <input class="form-check-input" type="checkbox" value="" id="profesorCheck">
+                    }
+                } catch {
                     <input class="form-check-input" type="checkbox" value="" id="profesorCheck">
                 }
                 <label class="form-check-label" for="profesorCheck">
@@ -89,11 +97,13 @@
                 </label>
             </div>
             <div class="form-check">
-                @if (Model.IsAdmin) {
-                    <input class="form-check-input" type="checkbox" value="" id="adminCheck" checked>
-                } else {
-                    <input class="form-check-input" type="checkbox" value="" id="adminCheck">
-                }
+                @Html.CheckBoxFor(m => m.IsAdmin, new { @class = "form-check-input", id = "adminCheck" })
+                @*if (Model.IsAdmin) {
+            @Html.CheckBoxFor(m => m.IsAdmin, new { @class = "form-check-input", id = "adminCheck", @checked = "checked" });
+            } else {
+                @Html.CheckBoxFor(m => m.IsAdmin, new { @class = "form-check-input", id = "adminCheck" });
+            }
+                *@
                 <label class="form-check-label" for="adminCheck">
                     Admin
                 </label>

@@ -28,103 +28,94 @@
             return data;
         };
 
-        function checkTypes(data, postBack, modal) {
-            // var alumnoType, profesorType, adminType;
-            var adminType;
-            if (postBack == false && modal == "create") {
-                // First Time Loaded
+        // Initial Validation
+        function checkTypes(isPostBack, modal) {
+            if (isPostBack == false && modal == "create") {
+                // First Time Loaded on _Create
                 alumnoType = true; profesorType = false, adminType = false;
                 $("#alumnoCheck").prop("checked", true);
                 $("#legajoInput").prop("disabled", false);
                 $("#profesorCheck").prop("checked", false);
                 $("#matriculaInput").prop("disabled", true);
-                $("#adminCheck").prop("checked", false)
-            } else {
-                var adminType = null; // Controlar Luego
-                @*alumnoType = ('@Model.ElementAt(0).Legajo' == "");
-                adminType = ('@Model.ElementAt(0).Matricula' == "");
-                adminType = '@Model.ElementAt(0).IsAdmin'; // Model utiliza la Table, no el Return (Data)*@
-            }
-
-            if ($("#legajoInput").val() == "" && $("#matriculaInput").val() == "") {
-                if (adminType != true) {
-                    // Initial Conditions
-                    $("#alumnoCheck").prop("checked", true);
-                    $("#legajoInput").prop("disabled", false);
-                    $("#profesorCheck").prop("checked", false);
-                    $("#matriculaInput").prop("disabled", true);
-                    $("#adminCheck").prop("checked", false)
-                } else {
-                    // Only Admin Checked
-                    $("#alumnoCheck").prop("checked", false);
-                    $("#legajoInput").prop("disabled", true);
-                    $("#profesorCheck").prop("checked", false);
-                    $("#matriculaInput").prop("disabled", true);
-                    $("#adminCheck").prop("checked", true)
-                }
+                $("#submitButton").prop("disabled", true);
             } else {
                 // Is Alumno?
-                if ($("#legajoInput").val() != "") {
-                    $("#alumnoCheck").prop("checked", true);
+                if ($("#alumnoCheck").prop("checked") == true) {
                     $("#legajoInput").prop("disabled", false);
                 } else {
-                    $("#alumnoCheck").prop("checked", false);
                     $("#legajoInput").prop("disabled", true);
                 }
                 // Is Profesor?
-                if ($("#matriculaInput").val() != "") {
-                    $("#profesorCheck").prop("checked", true);
+                if ($("#profesorCheck").prop("checked") == true) {
                     $("#matriculaInput").prop("disabled", false);
                 } else {
-                    $("#profesorCheck").prop("checked", false);
                     $("#matriculaInput").prop("disabled", true);
                 }
-                // Is Admin?
-                if (adminType == true) {
-                    $("#adminCheck").prop("checked", true);
-                } else {
-                    $("#dminCheck").prop("checked", false);
+                // Validation: At Least One (Default Alumno)
+                if ($("#alumnoCheck").prop("checked") == false && $("#profesorCheck").prop("checked") == false && $("#adminCheck").prop("checked") == false) {
+                    $("#alumnoCheck").prop("checked", true);
+                    $("#legajoInput").prop("disabled", false);
                 }
             }
         }
 
-        function modalCreate(data, url, postBack, modal) {
+        // Validations on Changes
+        function validateTypes() {
+            let chAlu = $("#alumnoCheck");
+            let chProf = $("#profesorCheck");
+            let chAdm = $("#adminCheck");
+            let inLegajo = $("#legajoInput").val();
+            let inMatricula = $("#matriculaInput").val();
+
+            let submit = $("#submitButton");
+            let valido = true;
+
+            // Todo Desactivado
+            if (chAlu.prop("checked") == false && chProf.prop("checked") == false && chAdm.prop("checked") == false) { valido = false; }
+
+            // Alumno con Input Vacío
+            if (chAlu.prop("checked") == true && inLegajo == "") { valido = false; }
+
+            // Profesor con Input Vacío
+            if (chProf.prop("checked") == true && inMatricula == "") { valido = false; }
+
+            // Alumno Profesor con Input(s) Vacío(s)
+            if (chAlu.prop("checked") == true && chProf.prop("checked") == true) {
+                if (inLegajo == "" || inMatricula == "") { valido = false; }
+            }
+
+            // Validación Final
+            valido ? submit.prop("disabled", false) : submit.prop("disabled", true);
+        }
+
+        function modalCreate(data, url, isPostBack) {
             $('#modalCreateUserContent').html(data);
             $('#createForm').unbind();
-            checkTypes(data, postBack, modal);
+            checkTypes(isPostBack, "create");
+
+            // Si un Checked es true, activar el Input correspondiente y viceversa
             $('#alumnoCheck').bind("click", function () {
                 if ($(this).prop("checked") == true) {
                     $("#legajoInput").prop("disabled", false);
+                    $("#submitButton").prop("disabled", true);
                 } else if ($(this).prop("checked") == false) {
                     $("#legajoInput").val("");
                     $("#legajoInput").prop("disabled", true);
-                }
-                if ($("#alumnoCheck").prop("checked") == false && $("#profesorCheck").prop("checked") == false && $("#adminCheck").prop("checked") == false) {
-                    $("#submitButton").prop("disabled", true);
-                } else {
-                    $("#submitButton").prop("disabled", false);
                 }
             });
             $('#profesorCheck').bind("click", function () {
                 if ($(this).prop("checked") == true) {
                     $("#matriculaInput").prop("disabled", false);
+                    $("#submitButton").prop("disabled", true);
                 } else if ($(this).prop("checked") == false) {
                     $("#matriculaInput").val("");
                     $("#matriculaInput").prop("disabled", true);
                 }
-                if ($("#alumnoCheck").prop("checked") == false && $("#profesorCheck").prop("checked") == false && $("#adminCheck").prop("checked") == false) {
-                    $("#submitButton").prop("disabled", true);
-                } else {
-                    $("#submitButton").prop("disabled", false);
-                }
             });
-            $('#adminCheck').bind("click", function () {
-                if ($("#alumnoCheck").prop("checked") == false && $("#profesorCheck").prop("checked") == false && $("#adminCheck").prop("checked") == false) {
-                    $("#submitButton").prop("disabled", true);
-                } else {
-                    $("#submitButton").prop("disabled", false);
-                }
-            });
+
+            // Validaciones en Cambios
+            $('#alumnoCheck, #profesorCheck, #adminCheck').bind("click", function () { validateTypes(); });
+            $("#legajoInput, #matriculaInput").on('change', function () { validateTypes(); });
 
             $('#createForm').bind("submit", function (event) {
                 event.preventDefault();
@@ -135,7 +126,8 @@
                     // traditional: true,
                     data: $('#createForm').serialize(),
                     success: function (data) {
-                        data != "OK" ? modalCreate(data, url, true, "create") : window.location.reload();
+                        // isPostBack = true
+                        data != "OK" ? modalCreate(data, url, true) : window.location.reload();
                     }
                 });
             });
@@ -147,7 +139,8 @@
                 type: "GET",
                 url: url,
                 success: function (data) {
-                    modalCreate(data, url, false, "create")
+                    // isPostBack = false
+                    modalCreate(data, url, false)
                 }
             });
         });
@@ -159,44 +152,35 @@
 
         /*------------------------------*/
 
-        function modalEdit(data, url, postBack, modal) {
+        function modalEdit(data, url, isPostBack) {
             $('#modalEditUserContent').html(data);
             $('#editForm').unbind();
-            checkTypes(data, postBack, modal);
+            checkTypes(isPostBack, "edit");
+            
+            // Si un Checked es true, activar el Input correspondiente y viceversa
             $('#alumnoCheck').bind("click", function () {
                 if ($(this).prop("checked") == true) {
                     $("#legajoInput").prop("disabled", false);
+                    $("#submitButton").prop("disabled", true);
                 } else if ($(this).prop("checked") == false) {
                     $("#legajoInput").val("");
                     $("#legajoInput").prop("disabled", true);
-                }
-                if ($("#alumnoCheck").prop("checked") == false && $("#profesorCheck").prop("checked") == false && $("#adminCheck").prop("checked") == false) {
-                    $("#submitButton").prop("disabled", true);
-                } else {
-                    $("#submitButton").prop("disabled", false);
                 }
             });
             $('#profesorCheck').bind("click", function () {
                 if ($(this).prop("checked") == true) {
                     $("#matriculaInput").prop("disabled", false);
+                    $("#submitButton").prop("disabled", true);
                 } else if ($(this).prop("checked") == false) {
                     $("#matriculaInput").val("");
                     $("#matriculaInput").prop("disabled", true);
                 }
-                if ($("#alumnoCheck").prop("checked") == false && $("#profesorCheck").prop("checked") == false && $("#adminCheck").prop("checked") == false) {
-                    $("#submitButton").prop("disabled", true);
-                } else {
-                    $("#submitButton").prop("disabled", false);
-                }
-            });
-            $('#adminCheck').bind("click", function () {
-                if ($("#alumnoCheck").prop("checked") == false && $("#profesorCheck").prop("checked") == false && $("#adminCheck").prop("checked") == false) {
-                    $("#submitButton").prop("disabled", true);
-                } else {
-                    $("#submitButton").prop("disabled", false);
-                }
             });
 
+            // Validaciones en Cambios
+            $('#alumnoCheck, #profesorCheck, #adminCheck').bind("click", function () { validateTypes(); });
+            $("#legajoInput, #matriculaInput").on('change', function () { validateTypes(); });
+            
             $('#editForm').bind("submit", function (event) {
                 event.preventDefault();
                 $.ajax({
@@ -204,7 +188,8 @@
                     url: url,
                     data: $('#editForm').serialize(),
                     success: function (data) {
-                        data != "OK" ? modalEdit(data, url, true, "edit") : window.location.reload();
+                        // isPostBack = true
+                        data != "OK" ? modalEdit(data, url, true) : window.location.reload();
                     }
                 });
             });
@@ -217,14 +202,8 @@
                 type: "GET",
                 url: url,
                 success: function (data) {
-                    var content = $(data);
-                    var info = {};
-                    // Test
-                    info["esAlumno"] = content.find("#alumnoCheck").val();
-                    info["esProfesor"] = content.find("#profesorCheck").val();
-                    info["esAdmin"] = content.find("#adminCheck").val();
-                    console.log(info);
-                    modalEdit(data, url, false, "edit")
+                    // isPostBack = false
+                    modalEdit(data, url, false)
                 }
             });
         });
