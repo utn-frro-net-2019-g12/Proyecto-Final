@@ -4,33 +4,37 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation.Desktop.WPF.Views"
-             mc:Ignorable="d" Background="White" FontSize="18"
+             mc:Ignorable="d" FontSize="18"
              d:DesignHeight="425" d:DesignWidth="800">
-    <Grid>
+    <UserControl.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFE2E2E2" Offset="0.003"/>
+            <GradientStop Color="#FF9B6EFF" Offset="1"/>
+        </LinearGradientBrush>
+    </UserControl.Background>
+    <Grid Margin="0,74,0,-74">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="176*" />
+            <ColumnDefinition Width="151" />
+            <ColumnDefinition Width="298" />
+            <ColumnDefinition Width="175*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="18*" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="101*" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="0 0 0 20"
-                        HorizontalAlignment="Center" FontSize="64" FontFamily="Segoe UI Light">
-                Login Form
-        </TextBlock>
+        <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,0,10,20"
+                        HorizontalAlignment="Center" FontSize="64" Text="Login" FontWeight="Bold" Width="439" Grid.ColumnSpan="2" TextAlignment="Center"/>
 
         <StackPanel Grid.Row="1" Grid.Column="2" 
                     Visibility="{Binding AreErrorMessagesVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
-                    VerticalAlignment="Center" Margin="0, 7">
+                    VerticalAlignment="Center" Margin="0,0,0,36" Height="0" Grid.RowSpan="4">
             <ItemsControl ItemsSource="{Binding ErrorMessages}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -41,22 +45,18 @@
         </StackPanel>
 
         <!-- Username row -->
-        <TextBlock Grid.Row="4" Grid.Column="1" Margin="0 0 5 10">
-                Username:
-        </TextBlock>
-        <TextBox x:Name="UserName" Grid.Row="4" Grid.Column="2" MinWidth="350" 
-                        Margin="0 0 0 10" />
+        <TextBlock Grid.Row="4" Grid.Column="1" Margin="0,0,52,10" Text="Email:" TextAlignment="Right"/>
+        <TextBox x:Name="UserName" Grid.Row="4" Grid.Column="1" MinWidth="350" 
+                        Margin="116,0,0,10" Grid.ColumnSpan="2" />
 
         <!-- Password row -->
-        <TextBlock Grid.Row="5" Grid.Column="1" Margin="0 0 5 20">
-                Password:
-        </TextBlock>
-        <PasswordBox x:Name="Password" Grid.Row="5" Grid.Column="2" MinWidth="350" 
-                        Margin="0 0 0 20" />
+        <TextBlock Grid.Row="5" Grid.Column="1" Margin="0,0,52,20" TextAlignment="Right"><Run Text="Contraseña"/><Run Text=":"/></TextBlock>
+        <PasswordBox x:Name="Password" Grid.Row="5" Grid.Column="1" MinWidth="350" 
+                        Margin="116,0,0,20" Grid.ColumnSpan="2" />
 
         <!-- Login row -->
-        <Button Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Padding="20 5"
-                    HorizontalAlignment="Center" x:Name="LogIn">
+        <Button Grid.Row="6" Grid.Column="2" Padding="20 5"
+                    HorizontalAlignment="Center" x:Name="LogIn" Margin="26,0,180,0" Width="92">
             Log In
         </Button>
     </Grid>

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Presentation.Desktop.WPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" FontFamily="Segoe UI Light">
-    <Grid Background="Blue">
+    <Grid Background="#FF222247">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="2*"/>
@@ -33,12 +33,12 @@
 
         <!-- Header -->
         <TextBlock Text="Materias" FontSize="42" Foreground="#FFFFFF" Grid.Row="1"
-                   Grid.Column="1" Grid.ColumnSpan="2" />
+                   Grid.Column="1" Grid.ColumnSpan="2" FontFamily="Segoe UI" FontWeight="Bold" />
 
         <!-- Column 0 -->
         <Button x:Name="Add" Content="Add New"
-                    Padding="5" Grid.Column="1" Grid.Row="2"/>
-        
+                    Padding="5" Grid.Column="1" Grid.Row="2" FontFamily="Segoe UI"/>
+
         <ListBox  x:Name="Materias" Grid.Row="3" Grid.Column="1"
                  MinHeight="200" MinWidth="150" Grid.RowSpan="9"
                   SelectedItem="{Binding SelectedMateria}">
@@ -65,7 +65,7 @@
 
         <!-- Column 1 -->
         <Button x:Name="Delete" Content="Delete Selected"
-            Grid.Column="1" Grid.Row="11"/>
+            Grid.Column="1" Grid.Row="11" FontFamily="Segoe UI"/>
 
         <StackPanel Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" 
                     Visibility="{Binding AreErrorMessagesVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
@@ -79,20 +79,20 @@
             </ItemsControl>
         </StackPanel>
 
-        <TextBlock Grid.Column="3" Grid.Row="3" Text="Nombre:" Foreground="#FFFFFF"/>
-        <TextBox x:Name="NameInForm" Grid.Column="4" Grid.Row="3" Margin="10,0,0,3"/>
+        <TextBlock Grid.Column="3" Grid.Row="2" Text="Nombre:" Foreground="#FFFFFF" FontFamily="Segoe UI"/>
+        <TextBox x:Name="NameInForm" Grid.Column="4" Grid.Row="2" Margin="10,0,0,3"/>
 
-        <TextBlock Grid.Column="3" Grid.Row="4" Text="Año:" Foreground="#FFFFFF"/>
-        <TextBox Text="{Binding YearInForm, Mode=TwoWay, TargetNullValue=''}"  Grid.Column="4" Grid.Row="4" Margin="10,0,0,3"/>
+        <TextBlock Grid.Column="3" Grid.Row="3" Text="Año:" Foreground="#FFFFFF" FontFamily="Segoe UI"/>
+        <TextBox Text="{Binding YearInForm, Mode=TwoWay, TargetNullValue=''}"  Grid.Column="4" Grid.Row="3" Margin="10,0,0,3"/>
 
-        <TextBlock Grid.Column="3" Grid.Row="5" Text="Departamento:" Foreground="#FFFFFF"/>
+        <TextBlock Grid.Column="3" Grid.Row="4" Text="Departamento:" Foreground="#FFFFFF" FontFamily="Segoe UI"/>
         <ComboBox ItemsSource="{Binding DepartamentosInForm}"
                   DisplayMemberPath="Name"
                   SelectedItem="{Binding SelectedDepartamento}"
-                  Grid.Column="4" Grid.Row="5" Margin="10,0,0,3" />
+                  Grid.Column="4" Grid.Row="4" Margin="10,0,0,3" />
 
-        <TextBlock Grid.Column="3" Grid.Row="6" Text="Es Electiva:" Foreground="#FFFFFF"/>
-        <CheckBox x:Name="IsElectivaInForm" Grid.Column="4" Grid.Row="6" Margin="10,0,0,0"/>
+        <TextBlock Grid.Column="3" Grid.Row="5" Text="Es Electiva:" Foreground="#FFFFFF" Margin="0,0,0,34" Grid.RowSpan="2" FontFamily="Segoe UI"/>
+        <CheckBox x:Name="IsElectivaInForm" Grid.Column="4" Grid.Row="5" Margin="10,0,0,34" Grid.RowSpan="2"/>
 
         <Button x:Name="Edit" Grid.Row="7" Grid.Column="3" Content="Edit"
                Margin="5,2" Visibility="{Binding IsEditVisible,  Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>

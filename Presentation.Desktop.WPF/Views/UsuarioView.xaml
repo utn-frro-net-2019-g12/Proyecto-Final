@@ -6,7 +6,52 @@
              xmlns:local="clr-namespace:Presentation.Desktop.WPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+    <Grid Background="#FF222247">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Header -->
+        <TextBlock Text="Usuarios" FontSize="42" Foreground="#FFFFFF" Grid.Row="1"
+                   Grid.Column="1" Grid.ColumnSpan="2" FontWeight="Bold" />
+
+        <!-- Column 0 -->
+        <Button x:Name="Add" Content="Add New"
+                    Padding="5" Grid.Column="1" Grid.Row="2"/>
+
+        <!-- Column 1 -->
+        <Button x:Name="Delete" Content="Delete Selected"
+            Grid.Column="1" Grid.Row="11"/>
+        
+        
+        <TextBlock Grid.Column="3" Grid.Row="2" Text="Nombre:" Foreground="#FFFFFF"/>
+        <TextBlock Grid.Column="3" Grid.Row="3" Text="Apellido:" Foreground="#FFFFFF"/>
+        <TextBlock Grid.Column="3" Grid.Row="4" Text="Alias:" Foreground="#FFFFFF"/>
+        <TextBlock Grid.Column="3" Grid.Row="5" Text="Email:" Foreground="#FFFFFF"/>
+        <TextBlock Grid.Column="3" Grid.Row="6" Text="Legajo:" Foreground="#FFFFFF"/>
+        <TextBlock Grid.Column="3" Grid.Row="7" Text="Matrícula:" Foreground="#FFFFFF"/>
+        <TextBlock Grid.Column="3" Grid.Row="8" Text="Teléfono 1:" Foreground="#FFFFFF"/>
+        <TextBlock Grid.Column="3" Grid.Row="9" Text="Teléfono 2:" Foreground="#FFFFFF"/>
+        <TextBlock Grid.Column="3" Grid.Row="10" Text="Es Admin::" Foreground="#FFFFFF"/>
     </Grid>
 </UserControl>
