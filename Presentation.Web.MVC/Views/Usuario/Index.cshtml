@@ -28,9 +28,104 @@
             return data;
         };
 
-        function modalCreate(data, url) {
+        function checkTypes(data, postBack, modal) {
+            // var alumnoType, profesorType, adminType;
+            var adminType;
+            if (postBack == false && modal == "create") {
+                // First Time Loaded
+                alumnoType = true; profesorType = false, adminType = false;
+                $("#alumnoCheck").prop("checked", true);
+                $("#legajoInput").prop("disabled", false);
+                $("#profesorCheck").prop("checked", false);
+                $("#matriculaInput").prop("disabled", true);
+                $("#adminCheck").prop("checked", false)
+            } else {
+                var adminType = null; // Controlar Luego
+                @*alumnoType = ('@Model.ElementAt(0).Legajo' == "");
+                adminType = ('@Model.ElementAt(0).Matricula' == "");
+                adminType = '@Model.ElementAt(0).IsAdmin'; // Model utiliza la Table, no el Return (Data)*@
+            }
+
+            if ($("#legajoInput").val() == "" && $("#matriculaInput").val() == "") {
+                if (adminType != true) {
+                    // Initial Conditions
+                    $("#alumnoCheck").prop("checked", true);
+                    $("#legajoInput").prop("disabled", false);
+                    $("#profesorCheck").prop("checked", false);
+                    $("#matriculaInput").prop("disabled", true);
+                    $("#adminCheck").prop("checked", false)
+                } else {
+                    // Only Admin Checked
+                    $("#alumnoCheck").prop("checked", false);
+                    $("#legajoInput").prop("disabled", true);
+                    $("#profesorCheck").prop("checked", false);
+                    $("#matriculaInput").prop("disabled", true);
+                    $("#adminCheck").prop("checked", true)
+                }
+            } else {
+                // Is Alumno?
+                if ($("#legajoInput").val() != "") {
+                    $("#alumnoCheck").prop("checked", true);
+                    $("#legajoInput").prop("disabled", false);
+                } else {
+                    $("#alumnoCheck").prop("checked", false);
+                    $("#legajoInput").prop("disabled", true);
+                }
+                // Is Profesor?
+                if ($("#matriculaInput").val() != "") {
+                    $("#profesorCheck").prop("checked", true);
+                    $("#matriculaInput").prop("disabled", false);
+                } else {
+                    $("#profesorCheck").prop("checked", false);
+                    $("#matriculaInput").prop("disabled", true);
+                }
+                // Is Admin?
+                if (adminType == true) {
+                    $("#adminCheck").prop("checked", true);
+                } else {
+                    $("#dminCheck").prop("checked", false);
+                }
+            }
+        }
+
+        function modalCreate(data, url, postBack, modal) {
             $('#modalCreateUserContent').html(data);
             $('#createForm').unbind();
+            checkTypes(data, postBack, modal);
+            $('#alumnoCheck').bind("click", function () {
+                if ($(this).prop("checked") == true) {
+                    $("#legajoInput").prop("disabled", false);
+                } else if ($(this).prop("checked") == false) {
+                    $("#legajoInput").val("");
+                    $("#legajoInput").prop("disabled", true);
+                }
+                if ($("#alumnoCheck").prop("checked") == false && $("#profesorCheck").prop("checked") == false && $("#adminCheck").prop("checked") == false) {
+                    $("#submitButton").prop("disabled", true);
+                } else {
+                    $("#submitButton").prop("disabled", false);
+                }
+            });
+            $('#profesorCheck').bind("click", function () {
+                if ($(this).prop("checked") == true) {
+                    $("#matriculaInput").prop("disabled", false);
+                } else if ($(this).prop("checked") == false) {
+                    $("#matriculaInput").val("");
+                    $("#matriculaInput").prop("disabled", true);
+                }
+                if ($("#alumnoCheck").prop("checked") == false && $("#profesorCheck").prop("checked") == false && $("#adminCheck").prop("checked") == false) {
+                    $("#submitButton").prop("disabled", true);
+                } else {
+                    $("#submitButton").prop("disabled", false);
+                }
+            });
+            $('#adminCheck').bind("click", function () {
+                if ($("#alumnoCheck").prop("checked") == false && $("#profesorCheck").prop("checked") == false && $("#adminCheck").prop("checked") == false) {
+                    $("#submitButton").prop("disabled", true);
+                } else {
+                    $("#submitButton").prop("disabled", false);
+                }
+            });
+
             $('#createForm').bind("submit", function (event) {
                 event.preventDefault();
                 $.ajax({
@@ -40,7 +135,7 @@
                     // traditional: true,
                     data: $('#createForm').serialize(),
                     success: function (data) {
-                        data != "OK" ? modalCreate(data, url) : window.location.reload();
+                        data != "OK" ? modalCreate(data, url, true, "create") : window.location.reload();
                     }
                 });
             });
@@ -52,16 +147,56 @@
                 type: "GET",
                 url: url,
                 success: function (data) {
-                    modalCreate(data, url)
+                    modalCreate(data, url, false, "create")
                 }
             });
         });
 
+        $("#modalCreateUser").on("hidden.bs.modal", function () {
+            $("#modalCreateUserContent").html('<p styles="text - align: center; margin - top: 1rem; font - weight: bold;"> Loading... </p>');
+            $("#createForm").unbind();
+        });
+
         /*------------------------------*/
 
-        function modalEdit(data, url) {
+        function modalEdit(data, url, postBack, modal) {
             $('#modalEditUserContent').html(data);
             $('#editForm').unbind();
+            checkTypes(data, postBack, modal);
+            $('#alumnoCheck').bind("click", function () {
+                if ($(this).prop("checked") == true) {
+                    $("#legajoInput").prop("disabled", false);
+                } else if ($(this).prop("checked") == false) {
+                    $("#legajoInput").val("");
+                    $("#legajoInput").prop("disabled", true);
+                }
+                if ($("#alumnoCheck").prop("checked") == false && $("#profesorCheck").prop("checked") == false && $("#adminCheck").prop("checked") == false) {
+                    $("#submitButton").prop("disabled", true);
+                } else {
+                    $("#submitButton").prop("disabled", false);
+                }
+            });
+            $('#profesorCheck').bind("click", function () {
+                if ($(this).prop("checked") == true) {
+                    $("#matriculaInput").prop("disabled", false);
+                } else if ($(this).prop("checked") == false) {
+                    $("#matriculaInput").val("");
+                    $("#matriculaInput").prop("disabled", true);
+                }
+                if ($("#alumnoCheck").prop("checked") == false && $("#profesorCheck").prop("checked") == false && $("#adminCheck").prop("checked") == false) {
+                    $("#submitButton").prop("disabled", true);
+                } else {
+                    $("#submitButton").prop("disabled", false);
+                }
+            });
+            $('#adminCheck').bind("click", function () {
+                if ($("#alumnoCheck").prop("checked") == false && $("#profesorCheck").prop("checked") == false && $("#adminCheck").prop("checked") == false) {
+                    $("#submitButton").prop("disabled", true);
+                } else {
+                    $("#submitButton").prop("disabled", false);
+                }
+            });
+
             $('#editForm').bind("submit", function (event) {
                 event.preventDefault();
                 $.ajax({
@@ -69,7 +204,7 @@
                     url: url,
                     data: $('#editForm').serialize(),
                     success: function (data) {
-                        data != "OK" ? modalEdit(data, url) : window.location.reload();
+                        data != "OK" ? modalEdit(data, url, true, "edit") : window.location.reload();
                     }
                 });
             });
@@ -82,9 +217,21 @@
                 type: "GET",
                 url: url,
                 success: function (data) {
-                    modalEdit(data, url)
+                    var content = $(data);
+                    var info = {};
+                    // Test
+                    info["esAlumno"] = content.find("#alumnoCheck").val();
+                    info["esProfesor"] = content.find("#profesorCheck").val();
+                    info["esAdmin"] = content.find("#adminCheck").val();
+                    console.log(info);
+                    modalEdit(data, url, false, "edit")
                 }
             });
+        });
+
+        $("#modalEditUser").on("hidden.bs.modal", function () {
+            $("#modalEditUserContent").html('<p styles="text - align: center; margin - top: 1rem; font - weight: bold;"> Loading... </p>');
+            $("#editForm").unbind();
         });
 
         /*------------------------------*/
@@ -137,7 +284,7 @@
 <div class="modal fade" id="modalCreateUser" tabindex="-1" role="dialog" aria-labelledby="modalCreateUserTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" id="modalCreateUserContent">
-            <p> Loading... </p>
+            <p styles="text-align: center; margin-top: 1rem; font-weight: bold;"> Loading... </p>
         </div>
     </div>
 </div>
@@ -146,7 +293,7 @@
 <div class="modal fade" id="modalEditUser" tabindex="-1" role="dialog" aria-labelledby="modalEditUserTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" id="modalEditUserContent">
-            <p> Loading... </p>
+            <p styles="text-align: center; margin-top: 1rem; font-weight: bold;"> Loading... </p>
         </div>
     </div>
 </div>
@@ -219,15 +366,10 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.Matricula)
                             </th>
+                            <th>Teléfonos</th>
                             <th>
                                 @Html.DisplayNameFor(model => model.IsAdmin)
                             </th>
-                            <!--
-                            @*
-                            <th>@Html.DisplayNameFor(model => model.Phone1)</th>
-                            <th>@Html.DisplayNameFor(model => model.Phone2)</th>
-                            *@
-                            -->
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -251,61 +393,57 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.Matricula)
                             </th>
+                            <th>Teléfonos</th>
                             <th>
                                 @Html.DisplayNameFor(model => model.IsAdmin)
                             </th>
-                            <!--<th>[at]Html.DisplayNameFor(model => model.Phone1)</th>-->
-                            <!--<th>[at]Html.DisplayNameFor(model => model.Phone2)</th>-->
                             <th>Acciones</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         @foreach (var item in Model) {
-                            <tr>
-                                <td class="d-none">
-                                    @Html.DisplayFor(modelItem => item.Id)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Surname)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Firstname)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Username)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Legajo)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Matricula)
-                                </td>
-                                <td>
-                                    @if (item.IsAdmin) {
-                                        <i class="d-flex justify-content-center fas fa-check fa-lg text-success"></i>
-                                    } else {
-                                        <i class="d-flex justify-content-center fas fa-times fa-lg text-danger"></i>
-                                    }
-                                </td>
-                                <!--
-                                    <td>
-                                        [at]Html.DisplayFor(modelItem => item.Phone1)
-                                    </td>
-                                    <td>
-                                        [at]Html.DisplayFor(modelItem => item.Phone2)
-                                    </td>
-                                -->
-                                <td class="d-flex align-items-center p-0">
-                                    <button data-toggle="modal" data-target="#modalEditUser" type="button" class="actionEditUser d-flex align-items-center btn btn-warning m-1">
-                                        <i class="fas fa-edit fa-xs m-1"></i>
-                                        <p class="d-none d-md-block m-0">Editar</p>
-                                    </button>
-                                    <button data-toggle="modal" data-target="#modalDeleteUser" type="button" class="actionDeleteUser d-flex align-items-center btn btn-danger m-1">
-                                        <i class="fas fa-trash-alt fa-xs m-1"></i>
-                                        <p class="d-none d-md-block m-0">Eliminar</p>
-                                    </button>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td class="d-none">
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Surname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Firstname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Username)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Legajo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Matricula)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phone1)
+                                <br />
+                                @Html.DisplayFor(modelItem => item.Phone2)
+                            </td>
+                            <td>
+                                @if (item.IsAdmin) {
+                                    <i class="d-flex justify-content-center fas fa-check fa-lg text-success"></i>
+                                } else {
+                                    <i class="d-flex justify-content-center fas fa-times fa-lg text-danger"></i>
+                                }
+                            </td>
+                            <td class="d-flex align-items-center p-0">
+                                <button data-toggle="modal" data-target="#modalEditUser" type="button" class="actionEditUser d-flex align-items-center btn btn-warning m-1">
+                                    <i class="fas fa-edit fa-xs m-1"></i>
+                                    <p class="d-none d-md-block m-0">Editar</p>
+                                </button>
+                                <button data-toggle="modal" data-target="#modalDeleteUser" type="button" class="actionDeleteUser d-flex align-items-center btn btn-danger m-1">
+                                    <i class="fas fa-trash-alt fa-xs m-1"></i>
+                                    <p class="d-none d-md-block m-0">Eliminar</p>
+                                </button>
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>
