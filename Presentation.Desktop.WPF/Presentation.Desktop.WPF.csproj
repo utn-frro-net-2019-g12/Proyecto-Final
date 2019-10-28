@@ -98,6 +98,7 @@
     <Compile Include="Models\WpfHorarioConsultaModel.cs" />
     <Compile Include="Models\WpfHorarioConsultaFechadoModel.cs" />
     <Compile Include="Models\WpfInscripcionModel.cs" />
+    <Compile Include="ViewModels\DepartamentoViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MateriaViewModel.cs" />
     <Compile Include="ViewModels\NotAuthorizedViewModel.cs" />
@@ -114,6 +115,9 @@
     </Compile>
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DepartamentoView.xaml.cs">
+      <DependentUpon>DepartamentoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UsuarioView.xaml.cs">
       <DependentUpon>UsuarioView.xaml</DependentUpon>
@@ -137,6 +141,10 @@
     <Page Include="Views\ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DepartamentoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UsuarioView.xaml">
       <Generator>MSBuild:Compile</Generator>

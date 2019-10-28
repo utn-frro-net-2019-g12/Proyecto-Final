@@ -15,13 +15,16 @@ namespace Presentation.Desktop.WPF.ViewModels
         private IEventAggregator _events;
         private MateriaViewModel _materiaVM;
         private UsuarioViewModel _usuarioVM;
+        private DepartamentoViewModel _departamentoVM;
         private IUsuarioLogged _user;
 
-        public ShellViewModel(IEventAggregator events, MateriaViewModel materiaVM, UsuarioViewModel usuarioVM,
-            IUsuarioLogged user) {
+        public ShellViewModel(IEventAggregator events, MateriaViewModel materiaVM, UsuarioViewModel usuarioVM, DepartamentoViewModel departamentoVM,
+        IUsuarioLogged user) {
             _events = events;
             _materiaVM = materiaVM;
             _usuarioVM = usuarioVM;
+            _usuarioVM = usuarioVM;
+            _departamentoVM = departamentoVM;
             _user = user;
 
             _events.Subscribe(this);
@@ -65,6 +68,10 @@ namespace Presentation.Desktop.WPF.ViewModels
         public void Usuarios()
         {
             ActivateItem(_usuarioVM);
+        }
+
+        public void Departamento() {
+            ActivateItem(_departamentoVM);
         }
 
         public void Handle(LogOnEvent message)
