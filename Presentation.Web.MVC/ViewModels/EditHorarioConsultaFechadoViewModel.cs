@@ -20,7 +20,7 @@ namespace Presentation.Web.MVC.ViewModels {
         public void SetHorariosConsultaAsSelectList(IEnumerable<MvcHorarioConsultaModel> horariosConsulta) {
             HorariosConsultaList = horariosConsulta.Select(e => new SelectListItem() {
                 Value = e.Id.ToString(),
-                Text = e.Materia + " --- " + e.Profesor.Surname + " " + e.Profesor.Firstname
+                Text = e.Materia + " /// " + e.Profesor.Surname + " " + e.Profesor.Firstname
             }) as IEnumerable<SelectListItem>;
         }
     }

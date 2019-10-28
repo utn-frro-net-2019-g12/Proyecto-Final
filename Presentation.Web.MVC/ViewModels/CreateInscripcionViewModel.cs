@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Presentation.Web.MVC.Models;
+using static Presentation.Library.Models.Inscripcion;
 
 namespace Presentation.Web.MVC.ViewModels {
     public class CreateInscripcionViewModel {
@@ -12,11 +13,13 @@ namespace Presentation.Web.MVC.ViewModels {
         public CreateInscripcionViewModel(IEnumerable<MvcUsuarioModel> alumnos, IEnumerable<MvcHorarioConsultaFechadoModel> horariosConsultaFechados) {
             this.SetAlumnosAsSelectList(alumnos);
             this.SetHorariosConsultaFechadosAsSelectList(horariosConsultaFechados);
+            this.SetEstadosAsSelectList();
         }
 
         public MvcInscripcionModel Inscripcion { get; set; }
         public IEnumerable<SelectListItem> AlumnosList { get; set; }
         public IEnumerable<SelectListItem> HorariosConsultaFechadosList { get; set; }
+        public IEnumerable<SelectListItem> EstadosList { get; set; }
 
         public void SetAlumnosAsSelectList(IEnumerable<MvcUsuarioModel> profesores) {
             AlumnosList = profesores.Where(e => e.Legajo != null).Select(e => new SelectListItem() {
@@ -29,7 +32,18 @@ namespace Presentation.Web.MVC.ViewModels {
             HorariosConsultaFechadosList = horariosConsultaFechados.Select(e => new SelectListItem() {
                 Value = e.Id.ToString(),
                 Text = e.HorarioConsulta.Profesor.Surname + " " + e.HorarioConsulta.Profesor.Firstname + " /// " +
-                       e.HorarioConsulta.Materia.Name + " Fecha: " + e.Date
+                       e.HorarioConsulta.Materia.Name + " /// " + e.HorarioConsulta.Weekday + " " + e.DateForDisplay + " " +
+                       e.HorarioConsulta.StartHour + " - " + e.HorarioConsulta.EndHour
+            }) as IEnumerable<SelectListItem>;
+        }
+
+        public void SetEstadosAsSelectList() {
+            InscripcionStates[] estadosValues = (InscripcionStates[])Enum.GetValues(typeof(InscripcionStates));
+            var estadosDict = from value in estadosValues select new { Value = (int)value, Text = value.ToString() };
+
+            EstadosList = estadosDict.Select(e => new SelectListItem() {
+                Value = e.Value.ToString(), // Lo dejo como String porque sino no funciona
+                Text = e.Text
             }) as IEnumerable<SelectListItem>;
         }
     }

@@ -34,9 +34,9 @@ namespace Presentation.Web.MVC.Models {
 
         // Inscripcion's Enumeration of States
         public enum InscripcionStates {
-            active,
-            canceled,
-            finalized
+            Active,
+            Canceled,
+            Finalized
         }
     }
 }

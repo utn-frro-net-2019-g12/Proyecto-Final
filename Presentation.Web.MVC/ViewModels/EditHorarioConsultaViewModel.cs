@@ -9,11 +9,11 @@ namespace Presentation.Web.MVC.ViewModels {
     public class EditHorarioConsultaViewModel {
         public EditHorarioConsultaViewModel() { }
 
-        public EditHorarioConsultaViewModel(IEnumerable<MvcUsuarioModel> profesores, IEnumerable<MvcMateriaModel> materias, List<string> dias, MvcHorarioConsultaModel horarioConsulta) {
+        public EditHorarioConsultaViewModel(IEnumerable<MvcUsuarioModel> profesores, IEnumerable<MvcMateriaModel> materias, MvcHorarioConsultaModel horarioConsulta) {
             this.SetProfesoresAsSelectList(profesores);
             this.SetMateriasAsSelectList(materias);
+            this.SetDiasSemanaAsSelectList();
             this.HorarioConsulta = horarioConsulta;
-            this.SetDiasSemanaAsSelectList(dias);
         }
 
         public MvcHorarioConsultaModel HorarioConsulta { get; set; }
@@ -35,7 +35,8 @@ namespace Presentation.Web.MVC.ViewModels {
             }) as IEnumerable<SelectListItem>;
         }
 
-        public void SetDiasSemanaAsSelectList(List<string> dias) {
+        public void SetDiasSemanaAsSelectList() {
+            List<string> dias = new List<string> { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" };
             DiasList = dias.Select(e => new SelectListItem() { Value = e, Text = e }) as IEnumerable<SelectListItem>;
         }
     }

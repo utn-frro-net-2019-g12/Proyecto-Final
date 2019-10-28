@@ -167,10 +167,7 @@ namespace Presentation.Web.MVC.Controllers {
                 var profesores = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: profesoresTask.Result);
                 var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(source: materiasTask.Result);
 
-                var dias = new List<string>();
-                dias.Add("Lunes"); dias.Add("Martes"); dias.Add("Miércoles"); dias.Add("Jueves"); dias.Add("Viernes"); dias.Add("Sábado");
-
-                var viewModel = new CreateHorarioConsultaViewModel(materias: materias, profesores: profesores, dias: dias);
+                var viewModel = new CreateHorarioConsultaViewModel(materias: materias, profesores: profesores);
 
                 return PartialView("_Create", viewModel);
             }
@@ -207,12 +204,9 @@ namespace Presentation.Web.MVC.Controllers {
                 var profesores = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: profesoresTask.Result);
                 var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(source: materiasTask.Result);
 
-                var dias = new List<string>();
-                dias.Add("Lunes"); dias.Add("Martes"); dias.Add("Miércoles"); dias.Add("Jueves"); dias.Add("Viernes"); dias.Add("Sábado");
-
                 viewModel.SetProfesoresAsSelectList(profesores);
                 viewModel.SetMateriasAsSelectList(materias);
-                viewModel.SetDiasSemanaAsSelectList(dias);
+                viewModel.SetDiasSemanaAsSelectList();
 
                 ModelState.AddModelErrors(ex.Errors);
 
@@ -246,10 +240,7 @@ namespace Presentation.Web.MVC.Controllers {
                 var profesores = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: profesoresTask.Result);
                 var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(source: materiasTask.Result);
 
-                var dias = new List<string>();
-                dias.Add("Lunes"); dias.Add("Martes"); dias.Add("Miércoles"); dias.Add("Jueves"); dias.Add("Viernes"); dias.Add("Sábado");
-
-                var viewModel = new EditHorarioConsultaViewModel(horarioConsulta: horarioConsulta, materias: materias, profesores: profesores, dias: dias);
+                var viewModel = new EditHorarioConsultaViewModel(horarioConsulta: horarioConsulta, materias: materias, profesores: profesores);
 
                 return PartialView("_Edit", viewModel);
             }
@@ -298,7 +289,7 @@ namespace Presentation.Web.MVC.Controllers {
 
                 viewModel.SetProfesoresAsSelectList(profesores);
                 viewModel.SetMateriasAsSelectList(materias);
-                viewModel.SetDiasSemanaAsSelectList(dias);
+                viewModel.SetDiasSemanaAsSelectList();
 
                 ModelState.AddModelErrors(ex.Errors);
 

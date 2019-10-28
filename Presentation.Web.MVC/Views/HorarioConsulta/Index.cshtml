@@ -106,7 +106,7 @@
 
         $('.actionDeleteHorarioConsulta').on('click', function () {
             idToDelete = $(this).parent().siblings().first().text().trim();
-            toDeleteName.innerHTML = $(this).parent().siblings().first().next().text().trim();
+            toDeleteName.innerHTML = $(this).parent().siblings().first().next().text().trim() + " " + $(this).parent().siblings().first().next().next().text().trim();
         });
 
         $('#deleteConfirmButton').on('click', function () {

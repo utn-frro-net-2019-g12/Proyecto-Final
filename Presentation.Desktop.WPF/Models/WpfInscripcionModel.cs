@@ -20,9 +20,9 @@ namespace Presentation.Desktop.WPF.Models {
 
         // Inscripcion's Enumeration of States
         public enum InscripcionStates {
-            active,
-            canceled,
-            finalized
+            Active,
+            Canceled,
+            Finalized
         }
     }
 }

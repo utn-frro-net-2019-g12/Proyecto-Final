@@ -158,6 +158,8 @@ namespace Presentation.Web.MVC.Controllers {
             {
                 var entity = _mapper.Map<Inscripcion>(source: viewModel.Inscripcion);
 
+                entity.State = Inscripcion.InscripcionStates.Active;
+
                 await _inscripcionEndpoint.Post(entity, _userSession.BearerToken);
             }
             catch (UnauthorizedRequestException)
@@ -176,6 +178,7 @@ namespace Presentation.Web.MVC.Controllers {
 
                 viewModel.SetAlumnosAsSelectList(profesores);
                 viewModel.SetHorariosConsultaFechadosAsSelectList(materias);
+                viewModel.SetEstadosAsSelectList();
 
                 ModelState.AddModelErrors(ex.Errors);
 
@@ -239,6 +242,8 @@ namespace Presentation.Web.MVC.Controllers {
             {
                 var entity = _mapper.Map<Inscripcion>(viewModel.Inscripcion);
 
+                if (entity.State == null) { entity.State = Inscripcion.InscripcionStates.Active; }
+
                 await _inscripcionEndpoint.Put(entity, _userSession.BearerToken);
             }
             catch (UnauthorizedRequestException)
@@ -257,6 +262,7 @@ namespace Presentation.Web.MVC.Controllers {
 
                 viewModel.SetAlumnosAsSelectList(alumnos);
                 viewModel.SetHorariosConsultaFechadosAsSelectList(horariosConsultaFechado);
+                viewModel.SetEstadosAsSelectList();
 
                 ModelState.AddModelErrors(ex.Errors);
 

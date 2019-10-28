@@ -23,7 +23,7 @@
                 @Html.ValidationMessageFor(model => model.Inscripcion.Topic, "", new { @class = "text-danger m-0" })
             </div>
         </div>
-        <div class="form-group row">
+        @*<div class="form-group row">
             <div class="col-sm-6 mb-3 mb-sm-0">
                 @Html.EditorFor(model => model.Inscripcion.State, new { htmlAttributes = new { @placeholder = "Estado", @class = "form-control  form-control-user" } })
                 @Html.ValidationMessageFor(model => model.Inscripcion.State, "", new { @class = "text-danger m-0" })
@@ -32,7 +32,7 @@
                 @Html.EditorFor(model => model.Inscripcion.Answer, new { htmlAttributes = new { @placeholder = "Respuesta Corta", @class = "form-control form-control-user" } })
                 @Html.ValidationMessageFor(model => model.Inscripcion.Answer, "", new { @class = "text-danger m-0" })
             </div>
-        </div>
+        </div>*@
         <div class="form-group row">
             <div class="col-sm-12 mb-3 mb-sm-0">
                 @Html.EditorFor(model => model.Inscripcion.Observation, new { htmlAttributes = new { @placeholder = "Observación", @class = "form-control  form-control-user" } })
@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="form-group row ">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 @Html.DropDownListFor(
                     model => model.Inscripcion.AlumnoId,
                     Model.AlumnosList,
@@ -49,7 +49,9 @@
                     )
                 @Html.ValidationMessageFor(model => model.Inscripcion.AlumnoId, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-6">
+        </div>
+        <div class="form-group row ">
+            <div class="col-md-12">
                 @Html.DropDownListFor(
                     model => model.Inscripcion.HorarioConsultaFechadoId,
                     Model.HorariosConsultaFechadosList,

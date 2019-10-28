@@ -65,6 +65,13 @@
         function modalEdit(data, url) {
             $('#modalEditInscripcionContent').html(data);
             $('#editForm').unbind();
+
+            $("#stateInscripcion").on('change', function () {
+                let state = $("#stateInscripcion").val();
+                let submit = $("#submitButton");
+                state == "" ? submit.prop("disabled", true) : submit.prop("disabled", false);
+            });
+
             $('#editForm').bind("submit", function (event) {
                 event.preventDefault();
                 $.ajax({
@@ -277,7 +284,7 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Materia.Name)
                                     <br />
-                                    @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.Date.DayOfWeek) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.ReturnDateForDisplay) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.StartHour) to @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.EndHour)
+                                    @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.Date.DayOfWeek) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.DateForDisplay) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.StartHour) to @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.EndHour)
                                     <br />
                                     @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Place)
                                 </td>

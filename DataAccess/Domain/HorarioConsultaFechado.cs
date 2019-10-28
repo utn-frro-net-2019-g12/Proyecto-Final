@@ -16,18 +16,24 @@ namespace DataAccess {
         public int? HorarioConsultaId { get; set; }
         public virtual HorarioConsulta HorarioConsulta { get; set; }
 
-        public string ReturnDateForDisplay {
+        public string DateForDisplay {
             get {
                 return this.Date.ToString("dd/MM/yyyy");
             }
         }
 
+        public string PostponementDateForDisplay {
+            get {
+                return this.PostponementDate.HasValue ? this.PostponementDate.Value.ToString("dd/MM/yyyy") : null;
+            }
+        }
+
         // HorarioConsultaFechado's Enumeration of States
         public enum HCFStates {
-            active,
-            postponed,
-            canceled,
-            finalized
+            Active,
+            Postponed,
+            Canceled,
+            Finalized
         }
     }
 }
