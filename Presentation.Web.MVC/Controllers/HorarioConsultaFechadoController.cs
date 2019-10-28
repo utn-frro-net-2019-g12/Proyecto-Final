@@ -153,6 +153,7 @@ namespace Presentation.Web.MVC.Controllers {
                 var horariosConsulta = _mapper.Map<IEnumerable<MvcHorarioConsultaModel>>(source: horariosConsultaTask.Result);
 
                 viewModel.SetHorariosConsultaAsSelectList(horariosConsulta);
+                viewModel.SetEstadosAsSelectList();
 
                 ModelState.AddModelErrors(ex.Errors);
 
@@ -226,6 +227,7 @@ namespace Presentation.Web.MVC.Controllers {
                 var horariosConsulta = _mapper.Map<IEnumerable<MvcHorarioConsultaModel>>(source: horariosConsultaTask.Result);
 
                 viewModel.SetHorariosConsultaAsSelectList(horariosConsulta);
+                viewModel.SetEstadosAsSelectList();
 
                 ModelState.AddModelErrors(ex.Errors);
 
