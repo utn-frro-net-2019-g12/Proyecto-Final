@@ -28,11 +28,10 @@ namespace Presentation.Web.MVC.ViewModels {
         }
         public void SetEstadosAsSelectList() {
             HCFStates[] estadosValues = (HCFStates[])Enum.GetValues(typeof(HCFStates));
-            var estadosDict = from value in estadosValues select new { Value = (int)value, Text = value.ToString() };
 
-            EstadosList = estadosDict.Select(e => new SelectListItem() {
-                Value = e.Value.ToString(), // Lo dejo como String porque sino no funciona
-                Text = e.Text
+            EstadosList = estadosValues.Select(e => new SelectListItem() {
+                Value = e.ToString(),
+                Text = e.ToString()
             }) as IEnumerable<SelectListItem>;
         }
     }

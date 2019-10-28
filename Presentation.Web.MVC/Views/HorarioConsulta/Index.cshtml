@@ -124,7 +124,11 @@
             $.ajax({
                 type: "POST",
                 url: url,
-                success: function (data) { window.location.reload() }
+                success: function (data) {
+                    if (data != "OK") {
+                        $("#modalDeleteHorarioConsultaContent").find(".modal-body").append(data);
+                    } else { window.location.reload(); }
+                }
             });
         });
 

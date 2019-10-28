@@ -135,7 +135,12 @@ namespace Presentation.Web.MVC.Controllers {
                 await Task.WhenAll(horarioConsultaTask);
 
                 var horarioConsulta = _mapper.Map<MvcHorarioConsultaModel>(source: horarioConsultaTask.Result);
-                horarioConsulta.EliminationDate = DateTime.Today.Date;
+
+                if (horarioConsulta.EliminationDate == null) {
+                    horarioConsulta.EliminationDate = DateTime.Today.Date;
+                } else {
+                    return Content("Este elemento ya estaba eliminado lógicamente");
+                }
 
                 var entity = _mapper.Map<HorarioConsulta>(source: horarioConsulta);
                 await _horarioConsultaEndpoint.Put(entity, _userSession.BearerToken);
@@ -150,7 +155,7 @@ namespace Presentation.Web.MVC.Controllers {
             // TempData may be used to check in the view whether the deletion was successful or not
             TempData["SuccessMessage"] = "Logic Deleted Sucessfully";
             // return Content("OK");
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+            return Content("OK");
         }
 
         // Create (Default)
