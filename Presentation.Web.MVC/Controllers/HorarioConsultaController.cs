@@ -122,6 +122,37 @@ namespace Presentation.Web.MVC.Controllers {
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
+        // Logic Delete - POST HorarioConsulta/ID
+        public async Task<ActionResult> LogicDelete(int? id) {
+            if (id == null) {
+                return Content("Debe incluir el id");
+            }
+            
+            try {
+                await _horarioConsultaEndpoint.Get(id, _userSession.BearerToken);
+
+                var horarioConsultaTask = _horarioConsultaEndpoint.Get(id, _userSession.BearerToken);
+                await Task.WhenAll(horarioConsultaTask);
+
+                var horarioConsulta = _mapper.Map<MvcHorarioConsultaModel>(source: horarioConsultaTask.Result);
+                horarioConsulta.EliminationDate = DateTime.Today.Date;
+
+                var entity = _mapper.Map<HorarioConsulta>(source: horarioConsulta);
+                await _horarioConsultaEndpoint.Put(entity, _userSession.BearerToken);
+            } catch (UnauthorizedRequestException) {
+                return RedirectToAction("AccessDenied", "Error");
+            } catch (NotFoundRequestException ex) {
+                return Content($"{ex.StatusCode}: Elemento no encontrado");
+            } catch (Exception ex) {
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+            }
+
+            // TempData may be used to check in the view whether the deletion was successful or not
+            TempData["SuccessMessage"] = "Logic Deleted Sucessfully";
+            // return Content("OK");
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
         // Create (Default)
         [HttpGet]
         public async Task<ActionResult> Create() {
@@ -136,7 +167,10 @@ namespace Presentation.Web.MVC.Controllers {
                 var profesores = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: profesoresTask.Result);
                 var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(source: materiasTask.Result);
 
-                var viewModel = new CreateHorarioConsultaViewModel(materias: materias, profesores: profesores);
+                var dias = new List<string>();
+                dias.Add("Lunes"); dias.Add("Martes"); dias.Add("Miércoles"); dias.Add("Jueves"); dias.Add("Viernes"); dias.Add("Sábado");
+
+                var viewModel = new CreateHorarioConsultaViewModel(materias: materias, profesores: profesores, dias: dias);
 
                 return PartialView("_Create", viewModel);
             }
@@ -173,8 +207,12 @@ namespace Presentation.Web.MVC.Controllers {
                 var profesores = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: profesoresTask.Result);
                 var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(source: materiasTask.Result);
 
+                var dias = new List<string>();
+                dias.Add("Lunes"); dias.Add("Martes"); dias.Add("Miércoles"); dias.Add("Jueves"); dias.Add("Viernes"); dias.Add("Sábado");
+
                 viewModel.SetProfesoresAsSelectList(profesores);
                 viewModel.SetMateriasAsSelectList(materias);
+                viewModel.SetDiasSemanaAsSelectList(dias);
 
                 ModelState.AddModelErrors(ex.Errors);
 
@@ -208,7 +246,10 @@ namespace Presentation.Web.MVC.Controllers {
                 var profesores = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: profesoresTask.Result);
                 var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(source: materiasTask.Result);
 
-                var viewModel = new EditHorarioConsultaViewModel(horarioConsulta: horarioConsulta, materias: materias, profesores: profesores);
+                var dias = new List<string>();
+                dias.Add("Lunes"); dias.Add("Martes"); dias.Add("Miércoles"); dias.Add("Jueves"); dias.Add("Viernes"); dias.Add("Sábado");
+
+                var viewModel = new EditHorarioConsultaViewModel(horarioConsulta: horarioConsulta, materias: materias, profesores: profesores, dias: dias);
 
                 return PartialView("_Edit", viewModel);
             }
@@ -251,8 +292,13 @@ namespace Presentation.Web.MVC.Controllers {
                 var profesores = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: profesoresTask.Result);
                 var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(source: materiasTask.Result);
 
+
+                var dias = new List<string>();
+                dias.Add("Lunes"); dias.Add("Martes"); dias.Add("Miércoles"); dias.Add("Jueves"); dias.Add("Viernes"); dias.Add("Sábado");
+
                 viewModel.SetProfesoresAsSelectList(profesores);
                 viewModel.SetMateriasAsSelectList(materias);
+                viewModel.SetDiasSemanaAsSelectList(dias);
 
                 ModelState.AddModelErrors(ex.Errors);
 

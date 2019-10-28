@@ -55,6 +55,11 @@
             });
         });
 
+        $("#modalCreateInscripcion").on("hidden.bs.modal", function () {
+            $("#modalCreateInscripcionContent").html("<p styles='text-align:center; margin-top:1rem; font-weight:bold;'> Loading... </p>");
+            $("#editForm").unbind();
+        });
+
         /*------------------------------*/
 
         function modalEdit(data, url) {
@@ -87,6 +92,11 @@
                     console.log(url);
                 }
             });
+        });
+
+        $("#modalEditInscripcion").on("hidden.bs.modal", function () {
+            $("#modalEditInscripcionContent").html("<p styles='text-align:center; margin-top:1rem; font-weight:bold;'> Loading... </p>");
+            $("#editForm").unbind();
         });
 
         /*------------------------------*/

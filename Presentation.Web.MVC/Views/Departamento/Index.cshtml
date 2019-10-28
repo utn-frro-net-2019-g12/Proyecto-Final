@@ -55,6 +55,11 @@
             });
         });
 
+        $("#modalCreateDepartamento").on("hidden.bs.modal", function () {
+            $("#modalCreateDepartamentoContent").html("<p styles='text-align:center; margin-top:1rem; font-weight:bold;'> Loading... </p>");
+            $("#editForm").unbind();
+        });
+
         /*------------------------------*/
 
         function modalEdit(data, url) {
@@ -83,6 +88,11 @@
                     modalEdit(data, url)
                 }
             });
+        });
+
+        $("#modalEditDepartamento").on("hidden.bs.modal", function () {
+            $("#modalEditDepartamentoContent").html("<p styles='text-align:center; margin-top:1rem; font-weight:bold;'> Loading... </p>");
+            $("#editForm").unbind();
         });
 
         /*------------------------------*/

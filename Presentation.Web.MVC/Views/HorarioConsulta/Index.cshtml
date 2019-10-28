@@ -55,6 +55,11 @@
             });
         });
 
+        $("#modalCreateHorarioConsulta").on("hidden.bs.modal", function () {
+            $("#modalCreateHorarioConsultaContent").html("<p styles='text-align:center; margin-top:1rem; font-weight:bold;'> Loading... </p>");
+            $("#editForm").unbind();
+        });
+
         /*------------------------------*/
 
         function modalEdit(data, url) {
@@ -89,6 +94,11 @@
             });
         });
 
+        $("#modalEditHorarioConsulta").on("hidden.bs.modal", function () {
+            $("#modalEditHorarioConsultaContent").html("<p styles='text-align:center; margin-top:1rem; font-weight:bold;'> Loading... </p>");
+            $("#editForm").unbind();
+        });
+
         /*------------------------------*/
 
         var idToDelete;
@@ -101,6 +111,16 @@
 
         $('#deleteConfirmButton').on('click', function () {
             let url = `/HorarioConsulta/Delete/${idToDelete}`;
+            $.ajax({
+                type: "POST",
+                url: url,
+                success: function (data) { window.location.reload() }
+            });
+        });
+
+        $('#logicDeleteButton').on('click', function () {
+            let url = `/HorarioConsulta/LogicDelete/${idToDelete}`;
+            event.preventDefault();
             $.ajax({
                 type: "POST",
                 url: url,
@@ -159,6 +179,7 @@
             </div>
             <div class="modal-footer">
                 <button id="deleteConfirmButton" type="button" class="btn btn-danger">Eliminar</button>
+                <button id="logicDeleteButton" type="button" class="btn btn-warning">Borrado Lógico</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
@@ -205,6 +226,9 @@
                                 @Html.DisplayNameFor(model => model.Place)
                             </th>
                             <th>
+                                @Html.DisplayNameFor(model => model.EliminationDate)
+                            </th>
+                            <th>
                                 Profesor
                             </th>
                             <th>
@@ -231,6 +255,9 @@
                                 @Html.DisplayNameFor(model => model.Place)
                             </th>
                             <th>
+                                @Html.DisplayNameFor(model => model.EliminationDate)
+                            </th>
+                            <th>
                                 Profesor
                             </th>
                             <th>
@@ -242,41 +269,44 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td class="d-none">
-                                    @Html.DisplayFor(modelItem => item.Id)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Weekday)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.StartHour)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.EndHour)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Place)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Profesor.Surname)
-                                    <br />
-                                    @Html.DisplayFor(modelItem => item.Profesor.Firstname)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Materia.Name)
-                                </td>
-                                <td class="d-flex align-items-center p-0">
-                                    <button data-toggle="modal" data-target="#modalEditHorarioConsulta" type="button" class="actionEditHorarioConsulta d-flex align-items-center btn btn-warning m-1">
-                                        <i class="fas fa-edit fa-xs m-1"></i>
-                                        <p class="d-none d-md-block m-0">Editar</p>
-                                    </button>
-                                    <button data-toggle="modal" data-target="#modalDeleteHorarioConsulta" class="actionDeleteHorarioConsulta d-flex align-items-center btn btn-danger m-1">
-                                        <i class="fas fa-trash-alt fa-xs m-1"></i>
-                                        <p class="d-none d-md-block m-0">Eliminar</p>
-                                    </button>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td class="d-none">
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Weekday)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StartHour)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EndHour)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Place)
+                            </td>
+                            <th>
+                                @Html.DisplayFor(modelItem => item.EliminationDateForDisplay)
+                            </th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Profesor.Surname)
+                                <br />
+                                @Html.DisplayFor(modelItem => item.Profesor.Firstname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Materia.Name)
+                            </td>
+                            <td class="d-flex align-items-center p-0">
+                                <button data-toggle="modal" data-target="#modalEditHorarioConsulta" type="button" class="actionEditHorarioConsulta d-flex align-items-center btn btn-warning m-1">
+                                    <i class="fas fa-edit fa-xs m-1"></i>
+                                    <p class="d-none d-md-block m-0">Editar</p>
+                                </button>
+                                <button data-toggle="modal" data-target="#modalDeleteHorarioConsulta" class="actionDeleteHorarioConsulta d-flex align-items-center btn btn-danger m-1">
+                                    <i class="fas fa-trash-alt fa-xs m-1"></i>
+                                    <p class="d-none d-md-block m-0">Eliminar</p>
+                                </button>
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>

@@ -27,5 +27,11 @@ namespace DataAccess {
         [ForeignKey("Materia")]
         public int? MateriaId { get; set; }
         public virtual Materia Materia { get; set; }
+
+        public string EliminationDateForDisplay {
+            get {
+                return this.EliminationDate.HasValue ? this.EliminationDate.Value.ToString("dd/MM/yyyy") : null;
+            }
+        }
     }
 }

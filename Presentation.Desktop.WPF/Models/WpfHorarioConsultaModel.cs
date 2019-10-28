@@ -10,7 +10,7 @@ namespace Presentation.Desktop.WPF.Models {
         public string StartHour { get; set; }
         public string EndHour { get; set; }
         public string Place { get; set; }
-        public string EliminationDate { get; set; }
+        public DateTime? EliminationDate { get; set; }
 
         // Usuarios with Matricula != Null Only
         public int ProfesorId { get; set; }
@@ -18,5 +18,11 @@ namespace Presentation.Desktop.WPF.Models {
 
         public int MateriaId { get; set; }
         public virtual WpfMateriaModel Materia { get; set; }
+
+        public string EliminationDateForDisplay {
+            get {
+                return this.EliminationDate.HasValue ? this.EliminationDate.Value.ToString("dd/MM/yyyy") : null;
+            }
+        }
     }
 }

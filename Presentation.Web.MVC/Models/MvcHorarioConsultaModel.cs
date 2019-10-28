@@ -20,6 +20,8 @@ namespace Presentation.Web.MVC.Models {
 
         [DisplayName("Lugar")]
         public string Place { get; set; }
+        [DisplayName("Fecha de Eliminación")]
+        public DateTime? EliminationDate { get; set; }
 
         // Usuarios with Matricula != Null Only
         [ForeignKey("Profesor")]
@@ -29,5 +31,11 @@ namespace Presentation.Web.MVC.Models {
         [ForeignKey("Materia")]
         public int? MateriaId { get; set; }
         public virtual MvcMateriaModel Materia { get; set; }
+
+        public string EliminationDateForDisplay {
+            get {
+                return this.EliminationDate.HasValue ? this.EliminationDate.Value.ToString("dd/MM/yyyy") : null;
+            }
+        }
     }
 }

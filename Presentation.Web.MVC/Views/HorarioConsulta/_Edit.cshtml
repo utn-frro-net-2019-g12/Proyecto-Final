@@ -18,23 +18,29 @@
             @Html.HiddenFor(model => model.HorarioConsulta.Id)
         </div>
         <div class="form-group row">
-            <div class="col-sm-4 mb-3 mb-sm-0">
+            <div class="col-sm-6 mb-3 mb-sm-0">
                 @Html.EditorFor(model => model.HorarioConsulta.StartHour, new { htmlAttributes = new { @placeholder = "Hora Inicio", @class = "form-control  form-control-user" } })
                 @Html.ValidationMessageFor(model => model.HorarioConsulta.StartHour, "", new { @class = "text-danger m-0" })
             </div>
-            <div class="col-sm-4 mb-3 mb-sm-0">
+            <div class="col-sm-6 mb-3 mb-sm-0">
                 @Html.EditorFor(model => model.HorarioConsulta.EndHour, new { htmlAttributes = new { @placeholder = "Hora Finalización", @class = "form-control form-control-user" } })
                 @Html.ValidationMessageFor(model => model.HorarioConsulta.EndHour, "", new { @class = "text-danger m-0" })
             </div>
-            <div class="col-sm-4 mb-3 mb-sm-0">
-                @Html.EditorFor(model => model.HorarioConsulta.Weekday, new { htmlAttributes = new { @placeholder = "Día de la Semana", @class = "form-control form-control-user" } })
-                @Html.ValidationMessageFor(model => model.HorarioConsulta.Weekday, "", new { @class = "text-danger m-0" })
-            </div>
         </div>
         <div class="form-group row">
-            <div class="col-sm-6 mb-3 mb-sm-0">
+            <div class="col-sm-7 mb-3 mb-sm-0">
                 @Html.EditorFor(model => model.HorarioConsulta.Place, new { htmlAttributes = new { @placeholder = "Lugar", @class = "form-control  form-control-user" } })
                 @Html.ValidationMessageFor(model => model.HorarioConsulta.Place, "", new { @class = "text-danger m-0" })
+            </div>
+            <div class="col-sm-5 mb-3 mb-sm-0">
+                @Html.DropDownListFor(
+                    model => model.HorarioConsulta.Weekday,
+                    Model.DiasList,
+                    "Día de la Semana",
+                    new { @class = "form-control form-control-user", @label = Model.DiasList }
+                    )
+                @*Html.EditorFor(model => model.HorarioConsulta.Weekday, new { htmlAttributes = new { @placeholder = "Día de la Semana", @class = "form-control form-control-user" } })*@
+                @Html.ValidationMessageFor(model => model.HorarioConsulta.Weekday, "", new { @class = "text-danger m-0" })
             </div>
         </div>
         <div class="form-group row ">
@@ -59,7 +65,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btn btn-success">Guardar</button>
+        <button type="button" id="closeButton" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="submit" id="submitButton" class="btn btn-success">Guardar</button>
     </div>
 }

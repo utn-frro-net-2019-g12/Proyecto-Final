@@ -55,6 +55,11 @@
             });
         });
 
+        $("#modalCreateHorarioConsulta").on("hidden.bs.modal", function () {
+            $("#modalCreateHorarioConsultaContent").html("<p styles='text-align:center; margin-top:1rem; font-weight:bold;'> Loading... </p>");
+            $("#editForm").unbind();
+        });
+
         /*------------------------------*/
 
         function modalEdit(data, url) {
@@ -87,6 +92,11 @@
                     console.log(url);
                 }
             });
+        });
+
+        $("#modalEditHorarioConsulta").on("hidden.bs.modal", function () {
+            $("#modalEditHorarioConsultaContent").html("<p styles='text-align:center; margin-top:1rem; font-weight:bold;'> Loading... </p>");
+            $("#editForm").unbind();
         });
 
         /*------------------------------*/

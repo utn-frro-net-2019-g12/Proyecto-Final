@@ -152,7 +152,7 @@
         });
 
         $("#modalCreateUser").on("hidden.bs.modal", function () {
-            $("#modalCreateUserContent").html('<p styles="text - align: center; margin - top: 1rem; font - weight: bold;"> Loading... </p>');
+            $("#modalCreateUserContent").html("<p styles='text-align:center; margin-top:1rem; font-weight:bold;'> Loading... </p>");
             $("#createForm").unbind();
         });
 
@@ -184,8 +184,8 @@
             });
 
             // Validaciones en Cambios
-            $('#alumnoCheck, #profesorCheck, #adminCheck').bind("click", function () { validateTypes(); });
-            $("#legajoInput, #matriculaInput").on('change', function () { validateTypes(); });
+            $('#alumnoCheck, #profesorCheck, #adminCheck').bind("click", validateTypes);
+            $("#legajoInput, #matriculaInput").on('change', validateTypes);
 
             $('#editForm').bind("submit", function (event) {
                 event.preventDefault();
@@ -215,7 +215,7 @@
         });
 
         $("#modalEditUser").on("hidden.bs.modal", function () {
-            $("#modalEditUserContent").html('<p styles="text - align: center; margin - top: 1rem; font - weight: bold;"> Loading... </p>');
+            $("#modalEditUserContent").html("<p styles='text-align:center; margin-top:1rem; font-weight:bold;'> Loading... </p>");
             $("#editForm").unbind();
         });
 
