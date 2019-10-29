@@ -54,7 +54,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
         }
 
-        // Search - GET Materia by Partial Descripcion
+        // Search - GET Materia/PartialDescripcion
         public async Task<ActionResult> Search(string partialDesc) {
             try {
                 IEnumerable<Materia> entities = await _materiaEndpoint.GetByPartialDesc(partialDesc, _userSession.BearerToken);

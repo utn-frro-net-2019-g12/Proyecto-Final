@@ -21,6 +21,17 @@
             $('#dataTable').DataTable({ "bFilter": false });
             //  $('#dataTable').DataTable();
         });
+
+        /*
+        $("#searchForm").on('submit', function (e) {
+            e.preventDefault();
+            let partialDesc = $("#searchText").val();
+            if (partialDesc != null && partialDesc != "") {
+                let url = `Profesor/InscripcionesRecibidas/Search?partialDesc=${partialDesc}`;
+                window.location.href = url;
+            }
+        });
+        */
     </script>
 }
 
@@ -32,11 +43,11 @@
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Administrar Inscripciones a Consultas</h1>
     <div class="row  mb-3">
-        <form class="col">
+        <form class="col" id="searchForm">
             <div class="input-group">
                 <input type="text" class="form-control bg-light border border-primary p-4" id="searchText" placeholder="Buscar Inscripción" aria-label="Search" aria-describedby="basic-addon2">
                 <div class="input-group-append">
-                    <button class="btn btn-primary" id="searchButton" type="button">
+                    <button type="submit" class="btn btn-primary" id="searchButton">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>

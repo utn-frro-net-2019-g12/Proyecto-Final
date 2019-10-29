@@ -49,7 +49,7 @@ namespace Presentation.Web.MVC.Controllers
             }
         }
 
-        public async Task<ActionResult> NuevaConsulta()
+        public ActionResult NuevaConsulta()
         {
             return View();
         }

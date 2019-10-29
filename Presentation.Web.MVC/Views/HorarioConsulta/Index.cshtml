@@ -134,17 +134,12 @@
 
         /*------------------------------*/
 
-        $("#searchButton").on('click', function () {
+        $("#searchForm").on('submit', function (e) {
+            e.preventDefault();
             let partialDesc = $("#searchText").val();
             if (partialDesc != null && partialDesc != "") {
-                let url = `/HorarioConsulta/Search`;
-                $.ajax({
-                    type: "POST",
-                    data: ({ partialDesc: $("#searchText").val() }),
-                    url: url,
-                    success: function (data) { window.location.href = url; }
-                });
-                console.log(partialDesc);
+                let url = `/HorarioConsulta/Search?partialDesc=${partialDesc}`;
+                window.location.href = url;
             }
         });
     </script>
@@ -197,11 +192,11 @@
         <div class="col col-auto d-flex">
             <button id="actionCreateHorarioConsulta" class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalCreateHorarioConsulta">Nuevo HorarioConsulta</button>
         </div>
-        <form class="col">
+        <form class="col" id="searchForm">
             <div class="input-group">
                 <input type="text" class="form-control bg-light border border-primary p-4" id="searchText" placeholder="Buscar HorarioConsulta" aria-label="Search" aria-describedby="basic-addon2">
                 <div class="input-group-append">
-                    <button class="btn btn-primary" id="searchButton" type="button">
+                    <button type="submit" class="btn btn-primary" id="searchButton">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>

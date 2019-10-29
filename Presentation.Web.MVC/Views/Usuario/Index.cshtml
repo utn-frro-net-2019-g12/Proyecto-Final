@@ -240,26 +240,19 @@
 
         /*------------------------------*/
 
-        $("#searchButton").on('click', function () {
+        $("#searchForm").on('submit', function (e) {
+            e.preventDefault();
             let partialDesc = $("#searchText").val();
             if (partialDesc != null && partialDesc != "") {
+                let url;
                 let filter = $("#searchFilter").val();
-                console.log(filter);
-                var url = `/Usuario/Search`;
                 switch (filter) {
-                    case "usuarios": { url = `/Usuario/Search`; break; }
-                    case "profesores": { url = `/Usuario/SearchProfesor`; break; }
-                    case "alumnos": { url = `/Usuario/SearchAlumno`; break; }
-                    default: { url = `/Usuario/Search`; break; }
+                    case "usuarios": { url = `/Usuario/Search?partialDesc=${partialDesc}`; break; }
+                    case "profesores": { url = `/Usuario/SearchProfesor?partialDesc=${partialDesc}`; break; }
+                    case "alumnos": { url = `/Usuario/SearchAlumno?partialDesc=${partialDesc}`; break; }
+                    default: { url = `/Usuario/Search?partialDesc=${partialDesc}`; break; }
                 }
-                console.log(url);
-                $.ajax({
-                    type: "POST",
-                    data: ({ partialDesc: $("#searchText").val() }),
-                    url: url,
-                    success: function (data) { window.location.href = url; }
-                });
-                console.log(partialDesc);
+                window.location.href = url;
             }
         });
     </script>
@@ -316,11 +309,11 @@
             <option value="profesores">Solo Profesores</option>
             <option value="alumnos">Solo Alumnos</option>
         </select>
-        <form class="col">
+        <form class="col" id="searchForm">
             <div class="input-group">
                 <input type="text" class="form-control bg-light border border-primary p-4" id="searchText" placeholder="Buscar Usuario" aria-label="Search" aria-describedby="basic-addon2">
                 <div class="input-group-append">
-                    <button class="btn btn-primary" id="searchButton" type="button">
+                    <button type="submit" class="btn btn-primary" id="searchButton">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
