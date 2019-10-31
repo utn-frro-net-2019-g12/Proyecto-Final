@@ -61,6 +61,20 @@ namespace Presentation.Desktop.WPF.Models {
         public int? DepartamentoId { get; set; }
         public virtual WpfDepartamentoModel Departamento { get; set; }
 
+        public override bool Equals(object o) {
+            var item = o as WpfMateriaModel;
+
+            if (item == null) {
+                return false;
+            }
+
+            return this.Id.Equals(item.Id);
+        }
+
+        public override int GetHashCode() {
+            return this.Id.GetHashCode();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void CallPropertyChanged(string propertyName)
         {

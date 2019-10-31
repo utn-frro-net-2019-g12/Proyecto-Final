@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
 namespace Presentation.Desktop.WPF.Models {
-    public class WpfHorarioConsultaFechadoModel {
+    public class WpfHorarioConsultaFechadoModel : INotifyPropertyChanged {
         public int Id { get; set; }
         public System.DateTime Date { get; set; }
         public HCFStates? State { get; set; }
@@ -32,6 +33,25 @@ namespace Presentation.Desktop.WPF.Models {
             Postponed,
             Canceled,
             Finalized
+        }
+
+        public override bool Equals(object o) {
+            var item = o as WpfHorarioConsultaFechadoModel;
+
+            if (item == null) {
+                return false;
+            }
+
+            return this.Id.Equals(item.Id);
+        }
+
+        public override int GetHashCode() {
+            return this.Id.GetHashCode();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void CallPropertyChanged(string propertyName) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

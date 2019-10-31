@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
@@ -24,6 +25,11 @@ namespace Presentation.Desktop.WPF.Models {
         public override int GetHashCode()
         {
             return this.Id.GetHashCode();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void CallPropertyChanged(string propertyName) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -280,9 +280,6 @@ namespace Presentation.Desktop.WPF.ViewModels {
             try {
                 await _horarioConsultaEndpoint.Delete(SelectedHorarioConsulta.Id, _usuarioLogged.Token);
                 await LoadHorariosConsulta();
-                await LoadMaterias();
-                await LoadUsuariosProfesores();
-                LoadDiasSemana(); // Es Necesario?
             } catch (UnauthorizedRequestException) {
                 ErrorMessages = new BindingList<string> { "No tiene acceso" };
             } catch (BadRequestException ex) {
@@ -311,8 +308,8 @@ namespace Presentation.Desktop.WPF.ViewModels {
 
             var horarioConsulta = new WpfHorarioConsultaModel {
                 Id = SelectedHorarioConsulta.Id, Weekday = SelectedDiaSemana, StartHour = StartHourInForm, EndHour = EndHourInForm,
-                Place = PlaceInForm, EliminationDate = EliminationDateInForm,
-                MateriaId = SelectedMateria.Id, ProfesorId = SelectedUsuarioProfesor.Id
+                Place = PlaceInForm, EliminationDate = EliminationDateInForm, MateriaId = SelectedMateria.Id, Materia = SelectedMateria,
+                ProfesorId = SelectedUsuarioProfesor.Id, Profesor = SelectedUsuarioProfesor
             };
 
             try {
@@ -320,9 +317,6 @@ namespace Presentation.Desktop.WPF.ViewModels {
 
                 await _horarioConsultaEndpoint.Put(entity, _usuarioLogged.Token);
                 await LoadHorariosConsulta();
-                await LoadMaterias();
-                await LoadUsuariosProfesores();
-                LoadDiasSemana(); // Es Necesario?
             } catch (UnauthorizedRequestException) {
                 ErrorMessages = new BindingList<string> { "No tiene acceso" };
             } catch (BadRequestException ex) {
@@ -349,8 +343,8 @@ namespace Presentation.Desktop.WPF.ViewModels {
 
             var horarioConsulta = new WpfHorarioConsultaModel {
                 Id = SelectedHorarioConsulta.Id, Weekday = SelectedDiaSemana, StartHour = StartHourInForm, EndHour = EndHourInForm,
-                Place = PlaceInForm, EliminationDate = EliminationDateInForm,
-                MateriaId = SelectedMateria.Id, ProfesorId = SelectedUsuarioProfesor.Id
+                Place = PlaceInForm, EliminationDate = EliminationDateInForm, MateriaId = SelectedMateria.Id,
+                ProfesorId = SelectedUsuarioProfesor.Id
             };
 
             try {
@@ -358,9 +352,6 @@ namespace Presentation.Desktop.WPF.ViewModels {
 
                 await _horarioConsultaEndpoint.Put(entity, _usuarioLogged.Token);
                 await LoadHorariosConsulta();
-                await LoadMaterias();
-                await LoadUsuariosProfesores();
-                LoadDiasSemana(); // Es Necesario?
             } catch (UnauthorizedRequestException) {
                 ErrorMessages = new BindingList<string> { "No tiene acceso" };
             } catch (BadRequestException ex) {

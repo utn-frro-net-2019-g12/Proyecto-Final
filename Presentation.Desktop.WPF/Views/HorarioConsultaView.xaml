@@ -93,28 +93,28 @@
         <ComboBox Grid.Column="4" Grid.Row="2" Margin="9.667,0,5,3"
                   ItemsSource="{Binding MateriasInForm}"
                   DisplayMemberPath="Name"
-                  SelectedItem="{Binding SelectedMateria}" Grid.ColumnSpan="2" />
+                  SelectedItem="{Binding SelectedMateria}" />
 
         <TextBlock Grid.Column="3" Grid.Row="3" Text="Profesor:" Foreground="#FFFFFF" FontFamily="Segoe UI" Margin="0,0,0.333,0"/>
         <ComboBox Grid.Column="4" Grid.Row="3" Margin="9.667,0,5,3"
                   ItemsSource="{Binding UsuariosProfesoresInForm}"
                   DisplayMemberPath="Surname"
-                  SelectedItem="{Binding SelectedUsuarioProfesor}" Grid.ColumnSpan="2" />
+                  SelectedItem="{Binding SelectedUsuarioProfesor}" />
 
         <TextBlock Grid.Column="3" Grid.Row="4" Text="Día Semana:" Foreground="#FFFFFF" FontFamily="Segoe UI" Margin="0,0,0.333,0"/>
         <ComboBox Grid.Column="4" Grid.Row="4" Margin="9.667,0,5,3"
                   ItemsSource="{Binding DiasSemanaInForm}"
-                  DisplayMemberPath="Surname"
-                  SelectedItem="{Binding SelectedDiaSemana}" Grid.ColumnSpan="2" />
+                  DisplayMemberPath=""
+                  SelectedItem="{Binding SelectedDiaSemana}" />
 
         <TextBlock Grid.Column="3" Grid.Row="5" Text="Hora Inicio:" Foreground="#FFFFFF" FontFamily="Segoe UI" Margin="0,0,0.333,0"/>
-        <TextBox x:Name="StartHourInForm" Grid.Column="4" Grid.Row="5" Margin="9.667,0,5,3" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="StartHourInForm" Grid.Column="4" Grid.Row="5" Margin="9.667,0,5,3" />
 
         <TextBlock Grid.Column="3" Grid.Row="6" Text="Hora Fin:" Foreground="#FFFFFF" FontFamily="Segoe UI" Margin="0,0,0.333,0"/>
-        <TextBox x:Name="EndHourInForm" Grid.Column="4" Grid.Row="6" Margin="9.667,0,5,3" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="EndHourInForm" Grid.Column="4" Grid.Row="6" Margin="9.667,0,5,3" />
 
         <TextBlock Grid.Column="3" Grid.Row="7" Text="Lugar:" Foreground="#FFFFFF" FontFamily="Segoe UI" Margin="0,0,0.333,33.667" Grid.RowSpan="2"/>
-        <TextBox x:Name="PlaceInForm" Grid.Column="4" Grid.Row="7" Margin="9.667,0,5,2.667" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="PlaceInForm" Grid.Column="4" Grid.Row="7" Margin="9.667,0,5,2.667" />
 
         <!-- Edit and Create Buttons Display -->
         <Button x:Name="Edit" Grid.Row="9" Grid.Column="3" Content="Edit"
