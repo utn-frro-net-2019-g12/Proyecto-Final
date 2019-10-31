@@ -2,6 +2,9 @@
 
 @{
     ViewBag.Title = "Index";
+    <!-- Lista de Mis Horarios de Consulta actuales, con Acciones -->
+    <!-- Si no hay ninguno, este contenido debe ser un texto informando que aún no hay ningún HC activo -->
+    <!-- Funcionalidades: crear HC, editar HC, remover HC Lógicamente -->
 }
 
 @section styleDataTable {
@@ -45,7 +48,7 @@
         }
 
         $('#actionCreateHorarioConsulta').on('click', function () {
-            let url = '/Profesor/CreateHorario';
+            let url = '/Profesor/CreateHorario'
             $.ajax({
                 type: "GET",
                 url: url,
@@ -106,11 +109,12 @@
 
         $('.actionDeleteHorarioConsulta').on('click', function () {
             idToDelete = $(this).parent().siblings().first().text().trim();
-            toDeleteName.innerHTML = $(this).parent().siblings().first().next().text().trim();
+            toDeleteName.innerHTML = $(this).parent().siblings().first().next().text().trim() + " " + $(this).parent().siblings().first().next().next().text().trim();
         });
 
         $('#deleteConfirmButton').on('click', function () {
-            let url = `/Profesor//${idToDelete}`;
+            // let url = `/Profesor/DeleteHorario/${idToDelete}`;
+            let url = `/HorarioConsulta/Delete/${idToDelete}`;
             $.ajax({
                 type: "POST",
                 url: url,
@@ -118,7 +122,23 @@
             });
         });
 
+        $('#logicDeleteButton').on('click', function () {
+            // let url = `/Profesor/LogicDeleteHorario/${idToDelete}`;
+            let url = `/HorarioConsulta/LogicDelete/${idToDelete}`;
+            event.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: url,
+                success: function (data) {
+                    if (data != "OK") {
+                        $("#modalDeleteHorarioConsultaContent").find(".modal-body").append(data);
+                    } else { window.location.reload(); }
+                }
+            });
+        });
+
         /*------------------------------*/
+
         $("#searchForm").on('submit', function (e) {
             e.preventDefault();
             let partialDesc = $("#searchText").val();
@@ -163,6 +183,7 @@
             </div>
             <div class="modal-footer">
                 <button id="deleteConfirmButton" type="button" class="btn btn-danger">Eliminar</button>
+                <button id="logicDeleteButton" type="button" class="btn btn-warning">Borrado Lógico</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
@@ -171,7 +192,7 @@
 
 <!-- Index HorarioConsulta -->
 <div class="container-fluid">
-    <h1 class="h3 mb-4 text-gray-800">Administrar Consultas (HorariosConsulta)</h1>
+    <h1 class="h3 mb-4 text-gray-800">Administrar Mis Horarios de Consulta</h1>
     <div class="row  mb-3">
         <div class="col col-auto d-flex">
             <button id="actionCreateHorarioConsulta" class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalCreateHorarioConsulta">Nuevo HorarioConsulta</button>
@@ -209,6 +230,12 @@
                                 @Html.DisplayNameFor(model => model.Place)
                             </th>
                             <th>
+                                @Html.DisplayNameFor(model => model.EliminationDate)
+                            </th>
+                            <th>
+                                Profesor
+                            </th>
+                            <th>
                                 Materia
                             </th>
                             <th>Acciones</th>
@@ -232,14 +259,19 @@
                                 @Html.DisplayNameFor(model => model.Place)
                             </th>
                             <th>
+                                @Html.DisplayNameFor(model => model.EliminationDate)
+                            </th>
+                            <th>
+                                Profesor
+                            </th>
+                            <th>
                                 Materia
                             </th>
                             <th>Acciones</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach (var item in Model)
-                        {
+                        @foreach (var item in Model) {
                             <tr>
                                 <td class="d-none">
                                     @Html.DisplayFor(modelItem => item.Id)
@@ -255,6 +287,14 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Place)
+                                </td>
+                                <th>
+                                    @Html.DisplayFor(modelItem => item.EliminationDateForDisplay)
+                                </th>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Profesor.Surname)
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.Profesor.Firstname)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Materia.Name)

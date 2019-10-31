@@ -122,6 +122,7 @@ namespace Presentation.Web.MVC.Controllers
 
                 var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(source: entities);
                 viewModel.SetMateriasAsSelectList(materias);
+                viewModel.SetDiasSemanaAsSelectList();
 
                 ModelState.AddModelErrors(ex.Errors);
 
@@ -201,6 +202,7 @@ namespace Presentation.Web.MVC.Controllers
                 var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(source: materiasTask.Result);
 
                 viewModel.SetMateriasAsSelectList(materias);
+                viewModel.SetDiasSemanaAsSelectList();
 
                 ModelState.AddModelErrors(ex.Errors);
 
@@ -210,6 +212,24 @@ namespace Presentation.Web.MVC.Controllers
             {
                 return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
             }
+
+            return Content("OK");
+        }
+
+        // Delete - DELETE Profesor/DeleteHorario/ID
+        public async Task<ActionResult> DeleteHorario(int id) {
+            try {
+                await _horarioConsultaEndpoint.Delete(id, _userSession.BearerToken);
+            } catch (UnauthorizedRequestException) {
+                return RedirectToAction("AccessDenied", "Error");
+            } catch (NotFoundRequestException ex) {
+                return Content($"{ex.StatusCode}: Elemento no encontrado");
+            } catch (Exception ex) {
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+            }
+
+            // TempData may be used to check in the view whether the deletion was successful or not
+            TempData["SuccessMessage"] = "Deleted Sucessfully";
 
             return Content("OK");
         }

@@ -2,6 +2,9 @@
 
 @{
     ViewBag.Title = "Index";
+    <!-- Lista de Inscripciones Activas, con Acciones -->
+    <!-- Si no hay ninguna, este contenido debe ser un texto informando que aún no hay ninguna inscripción activa -->
+    <!-- Funcionalidades: remover inscripción, ver detalles inscripcion, ver detalles HCFechado, agregar comentario? -->
 }
 
 @section styleDataTable {
@@ -128,7 +131,7 @@
 
 <!-- Index Inscripcion -->
 <div class="container-fluid">
-    <h1 class="h3 mb-4 text-gray-800">Administrar Inscripciones a Consultas</h1>
+    <h1 class="h3 mb-4 text-gray-800">Administrar Mis Inscripciones</h1>
     <div class="row  mb-3">
         <form class="col" id="searchForm">
             <div class="input-group">
@@ -192,8 +195,7 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach (var item in Model)
-                        {
+                        @foreach (var item in Model) {
                             <tr>
                                 <td class="d-none">
                                     @Html.DisplayFor(modelItem => item.Id)

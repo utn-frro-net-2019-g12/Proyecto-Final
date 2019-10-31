@@ -14,11 +14,13 @@ namespace Presentation.Web.MVC.ViewModels
         public EditOwnHorarioConsultaViewModel(IEnumerable<MvcMateriaModel> materias, MvcHorarioConsultaModel horarioConsulta)
         {
             this.SetMateriasAsSelectList(materias);
+            this.SetDiasSemanaAsSelectList();
             this.HorarioConsulta = horarioConsulta;
         }
 
         public MvcHorarioConsultaModel HorarioConsulta { get; set; }
         public IEnumerable<SelectListItem> MateriasList { get; set; }
+        public IEnumerable<SelectListItem> DiasList { get; set; }
 
         public void SetMateriasAsSelectList(IEnumerable<MvcMateriaModel> materias)
         {
@@ -32,6 +34,11 @@ namespace Presentation.Web.MVC.ViewModels
         public void SetProfesor(int id_profesor)
         {
             HorarioConsulta.ProfesorId = id_profesor;
+        }
+
+        public void SetDiasSemanaAsSelectList() {
+            List<string> dias = new List<string> { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" };
+            DiasList = dias.Select(e => new SelectListItem() { Value = e, Text = e }) as IEnumerable<SelectListItem>;
         }
     }
 }
