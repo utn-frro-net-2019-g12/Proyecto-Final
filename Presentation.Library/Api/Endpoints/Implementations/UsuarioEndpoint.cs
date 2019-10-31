@@ -10,25 +10,52 @@ using System.Net;
 using System.Net.Http.Headers;
 using Presentation.Library.Models;
 
-namespace Presentation.Library.Api.Endpoints.Implementations
-{
-    public class UsuarioEndpoint : IUsuarioEndpoint
-    {
+namespace Presentation.Library.Api.Endpoints.Implementations {
+    public class UsuarioEndpoint : IUsuarioEndpoint {
         private IApiHelper _apiHelper;
 
-        public UsuarioEndpoint(IApiHelper apiHelper)
-        {
+        public UsuarioEndpoint(IApiHelper apiHelper) {
             _apiHelper = apiHelper;
         }
 
-        public async Task<IEnumerable<Usuario>> GetAll(string token)
-        {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/usuarios", x => SetToken(x, token)))
-            {
-                if (!response.IsSuccessStatusCode)
-                {
-                    switch (response.StatusCode)
-                    {
+        public async Task<IEnumerable<Usuario>> GetAll(string token) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/usuarios", x => SetToken(x, token))) {
+                if (!response.IsSuccessStatusCode) {
+                    switch (response.StatusCode) {
+                        case HttpStatusCode.Unauthorized:
+                            throw new UnauthorizedRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
+                }
+
+                var result = await response.Content.ReadAsAsync<IEnumerable<Usuario>>();
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Usuario>> GetAllProfesores(string token) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/usuarios/profesores", x => SetToken(x, token))) {
+                if (!response.IsSuccessStatusCode) {
+                    switch (response.StatusCode) {
+                        case HttpStatusCode.Unauthorized:
+                            throw new UnauthorizedRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
+                }
+
+                var result = await response.Content.ReadAsAsync<IEnumerable<Usuario>>();
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Usuario>> GetAllAlumnos(string token) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/usuarios/alumnos", x => SetToken(x, token))) {
+                if (!response.IsSuccessStatusCode) {
+                    switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
                             throw new UnauthorizedRequestException(response);
                         default:
@@ -93,14 +120,10 @@ namespace Presentation.Library.Api.Endpoints.Implementations
             }
         }
 
-        public async Task<Usuario> Get(object id, string token)
-        {
-            using (var response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/{id}", x => SetToken(x, token)))
-            {
-                if (!response.IsSuccessStatusCode)
-                {
-                    switch (response.StatusCode)
-                    {
+        public async Task<Usuario> Get(object id, string token) {
+            using (var response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/{id}", x => SetToken(x, token))) {
+                if (!response.IsSuccessStatusCode) {
+                    switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
                             throw new UnauthorizedRequestException(response);
                         case HttpStatusCode.NotFound:
@@ -116,14 +139,10 @@ namespace Presentation.Library.Api.Endpoints.Implementations
             }
         }
 
-        public async Task Delete(object id, string token)
-        {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync($"api/usuarios/{id}", x => SetToken(x, token)))
-            {
-                if (!response.IsSuccessStatusCode)
-                {
-                    switch (response.StatusCode)
-                    {
+        public async Task Delete(object id, string token) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync($"api/usuarios/{id}", x => SetToken(x, token))) {
+                if (!response.IsSuccessStatusCode) {
+                    switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
                             throw new UnauthorizedRequestException(response);
                         case HttpStatusCode.NotFound:
@@ -135,14 +154,10 @@ namespace Presentation.Library.Api.Endpoints.Implementations
             }
         }
 
-        public async Task Post(Usuario entity, string token)
-        {
-            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/usuarios", entity, x => SetToken(x, token)))
-            {
-                if (!response.IsSuccessStatusCode)
-                {
-                    switch (response.StatusCode)
-                    {
+        public async Task Post(Usuario entity, string token) {
+            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/usuarios", entity, x => SetToken(x, token))) {
+                if (!response.IsSuccessStatusCode) {
+                    switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
                             throw new UnauthorizedRequestException(response);
                         case HttpStatusCode.BadRequest:
@@ -154,14 +169,10 @@ namespace Presentation.Library.Api.Endpoints.Implementations
             }
         }
 
-        public async Task Put(Usuario entity, string token)
-        {
-            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync($"api/usuarios/{entity.Id}", entity, x => SetToken(x, token)))
-            {
-                if (!response.IsSuccessStatusCode)
-                {
-                    switch (response.StatusCode)
-                    {
+        public async Task Put(Usuario entity, string token) {
+            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync($"api/usuarios/{entity.Id}", entity, x => SetToken(x, token))) {
+                if (!response.IsSuccessStatusCode) {
+                    switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
                             throw new UnauthorizedRequestException(response);
                         case HttpStatusCode.BadRequest:
@@ -175,14 +186,10 @@ namespace Presentation.Library.Api.Endpoints.Implementations
             }
         }
 
-        public async Task<Usuario> GetCurrentUsuario(string token)
-        {
-            using (var response = await _apiHelper.ApiClient.GetAsync("api/usuarios/current", x => SetToken(x, token)))
-            {
-                if (!response.IsSuccessStatusCode)
-                {
-                    switch (response.StatusCode)
-                    {
+        public async Task<Usuario> GetCurrentUsuario(string token) {
+            using (var response = await _apiHelper.ApiClient.GetAsync("api/usuarios/current", x => SetToken(x, token))) {
+                if (!response.IsSuccessStatusCode) {
+                    switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
                             throw new UnauthorizedRequestException(response);
                         default:
@@ -196,8 +203,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
             }
         }
 
-        private void SetToken(HttpRequestMessage r, string token)
-        {
+        private void SetToken(HttpRequestMessage r, string token) {
             r.Headers.Authorization = AuthenticationHeaderValue.Parse(token);
         }
     }

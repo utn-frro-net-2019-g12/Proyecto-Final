@@ -15,7 +15,8 @@
             </Menu.ItemsPanel>
             <MenuItem Header="_Materias" x:Name="Materias"  Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
             <MenuItem Header="_Usuarios" x:Name="Usuarios"  Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
-            <MenuItem Header="_Departamento" x:Name="Departamento"  Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
+            <MenuItem Header="_Departamentos" x:Name="Departamentos"  Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
+            <MenuItem Header="_Horarios Consulta" x:Name="HorariosConsulta"  Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
             <MenuItem Header="_LogOut" x:Name="LogOut" HorizontalAlignment="Right" Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
         </Menu>
         <Grid>

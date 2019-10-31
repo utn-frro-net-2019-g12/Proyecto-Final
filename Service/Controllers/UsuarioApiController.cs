@@ -45,6 +45,16 @@ namespace Service.Controllers {
         }
 
         /// <summary>
+        /// Retrives All usuario (alumno) instances ordered by Legajo
+        /// </summary>
+        [HttpGet]
+        [Route("alumnos")]
+        public IHttpActionResult GetAllAlumnos() {
+            var alumnos = _unitOfWork.Usuarios.GetUsuariosAlumnosOrderedByLegajo();
+            return Ok(alumnos);
+        }
+
+        /// <summary>
         /// Retrives usuario instances that matches a partial description
         /// </summary>
         [HttpGet]

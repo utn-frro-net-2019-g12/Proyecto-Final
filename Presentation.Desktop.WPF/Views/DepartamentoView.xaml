@@ -39,7 +39,7 @@
         <Button x:Name="Add" Content="Add New"
                     Padding="5" Grid.Column="1" Grid.Row="2"/>
 
-        <ListBox  x:Name="Departamentos" Grid.Row="3" Grid.Column="1"
+        <ListBox x:Name="Departamentos" Grid.Row="3" Grid.Column="1"
                  MinHeight="200" MinWidth="150" Grid.RowSpan="9"
                   SelectedItem="{Binding SelectedDepartamento}">
             <ListBox.ItemTemplate>

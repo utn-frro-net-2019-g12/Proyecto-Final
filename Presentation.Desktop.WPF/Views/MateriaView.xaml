@@ -35,11 +35,11 @@
         <TextBlock Text="Materias" FontSize="42" Foreground="#FFFFFF" Grid.Row="1"
                    Grid.Column="1" Grid.ColumnSpan="2" FontFamily="Segoe UI" FontWeight="Bold" />
 
-        <!-- Column 0 -->
+        <!-- Column 1 -->
         <Button x:Name="Add" Content="Add New"
                     Padding="5" Grid.Column="1" Grid.Row="2" FontFamily="Segoe UI"/>
 
-        <ListBox  x:Name="Materias" Grid.Row="3" Grid.Column="1"
+        <ListBox x:Name="Materias" Grid.Row="3" Grid.Column="1"
                  MinHeight="200" MinWidth="150" Grid.RowSpan="9"
                   SelectedItem="{Binding SelectedMateria}">
             <ListBox.ItemTemplate>
@@ -63,10 +63,10 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <!-- Column 1 -->
         <Button x:Name="Delete" Content="Delete Selected"
             Grid.Column="1" Grid.Row="11" FontFamily="Segoe UI"/>
-
+        
+        <!-- Show Errors -->
         <StackPanel Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" 
                     Visibility="{Binding AreErrorMessagesVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
                     VerticalAlignment="Center">
@@ -78,7 +78,8 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </StackPanel>
-
+        
+        <!-- Columns 3 & 4 -->
         <TextBlock Grid.Column="3" Grid.Row="2" Text="Nombre:" Foreground="#FFFFFF" FontFamily="Segoe UI"/>
         <TextBox x:Name="NameInForm" Grid.Column="4" Grid.Row="2" Margin="10,0,0,3"/>
 
@@ -86,14 +87,15 @@
         <TextBox Text="{Binding YearInForm, Mode=TwoWay, TargetNullValue=''}"  Grid.Column="4" Grid.Row="3" Margin="10,0,0,3"/>
 
         <TextBlock Grid.Column="3" Grid.Row="4" Text="Departamento:" Foreground="#FFFFFF" FontFamily="Segoe UI"/>
-        <ComboBox ItemsSource="{Binding DepartamentosInForm}"
+        <ComboBox Grid.Column="4" Grid.Row="4" Margin="10,0,0,3"
+                  ItemsSource="{Binding DepartamentosInForm}"
                   DisplayMemberPath="Name"
-                  SelectedItem="{Binding SelectedDepartamento}"
-                  Grid.Column="4" Grid.Row="4" Margin="10,0,0,3" />
+                  SelectedItem="{Binding SelectedDepartamento}" />
 
         <TextBlock Grid.Column="3" Grid.Row="5" Text="Es Electiva:" Foreground="#FFFFFF" Margin="0,0,0,34" Grid.RowSpan="2" FontFamily="Segoe UI"/>
         <CheckBox x:Name="IsElectivaInForm" Grid.Column="4" Grid.Row="5" Margin="10,0,0,34" Grid.RowSpan="2"/>
-
+        
+        <!-- Edit and Create Buttons Display -->
         <Button x:Name="Edit" Grid.Row="7" Grid.Column="3" Content="Edit"
                Margin="5,2" Visibility="{Binding IsEditVisible,  Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
         <Button x:Name="Create" Grid.Row="7" Grid.Column="3" Content="Create"
