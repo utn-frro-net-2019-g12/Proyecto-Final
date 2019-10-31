@@ -12,7 +12,7 @@
             <GradientStop Color="#FF9B6EFF" Offset="1"/>
         </LinearGradientBrush>
     </UserControl.Background>
-    <Grid Margin="0,74,0,-74">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="176*" />
             <ColumnDefinition Width="151" />
@@ -20,21 +20,20 @@
             <ColumnDefinition Width="175*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="18*" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="101*" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="80" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="35" />
+            <RowDefinition Height="35" />
+            <RowDefinition Height="45" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,0,10,20"
-                        HorizontalAlignment="Center" FontSize="64" Text="ConsultaUTN" FontWeight="Bold" Width="439" Grid.ColumnSpan="2" TextAlignment="Center"/>
+        <TextBlock Grid.Row="1" Grid.Column="1"
+                        HorizontalAlignment="Center" FontSize="64" Text="ConsultaUTN" FontWeight="Bold" Grid.ColumnSpan="2" TextAlignment="Center"/>
 
-        <StackPanel Grid.Row="1" Grid.Column="2" 
+        <StackPanel Grid.Row="2" Grid.Column="1"  Grid.ColumnSpan="2"
                     Visibility="{Binding AreErrorMessagesVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
-                    VerticalAlignment="Center" Margin="0,0,0,36" Height="0" Grid.RowSpan="4">
+                    VerticalAlignment="Bottom" Margin="0,15,0,0">
             <ItemsControl ItemsSource="{Binding ErrorMessages}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -45,18 +44,18 @@
         </StackPanel>
 
         <!-- Username row -->
-        <TextBlock Grid.Row="4" Grid.Column="1" Margin="0,0,52,10" Text="Email:" TextAlignment="Right"/>
-        <TextBox x:Name="UserName" Grid.Row="4" Grid.Column="1" MinWidth="350" 
-                        Margin="116,0,0,10" Grid.ColumnSpan="2" />
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="Email:" TextAlignment="Center"/>
+        <TextBox x:Name="UserName" Grid.Row="3" Grid.Column="2" MinWidth="350" 
+                        Margin="0,0,10,10"/>
 
         <!-- Password row -->
-        <TextBlock Grid.Row="5" Grid.Column="1" Margin="0,0,52,20" TextAlignment="Right"><Run Text="Contraseña"/><Run Text=":"/></TextBlock>
-        <PasswordBox x:Name="Password" Grid.Row="5" Grid.Column="1" MinWidth="350" 
-                        Margin="116,0,0,20" Grid.ColumnSpan="2" />
+        <TextBlock Grid.Row="4" Grid.Column="1" TextAlignment="Center"><Run Text="Contraseña"/><Run Text=":"/></TextBlock>
+        <PasswordBox x:Name="Password" Grid.Row="4" Grid.Column="2" MinWidth="350" 
+                        Margin="0,0,10,10" />
 
         <!-- Login row -->
-        <Button Grid.Row="6" Grid.Column="2" Padding="20 5"
-                    HorizontalAlignment="Center" x:Name="LogIn" Margin="26,0,180,0" Width="92">
+        <Button Grid.Row="5" Grid.Column="2" Padding="20 5"
+                    HorizontalAlignment="Center" x:Name="LogIn" Margin="26,10,180,0" Width="92">
             Log In
         </Button>
     </Grid>
