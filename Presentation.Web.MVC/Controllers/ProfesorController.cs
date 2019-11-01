@@ -14,16 +14,19 @@ namespace Presentation.Web.MVC.Controllers
     public class ProfesorController : Controller
     {
         private readonly IHorarioConsultaEndpoint _horarioConsultaEndpoint;
+        private readonly IHorarioConsultaFechadoEndpoint _horarioConsultaFechadoEndpoint;
         private readonly IInscripcionEndpoint _inscripcionEndpoint;
         private readonly IMateriaEndpoint _materiaEndpoint;
         private readonly IUsuarioEndpoint _usuarioEndpoint;
         private readonly IUserSession _userSession;
         private readonly IMapper _mapper;
 
-        public ProfesorController(IHorarioConsultaEndpoint horarioConsultaEndpoint, IInscripcionEndpoint inscripcionEndpoint
-            , IMateriaEndpoint materiaEndpoint, IUsuarioEndpoint usuarioEndpoint, IUserSession userSession, IMapper mapper)
+        public ProfesorController(IHorarioConsultaEndpoint horarioConsultaEndpoint, IHorarioConsultaFechadoEndpoint horarioConsultaFechadoEndpoint,
+            IInscripcionEndpoint inscripcionEndpoint, IMateriaEndpoint materiaEndpoint, IUsuarioEndpoint usuarioEndpoint, IUserSession userSession,
+            IMapper mapper)
         {
             _horarioConsultaEndpoint = horarioConsultaEndpoint;
+            _horarioConsultaFechadoEndpoint = horarioConsultaFechadoEndpoint;
             _inscripcionEndpoint = inscripcionEndpoint;
             _materiaEndpoint = materiaEndpoint;
             _usuarioEndpoint = usuarioEndpoint;
@@ -31,12 +34,13 @@ namespace Presentation.Web.MVC.Controllers
             _mapper = mapper;
         }
 
-        // GET: ProfesorActions
+        // GET: Profesor
         public ActionResult Index()
         {
             return RedirectToAction("InscripcionesRecibidas");
         }
 
+        // Index Mis Horarios - GET HorariosConsulta (By Current User Profesor)
         public async Task<ActionResult> MisHorariosConsulta()
         {
             try
@@ -57,6 +61,7 @@ namespace Presentation.Web.MVC.Controllers
             }   
         }
 
+        // Index Inscripciones - GET Inscripciones (By Current Profesor User)
         public async Task<ActionResult> InscripcionesRecibidas()
         {
             try
@@ -77,6 +82,27 @@ namespace Presentation.Web.MVC.Controllers
             }   
         }
 
+        // Search --> Mis HC & Insc Recibidas
+
+        // Delete - DELETE Profesor/DeleteHorario/ID
+        public async Task<ActionResult> DeleteHorario(int id) {
+            try {
+                await _horarioConsultaEndpoint.Delete(id, _userSession.BearerToken);
+            } catch (UnauthorizedRequestException) {
+                return RedirectToAction("AccessDenied", "Error");
+            } catch (NotFoundRequestException ex) {
+                return Content($"{ex.StatusCode}: Elemento no encontrado");
+            } catch (Exception ex) {
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+            }
+
+            // TempData may be used to check in the view whether the deletion was successful or not
+            TempData["SuccessMessage"] = "Deleted Sucessfully";
+
+            return Content("OK");
+        }
+
+        // Create HorarioConsulta (Default)
         [HttpGet]
         public async Task<ActionResult> CreateHorario()
         {
@@ -99,6 +125,7 @@ namespace Presentation.Web.MVC.Controllers
             }
         }
 
+        // Create - Post Profesor/CreateHorario
         [HttpPost]
         public async Task<ActionResult> CreateHorario(CreateOwnHorarioConsultaViewModel viewModel)
         {
@@ -136,7 +163,7 @@ namespace Presentation.Web.MVC.Controllers
             return Content("OK");
         }
 
-
+        // Edit - GET Profesor/EditHorario/ID
         [HttpGet]
         public async Task<ActionResult> EditHorario(int? id)
         {
@@ -173,6 +200,7 @@ namespace Presentation.Web.MVC.Controllers
             }
         }
 
+        // Edit - PUT Profesor/EditHorario/ID (Secured)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditHorario(EditOwnHorarioConsultaViewModel viewModel)
@@ -216,20 +244,70 @@ namespace Presentation.Web.MVC.Controllers
             return Content("OK");
         }
 
-        // Delete - DELETE Profesor/DeleteHorario/ID
-        public async Task<ActionResult> DeleteHorario(int id) {
+        // Edit - GET Profesor/EditInscripcion/ID
+        [HttpGet]
+        public async Task<ActionResult> EditInscripcion(int? id) {
+            {
+                if (id == null) {
+                    return Content("Debe incluir el id");
+                }
+
+                try {
+                    var inscripcionTask = _inscripcionEndpoint.Get(id, _userSession.BearerToken);
+                    var alumnosTask = _usuarioEndpoint.GetAll(_userSession.BearerToken);
+                    var horariosConsultaFechadosTask = _horarioConsultaFechadoEndpoint.GetAll(_userSession.BearerToken);
+
+                    await Task.WhenAll(inscripcionTask, alumnosTask, horariosConsultaFechadosTask);
+
+                    var inscripcion = _mapper.Map<MvcInscripcionModel>(source: inscripcionTask.Result);
+                    var alumnos = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: alumnosTask.Result);
+                    var horariosConsultaFechados = _mapper.Map<IEnumerable<MvcHorarioConsultaFechadoModel>>(source: horariosConsultaFechadosTask.Result);
+
+                    var viewModel = new EditInscripcionRecibidaViewModel(inscripcion: inscripcion, horariosConsultaFechados: horariosConsultaFechados, alumnos: alumnos);
+
+                    return PartialView("_Edit", viewModel);
+                } catch (UnauthorizedRequestException) {
+                    return RedirectToAction("AccessDenied", "Error");
+                } catch (NotFoundRequestException ex) {
+                    return Content($"{ex.StatusCode}: Elemento no encontrado");
+                } catch (Exception ex) {
+                    return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+                }
+            }
+        }
+
+        // Edit - PUT Profesor/EditInscripcion/ID (Secured)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        // Bind(Include = "...") is used to avoid overposting attacks
+        public async Task<ActionResult> EditInscripcion(EditInscripcionRecibidaViewModel viewModel) {
             try {
-                await _horarioConsultaEndpoint.Delete(id, _userSession.BearerToken);
+                var entity = _mapper.Map<Inscripcion>(viewModel.Inscripcion);
+
+                if (entity.State == null) { entity.State = Inscripcion.InscripcionStates.Active; }
+
+                await _inscripcionEndpoint.Put(entity, _userSession.BearerToken);
             } catch (UnauthorizedRequestException) {
                 return RedirectToAction("AccessDenied", "Error");
-            } catch (NotFoundRequestException ex) {
-                return Content($"{ex.StatusCode}: Elemento no encontrado");
+            } catch (BadRequestException ex) {
+                var profesoresTask = _usuarioEndpoint.GetAll(_userSession.BearerToken);
+                var horariosConsultaFechadosTask = _horarioConsultaFechadoEndpoint.GetAll(_userSession.BearerToken); // May throw an exception, so that is why the modal is not showing in nico user
+
+                await Task.WhenAll(profesoresTask, horariosConsultaFechadosTask);
+
+                var alumnos = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: profesoresTask.Result);
+                var horariosConsultaFechado = _mapper.Map<IEnumerable<MvcHorarioConsultaFechadoModel>>(source: horariosConsultaFechadosTask.Result);
+
+                viewModel.SetAlumnosAsSelectList(alumnos);
+                viewModel.SetHorariosConsultaFechadosAsSelectList(horariosConsultaFechado);
+                viewModel.SetEstadosAsSelectList();
+
+                ModelState.AddModelErrors(ex.Errors);
+
+                return PartialView("_Edit", viewModel);
             } catch (Exception ex) {
                 return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
             }
-
-            // TempData may be used to check in the view whether the deletion was successful or not
-            TempData["SuccessMessage"] = "Deleted Sucessfully";
 
             return Content("OK");
         }

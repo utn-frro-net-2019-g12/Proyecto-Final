@@ -49,7 +49,8 @@
 
         $('.actionEditInscripcion').on('click', function () {
             let index = $(this).parent().siblings().first().text().trim();
-            let url = `/Inscripcion/Edit/${index}`;
+            // let url = `Alumno/EditInscripcion/${index}`;
+            let url = `EditInscripcion/${index}`;
             $.ajax({
                 type: "GET",
                 url: url,
@@ -79,7 +80,8 @@
         });
 
         $('#deleteConfirmButton').on('click', function () {
-            let url = `/Inscripcion/Delete/${idToDelete}`;
+            // let url = `Alumno/DeleteInscripcion/${idToDelete}`;
+            let url = `DeleteInscripcion/${idToDelete}`;
             $.ajax({
                 type: "POST",
                 url: url,
@@ -88,6 +90,7 @@
         });
 
         /*------------------------------*/
+
         $("#searchForm").on('submit', function (e) {
             e.preventDefault();
             let partialDesc = $("#searchText").val();

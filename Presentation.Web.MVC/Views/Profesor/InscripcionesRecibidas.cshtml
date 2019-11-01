@@ -24,23 +24,100 @@
             $('#dataTable').DataTable({ "bFilter": false });
             //  $('#dataTable').DataTable();
         });
-
-            /*
-            $("#searchForm").on('submit', function (e) {
-                e.preventDefault();
-                let partialDesc = $("#searchText").val();
-                if (partialDesc != null && partialDesc != "") {
-                    let url = `Profesor/InscripcionesRecibidas/Search?partialDesc=${partialDesc}`;
-                    window.location.href = url;
-                }
-            });
-            */
     </script>
 }
 
 @section scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        function modalEdit(data, url) {
+            $('#modalEditInscripcionContent').html(data);
+            $('#editForm').unbind();
+
+            $("#stateInscripcion").on('change', function () {
+                let state = $("#stateInscripcion").val();
+                let submit = $("#submitButton");
+                state == "" ? submit.prop("disabled", true) : submit.prop("disabled", false);
+            });
+
+            $('#editForm').bind("submit", function (event) {
+                event.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $('#editForm').serialize(),
+                    success: function (data) {
+                        data != "OK" ? modalEdit(data, url) : window.location.reload();
+                    }
+                });
+            });
+        }
+
+        $('.actionEditInscripcion').on('click', function () {
+            let index = $(this).parent().siblings().first().text().trim();
+            // let url = `Profesor/EditInscripcion/${index}`;
+            let url = `EditInscripcion/${index}`;
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (data) {
+                    modalEdit(data, url)
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest, textStatus, errorThrown);
+                    console.log(url);
+                }
+            });
+        });
+
+        $("#modalEditInscripcion").on("hidden.bs.modal", function () {
+            $("#modalEditInscripcionContent").html("<p styles='text-align:center; margin-top:1rem; font-weight:bold;'> Loading... </p>");
+            $("#editForm").unbind();
+        });
+
+        /*------------------------------*/
+
+        /*
+        var idToDelete;
+        var toDeleteName = document.getElementById('toDeleteName');
+
+        $('.actionDeleteInscripcion').on('click', function () {
+            idToDelete = $(this).parent().siblings().first().text().trim();
+            toDeleteName.innerHTML = $(this).parent().siblings().first().next().text().trim();
+        });
+
+        $('#deleteConfirmButton').on('click', function () {
+            let url = `/Inscripcion/Delete/${idToDelete}`;
+            $.ajax({
+                type: "POST",
+                url: url,
+                success: function (data) { window.location.reload() }
+            });
+        });
+        */
+
+        /*------------------------------*/
+
+        $("#searchForm").on('submit', function (e) {
+            e.preventDefault();
+            let partialDesc = $("#searchText").val();
+            if (partialDesc != null && partialDesc != "") {
+                let url = `Profesor/InscripcionesRecibidas/Search?partialDesc=${partialDesc}`;
+                window.location.href = url;
+            }
+        });
+    </script>
 }
+
+<!-- Modal Modificar Inscripcion -->
+<div class="modal fade" id="modalEditInscripcion" tabindex="-1" role="dialog" aria-labelledby="modalEditInscripcion" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" id="modalEditInscripcionContent">
+            <p> Loading... </p>
+        </div>
+    </div>
+</div>
 
 <!-- Index Inscripcion -->
 <div class="container-fluid">
@@ -84,6 +161,7 @@
                             <th>
                                 HorarioConsultaFechado
                             </th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -109,6 +187,7 @@
                             <th>
                                 HorarioConsultaFechado
                             </th>
+                            <th>Acciones</th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -140,6 +219,12 @@
                                     @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.Date.DayOfWeek) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.DateForDisplay) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.StartHour) to @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.EndHour)
                                     <br />
                                     @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Place)
+                                </td>
+                                <td class="d-flex align-items-center p-0">
+                                    <button data-toggle="modal" data-target="#modalEditInscripcion" type="button" class="actionEditInscripcion d-flex align-items-center btn btn-warning m-1">
+                                        <i class="fas fa-edit fa-xs m-1"></i>
+                                        <p class="d-none d-md-block m-0">Editar</p>
+                                    </button>
                                 </td>
                             </tr>
                         }

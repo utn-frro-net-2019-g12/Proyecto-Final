@@ -183,6 +183,7 @@
     <Compile Include="ViewModels\CreateMateriaViewModel.cs" />
     <Compile Include="ViewModels\CreateOwnHorarioConsultaViewModel.cs" />
     <Compile Include="ViewModels\EditHorarioConsultaFechadoViewModel.cs" />
+    <Compile Include="ViewModels\EditInscripcionRecibidaViewModel.cs" />
     <Compile Include="ViewModels\EditInscripcionViewModel.cs" />
     <Compile Include="ViewModels\EditHorarioConsultaViewModel.cs" />
     <Compile Include="ViewModels\EditMateriaViewModel.cs" />
@@ -346,7 +347,7 @@
     <Content Include="Views\HorarioConsulta\_Create.cshtml" />
     <Content Include="Views\Inscripcion\_Create.cshtml" />
     <Content Include="Views\Inscripcion\_Edit.cshtml" />
-    <Content Include="Views\Home\NuevaConsulta.cshtml" />
+    <Content Include="Views\Alumno\NuevaConsulta.cshtml" />
     <Content Include="Views\Profesor\MisHorariosConsulta.cshtml" />
     <Content Include="Views\Profesor\InscripcionesRecibidas.cshtml" />
     <Content Include="Views\Alumno\MisInscripciones.cshtml" />
@@ -355,6 +356,8 @@
     <Content Include="Views\Error\PageNotFound.cshtml" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
     <Content Include="Views\Error\SpecificError.cshtml" />
+    <Content Include="Views\Profesor\_EditInscripcionRecibida.cshtml" />
+    <Content Include="Views\Alumno\_EditOwnInscripcion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

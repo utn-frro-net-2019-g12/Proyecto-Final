@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "NuevaConsulta";
 }
 
@@ -22,11 +21,11 @@
         <br />
         <p>..O Puede buscar directamente desde la Barra de Búsqueda</p>
         <div class="row mb-3">
-            <form class="col">
+            <form class="col" id="searchForm">
                 <div class="input-group">
-                    <input type="text" class="form-control bg-light border border-primary p-4" placeholder="Profesor, Materia, Depto..." aria-label="Search" aria-describedby="basic-addon2">
+                    <input type="text" class="form-control bg-light border border-primary p-4" id="searchText" placeholder="Profesor, Materia, Depto..." aria-label="Search" aria-describedby="basic-addon2">
                     <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">
+                        <button type="submit" class="btn btn-primary" id="searchButton">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
@@ -36,15 +35,15 @@
         <div class="row mb-3">
             <div class="col" id="searchByMatContent">
                 <h4>Buscar por Materia</h4>
-                <button id="searchByMatButton"></button>
+                <button id="searchByMatButton">Buscar</button>
                 <!-- Lista de Departamentos -->
                 <!-- Luego de Materias de ese Depto -->
                 <!-- Luego HorariosConsulta agrupados por Profesor (más de un DayWeek) -->
                 <!-- Luego una Partial View para Inscripción con Detalles y DropDown HCFechados -->
             </div>
             <div class="col" id="searchByProfContent">
-                <p>Buscar por Profesor</p>
-                <button id="searchByProfButton"></button>
+                <h4>Buscar por Profesor</h4>
+                <button id="searchByProfButton">Buscar</button>
                 <!-- Lista de Profesores (Alfabéticamente) con su Barra de Búsqueda -->
                 <!-- Luego HorariosConsulta agrupados por Materia (más de un DayWeek) -->
                 <!-- Luego una Partial View para Inscripción con Detalles y DropDown HCFechados -->
