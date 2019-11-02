@@ -142,7 +142,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return RedirectToAction("AccessDenied", "Error");
+                return Content("No esta autorizado");
             }
             catch (Exception ex)
             {
@@ -164,7 +164,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return RedirectToAction("AccessDenied", "Error");
+                return Content("No esta autorizado");
             }
             catch (BadRequestException ex)
             {
@@ -220,7 +220,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return RedirectToAction("AccessDenied", "Error");
+                return Content("No esta autorizado");
             }
             catch (NotFoundRequestException ex)
             {
@@ -248,7 +248,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return RedirectToAction("AccessDenied", "Error");
+                return Content("No esta autorizado");
             }
             catch (BadRequestException ex)
             {

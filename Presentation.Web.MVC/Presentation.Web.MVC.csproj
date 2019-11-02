@@ -158,6 +158,7 @@
     <Compile Include="Controllers\InscripcionController.cs" />
     <Compile Include="Controllers\HorarioConsultaController.cs" />
     <Compile Include="Controllers\ProfesorController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Filters\AuthorizeSelectedAttributte.cs" />
     <Compile Include="IocModules\AutoMapperModule.cs" />
     <Compile Include="Models\IUserSession.cs" />
@@ -303,7 +304,7 @@
     <Content Include="Views\Materia\Edit.cshtml" />
     <Content Include="Views\Materia\Create.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
-    <Content Include="Views\Usuario\Details.cshtml" />
+    <Content Include="Views\Profile\Edit.cshtml" />
     <Content Include="Views\Usuario\_Create.cshtml" />
     <Content Include="Views\Departamento\_Edit.cshtml" />
     <Content Include="Views\Usuario\_Edit.cshtml" />

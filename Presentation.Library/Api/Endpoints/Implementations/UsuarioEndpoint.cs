@@ -186,10 +186,34 @@ namespace Presentation.Library.Api.Endpoints.Implementations {
             }
         }
 
-        public async Task<Usuario> GetCurrentUsuario(string token) {
-            using (var response = await _apiHelper.ApiClient.GetAsync("api/usuarios/current", x => SetToken(x, token))) {
-                if (!response.IsSuccessStatusCode) {
-                    switch (response.StatusCode) {
+
+        public async Task UpdateCurrent(Usuario current, string token)
+        {
+            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync($"api/usuarios", current, x => SetToken(x, token)))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    switch (response.StatusCode)
+                    {
+                        case HttpStatusCode.Unauthorized:
+                            throw new UnauthorizedRequestException(response);
+                        case HttpStatusCode.BadRequest:
+                            throw new BadRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
+                }
+            }
+        }
+
+        public async Task<Usuario> GetCurrentUsuario(string token)
+        {
+            using (var response = await _apiHelper.ApiClient.GetAsync("api/usuarios/current", x => SetToken(x, token)))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    switch (response.StatusCode)
+                    {
                         case HttpStatusCode.Unauthorized:
                             throw new UnauthorizedRequestException(response);
                         default:

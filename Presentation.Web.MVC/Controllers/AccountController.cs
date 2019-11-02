@@ -1,9 +1,6 @@
 ﻿using Microsoft.Owin.Security;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -11,20 +8,16 @@ using System.Web.Mvc;
 using Presentation.Library.Models;
 using Presentation.Library.Api.Endpoints.Interfaces;
 using Presentation.Library.Api.Exceptions;
-using Presentation.Web.MVC.Models;
 
 namespace Presentation.Web.MVC.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         private readonly IAuthenticationEndpoint _authenticationEndpoint;
-        private readonly IUserSession _userSession;
 
-        public AccountController(IAuthenticationEndpoint authenticationEndpoint, IUserSession userSession)
+        public AccountController(IAuthenticationEndpoint authenticationEndpoint)
         {
             _authenticationEndpoint = authenticationEndpoint;
-            _userSession = userSession;
         }
 
         [HttpGet]

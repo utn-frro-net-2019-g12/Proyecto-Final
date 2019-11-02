@@ -13,5 +13,6 @@ namespace Presentation.Library.Api.Endpoints.Interfaces {
         Task<IEnumerable<Usuario>> GetProfesoresByPartialDesc(string partialDesc, string token);
         Task<IEnumerable<Usuario>> GetAlumnosByPartialDesc(string partialDesc, string token);
         Task<Usuario> GetCurrentUsuario(string token);
+        Task UpdateCurrent(Usuario current ,string token);
     }
 }

@@ -133,11 +133,11 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return RedirectToAction("AccessDenied", "Error");
+                return Content("No esta autorizado");
             }      
             catch (Exception ex)
             {
-                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+                return Content($"{ex.Message}Ha ocurrido un error por favor contante a soporte");
             }
         }
 
@@ -152,7 +152,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return RedirectToAction("AccessDenied", "Error");
+                return Content("No esta autorizado");
             }
             catch (BadRequestException ex)
             {
@@ -168,7 +168,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (Exception ex)
             {
-                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+                return Content($"{ex.Message}Ha ocurrido un error por favor contante a soporte");
             }
 
             return Content("OK");
@@ -197,7 +197,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return RedirectToAction("AccessDenied", "Error");
+                return Content("No esta autorizado");
             }
             catch (NotFoundRequestException ex)
             {
@@ -205,7 +205,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (Exception ex)
             {
-                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+                return Content($"{ex.Message}Ha ocurrido un error por favor contante a soporte");
             }
         }
 
@@ -221,7 +221,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return RedirectToAction("AccessDenied", "Error");
+                return Content("No esta autorizado");
             }
             catch (BadRequestException ex)
             {
@@ -236,7 +236,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (Exception ex)
             {
-                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+                return Content($"{ex.Message}Ha ocurrido un error por favor contante a soporte");
             }
 
             return Content("OK");
