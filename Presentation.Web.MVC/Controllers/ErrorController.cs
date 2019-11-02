@@ -25,10 +25,21 @@ namespace WebPresentationMVC.Controllers
             return View();
         }
 
+        public ActionResult AccessDeniedPartial()
+        {
+            return PartialView("_AccessDenied");
+        }
+
         public ActionResult SpecificError(string error)
         {
             ViewBag.ErrorMessage = error;
             return View();
+        }
+
+        public ActionResult SpecificErrorPartial(string error)
+        {
+            ViewBag.ErrorMessage = error;
+            return PartialView("_SpecificError");
         }
     }
 }

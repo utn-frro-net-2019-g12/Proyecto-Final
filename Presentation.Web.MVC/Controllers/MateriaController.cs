@@ -69,30 +69,6 @@ namespace Presentation.Web.MVC.Controllers {
             }
         }
 
-        // Details - GET Materia/ID
-        public async Task<ActionResult> Details(int id) {
-            try
-            {
-                Materia entity = await _materiaEndpoint.Get(id, _userSession.BearerToken);
-
-                var materia = _mapper.Map<MvcMateriaModel>(entity);
-
-                return View(materia);
-            }
-            catch (UnauthorizedRequestException)
-            {
-                return RedirectToAction("AccessDenied", "Error");
-            }
-            catch (NotFoundRequestException ex)
-            {
-                return Content($"{ex.StatusCode}: Elemento no encontrado");
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
-            }
-        }
-
         // Delete - DELETE Materia/ID
         public async Task<ActionResult> Delete(int id) {
             try
@@ -101,7 +77,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return RedirectToAction("AccessDenied", "Error");
+                return RedirectToAction("AccessDeniedPartial", "Error");
             }
             catch (NotFoundRequestException ex)
             {
@@ -109,7 +85,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (Exception ex)
             {
-                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+                return RedirectToAction("SpecificErrorPartial", "Error", new { error = ex.Message });
             }
 
             // TempData may be used to check in the view whether the deletion was successful or not
@@ -133,11 +109,11 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No esta autorizado");
+                return RedirectToAction("AccessDeniedPartial", "Error");
             }      
             catch (Exception ex)
             {
-                return Content($"{ex.Message}Ha ocurrido un error por favor contante a soporte");
+                return RedirectToAction("SpecificErrorPartial", "Error", new { error = ex.Message });
             }
         }
 
@@ -152,7 +128,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No esta autorizado");
+                return RedirectToAction("AccessDeniedPartial", "Error");
             }
             catch (BadRequestException ex)
             {
@@ -168,7 +144,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (Exception ex)
             {
-                return Content($"{ex.Message}Ha ocurrido un error por favor contante a soporte");
+                return RedirectToAction("SpecificErrorPartial", "Error", new { error = ex.Message });
             }
 
             return Content("OK");
@@ -197,7 +173,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No esta autorizado");
+                return RedirectToAction("AccessDeniedPartial", "Error");
             }
             catch (NotFoundRequestException ex)
             {
@@ -205,7 +181,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (Exception ex)
             {
-                return Content($"{ex.Message}Ha ocurrido un error por favor contante a soporte");
+                return RedirectToAction("SpecificErrorPartial", "Error", new { error = ex.Message });
             }
         }
 
@@ -221,7 +197,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No esta autorizado");
+                return RedirectToAction("AccessDeniedPartial", "Error");
             }
             catch (BadRequestException ex)
             {
@@ -236,7 +212,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (Exception ex)
             {
-                return Content($"{ex.Message}Ha ocurrido un error por favor contante a soporte");
+                return RedirectToAction("SpecificErrorPartial", "Error", new { error = ex.Message });
             }
 
             return Content("OK");

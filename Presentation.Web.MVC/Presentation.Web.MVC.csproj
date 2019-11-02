@@ -359,6 +359,8 @@
     <Content Include="Views\Error\SpecificError.cshtml" />
     <Content Include="Views\Profesor\_EditInscripcionRecibida.cshtml" />
     <Content Include="Views\Alumno\_EditOwnInscripcion.cshtml" />
+    <Content Include="Views\Error\_AccessDenied.cshtml" />
+    <Content Include="Views\Error\_SpecificError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

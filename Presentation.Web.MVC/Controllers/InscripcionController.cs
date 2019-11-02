@@ -70,31 +70,6 @@ namespace Presentation.Web.MVC.Controllers {
             }
         }
 
-        // Details - GET Inscripcion/ID
-        public async Task<ActionResult> Details(int id)
-        {
-            try
-            {
-                Inscripcion entity = await _inscripcionEndpoint.Get(id, _userSession.BearerToken);
-
-                var inscripcion = _mapper.Map<MvcInscripcionModel>(entity);
-
-                return View(inscripcion);
-            }
-            catch (UnauthorizedRequestException)
-            {
-                return RedirectToAction("AccessDenied", "Error");
-            }
-            catch (NotFoundRequestException ex)
-            {
-                return Content($"{ex.StatusCode}: Elemento no encontrado");
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
-            }
-        }
-
         // Delete - DELETE Inscripcion/ID
         public async Task<ActionResult> Delete(int id)
         {
@@ -104,7 +79,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return RedirectToAction("AccessDenied", "Error");
+                return RedirectToAction("AccessDeniedPartial", "Error");
             }
             catch (NotFoundRequestException ex)
             {
@@ -112,7 +87,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (Exception ex)
             {
-                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+                return RedirectToAction("SpecificErrorPartial", "Error", new { error = ex.Message });
             }
 
             // TempData may be used to check in the view whether the deletion was successful or not
@@ -142,11 +117,11 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No esta autorizado");
+                return RedirectToAction("AccessDeniedPartial", "Error");
             }
             catch (Exception ex)
             {
-                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+                return RedirectToAction("SpecificErrorPartial", "Error", new { error = ex.Message });
             }
         }
 
@@ -164,7 +139,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (UnauthorizedRequestException)
             {
-                return Content("No esta autorizado");
+                return RedirectToAction("AccessDeniedPartial", "Error");
             }
             catch (BadRequestException ex)
             {
@@ -186,7 +161,7 @@ namespace Presentation.Web.MVC.Controllers {
             }
             catch (Exception ex)
             {
-                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+                return RedirectToAction("SpecificErrorPartial", "Error", new { error = ex.Message });
             }
 
             return Content("OK");

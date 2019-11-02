@@ -67,11 +67,11 @@ namespace Presentation.Web.MVC.Controllers
             try {
                 await _inscripcionEndpoint.Delete(id, _userSession.BearerToken);
             } catch (UnauthorizedRequestException) {
-                return RedirectToAction("AccessDenied", "Error");
+                return RedirectToAction("AccessDeniedPartial", "Error");
             } catch (NotFoundRequestException ex) {
                 return Content($"{ex.StatusCode}: Elemento no encontrado");
             } catch (Exception ex) {
-                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+                return RedirectToAction("SpecificErrorPartial", "Error", new { error = ex.Message });
             }
 
             // TempData may be used to check in the view whether the deletion was successful or not
@@ -103,11 +103,11 @@ namespace Presentation.Web.MVC.Controllers
 
                     return PartialView("_Edit", viewModel);
                 } catch (UnauthorizedRequestException) {
-                    return RedirectToAction("AccessDenied", "Error");
+                    return RedirectToAction("AccessDeniedPartial", "Error");
                 } catch (NotFoundRequestException ex) {
                     return Content($"{ex.StatusCode}: Elemento no encontrado");
                 } catch (Exception ex) {
-                    return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+                    return RedirectToAction("SpecificErrorPartial", "Error", new { error = ex.Message });
                 }
             }
         }
@@ -124,7 +124,7 @@ namespace Presentation.Web.MVC.Controllers
 
                 await _inscripcionEndpoint.Put(entity, _userSession.BearerToken);
             } catch (UnauthorizedRequestException) {
-                return RedirectToAction("AccessDenied", "Error");
+                return RedirectToAction("AccessDeniedPartial", "Error");
             } catch (BadRequestException ex) {
                 var profesoresTask = _usuarioEndpoint.GetAll(_userSession.BearerToken);
                 var horariosConsultaFechadosTask = _horarioConsultaFechadoEndpoint.GetAll(_userSession.BearerToken); // May throw an exception, so that is why the modal is not showing in nico user
@@ -142,7 +142,7 @@ namespace Presentation.Web.MVC.Controllers
 
                 return PartialView("_Edit", viewModel);
             } catch (Exception ex) {
-                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+                return RedirectToAction("SpecificErrorPartial", "Error", new { error = ex.Message });
             }
 
             return Content("OK");
