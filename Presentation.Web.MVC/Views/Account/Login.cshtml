@@ -126,8 +126,8 @@
                                             </div>
                                             <div class="form-group ml-3">
                                                 <div class="custom-control custom-checkbox small">
-                                                    <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                    <label class="custom-control-label" for="customCheck">Recuérdame (por implementar)</label>
+                                                    @Html.CheckBoxFor(m => m.RememberMe, new { @class = "custom-control-input" })
+                                                    @Html.LabelFor(m => m.RememberMe, new { @class = "custom-control-label" })
                                                 </div>
                                             </div>
                                             <input type="submit" value="Iniciar sesión" class="btn btn-primary btn-user btn-block" />

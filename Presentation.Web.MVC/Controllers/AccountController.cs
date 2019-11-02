@@ -26,6 +26,11 @@ namespace Presentation.Web.MVC.Controllers
         {
             ViewBag.ReturnUrl = returnUrl;
 
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("LogOut");
+            }
+
             var usuarioDefaultModel = new LoginModel { EmailAddress = "ale@example.com", Password = "Example1?" };
 
             return View(usuarioDefaultModel);
@@ -43,8 +48,11 @@ namespace Presentation.Web.MVC.Controllers
                 AuthenticationProperties options = new AuthenticationProperties();
 
                 options.AllowRefresh = true;
-                options.IsPersistent = true;
-                options.ExpiresUtc = DateTime.UtcNow.AddSeconds(int.Parse(token.Expires_in));
+                options.IsPersistent = model.RememberMe;
+                if (options.IsPersistent)
+                {
+                    options.ExpiresUtc = DateTime.UtcNow.AddSeconds(int.Parse(token.Expires_in));
+                }
 
                 var claims = new List<Claim>()
                 {
