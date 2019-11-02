@@ -305,6 +305,7 @@ namespace Presentation.Desktop.WPF.ViewModels
 
                 await _materiaEndpoint.Post(entity, _usuarioLogged.Token);
                 await LoadMaterias();
+                SelectedMateria = null;
             }
             catch (UnauthorizedRequestException)
             {

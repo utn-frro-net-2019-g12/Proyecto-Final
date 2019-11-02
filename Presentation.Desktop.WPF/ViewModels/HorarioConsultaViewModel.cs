@@ -76,9 +76,8 @@ namespace Presentation.Desktop.WPF.ViewModels {
         }
 
         public void LoadDiasSemana() {
-            try {
-                List<string> dias = new List<string> { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" };
-                DiasSemanaInForm = (BindingList<string>)dias.Select(e => new Dictionary<string, string>() { { "Value", e } });
+            try { 
+                DiasSemanaInForm = new BindingList<string> { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" };
             } catch (UnauthorizedRequestException) {
                 _events.PublishOnUIThread(new NotAuthorizedEvent());
             } catch (Exception ex) {
@@ -342,7 +341,7 @@ namespace Presentation.Desktop.WPF.ViewModels {
             ErrorMessages = null;
 
             var horarioConsulta = new WpfHorarioConsultaModel {
-                Id = SelectedHorarioConsulta.Id, Weekday = SelectedDiaSemana, StartHour = StartHourInForm, EndHour = EndHourInForm,
+                Weekday = SelectedDiaSemana, StartHour = StartHourInForm, EndHour = EndHourInForm,
                 Place = PlaceInForm, EliminationDate = EliminationDateInForm, MateriaId = SelectedMateria.Id,
                 ProfesorId = SelectedUsuarioProfesor.Id
             };
@@ -350,8 +349,9 @@ namespace Presentation.Desktop.WPF.ViewModels {
             try {
                 var entity = _mapper.Map<HorarioConsulta>(horarioConsulta);
 
-                await _horarioConsultaEndpoint.Put(entity, _usuarioLogged.Token);
+                await _horarioConsultaEndpoint.Post(entity, _usuarioLogged.Token);
                 await LoadHorariosConsulta();
+                SelectedHorarioConsulta = null;
             } catch (UnauthorizedRequestException) {
                 ErrorMessages = new BindingList<string> { "No tiene acceso" };
             } catch (BadRequestException ex) {

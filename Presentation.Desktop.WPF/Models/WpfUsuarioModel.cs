@@ -12,9 +12,54 @@ namespace Presentation.Desktop.WPF.Models {
 
         public int? Legajo { get; set; }
 
+        public string IsAlumnoDisplay
+        {
+            get
+            {
+                if(Legajo == null)
+                {
+                    return "---";
+                }
+                else
+                {
+                    return Legajo.ToString();
+                }
+            }
+        }
+
         public string Matricula { get; set; }
 
-        public bool IsAdmin { get; set; }
+        public string IsProfesorDisplay
+        {
+            get
+            {
+                if (Matricula == null)
+                {
+                    return "---";
+                }
+                else
+                {
+                    return Matricula.ToString();
+                }
+            }
+        }
+
+        public bool? IsAdmin { get; set; }
+
+        public string IsAdminDisplay
+        {
+            get
+            {
+                if (IsAdmin != true || IsAdmin == null)
+                {
+                    return "No";
+                }
+                else
+                {
+                    return "Si";
+                }
+            }
+        }
 
         public string Firstname { get; set; }
 
@@ -22,7 +67,9 @@ namespace Presentation.Desktop.WPF.Models {
 
         public string Email { get; set; }
 
-        public int? Phone { get; set; }
+        public int? Phone1 { get; set; }
+
+        public int? Phone2 { get; set; }
 
         public override bool Equals(object o) {
             var item = o as WpfUsuarioModel;

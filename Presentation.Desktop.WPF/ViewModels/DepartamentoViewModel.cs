@@ -190,6 +190,7 @@ namespace Presentation.Desktop.WPF.ViewModels {
 
                 await _departamentoEndpoint.Post(entity, _usuarioLogged.Token);
                 await LoadDepartamentos();
+                SelectedDepartamento = null;
             }
             catch (UnauthorizedRequestException) {
                 ErrorMessages = new BindingList<string> { "No tiene acceso" };

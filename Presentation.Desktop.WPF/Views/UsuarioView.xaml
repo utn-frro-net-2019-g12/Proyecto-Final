@@ -39,29 +39,88 @@
         <Button x:Name="Add" Content="Add New"
                     Padding="5" Grid.Column="1" Grid.Row="2"/>
 
-        <!-- Column 1 -->
+
+        <ListBox x:Name="Usuarios" Grid.Row="3" Grid.Column="1"
+                 MinHeight="200" MinWidth="150" Grid.RowSpan="9"
+                  SelectedItem="{Binding SelectedUsuario}" Margin="0,0,0.667,0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Surname}" />
+                                <TextBlock Text=" " />
+                                <TextBlock Text="{Binding Firstname}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Username}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="Contacto: " />
+                            <TextBlock Text="{Binding Email}" />
+                            <TextBlock Text=" " />
+                            <TextBlock Text="{Binding Phone1}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="Admin: " />
+                            <TextBlock Text="{Binding IsAdminDisplay}" Margin="0,0,5,0" />
+                            <TextBlock Text="Matricula: " />
+                            <TextBlock Text="{Binding IsProfesorDisplay}" Margin="0,0,5,0" />
+                            <TextBlock Text="Legajo: " />
+                            <TextBlock Text="{Binding IsAlumnoDisplay}" Margin="0,0,5,0" />
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
         <Button x:Name="Delete" Content="Delete Selected"
             Grid.Column="1" Grid.Row="11"/>
-        
+
+        <StackPanel Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" 
+                    Visibility="{Binding AreErrorMessagesVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
+                    VerticalAlignment="Center">
+            <ItemsControl ItemsSource="{Binding ErrorMessages}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" Foreground="Red"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
         
         <TextBlock Grid.Column="3" Grid.Row="2" Text="Nombre:" Foreground="#FFFFFF"/>
-        <TextBlock Grid.Column="3" Grid.Row="3" Text="Apellido:" Foreground="#FFFFFF"/>
-        <TextBlock Grid.Column="3" Grid.Row="4" Text="Alias:" Foreground="#FFFFFF"/>
-        <TextBlock Grid.Column="3" Grid.Row="5" Text="Email:" Foreground="#FFFFFF"/>
-        <TextBlock Grid.Column="3" Grid.Row="6" Text="Legajo:" Foreground="#FFFFFF"/>
-        <TextBlock Grid.Column="3" Grid.Row="7" Text="Matrícula:" Foreground="#FFFFFF"/>
-        <TextBlock Grid.Column="3" Grid.Row="8" Text="Teléfono 1:" Foreground="#FFFFFF"/>
-        <TextBlock Grid.Column="3" Grid.Row="9" Text="Teléfono 2:" Foreground="#FFFFFF"/>
-        <TextBlock Grid.Column="3" Grid.Row="10" Text="Es Admin:" Foreground="#FFFFFF"/>
+        <TextBox x:Name="FirstnameInForm" Grid.Column="4" Grid.Row="2" Margin="10,0,0,3"/>
 
-        <TextBox Grid.Column="4" Grid.Row="2" Margin="10,0,0,3"/>
-        <TextBox Grid.Column="4" Grid.Row="3" Margin="10,0,0,3"/>
-        <TextBox Grid.Column="4" Grid.Row="4" Margin="10,0,0,3"/>
-        <TextBox Grid.Column="4" Grid.Row="5" Margin="10,0,0,3"/>
-        <TextBox Grid.Column="4" Grid.Row="6" Margin="10,0,0,3"/>
-        <TextBox Grid.Column="4" Grid.Row="7" Margin="10,0,0,3"/>
-        <TextBox Grid.Column="4" Grid.Row="8" Margin="10,0,0,3"/>
-        <TextBox Grid.Column="4" Grid.Row="9" Margin="10,0,0,3"/>
-        <TextBox Grid.Column="4" Grid.Row="10" Margin="10,0,0,3"/>
+        <TextBlock Grid.Column="3" Grid.Row="3" Text="Apellido:" Foreground="#FFFFFF"/>
+        <TextBox x:Name="SurnameInForm" Grid.Column="4" Grid.Row="3" Margin="10,0,0,3"/>
+
+        <TextBlock Grid.Column="3" Grid.Row="4" Text="Alias:" Foreground="#FFFFFF"/>
+        <TextBox x:Name="UsernameInForm" Grid.Column="4" Grid.Row="4" Margin="10,0,0,3"/>
+
+        <TextBlock Grid.Column="3" Grid.Row="5" Text="Email:" Foreground="#FFFFFF"/>
+        <TextBox x:Name="EmailInForm" Grid.Column="4" Grid.Row="5" Margin="10,0,0,3"/>
+
+        <TextBlock Grid.Column="3" Grid.Row="6" Text="Legajo:" Foreground="#FFFFFF"/>
+        <TextBox x:Name="LegajoInForm" Grid.Column="4" Grid.Row="6" Margin="10,0,0,3"/>
+
+        <TextBlock Grid.Column="3" Grid.Row="7" Text="Matrícula:" Foreground="#FFFFFF"/>
+        <TextBox x:Name="MatriculaInForm" Grid.Column="4" Grid.Row="7" Margin="10,0,0,3"/>
+
+        <TextBlock Grid.Column="3" Grid.Row="8" Text="Teléfono 1:" Foreground="#FFFFFF"/>
+        <TextBox x:Name="Phone1InForm" Grid.Column="4" Grid.Row="8" Margin="10,0,0,3"/>
+
+        <TextBlock Grid.Column="3" Grid.Row="9" Text="Teléfono 2:" Foreground="#FFFFFF" />
+        <TextBox x:Name="Phone2InForm" Grid.Column="4" Grid.Row="9" Margin="10,0,0,3"/>
+
+        <TextBlock Grid.Column="3" Grid.Row="10" Text="Es Admin:" Foreground="#FFFFFF"/>
+        <CheckBox x:Name="IsAdminInForm" Grid.Column="4" Grid.Row="10" Margin="10,0,0,3"/>
+
+        <!-- Edit and Create Buttons Display -->
+        <Button x:Name="Edit" Grid.Row="11" Grid.Column="3" Content="Edit"
+               Margin="5,2" Visibility="{Binding IsEditVisible,  Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
+        <Button x:Name="Create" Grid.Row="11" Grid.Column="3" Content="Create"
+               Margin="5,2" Visibility="{Binding IsCreateVisible,  Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
     </Grid>
 </UserControl>
