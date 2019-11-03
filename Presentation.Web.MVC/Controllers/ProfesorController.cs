@@ -14,19 +14,16 @@ namespace Presentation.Web.MVC.Controllers
     public class ProfesorController : Controller
     {
         private readonly IHorarioConsultaEndpoint _horarioConsultaEndpoint;
-        private readonly IHorarioConsultaFechadoEndpoint _horarioConsultaFechadoEndpoint;
+        // private readonly IHorarioConsultaFechadoEndpoint _horarioConsultaFechadoEndpoint;
         private readonly IInscripcionEndpoint _inscripcionEndpoint;
         private readonly IMateriaEndpoint _materiaEndpoint;
         private readonly IUsuarioEndpoint _usuarioEndpoint;
         private readonly IUserSession _userSession;
         private readonly IMapper _mapper;
 
-        public ProfesorController(IHorarioConsultaEndpoint horarioConsultaEndpoint, IHorarioConsultaFechadoEndpoint horarioConsultaFechadoEndpoint,
-            IInscripcionEndpoint inscripcionEndpoint, IMateriaEndpoint materiaEndpoint, IUsuarioEndpoint usuarioEndpoint, IUserSession userSession,
-            IMapper mapper)
-        {
+        public ProfesorController(IHorarioConsultaEndpoint horarioConsultaEndpoint, IInscripcionEndpoint inscripcionEndpoint,
+            IMateriaEndpoint materiaEndpoint, IUsuarioEndpoint usuarioEndpoint, IUserSession userSession, IMapper mapper) {
             _horarioConsultaEndpoint = horarioConsultaEndpoint;
-            _horarioConsultaFechadoEndpoint = horarioConsultaFechadoEndpoint;
             _inscripcionEndpoint = inscripcionEndpoint;
             _materiaEndpoint = materiaEndpoint;
             _usuarioEndpoint = usuarioEndpoint;
@@ -82,12 +79,30 @@ namespace Presentation.Web.MVC.Controllers
             }   
         }
 
-        // Search --> Mis HC & Insc Recibidas
+        // Search --> Mis HC & Insc Recibidas (Current User Only) --> To-Do
 
-        // Delete - DELETE Profesor/DeleteHorario/ID
-        public async Task<ActionResult> DeleteHorario(int id) {
+        // Logic Delete - POST Profesor/HorarioConsulta/ID
+        public async Task<ActionResult> LogicDeleteHorario(int? id) {
+            if (id == null) {
+                return Content("Debe incluir el id");
+            }
+
             try {
-                await _horarioConsultaEndpoint.Delete(id, _userSession.BearerToken);
+                await _horarioConsultaEndpoint.Get(id, _userSession.BearerToken);
+
+                var horarioConsultaTask = _horarioConsultaEndpoint.Get(id, _userSession.BearerToken);
+                await Task.WhenAll(horarioConsultaTask);
+
+                var horarioConsulta = _mapper.Map<MvcHorarioConsultaModel>(source: horarioConsultaTask.Result);
+
+                if (horarioConsulta.EliminationDate == null) {
+                    horarioConsulta.EliminationDate = DateTime.Today.Date;
+                } else {
+                    return Content("Este elemento ya estaba eliminado lógicamente");
+                }
+
+                var entity = _mapper.Map<HorarioConsulta>(source: horarioConsulta);
+                await _horarioConsultaEndpoint.Put(entity, _userSession.BearerToken);
             } catch (UnauthorizedRequestException) {
                 return RedirectToAction("AccessDenied", "Error");
             } catch (NotFoundRequestException ex) {
@@ -97,8 +112,8 @@ namespace Presentation.Web.MVC.Controllers
             }
 
             // TempData may be used to check in the view whether the deletion was successful or not
-            TempData["SuccessMessage"] = "Deleted Sucessfully";
-
+            TempData["SuccessMessage"] = "Logic Deleted Sucessfully";
+            // return Content("OK");
             return Content("OK");
         }
 
@@ -221,12 +236,10 @@ namespace Presentation.Web.MVC.Controllers
             }
             catch (BadRequestException ex)
             {
-                var profesoresTask = _usuarioEndpoint.GetAll(_userSession.BearerToken);
                 var materiasTask = _materiaEndpoint.GetAll(_userSession.BearerToken); // May throw an exception, so that is why the modal is not showing in nico user
 
-                await Task.WhenAll(profesoresTask, materiasTask);
+                await Task.WhenAll(materiasTask);
 
-                var profesores = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: profesoresTask.Result);
                 var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(source: materiasTask.Result);
 
                 viewModel.SetMateriasAsSelectList(materias);
@@ -255,15 +268,13 @@ namespace Presentation.Web.MVC.Controllers
                 try {
                     var inscripcionTask = _inscripcionEndpoint.Get(id, _userSession.BearerToken);
                     var alumnosTask = _usuarioEndpoint.GetAll(_userSession.BearerToken);
-                    var horariosConsultaFechadosTask = _horarioConsultaFechadoEndpoint.GetAll(_userSession.BearerToken);
 
-                    await Task.WhenAll(inscripcionTask, alumnosTask, horariosConsultaFechadosTask);
+                    await Task.WhenAll(inscripcionTask, alumnosTask);
 
                     var inscripcion = _mapper.Map<MvcInscripcionModel>(source: inscripcionTask.Result);
                     var alumnos = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: alumnosTask.Result);
-                    var horariosConsultaFechados = _mapper.Map<IEnumerable<MvcHorarioConsultaFechadoModel>>(source: horariosConsultaFechadosTask.Result);
 
-                    var viewModel = new EditInscripcionRecibidaViewModel(inscripcion: inscripcion, horariosConsultaFechados: horariosConsultaFechados, alumnos: alumnos);
+                    var viewModel = new EditInscripcionRecibidaViewModel(inscripcion: inscripcion);
 
                     return PartialView("_EditInscripcionRecibida", viewModel);
                 } catch (UnauthorizedRequestException) {
@@ -290,16 +301,6 @@ namespace Presentation.Web.MVC.Controllers
             } catch (UnauthorizedRequestException) {
                 return RedirectToAction("AccessDenied", "Error");
             } catch (BadRequestException ex) {
-                var profesoresTask = _usuarioEndpoint.GetAll(_userSession.BearerToken);
-                var horariosConsultaFechadosTask = _horarioConsultaFechadoEndpoint.GetAll(_userSession.BearerToken); // May throw an exception, so that is why the modal is not showing in nico user
-
-                await Task.WhenAll(profesoresTask, horariosConsultaFechadosTask);
-
-                var alumnos = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: profesoresTask.Result);
-                var horariosConsultaFechado = _mapper.Map<IEnumerable<MvcHorarioConsultaFechadoModel>>(source: horariosConsultaFechadosTask.Result);
-
-                viewModel.SetAlumnosAsSelectList(alumnos);
-                viewModel.SetHorariosConsultaFechadosAsSelectList(horariosConsultaFechado);
                 viewModel.SetEstadosAsSelectList();
 
                 ModelState.AddModelErrors(ex.Errors);

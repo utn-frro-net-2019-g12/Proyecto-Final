@@ -2,9 +2,6 @@
 
 @{
     ViewBag.Title = "Index";
-    <!-- Lista de Inscripciones Activas, con Acciones -->
-    <!-- Si no hay ninguna, este contenido debe ser un texto informando que aún no hay ninguna inscripción activa -->
-    <!-- Funcionalidades: remover inscripción, ver detalles inscripcion, ver detalles HCFechado, agregar comentario? -->
 }
 
 @section styleDataTable {
@@ -49,8 +46,7 @@
 
         $('.actionEditInscripcion').on('click', function () {
             let index = $(this).parent().siblings().first().text().trim();
-            // let url = `Alumno/EditInscripcion/${index}`;
-            let url = `EditInscripcion/${index}`;
+            let url = `/Alumno/EditInscripcion/${index}`;
             $.ajax({
                 type: "GET",
                 url: url,
@@ -79,13 +75,17 @@
             toDeleteName.innerHTML = $(this).parent().siblings().first().next().text().trim();
         });
 
-        $('#deleteConfirmButton').on('click', function () {
-            // let url = `Alumno/DeleteInscripcion/${idToDelete}`;
-            let url = `DeleteInscripcion/${idToDelete}`;
+        $('#unsubscribeButton').on('click', function () {
+            let url = `/Alumno/UnsubscribeInscripcion/${idToDelete}`;
+            event.preventDefault();
             $.ajax({
                 type: "POST",
                 url: url,
-                success: function (data) { window.location.reload() }
+                success: function (data) {
+                    if (data != "OK") {
+                        $("#modalDeleteHorarioConsultaContent").find(".modal-body").append(data);
+                    } else { window.location.reload(); }
+                }
             });
         });
 
@@ -122,10 +122,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>¿Está seguro que desea eliminar a <span id="toDeleteName" class="badge badge-danger"></span> ? Esta acción no podrá deshacerse.</p>
+                <p>¿Está seguro que desea desinscribirse de <span id="toDeleteName" class="badge badge-danger"></span> ? Esta acción no podrá deshacerse.</p>
             </div>
             <div class="modal-footer">
-                <button id="deleteConfirmButton" type="button" class="btn btn-danger">Eliminar</button>
+                <!-- <button id="deleteConfirmButton" type="button" class="btn btn-danger">Eliminar</button> -->
+                <button id="unsubscribeButton" type="button" class="btn btn-danger">Desinscribir</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
@@ -163,13 +164,13 @@
                                 @Html.DisplayNameFor(model => model.State)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Answer)
-                            </th>
-                            <th>
                                 @Html.DisplayNameFor(model => model.Observation)
                             </th>
                             <th>
-                                HorarioConsultaFechado
+                                @Html.DisplayNameFor(model => model.Answer)
+                            </th>
+                            <th>
+                                Datos de Inscripción
                             </th>
                             <th>Acciones</th>
                         </tr>
@@ -186,13 +187,13 @@
                                 @Html.DisplayNameFor(model => model.State)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Answer)
-                            </th>
-                            <th>
                                 @Html.DisplayNameFor(model => model.Observation)
                             </th>
                             <th>
-                                HorarioConsultaFechado
+                                @Html.DisplayNameFor(model => model.Answer)
+                            </th>
+                            <th>
+                                Datos de Inscripción
                             </th>
                             <th>Acciones</th>
                         </tr>
@@ -210,16 +211,19 @@
                                     @Html.DisplayFor(modelItem => item.State)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Answer)
-                                </td>
-                                <td>
                                     @Html.DisplayFor(modelItem => item.Observation)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Profesor.Surname)
-                                    @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Profesor.Firstname)
-                                    <br />
+                                    @Html.DisplayFor(modelItem => item.Answer)
+                                </td>
+                                <td>
                                     @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Materia.Name)
+                                    <br />
+                                    Prof. @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Profesor.Surname) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Profesor.Firstname)
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.Date.DayOfWeek) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.DateForDisplay) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.StartHour) to @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.EndHour)
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Place)
                                 </td>
                                 <td class="d-flex align-items-center p-0">
                                     <button data-toggle="modal" data-target="#modalEditInscripcion" type="button" class="actionEditInscripcion d-flex align-items-center btn btn-warning m-1">
@@ -228,7 +232,7 @@
                                     </button>
                                     <button data-toggle="modal" data-target="#modalDeleteInscripcion" class="actionDeleteInscripcion d-flex align-items-center btn btn-danger m-1">
                                         <i class="fas fa-trash-alt fa-xs m-1"></i>
-                                        <p class="d-none d-md-block m-0">Eliminar</p>
+                                        <p class="d-none d-md-block m-0">Desinscribir</p>
                                     </button>
                                 </td>
                             </tr>

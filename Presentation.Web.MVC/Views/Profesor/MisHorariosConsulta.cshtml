@@ -2,9 +2,6 @@
 
 @{
     ViewBag.Title = "Index";
-    <!-- Lista de Mis Horarios de Consulta actuales, con Acciones -->
-    <!-- Si no hay ninguno, este contenido debe ser un texto informando que aún no hay ningún HC activo -->
-    <!-- Funcionalidades: crear HC, editar HC, remover HC Lógicamente -->
 }
 
 @section styleDataTable {
@@ -112,19 +109,8 @@
             toDeleteName.innerHTML = $(this).parent().siblings().first().next().text().trim() + " " + $(this).parent().siblings().first().next().next().text().trim();
         });
 
-        $('#deleteConfirmButton').on('click', function () {
-            // let url = `/Profesor/DeleteHorario/${idToDelete}`;
-            let url = `/HorarioConsulta/Delete/${idToDelete}`;
-            $.ajax({
-                type: "POST",
-                url: url,
-                success: function (data) { window.location.reload() }
-            });
-        });
-
         $('#logicDeleteButton').on('click', function () {
-            // let url = `/Profesor/LogicDeleteHorario/${idToDelete}`;
-            let url = `/HorarioConsulta/LogicDelete/${idToDelete}`;
+            let url = `/Profesor/LogicDeleteHorario/${idToDelete}`;
             event.preventDefault();
             $.ajax({
                 type: "POST",
@@ -182,8 +168,8 @@
                 <p>¿Está seguro que desea eliminar a <span id="toDeleteName" class="badge badge-danger"></span> ? Esta acción no podrá deshacerse.</p>
             </div>
             <div class="modal-footer">
-                <button id="deleteConfirmButton" type="button" class="btn btn-danger">Eliminar</button>
-                <button id="logicDeleteButton" type="button" class="btn btn-warning">Borrado Lógico</button>
+                <!-- <button id="deleteConfirmButton" type="button" class="btn btn-danger">Eliminar</button> -->
+                <button id="logicDeleteButton" type="button" class="btn btn-danger">Eliminar</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
@@ -195,7 +181,7 @@
     <h1 class="h3 mb-4 text-gray-800">Administrar Mis Horarios de Consulta</h1>
     <div class="row  mb-3">
         <div class="col col-auto d-flex">
-            <button id="actionCreateHorarioConsulta" class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalCreateHorarioConsulta">Nuevo HorarioConsulta</button>
+            <button id="actionCreateHorarioConsulta" class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalCreateHorarioConsulta">Nuevo Horario Consulta</button>
         </div>
         <form class="col" id="searchForm">
             <div class="input-group">
@@ -230,13 +216,10 @@
                                 @Html.DisplayNameFor(model => model.Place)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.EliminationDate)
-                            </th>
-                            <th>
-                                Profesor
-                            </th>
-                            <th>
                                 Materia
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.EliminationDate)
                             </th>
                             <th>Acciones</th>
                         </tr>
@@ -259,57 +242,49 @@
                                 @Html.DisplayNameFor(model => model.Place)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.EliminationDate)
-                            </th>
-                            <th>
-                                Profesor
-                            </th>
-                            <th>
                                 Materia
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.EliminationDate)
                             </th>
                             <th>Acciones</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         @foreach (var item in Model) {
-                            <tr>
-                                <td class="d-none">
-                                    @Html.DisplayFor(modelItem => item.Id)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Weekday)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.StartHour)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.EndHour)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Place)
-                                </td>
-                                <th>
-                                    @Html.DisplayFor(modelItem => item.EliminationDateForDisplay)
-                                </th>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Profesor.Surname)
-                                    <br />
-                                    @Html.DisplayFor(modelItem => item.Profesor.Firstname)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Materia.Name)
-                                </td>
-                                <td class="d-flex align-items-center p-0">
-                                    <button data-toggle="modal" data-target="#modalEditHorarioConsulta" type="button" class="actionEditHorarioConsulta d-flex align-items-center btn btn-warning m-1">
-                                        <i class="fas fa-edit fa-xs m-1"></i>
-                                        <p class="d-none d-md-block m-0">Editar</p>
-                                    </button>
-                                    <button data-toggle="modal" data-target="#modalDeleteHorarioConsulta" class="actionDeleteHorarioConsulta d-flex align-items-center btn btn-danger m-1">
-                                        <i class="fas fa-trash-alt fa-xs m-1"></i>
-                                        <p class="d-none d-md-block m-0">Eliminar</p>
-                                    </button>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td class="d-none">
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Weekday)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StartHour)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EndHour)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Place)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Materia.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EliminationDateForDisplay)
+                            </td>
+                            <td class="d-flex align-items-center p-0">
+                                <button data-toggle="modal" data-target="#modalEditHorarioConsulta" type="button" class="actionEditHorarioConsulta d-flex align-items-center btn btn-warning m-1">
+                                    <i class="fas fa-edit fa-xs m-1"></i>
+                                    <p class="d-none d-md-block m-0">Editar</p>
+                                </button>
+                                <button data-toggle="modal" data-target="#modalDeleteHorarioConsulta" class="actionDeleteHorarioConsulta d-flex align-items-center btn btn-danger m-1">
+                                    <i class="fas fa-trash-alt fa-xs m-1"></i>
+                                    <p class="d-none d-md-block m-0">Eliminar</p>
+                                </button>
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>

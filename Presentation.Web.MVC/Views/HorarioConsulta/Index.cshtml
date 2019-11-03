@@ -192,10 +192,13 @@
         <div class="col col-auto d-flex">
             <button id="actionCreateHorarioConsulta" class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalCreateHorarioConsulta">Nuevo HorarioConsulta</button>
         </div>
-        <select class="form-control col-3" id="searchFilter">
-            <option value="usuarios">Todos los Usuarios</option>
-            <option value="profesores">Solo Profesores</option>
-            <option value="alumnos">Solo Alumnos</option>
+        <select class="form-control col-3 bg-light border border-primary p-2" id="searchFilter">
+            <option value="1">Todos</option>
+            <option value="2">Sistemas</option>
+            <option value="3">Quimica</option>
+            <option value="4">Civil</option>
+            <option value="5">Eléctrica</option>
+            <option value="6">Mecánica</option>
         </select>
         <form class="col" id="searchForm">
             <div class="input-group">
@@ -230,13 +233,13 @@
                                 @Html.DisplayNameFor(model => model.Place)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.EliminationDate)
-                            </th>
-                            <th>
                                 Profesor
                             </th>
                             <th>
                                 Materia
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.EliminationDate)
                             </th>
                             <th>Acciones</th>
                         </tr>
@@ -259,13 +262,13 @@
                                 @Html.DisplayNameFor(model => model.Place)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.EliminationDate)
-                            </th>
-                            <th>
                                 Profesor
                             </th>
                             <th>
                                 Materia
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.EliminationDate)
                             </th>
                             <th>Acciones</th>
                         </tr>
@@ -289,9 +292,6 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Place)
                             </td>
-                            <th>
-                                @Html.DisplayFor(modelItem => item.EliminationDateForDisplay)
-                            </th>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Profesor.Surname)
                                 <br />
@@ -299,6 +299,9 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Materia.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EliminationDateForDisplay)
                             </td>
                             <td class="d-flex align-items-center p-0">
                                 <button data-toggle="modal" data-target="#modalEditHorarioConsulta" type="button" class="actionEditHorarioConsulta d-flex align-items-center btn btn-warning m-1">

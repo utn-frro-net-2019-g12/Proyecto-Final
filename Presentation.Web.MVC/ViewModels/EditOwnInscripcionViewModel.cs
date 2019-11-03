@@ -7,10 +7,10 @@ using Presentation.Web.MVC.Models;
 using static Presentation.Library.Models.Inscripcion;
 
 namespace Presentation.Web.MVC.ViewModels {
-    public class EditInscripcionRecibidaViewModel {
-        public EditInscripcionRecibidaViewModel() { }
+    public class EditOwnInscripcionViewModel {
+        public EditOwnInscripcionViewModel() { }
 
-        public EditInscripcionRecibidaViewModel(MvcInscripcionModel inscripcion) {
+        public EditOwnInscripcionViewModel(MvcInscripcionModel inscripcion) {
             this.SetEstadosAsSelectList();
             this.Inscripcion = inscripcion;
         }

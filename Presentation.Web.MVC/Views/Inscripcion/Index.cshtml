@@ -125,6 +125,21 @@
             });
         });
 
+        $('#unsubscribeButton').on('click', function () {
+            // let url = `Alumno/UnsubscribeInscripcion/${idToDelete}`;
+            let url = `/Inscripcion/Unsubscribe/${idToDelete}`;
+            event.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: url,
+                success: function (data) {
+                    if (data != "OK") {
+                        $("#modalDeleteHorarioConsultaContent").find(".modal-body").append(data);
+                    } else { window.location.reload(); }
+                }
+            });
+        });
+
         /*------------------------------*/
 
         $("#searchForm").on('submit', function (e) {
@@ -171,6 +186,7 @@
             </div>
             <div class="modal-footer">
                 <button id="deleteConfirmButton" type="button" class="btn btn-danger">Eliminar</button>
+                <button id="unsubscribeButton" type="button" class="btn btn-warning">Desinscribir</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
@@ -211,10 +227,10 @@
                                 @Html.DisplayNameFor(model => model.State)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Answer)
+                                @Html.DisplayNameFor(model => model.Observation)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Observation)
+                                @Html.DisplayNameFor(model => model.Answer)
                             </th>
                             <th>
                                 Alumno
@@ -237,10 +253,10 @@
                                 @Html.DisplayNameFor(model => model.State)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Answer)
+                                @Html.DisplayNameFor(model => model.Observation)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Observation)
+                                @Html.DisplayNameFor(model => model.Answer)
                             </th>
                             <th>
                                 Alumno
@@ -264,10 +280,10 @@
                                     @Html.DisplayFor(modelItem => item.State)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Answer)
+                                    @Html.DisplayFor(modelItem => item.Observation)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Observation)
+                                    @Html.DisplayFor(modelItem => item.Answer)
                                 </td>
                                 <td>
                                     Legajo: @Html.DisplayFor(modelItem => item.Alumno.Legajo)

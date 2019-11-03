@@ -2,9 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
-    <!-- Lista de Inscripciones Recibidas y Activas a mis HCF -->
-    <!-- Si no hay ninguna, este contenido debe ser un texto informando que aún no hay ninguna inscripción a un HCF -->
-    <!-- Funcionalidades: posponer HCF, cancelar HCF, escribir observación, ver inscripciones alumnos -->
+    <!-- Funcionalidades Faltantes: collapsables de HCF ordenados por HC, Posponer HCF, Cancelar HCF -->
 }
 
 @section styleDataTable {
@@ -35,12 +33,6 @@
             $('#modalEditInscripcionContent').html(data);
             $('#editForm').unbind();
 
-            $("#stateInscripcion").on('change', function () {
-                let state = $("#stateInscripcion").val();
-                let submit = $("#submitButton");
-                state == "" ? submit.prop("disabled", true) : submit.prop("disabled", false);
-            });
-
             $('#editForm').bind("submit", function (event) {
                 event.preventDefault();
                 $.ajax({
@@ -56,8 +48,7 @@
 
         $('.actionEditInscripcion').on('click', function () {
             let index = $(this).parent().siblings().first().text().trim();
-            // let url = `Profesor/EditInscripcion/${index}`;
-            let url = `EditInscripcion/${index}`;
+            let url = `/Profesor/EditInscripcion/${index}`;
             $.ajax({
                 type: "GET",
                 url: url,
@@ -78,39 +69,18 @@
 
         /*------------------------------*/
 
-        /*
-        var idToDelete;
-        var toDeleteName = document.getElementById('toDeleteName');
-
-        $('.actionDeleteInscripcion').on('click', function () {
-            idToDelete = $(this).parent().siblings().first().text().trim();
-            toDeleteName.innerHTML = $(this).parent().siblings().first().next().text().trim();
-        });
-
-        $('#deleteConfirmButton').on('click', function () {
-            let url = `/Inscripcion/Delete/${idToDelete}`;
-            $.ajax({
-                type: "POST",
-                url: url,
-                success: function (data) { window.location.reload() }
-            });
-        });
-        */
-
-        /*------------------------------*/
-
         $("#searchForm").on('submit', function (e) {
             e.preventDefault();
             let partialDesc = $("#searchText").val();
             if (partialDesc != null && partialDesc != "") {
-                let url = `Profesor/InscripcionesRecibidas/Search?partialDesc=${partialDesc}`;
+                let url = `/Profesor/InscripcionesRecibidas/Search?partialDesc=${partialDesc}`;
                 window.location.href = url;
             }
         });
     </script>
 }
 
-<!-- Modal Modificar Inscripcion -->
+<!-- Modal Modificar Inscripción (Respuesta Corta) -->
 <div class="modal fade" id="modalEditInscripcion" tabindex="-1" role="dialog" aria-labelledby="modalEditInscripcion" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" id="modalEditInscripcionContent">
@@ -119,7 +89,7 @@
     </div>
 </div>
 
-<!-- Index Inscripcion -->
+<!-- Index Inscripción -->
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Administrar las Inscripciones que Recibí</h1>
     <div class="row  mb-3">
@@ -150,16 +120,16 @@
                                 @Html.DisplayNameFor(model => model.State)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Answer)
+                                @Html.DisplayNameFor(model => model.Observation)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Observation)
+                                @Html.DisplayNameFor(model => model.Answer)
                             </th>
                             <th>
                                 Alumno
                             </th>
                             <th>
-                                HorarioConsultaFechado
+                                Datos Horario Consulta
                             </th>
                             <th>Acciones</th>
                         </tr>
@@ -176,16 +146,16 @@
                                 @Html.DisplayNameFor(model => model.State)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Answer)
+                                @Html.DisplayNameFor(model => model.Observation)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Observation)
+                                @Html.DisplayNameFor(model => model.Answer)
                             </th>
                             <th>
                                 Alumno
                             </th>
                             <th>
-                                HorarioConsultaFechado
+                                Datos Horario Consulta
                             </th>
                             <th>Acciones</th>
                         </tr>
@@ -203,10 +173,10 @@
                                 @Html.DisplayFor(modelItem => item.State)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Answer)
+                                @Html.DisplayFor(modelItem => item.Observation)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Observation)
+                                @Html.DisplayFor(modelItem => item.Answer)
                             </td>
                             <td>
                                 Legajo: @Html.DisplayFor(modelItem => item.Alumno.Legajo)

@@ -96,6 +96,41 @@ namespace Presentation.Web.MVC.Controllers {
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
+        // Unsubscribe - POST Inscripcion/ID
+        public async Task<ActionResult> Unsubscribe(int? id) {
+            if (id == null) {
+                return Content("Debe incluir el id");
+            }
+
+            try {
+                await _inscripcionEndpoint.Get(id, _userSession.BearerToken);
+
+                var inscripcionTask = _inscripcionEndpoint.Get(id, _userSession.BearerToken);
+                await Task.WhenAll(inscripcionTask);
+
+                var inscripcion = _mapper.Map<MvcInscripcionModel>(source: inscripcionTask.Result);
+
+                if (inscripcion.State == MvcInscripcionModel.InscripcionStates.Active) {
+                    inscripcion.State = MvcInscripcionModel.InscripcionStates.Canceled;
+                } else {
+                    return Content("Esta inscripción ya fue cancelada, o ya ha finalizado la fecha del horario consulta");
+                }
+
+                var entity = _mapper.Map<Inscripcion>(source: inscripcion);
+                await _inscripcionEndpoint.Put(entity, _userSession.BearerToken);
+            } catch (UnauthorizedRequestException) {
+                return RedirectToAction("AccessDenied", "Error");
+            } catch (NotFoundRequestException ex) {
+                return Content($"{ex.StatusCode}: Elemento no encontrado");
+            } catch (Exception ex) {
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+            }
+
+            // TempData may be used to check in the view whether the deletion was successful or not
+            TempData["SuccessMessage"] = "Unsubscribe Sucessfully";
+            return Content("OK");
+        }
+
         // Create (Default)
         [HttpGet]
         public async Task<ActionResult> Create()

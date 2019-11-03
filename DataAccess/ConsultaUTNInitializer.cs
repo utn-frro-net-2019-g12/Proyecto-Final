@@ -37,7 +37,7 @@ namespace DataAccess {
                 new Usuario{ Username = "AnJoaquinAP", Legajo = 30755, Matricula = "JOAQ-120", IsAdmin = false, Firstname = "Andrés", Surname = "Joaquín", Email = "andresjoaquin@gmail.com", Phone1 = 1503030 },
                 new Usuario{ Username = "JosePepeAlu", Legajo = 40123, IsAdmin = false, Firstname = "José", Surname = "Pepevaschekovic", Email = "josepepe@gmail.com", Phone1 = 1591111 },
                 new Usuario{ Username = "EzPortaProf",  Matricula = "PORT-555", IsAdmin = false, Firstname = "Ezequiel", Surname = "Porta", Email = "ezeporta@gmail.com", Phone1 = 1592222 },
-                new Usuario{ Username = "JohnSmithAdm", IsAdmin = true, Firstname = "Admin", Surname = "Solo", Email = "johnsmith@gmail.com", Phone1 = 1593333, Phone2 = 0800999 },
+                new Usuario{ Username = "JohnSmidthAdm", IsAdmin = true, Firstname = "John", Surname = "Smith", Email = "johnsmith@gmail.com", Phone1 = 1593333, Phone2 = 0800999 },
             };
 
             // For the Users --> Remember Fix the username (Make a FK from IdentityFramework), and add "Photo" Attribue
@@ -75,7 +75,7 @@ namespace DataAccess {
 
             var inscripciones = new List<Inscripcion> {
                 new Inscripcion { Topic = "Derivadas", State = Inscripcion.InscripcionStates.Active, AlumnoId = usuarios[1].Id, Alumno = usuarios[1], HorarioConsultaFechadoId = horariosConsultaFechados[1].Id },
-                new Inscripcion { Topic = "Axure ", State = Inscripcion.InscripcionStates.Active, AlumnoId = usuarios[3].Id, Alumno = usuarios[4], HorarioConsultaFechadoId = horariosConsultaFechados[3].Id },
+                new Inscripcion { Topic = "Axure", Observation = "¿Descargo Axure RP8 o RP9?", State = Inscripcion.InscripcionStates.Active, AlumnoId = usuarios[3].Id, Alumno = usuarios[4], HorarioConsultaFechadoId = horariosConsultaFechados[3].Id },
                 new Inscripcion { Topic = "Token y Cookies", State = Inscripcion.InscripcionStates.Active, AlumnoId = usuarios[0].Id, Alumno = usuarios[0], HorarioConsultaFechadoId = horariosConsultaFechados[6].Id },
                 // State = Active/Deleted/Finalized, Answer = Fast Response Optional for a Profersor, Observation = Also Optional
             };

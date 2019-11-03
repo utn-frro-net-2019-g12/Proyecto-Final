@@ -15,15 +15,13 @@ namespace Presentation.Web.MVC.Controllers
     {
         private readonly IInscripcionEndpoint _inscripcionEndpoint;
         private readonly IUsuarioEndpoint _usuarioEndpoint;
-        private readonly IHorarioConsultaFechadoEndpoint _horarioConsultaFechadoEndpoint;
+        // private readonly IHorarioConsultaFechadoEndpoint _horarioConsultaFechadoEndpoint;
         private readonly IUserSession _userSession;
         private readonly IMapper _mapper;
 
-        public AlumnoController(IInscripcionEndpoint inscripcionEndpoint, IUsuarioEndpoint usuarioEndpoint,
-            IHorarioConsultaFechadoEndpoint horarioConsultaFechadoEndpoint, IUserSession userSession, IMapper mapper) {
+        public AlumnoController(IInscripcionEndpoint inscripcionEndpoint, IUsuarioEndpoint usuarioEndpoint, IUserSession userSession, IMapper mapper) {
             _inscripcionEndpoint = inscripcionEndpoint;
             _usuarioEndpoint = usuarioEndpoint;
-            _horarioConsultaFechadoEndpoint = horarioConsultaFechadoEndpoint;
             _userSession = userSession;
             _mapper = mapper;
         }
@@ -62,21 +60,38 @@ namespace Presentation.Web.MVC.Controllers
 
         // Search --> Búsquedas de Nueva Inscripción & Mis Insc
 
-        // Delete - DELETE Alumno/DeleteInscripcion/ID
-        public async Task<ActionResult> DeleteInscripcion(int id) {
+        // Unsubscribe - POST Alumno/Inscripcion/ID
+        public async Task<ActionResult> UnsubscribeInscripcion(int? id) {
+            if (id == null) {
+                return Content("Debe incluir el id");
+            }
+
             try {
-                await _inscripcionEndpoint.Delete(id, _userSession.BearerToken);
+                await _inscripcionEndpoint.Get(id, _userSession.BearerToken);
+
+                var inscripcionTask = _inscripcionEndpoint.Get(id, _userSession.BearerToken);
+                await Task.WhenAll(inscripcionTask);
+
+                var inscripcion = _mapper.Map<MvcInscripcionModel>(source: inscripcionTask.Result);
+
+                if (inscripcion.State == MvcInscripcionModel.InscripcionStates.Active) {
+                    inscripcion.State = MvcInscripcionModel.InscripcionStates.Canceled;
+                } else {
+                    return Content("Esta inscripción ya fue cancelada, o ya ha finalizado la fecha del horario consulta");
+                }
+
+                var entity = _mapper.Map<Inscripcion>(source: inscripcion);
+                await _inscripcionEndpoint.Put(entity, _userSession.BearerToken);
             } catch (UnauthorizedRequestException) {
-                return RedirectToAction("AccessDeniedPartial", "Error");
+                return RedirectToAction("AccessDenied", "Error");
             } catch (NotFoundRequestException ex) {
                 return Content($"{ex.StatusCode}: Elemento no encontrado");
             } catch (Exception ex) {
-                return RedirectToAction("SpecificErrorPartial", "Error", new { error = ex.Message });
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
             }
 
             // TempData may be used to check in the view whether the deletion was successful or not
-            TempData["SuccessMessage"] = "Deleted Sucessfully";
-
+            TempData["SuccessMessage"] = "Unsubscribe Sucessfully";
             return Content("OK");
         }
 
@@ -90,16 +105,12 @@ namespace Presentation.Web.MVC.Controllers
 
                 try {
                     var inscripcionTask = _inscripcionEndpoint.Get(id, _userSession.BearerToken);
-                    var alumnosTask = _usuarioEndpoint.GetAll(_userSession.BearerToken);
-                    var horariosConsultaFechadosTask = _horarioConsultaFechadoEndpoint.GetAll(_userSession.BearerToken);
 
-                    await Task.WhenAll(inscripcionTask, alumnosTask, horariosConsultaFechadosTask);
+                    await Task.WhenAll(inscripcionTask);
 
                     var inscripcion = _mapper.Map<MvcInscripcionModel>(source: inscripcionTask.Result);
-                    var alumnos = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: alumnosTask.Result);
-                    var horariosConsultaFechados = _mapper.Map<IEnumerable<MvcHorarioConsultaFechadoModel>>(source: horariosConsultaFechadosTask.Result);
 
-                    var viewModel = new EditInscripcionViewModel(inscripcion: inscripcion, horariosConsultaFechados: horariosConsultaFechados, alumnos: alumnos);
+                    var viewModel = new EditOwnInscripcionViewModel(inscripcion: inscripcion);
 
                     return PartialView("_EditOwnInscripcion", viewModel);
                 } catch (UnauthorizedRequestException) {
@@ -116,8 +127,12 @@ namespace Presentation.Web.MVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         // Bind(Include = "...") is used to avoid overposting attacks
-        public async Task<ActionResult> EditInscripcion(EditInscripcionViewModel viewModel) {
+        public async Task<ActionResult> EditInscripcion(EditOwnInscripcionViewModel viewModel) {
             try {
+                Usuario user = await _usuarioEndpoint.GetCurrentUsuario(token: _userSession.BearerToken);
+
+                viewModel.SetAlumno(user.Id);
+
                 var entity = _mapper.Map<Inscripcion>(viewModel.Inscripcion);
 
                 if (entity.State == null) { entity.State = Inscripcion.InscripcionStates.Active; }
@@ -126,16 +141,6 @@ namespace Presentation.Web.MVC.Controllers
             } catch (UnauthorizedRequestException) {
                 return RedirectToAction("AccessDeniedPartial", "Error");
             } catch (BadRequestException ex) {
-                var profesoresTask = _usuarioEndpoint.GetAll(_userSession.BearerToken);
-                var horariosConsultaFechadosTask = _horarioConsultaFechadoEndpoint.GetAll(_userSession.BearerToken); // May throw an exception, so that is why the modal is not showing in nico user
-
-                await Task.WhenAll(profesoresTask, horariosConsultaFechadosTask);
-
-                var alumnos = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: profesoresTask.Result);
-                var horariosConsultaFechado = _mapper.Map<IEnumerable<MvcHorarioConsultaFechadoModel>>(source: horariosConsultaFechadosTask.Result);
-
-                viewModel.SetAlumnosAsSelectList(alumnos);
-                viewModel.SetHorariosConsultaFechadosAsSelectList(horariosConsultaFechado);
                 viewModel.SetEstadosAsSelectList();
 
                 ModelState.AddModelErrors(ex.Errors);

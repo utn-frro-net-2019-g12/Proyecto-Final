@@ -188,6 +188,7 @@
     <Compile Include="ViewModels\CreateOwnHorarioConsultaViewModel.cs" />
     <Compile Include="ViewModels\EditHorarioConsultaFechadoViewModel.cs" />
     <Compile Include="ViewModels\EditInscripcionRecibidaViewModel.cs" />
+    <Compile Include="ViewModels\EditOwnInscripcionViewModel.cs" />
     <Compile Include="ViewModels\EditInscripcionViewModel.cs" />
     <Compile Include="ViewModels\EditHorarioConsultaViewModel.cs" />
     <Compile Include="ViewModels\EditMateriaViewModel.cs" />
