@@ -120,10 +120,17 @@ namespace Presentation.Web.MVC.Controllers
             }
 
             try {
-                // Utilizar SubscribeViewModel
-                // A partir del HCF que uno clickea, completar la partial view con esos datos
+                HorarioConsultaFechado entity = await _horarioConsultaFechadoEndpoint.Get(id, _userSession.BearerToken);
 
-                return PartialView("_Subscribe"/*, viewModel*/);
+                var horarioFechado = _mapper.Map<MvcHorarioConsultaFechadoModel>(source: entity);
+
+                var inscripcion = new MvcInscripcionModel()
+                {
+                    HorarioConsultaFechado = horarioFechado,
+                    HorarioConsultaFechadoId = horarioFechado.Id
+                };
+
+                return PartialView("_Subscribe", inscripcion);
             } catch (UnauthorizedRequestException) {
                 return Content("No esta autorizado");
             } catch (NotFoundRequestException ex) {
@@ -136,37 +143,29 @@ namespace Presentation.Web.MVC.Controllers
         // New Inscripción - PUT Alumno/Subscribe/ID (Secured)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // Bind(Include = "...") is used to avoid overposting attacks
-        public async Task<ActionResult> Subscribe(SubscribeViewModel viewModel) {
-            // Sacar los Task y variables innecesarias, poniendo la materia directamente con set (tomando el ID desde HC)
+        public async Task<ActionResult> Subscribe(
+            [Bind(Include = "HorarioConsultaFechadoId, Observation, Topic")]MvcInscripcionModel inscripcion)
+        {
             try {
                 Usuario user = await _usuarioEndpoint.GetCurrentUsuario(token: _userSession.BearerToken);
 
-                viewModel.SetAlumno(user.Id);
+                inscripcion.State = MvcInscripcionModel.InscripcionStates.Active;
+                inscripcion.AlumnoId = user.Id;
 
-                var entity = _mapper.Map<Inscripcion>(source: viewModel.Inscripcion);
-
-                entity.State = Inscripcion.InscripcionStates.Active;
+                var entity = _mapper.Map<Inscripcion>(source: inscripcion);
 
                 await _inscripcionEndpoint.Post(entity, _userSession.BearerToken);
             } catch (UnauthorizedRequestException) {
                 return RedirectToAction("AccessDeniedPartial", "Error");
             } catch (BadRequestException ex) {
-                var alumnosTask = _usuarioEndpoint.GetAll(_userSession.BearerToken);
-                var horariosConsultaFechadosTask = _horarioConsultaFechadoEndpoint.GetAll(_userSession.BearerToken);
+                HorarioConsultaFechado entity = await _horarioConsultaFechadoEndpoint.Get(inscripcion.HorarioConsultaFechadoId, _userSession.BearerToken);
+                var horarioFechado = _mapper.Map<MvcHorarioConsultaFechadoModel>(source: entity);
 
-                await Task.WhenAll(alumnosTask, horariosConsultaFechadosTask);
-
-                // var alumnos = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: alumnosTask.Result);
-                var materias = _mapper.Map<IEnumerable<MvcHorarioConsultaFechadoModel>>(source: horariosConsultaFechadosTask.Result);
-
-                // viewModel.SetAlumnosAsSelectList(alumnos);
-                viewModel.SetHorariosConsultaFechadosAsSelectList(materias);
-                viewModel.SetEstadosAsSelectList();
+                inscripcion.HorarioConsultaFechado = horarioFechado;
 
                 ModelState.AddModelErrors(ex.Errors);
 
-                return PartialView("_Subscribe", viewModel);
+                return PartialView("_Subscribe", inscripcion);
             } catch (Exception ex) {
                 return RedirectToAction("SpecificErrorPartial", "Error", new { error = ex.Message });
             }

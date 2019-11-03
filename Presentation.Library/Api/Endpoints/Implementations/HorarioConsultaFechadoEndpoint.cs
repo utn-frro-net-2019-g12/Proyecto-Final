@@ -63,7 +63,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task<HorarioConsultaFechado> Get(object id, string token)
         {
-            using (var response = await _apiHelper.ApiClient.GetAsync("api/horariosConsultaFechado/" + id, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.GetAsync("api/horariosConsultaFechados/" + id, x => SetToken(x, token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -86,7 +86,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task Delete(object id, string token)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync("api/horariosConsultaFechado/" + id, x => SetToken(x, token)))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync("api/horariosConsultaFechados/" + id, x => SetToken(x, token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -125,7 +125,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task Put(HorarioConsultaFechado entity, string token)
         {
-            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync("api/horariosConsultaFechado/" + entity.Id, entity, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync("api/horariosConsultaFechados/" + entity.Id, entity, x => SetToken(x, token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {

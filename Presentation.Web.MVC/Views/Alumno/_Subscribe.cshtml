@@ -1,4 +1,4 @@
-﻿@model Presentation.Web.MVC.ViewModels.SubscribeViewModel
+﻿@model Presentation.Web.MVC.Models.MvcInscripcionModel
 
 @{
     ViewBag.Title = "_Subscribe";
@@ -15,57 +15,56 @@
     <div class="modal-body">
         <div class="form-group row">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.HiddenFor(model => model.Inscripcion.Id)
+            @Html.HiddenFor(model => model.Id)
         </div>
         <div class="form-group row">
             <div class="col-sm-12 mb-3 mb-sm-0">
-                @Html.EditorFor(model => model.Inscripcion.Topic, new { htmlAttributes = new { @placeholder = "Asunto", @class = "form-control  form-control-user" } })
-                @Html.ValidationMessageFor(model => model.Inscripcion.Topic, "", new { @class = "text-danger m-0" })
+                @Html.EditorFor(model => model.Topic, new { htmlAttributes = new { @placeholder = "Asunto", @class = "form-control  form-control-user" } })
+                @Html.ValidationMessageFor(model => model.Topic, "", new { @class = "text-danger m-0" })
             </div>
         </div>
         <div class="form-group row">
             <div class="col-sm-12 mb-3 mb-sm-0">
-                @Html.EditorFor(model => model.Inscripcion.Observation, new { htmlAttributes = new { @placeholder = "Observación", @class = "form-control  form-control-user" } })
-                @Html.ValidationMessageFor(model => model.Inscripcion.Observation, "", new { @class = "text-danger m-0" })
+                @Html.EditorFor(model => model.Observation, new { htmlAttributes = new { @placeholder = "Observación", @class = "form-control  form-control-user" } })
+                @Html.ValidationMessageFor(model => model.Observation, "", new { @class = "text-danger m-0" })
             </div>
         </div>
         <div class="form-group row">
             <div class="col-sm-4 mb-3 mb-sm-0">
-                @Html.EditorFor(model => model.Inscripcion.HorarioConsultaFechado.HorarioConsulta.StartHour, new { htmlAttributes = new { @placeholder = "Hora Inicio", @class = "form-control  form-control-user", @readonly = true } })
-                @Html.ValidationMessageFor(model => model.Inscripcion.HorarioConsultaFechado.HorarioConsulta.StartHour, "", new { @class = "text-danger m-0" })
+                @Html.EditorFor(model => model.HorarioConsultaFechado.HorarioConsulta.StartHour, new { htmlAttributes = new { @placeholder = "Hora Inicio", @class = "form-control  form-control-user", @readonly = true } })
+                @Html.ValidationMessageFor(model => model.HorarioConsultaFechado.HorarioConsulta.StartHour, "", new { @class = "text-danger m-0" })
             </div>
             <div class="col-sm-4 mb-3 mb-sm-0">
-                @Html.EditorFor(model => model.Inscripcion.HorarioConsultaFechado.HorarioConsulta.EndHour, new { htmlAttributes = new { @placeholder = "Hora Fin", @class = "form-control form-control-user", @readonly = true } })
-                @Html.ValidationMessageFor(model => model.Inscripcion.HorarioConsultaFechado.HorarioConsulta.EndHour, "", new { @class = "text-danger m-0" })
+                @Html.EditorFor(model => model.HorarioConsultaFechado.HorarioConsulta.EndHour, new { htmlAttributes = new { @placeholder = "Hora Fin", @class = "form-control form-control-user", @readonly = true } })
+                @Html.ValidationMessageFor(model => model.HorarioConsultaFechado.HorarioConsulta.EndHour, "", new { @class = "text-danger m-0" })
             </div>
             <div class="col-sm-4 mb-3 mb-sm-0">
-                @Html.EditorFor(model => model.Inscripcion.HorarioConsultaFechado.HorarioConsulta.Weekday, new { htmlAttributes = new { @placeholder = "Hora Fin", @class = "form-control form-control-user", @readonly = true } })
-                @Html.ValidationMessageFor(model => model.Inscripcion.HorarioConsultaFechado.HorarioConsulta.Weekday, "", new { @class = "text-danger m-0" })
+                @Html.EditorFor(model => model.HorarioConsultaFechado.HorarioConsulta.Weekday, new { htmlAttributes = new { @placeholder = "Hora Fin", @class = "form-control form-control-user", @readonly = true } })
+                @Html.ValidationMessageFor(model => model.HorarioConsultaFechado.HorarioConsulta.Weekday, "", new { @class = "text-danger m-0" })
             </div>
         </div>
         <div class="form-group row">
             <div class="col-sm-6 mb-3 mb-sm-0">
-                @Html.EditorFor(model => model.Inscripcion.HorarioConsultaFechado.HorarioConsulta.Profesor.Surname, new { htmlAttributes = new { @placeholder = "Apellido", @class = "form-control  form-control-user", @readonly = true } })
-                @Html.ValidationMessageFor(model => model.Inscripcion.HorarioConsultaFechado.HorarioConsulta.Profesor.Surname, "", new { @class = "text-danger m-0" })
+                @Html.EditorFor(model => model.HorarioConsultaFechado.HorarioConsulta.Profesor.Surname, new { htmlAttributes = new { @placeholder = "Apellido", @class = "form-control  form-control-user", @readonly = true } })
+                @Html.ValidationMessageFor(model => model.HorarioConsultaFechado.HorarioConsulta.Profesor.Surname, "", new { @class = "text-danger m-0" })
             </div>
             <div class="col-sm-6 mb-3 mb-sm-0">
-                @Html.EditorFor(model => model.Inscripcion.HorarioConsultaFechado.HorarioConsulta.Profesor.Firstname, new { htmlAttributes = new { @placeholder = "Nombre", @class = "form-control  form-control-user", @readonly = true } })
-                @Html.ValidationMessageFor(model => model.Inscripcion.HorarioConsultaFechado.HorarioConsulta.Profesor.Firstname, "", new { @class = "text-danger m-0" })
+                @Html.EditorFor(model => model.HorarioConsultaFechado.HorarioConsulta.Profesor.Firstname, new { htmlAttributes = new { @placeholder = "Nombre", @class = "form-control  form-control-user", @readonly = true } })
+                @Html.ValidationMessageFor(model => model.HorarioConsultaFechado.HorarioConsulta.Profesor.Firstname, "", new { @class = "text-danger m-0" })
             </div>
         </div>
         <div class="form-group row">
             <div class="col-sm-6 mb-3 mb-sm-0">
-                @Html.EditorFor(model => model.Inscripcion.HorarioConsultaFechado.HorarioConsulta.Materia.Name, new { htmlAttributes = new { @placeholder = "Materia", @class = "form-control  form-control-user", @readonly = true } })
-                @Html.ValidationMessageFor(model => model.Inscripcion.HorarioConsultaFechado.HorarioConsulta.Materia.Name, "", new { @class = "text-danger m-0" })
+                @Html.EditorFor(model => model.HorarioConsultaFechado.HorarioConsulta.Materia.Name, new { htmlAttributes = new { @placeholder = "Materia", @class = "form-control  form-control-user", @readonly = true } })
+                @Html.ValidationMessageFor(model => model.HorarioConsultaFechado.HorarioConsulta.Materia.Name, "", new { @class = "text-danger m-0" })
             </div>
             <div class="col-sm-6 mb-3 mb-sm-0">
-                @Html.EditorFor(model => model.Inscripcion.HorarioConsultaFechado.HorarioConsulta.Place, new { htmlAttributes = new { @placeholder = "Lugar", @class = "form-control  form-control-user", @readonly = true } })
-                @Html.ValidationMessageFor(model => model.Inscripcion.HorarioConsultaFechado.HorarioConsulta.Place, "", new { @class = "text-danger m-0" })
+                @Html.EditorFor(model => model.HorarioConsultaFechado.HorarioConsulta.Place, new { htmlAttributes = new { @placeholder = "Lugar", @class = "form-control  form-control-user", @readonly = true } })
+                @Html.ValidationMessageFor(model => model.HorarioConsultaFechado.HorarioConsulta.Place, "", new { @class = "text-danger m-0" })
             </div>
         </div>
         <div class="form-group row">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.HiddenFor(model => model.Inscripcion.HorarioConsultaFechadoId)
+            @Html.HiddenFor(model => model.HorarioConsultaFechadoId)
         </div>
     </div>
     <div class="modal-footer">
