@@ -8,6 +8,7 @@ namespace DataAccess.Repositories {
         IEnumerable<HorarioConsulta> GetHorariosConsultaByPartialDesc(string desc);
         IEnumerable<HorarioConsulta> GetHorariosConsultaByProfesor(int id_profesor);
         IEnumerable<HorarioConsulta> GetHorariosConsultaByMateriaOrderByProfesor(int id_materia);
+        IEnumerable<HorarioConsulta> GetHorariosConsultaByDeptoSorted(int deptoId);
         HorarioConsulta GetHorarioConsultaWithProfesorAndMateria(int id);
     }
 }

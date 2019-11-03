@@ -163,6 +163,28 @@ namespace Presentation.Library.Api.Endpoints.Implementations
             }
         }
 
+
+        public async Task<IEnumerable<HorarioConsulta>> GetByDeptoSorted(int deptoId, string token)
+        {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/horariosConsulta/departamentos/{deptoId}/sorted", x => SetToken(x, token)))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    switch (response.StatusCode)
+                    {
+                        case HttpStatusCode.Unauthorized:
+                            throw new UnauthorizedRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
+                }
+
+                var result = await response.Content.ReadAsAsync<IEnumerable<HorarioConsulta>>();
+
+                return result;
+            }
+        }
+
         private void SetToken(HttpRequestMessage r, string token)
         {
             r.Headers.Authorization = AuthenticationHeaderValue.Parse(token);

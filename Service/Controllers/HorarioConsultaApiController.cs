@@ -80,6 +80,14 @@ namespace Service.Controllers {
             return Ok(horariosConsulta);
         }
 
+        [HttpGet]
+        [Route("departamentos/{id_departamento:int}/sorted")]
+        public IHttpActionResult GetByDeptoOrdered(int id_departamento)
+        {
+            var horariosConsulta = _unitOfWork.HorariosConsulta.GetHorariosConsultaByDeptoSorted(id_departamento);
+            return Ok(horariosConsulta);
+        }
+
         // GET api/horarioConsulta/5
         /// <summary>
         /// Retrives a specific horarioConsulta

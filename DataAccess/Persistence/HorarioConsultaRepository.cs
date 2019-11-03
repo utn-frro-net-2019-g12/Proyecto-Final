@@ -57,5 +57,12 @@ namespace DataAccess.Persistence {
             return ConsultaUTNContext.HorariosConsulta.Where(e => e.Id == id).Include(e => e.Profesor)
                 .Include(e => e.Materia).FirstOrDefault();
         }
+
+        public IEnumerable<HorarioConsulta> GetHorariosConsultaByDeptoSorted(int deptoId)
+        {
+            return ConsultaUTNContext.HorariosConsulta.Where(e => e.Materia.DepartamentoId == deptoId)
+                .OrderBy(e => e.Materia.Name).ThenBy(e => e.Profesor.Surname)
+                .Include(e => e.Materia).Include(e => e.Profesor).ToList();
+        }
     }
 }

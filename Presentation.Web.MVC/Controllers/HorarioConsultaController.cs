@@ -12,11 +12,12 @@ using Presentation.Library.Api.Exceptions;
 using Presentation.Web.MVC.Models;
 using Presentation.Web.MVC.ViewModels;
 using AutoMapper;
+using Rotativa;
+using System.IO;
 
 namespace Presentation.Web.MVC.Controllers {
 
     // Note: This Controller Communicates with ViewModels (CreateHorarioConsultaViewModel and EditHorarioConsultaViewModel)
-    [Authorize]
     public class HorarioConsultaController : Controller {
         private readonly IMateriaEndpoint _materiaEndpoint;
         private readonly IUsuarioEndpoint _usuarioEndpoint;
@@ -36,6 +37,7 @@ namespace Presentation.Web.MVC.Controllers {
         }
 
         // Index - GET HorarioConsulta
+        [AllowAnonymous]
         public async Task<ActionResult> Index()
         {
             try
@@ -277,6 +279,31 @@ namespace Presentation.Web.MVC.Controllers {
             }
 
             return Content("OK");
+        }
+
+        public async Task<ActionResult> Report(int id)
+        {
+            try
+            {
+                IEnumerable<HorarioConsulta> entities = await _horarioConsultaEndpoint.GetByDeptoSorted(id ,_userSession.BearerToken);
+
+                var horarios = _mapper.Map<IEnumerable<MvcHorarioConsultaModel>>(entities);
+
+                var report = new ViewAsPdf(viewName: "Report", model: horarios) { FileName = $"horarios_{DateTime.Now}.pdf" };
+
+                report.FormsAuthenticationCookieName = System.Web.Security.FormsAuthentication.FormsCookieName;
+                report.CustomSwitches = "--load-error-handling ignore";
+
+                return report;
+            }
+            catch (UnauthorizedRequestException)
+            {
+                return RedirectToAction("AccessDenied", "Error");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+            }
         }
     }
 }
