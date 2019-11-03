@@ -46,7 +46,7 @@ namespace Service.Controllers {
         }
 
         /// <summary>
-        /// Retrives mmateria instances that matches a partial description
+        /// Retrives materia instances that matches a partial description
         /// </summary>
         [HttpGet]
         [Route("search")]

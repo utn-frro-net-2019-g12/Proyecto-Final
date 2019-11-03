@@ -15,7 +15,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
     public class HorarioConsultaFechadoEndpoint : IHorarioConsultaFechadoEndpoint
     {
         private IApiHelper _apiHelper;
-
+        
         public HorarioConsultaFechadoEndpoint(IApiHelper apiHelper)
         {
             _apiHelper = apiHelper;
@@ -29,6 +29,25 @@ namespace Presentation.Library.Api.Endpoints.Implementations
                 {
                     switch (response.StatusCode)
                     {
+                        case HttpStatusCode.Unauthorized:
+                            throw new UnauthorizedRequestException(response);
+                        default:
+                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
+                    }
+                }
+
+                var result = await response.Content.ReadAsAsync<IEnumerable<HorarioConsultaFechado>>();
+
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<HorarioConsultaFechado>> GetByNewSearch(string descMateria, string descProfesor, string token) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/horariosConsultaFechados/search/?descMateria={descMateria}&descProfesor={descProfesor}",
+                x => SetToken(x, token))) {
+
+                if (!response.IsSuccessStatusCode) {
+                    switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
                             throw new UnauthorizedRequestException(response);
                         default:

@@ -47,6 +47,30 @@ namespace DataAccess.Persistence {
                 .OrderBy(e => e.HorarioConsulta.Weekday).ThenBy(e => e.HorarioConsulta.StartHour).ToList();
         }
 
+        public IEnumerable<HorarioConsultaFechado> GetHorariosConsultaFechadosByNewSearch(string descMateria, string descProfesor) {
+            ConsultaUTNContext.Database.Log = message => Trace.Write(message);
+            if (descProfesor == "") {
+                return ConsultaUTNContext.HorariosConsultaFechados.Where(e => e.HorarioConsulta.Materia.Name.ToLower().Contains(descMateria.ToLower()))
+                    .Include(e => e.HorarioConsulta).Include(e => e.HorarioConsulta.Profesor).Include(e => e.HorarioConsulta.Materia)
+                    .Include(e => e.HorarioConsulta.Materia.Departamento).OrderByDescending(e => e.HorarioConsulta.Materia.Name)
+                    .ThenBy(e => e.HorarioConsulta.Weekday).ThenBy(e => e.HorarioConsulta.StartHour).ToList();
+            } else if (descMateria == "") {
+                return ConsultaUTNContext.HorariosConsultaFechados.Where(e => (e.HorarioConsulta.Profesor.Surname.ToLower() + " " +
+                    e.HorarioConsulta.Profesor.Firstname.ToLower()).Contains(descProfesor.ToLower()))
+                    .Include(e => e.HorarioConsulta).Include(e => e.HorarioConsulta.Profesor).Include(e => e.HorarioConsulta.Materia)
+                    .Include(e => e.HorarioConsulta.Materia.Departamento).OrderByDescending(e => e.HorarioConsulta.Profesor.Surname)
+                    .ThenBy(e => e.HorarioConsulta.Profesor.Firstname).ThenBy(e => e.HorarioConsulta.Weekday).ThenBy(e => e.HorarioConsulta.StartHour).ToList();
+            } else {
+                return ConsultaUTNContext.HorariosConsultaFechados.Where(e => e.HorarioConsulta.Materia.Name.ToLower().Contains(descMateria.ToLower()))
+                    .Where(e => (e.HorarioConsulta.Profesor.Surname.ToLower() + " " + e.HorarioConsulta.Profesor.Firstname.ToLower()).Contains(descProfesor.ToLower()))
+                    .Include(e => e.HorarioConsulta).Include(e => e.HorarioConsulta.Profesor).Include(e => e.HorarioConsulta.Materia)
+                    .Include(e => e.HorarioConsulta.Materia.Departamento).OrderByDescending(e => e.HorarioConsulta.Materia.Name)
+                    .ThenBy(e => e.HorarioConsulta.Profesor.Surname).ThenBy(e => e.HorarioConsulta.Profesor.Firstname).ThenBy(e => e.HorarioConsulta.Weekday)
+                    .ThenBy(e => e.HorarioConsulta.StartHour).ToList();
+            }
+            
+        }
+
         public HorarioConsultaFechado GetHorarioConsultaFechadoWithProfesorAndMateria(int id) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
             return ConsultaUTNContext.HorariosConsultaFechados.Where(e => e.Id == id).Include(e => e.HorarioConsulta)

@@ -183,10 +183,10 @@ namespace Presentation.Web.MVC.Controllers {
 
                 await Task.WhenAll(alumnosTask, horariosConsultaFechadosTask);
 
-                var profesores = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: alumnosTask.Result);
+                var alumnos = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: alumnosTask.Result);
                 var materias = _mapper.Map<IEnumerable<MvcHorarioConsultaFechadoModel>>(source: horariosConsultaFechadosTask.Result);
 
-                viewModel.SetAlumnosAsSelectList(profesores);
+                viewModel.SetAlumnosAsSelectList(alumnos);
                 viewModel.SetHorariosConsultaFechadosAsSelectList(materias);
                 viewModel.SetEstadosAsSelectList();
 

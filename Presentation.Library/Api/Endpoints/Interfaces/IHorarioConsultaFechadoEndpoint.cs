@@ -7,5 +7,6 @@ using System.Threading.Tasks;
 
 namespace Presentation.Library.Api.Endpoints.Interfaces {
     public interface IHorarioConsultaFechadoEndpoint : IEndpoint<HorarioConsultaFechado> {
+        Task<IEnumerable<HorarioConsultaFechado>> GetByNewSearch(string descMateria, string descProfesor, string token);
     }
 }

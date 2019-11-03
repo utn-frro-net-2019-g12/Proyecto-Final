@@ -35,7 +35,17 @@ namespace Service.Controllers {
         }
 
         /// <summary>
-        /// Retrives horarioConsultaFechadi instances that matches with an id_profesor
+        /// Retrives horarioConsultaFechado instances that matches a partial description of Materias and Profesores
+        /// </summary>
+        [HttpGet]
+        [Route("search")]
+        public IHttpActionResult GetByNewSearch(string descMateria, string descProfesor) {
+            var horariosConsultaFechados = _unitOfWork.HorariosConsultaFechados.GetHorariosConsultaFechadosByNewSearch(descMateria, descProfesor);
+            return Ok(horariosConsultaFechados);
+        }
+
+        /// <summary>
+        /// Retrives horarioConsultaFechado instances that matches with an id_profesor
         /// </summary>
         [HttpGet]
         [Route("profesores/{id_profesor:int}")]
@@ -54,9 +64,9 @@ namespace Service.Controllers {
             return Ok(horariosConsultaFechados);
         }
 
-        // GET api/horarioConsulta/5
+        // GET api/horarioConsultaFechado/5
         /// <summary>
-        /// Retrives a specific horarioConsulta
+        /// Retrives a specific horarioConsultaFechado
         /// </summary>
         [HttpGet]
         [Route("{id:int}")]

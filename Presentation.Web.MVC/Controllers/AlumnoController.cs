@@ -15,13 +15,15 @@ namespace Presentation.Web.MVC.Controllers
     {
         private readonly IInscripcionEndpoint _inscripcionEndpoint;
         private readonly IUsuarioEndpoint _usuarioEndpoint;
-        // private readonly IHorarioConsultaFechadoEndpoint _horarioConsultaFechadoEndpoint;
+        private readonly IHorarioConsultaFechadoEndpoint _horarioConsultaFechadoEndpoint;
         private readonly IUserSession _userSession;
         private readonly IMapper _mapper;
 
-        public AlumnoController(IInscripcionEndpoint inscripcionEndpoint, IUsuarioEndpoint usuarioEndpoint, IUserSession userSession, IMapper mapper) {
+        public AlumnoController(IInscripcionEndpoint inscripcionEndpoint, IUsuarioEndpoint usuarioEndpoint, IHorarioConsultaFechadoEndpoint horarioConsultaFechadoEndpoint,
+            IUserSession userSession, IMapper mapper) {
             _inscripcionEndpoint = inscripcionEndpoint;
             _usuarioEndpoint = usuarioEndpoint;
+            _horarioConsultaFechadoEndpoint = horarioConsultaFechadoEndpoint;
             _userSession = userSession;
             _mapper = mapper;
         }
@@ -58,7 +60,22 @@ namespace Presentation.Web.MVC.Controllers
             }
         }
 
-        // Search --> Búsquedas de Nueva Inscripción & Mis Insc
+        // Search Nueva Inscripción (By Depto, Materia y Profesor)
+        public async Task<ActionResult> NewSearch(string descMateria, string descProfesor) {
+            try {
+                IEnumerable<HorarioConsultaFechado> entities = await _horarioConsultaFechadoEndpoint.GetByNewSearch(descMateria, descProfesor, _userSession.BearerToken);
+
+                var horariosConsultaFechados = _mapper.Map<IEnumerable<MvcHorarioConsultaFechadoModel>>(entities);
+
+                return View("NewSearch", horariosConsultaFechados);
+            } catch (UnauthorizedRequestException) {
+                return RedirectToAction("AccessDenied", "Error");
+            } catch (Exception ex) {
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+            }
+        }
+
+        // Search --> Búsqueda Mis Inscripciones --> TO-DO
 
         // Unsubscribe - POST Alumno/Inscripcion/ID
         public async Task<ActionResult> UnsubscribeInscripcion(int? id) {
@@ -92,6 +109,68 @@ namespace Presentation.Web.MVC.Controllers
 
             // TempData may be used to check in the view whether the deletion was successful or not
             TempData["SuccessMessage"] = "Unsubscribe Sucessfully";
+            return Content("OK");
+        }
+
+        // New Inscripción - GET Alumno/Subscribe/ID
+        [HttpGet]
+        public async Task<ActionResult> Subscribe(int? id) {
+            if (id == null) {
+                return Content("Debe incluir el id");
+            }
+
+            try {
+                // Utilizar SubscribeViewModel
+                // A partir del HCF que uno clickea, completar la partial view con esos datos
+
+                return PartialView("_Subscribe"/*, viewModel*/);
+            } catch (UnauthorizedRequestException) {
+                return Content("No esta autorizado");
+            } catch (NotFoundRequestException ex) {
+                return Content($"{ex.StatusCode}: Elemento no encontrado");
+            } catch (Exception ex) {
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+            }
+        }
+
+        // New Inscripción - PUT Alumno/Subscribe/ID (Secured)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        // Bind(Include = "...") is used to avoid overposting attacks
+        public async Task<ActionResult> Subscribe(SubscribeViewModel viewModel) {
+            // Sacar los Task y variables innecesarias, poniendo la materia directamente con set (tomando el ID desde HC)
+            try {
+                Usuario user = await _usuarioEndpoint.GetCurrentUsuario(token: _userSession.BearerToken);
+
+                viewModel.SetAlumno(user.Id);
+
+                var entity = _mapper.Map<Inscripcion>(source: viewModel.Inscripcion);
+
+                entity.State = Inscripcion.InscripcionStates.Active;
+
+                await _inscripcionEndpoint.Post(entity, _userSession.BearerToken);
+            } catch (UnauthorizedRequestException) {
+                return RedirectToAction("AccessDeniedPartial", "Error");
+            } catch (BadRequestException ex) {
+                var alumnosTask = _usuarioEndpoint.GetAll(_userSession.BearerToken);
+                var horariosConsultaFechadosTask = _horarioConsultaFechadoEndpoint.GetAll(_userSession.BearerToken);
+
+                await Task.WhenAll(alumnosTask, horariosConsultaFechadosTask);
+
+                // var alumnos = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: alumnosTask.Result);
+                var materias = _mapper.Map<IEnumerable<MvcHorarioConsultaFechadoModel>>(source: horariosConsultaFechadosTask.Result);
+
+                // viewModel.SetAlumnosAsSelectList(alumnos);
+                viewModel.SetHorariosConsultaFechadosAsSelectList(materias);
+                viewModel.SetEstadosAsSelectList();
+
+                ModelState.AddModelErrors(ex.Errors);
+
+                return PartialView("_Subscribe", viewModel);
+            } catch (Exception ex) {
+                return RedirectToAction("SpecificErrorPartial", "Error", new { error = ex.Message });
+            }
+
             return Content("OK");
         }
 

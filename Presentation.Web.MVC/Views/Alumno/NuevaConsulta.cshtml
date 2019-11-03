@@ -4,52 +4,137 @@
 
 @section scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        $('#filterDepto, #filterMateria, #filterProfesor').on('click', function () { event.preventDefault(); });
+
+        $("#filterDeptoText").on("keyup", function () {
+            let valueDepto = $(this).val().toLowerCase();
+            $("#filterDeptoMenu li").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(valueDepto) > -1)
+            });
+        });
+
+        $("#filterDeptoMenu li").on("click", function () {
+            let selectedDepto = $(this).text();
+            $("#searchTextDepto").val(selectedDepto);
+        });
+
+        $("#filterMateriaText").on("keyup", function () {
+            let valueMateria = $(this).val().toLowerCase();
+            $("#filterMateriaMenu li").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(valueMateria) > -1)
+            });
+        });
+
+        $("#filterMateriaMenu li").on("click", function () {
+            let selectedMateria = $(this).text();
+            $("#searchTextMateria").val(selectedMateria);
+        });
+
+        $("#filterProfesorText").on("keyup", function () {
+            let valueProfesor = $(this).val().toLowerCase();
+            $("#filterProfesorMenu li").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(valueProfesor) > -1)
+            });
+        });
+
+        $("#filterProfesorMenu li").on("click", function () {
+            let selectedProfesor = $(this).text();
+            $("#searchTextProfesor").val(selectedProfesor);
+        });
+
+        $("#searchForm").on('submit', function (e) {
+            e.preventDefault();
+            // let descDepto = $("#searchTextDepto").val();
+            let descMateria = $("#searchTextMateria").val();
+            let descProfesor = $("#searchTextProfesor").val();
+            if (descMateria != "" || descProfesor != "") {
+                let url = `/Alumno/NewSearch?descMateria=${descMateria}&descProfesor=${descProfesor}`;
+                window.location.href = url;
+            }
+        });
+        
+    </script>
 }
 
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Nueva Consulta</title>
-</head>
-
-<body>
-    <div class="container-fluid">
-        <h1 class="h3 mb-4 text-gray-800">Nueva Consulta</h1>
-        <br />
-        <p>..O Puede buscar directamente desde la Barra de Búsqueda</p>
-        <div class="row mb-3">
-            <form class="col" id="searchForm">
-                <div class="input-group">
-                    <input type="text" class="form-control bg-light border border-primary p-4" id="searchText" placeholder="Profesor, Materia, Depto..." aria-label="Search" aria-describedby="basic-addon2">
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Nueva Consulta</h1>
+    <div class="row mb-3">
+        <form class="col-sm-12" id="searchForm">
+            <div class="row mb-3">
+                <div class="input-group col-sm-4">
+                    <div class="input-group-append">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" id="filterDepto" data-toggle="dropdown"><span class="caret"></span></button>
+                            <ul class="dropdown-menu p-2" id="filterDeptoMenu">
+                                <input class="form-control" id="filterDeptoText" type="text" placeholder="Search..">
+                                <li><a href="#">Ingeniería en Sistemas</a></li>
+                                <li><a href="#">Ingeniería Mecánica</a></li>
+                                <li><a href="#">Ingeniería Civil</a></li>
+                                <li><a href="#">Ingeniería Eléctrica</a></li>
+                                <li><a href="#">Ingeniería Química</a></li>
+                                <li><a href="#">Ciencias Básicas</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control bg-light border border-primary p-4" id="searchTextDepto" placeholder="Departamento" aria-label="Search" aria-describedby="basic-addon2">
+                </div>
+                <div class="input-group col-sm-4">
+                    <div class="input-group-append">
+                        <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" id="filterMateria" data-toggle="dropdown"><span class="caret"></span></button>
+                        <ul class="dropdown-menu p-2" id="filterMateriaMenu">
+                            <input class="form-control" id="filterMateriaText" type="text" placeholder="Search..">
+                            <li><a href="#">Algoritmos Genéticos</a></li>
+                            <li><a href="#">Análisis Matemático 2</a></li>
+                            <li><a href="#">Diseño de Sistemas</a></li>
+                            <li><a href="#">TDS IDE (.Net)</a></li>
+                        </ul>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control bg-light border border-primary p-4" id="searchTextMateria" placeholder="Materia" aria-label="Search" aria-describedby="basic-addon2">
+                </div>
+                <div class="input-group col-sm-4">
+                    <div class="input-group-append">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" id="filterProfesor" data-toggle="dropdown"><span class="caret"></span></button>
+                            <ul class="dropdown-menu p-2" id="filterProfesorMenu">
+                                <input class="form-control" id="filterProfesorText" type="text" placeholder="Search..">
+                                <li><a href="#">Recalde Alejandro Pedro</a></li>
+                                <li><a href="#">Antonelli Nicolás</a></li>
+                                <li><a href="#">Joaquín Andrés</a></li>
+                                <li><a href="#">Porta Ezequiel</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control bg-light border border-primary p-4" id="searchTextProfesor" placeholder="Profesor" aria-label="Search" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-primary" id="searchButton">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
                 </div>
-            </form>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@*
+    <div class="col-sm-3" id="searchByMatContent">
+        <div class="row mb-3">
+            <a class="text-white bg-dark p-lg-4" id="materiaSearch" href="/Alumno/NuevaConsulta/">Iniciar Búsqueda por Materias</a>
+            <!-- Lista de Departamentos -->
+            <!-- Luego de Materias de ese Depto -->
+            <!-- Luego HorariosConsulta agrupados por Profesor (más de un DayWeek) -->
+            <!-- Luego una Partial View para Inscripción con Detalles y DropDown HCFechados -->
         </div>
         <div class="row mb-3">
-            <div class="col" id="searchByMatContent">
-                <h4>Buscar por Materia</h4>
-                <button id="searchByMatButton">Buscar</button>
-                <!-- Lista de Departamentos -->
-                <!-- Luego de Materias de ese Depto -->
-                <!-- Luego HorariosConsulta agrupados por Profesor (más de un DayWeek) -->
-                <!-- Luego una Partial View para Inscripción con Detalles y DropDown HCFechados -->
-            </div>
-            <div class="col" id="searchByProfContent">
-                <h4>Buscar por Profesor</h4>
-                <button id="searchByProfButton">Buscar</button>
-                <!-- Lista de Profesores (Alfabéticamente) con su Barra de Búsqueda -->
-                <!-- Luego HorariosConsulta agrupados por Materia (más de un DayWeek) -->
-                <!-- Luego una Partial View para Inscripción con Detalles y DropDown HCFechados -->
-            </div>
+            <a class="text-white bg-dark p-lg-4" id="profesorSearch" href="/Alumno/NuevaConsulta/">Iniciar Búsqueda por Profesores</a>
+            <!-- Lista de Profesores (Alfabéticamente) con su Barra de Búsqueda -->
+            <!-- Luego HorariosConsulta agrupados por Materia (más de un DayWeek) -->
+            <!-- Luego una Partial View para Inscripción con Detalles y DropDown HCFechados -->
         </div>
     </div>
-</body>
-
-</html>
+*@

@@ -1,0 +1,274 @@
+﻿@model IEnumerable<Presentation.Web.MVC.Models.MvcHorarioConsultaFechadoModel>
+
+@{
+    ViewBag.Title = "NewSearch";
+}
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section styleDataTable {
+    @Styles.Render("~/Content/dataTables")
+
+    <style media="screen">
+        tr td, tr th {
+            white-space: nowrap;
+        }
+    </style>
+}
+
+@section scriptsDataTable {
+    @Scripts.Render("~/bundles/dataTables")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#dataTable').DataTable({ "bFilter": false });
+            //  $('#dataTable').DataTable();
+        });
+    </script>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        function modalSubscribe(data, url) {
+            $('#modalSubscribeContent').html(data);
+            $('#subscribeForm').unbind();
+
+            $('#subscribeForm').bind("submit", function (event) {
+                event.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $('#subscribeForm').serialize(),
+                    success: function (data) {
+                        data != "OK" ? modalSubscribe(data, url) : window.location.reload();
+                    }
+                });
+            });
+        }
+
+        $('.actionSubscribe').on('click', function () {
+            let index = $(this).parent().siblings().first().text().trim();
+            let url = `/Alumno/Subscribe/${index}`;
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (data) {
+                    modalSubscribe(data, url)
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest, textStatus, errorThrown);
+                    console.log(url);
+                }
+            });
+        });
+
+        $("#modalSubscribe").on("hidden.bs.modal", function () {
+            $("#modalSubscribeContent").html("<p styles='text-align:center; margin-top:1rem; font-weight:bold;'> Loading... </p>");
+            $("#subscribeForm").unbind();
+        });
+
+        /*------------------------------*/
+
+        $('#filterDepto, #filterMateria, #filterProfesor').on('click', function () { event.preventDefault(); });
+
+        $("#filterDeptoText").on("keyup", function () {
+            let valueDepto = $(this).val().toLowerCase();
+            $("#filterDeptoMenu li").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(valueDepto) > -1)
+            });
+        });
+
+        $("#filterDeptoMenu li").on("click", function () {
+            let selectedDepto = $(this).text();
+            $("#searchTextDepto").val(selectedDepto);
+        });
+
+        $("#filterMateriaText").on("keyup", function () {
+            let valueMateria = $(this).val().toLowerCase();
+            $("#filterMateriaMenu li").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(valueMateria) > -1)
+            });
+        });
+
+        $("#filterMateriaMenu li").on("click", function () {
+            let selectedMateria = $(this).text();
+            $("#searchTextMateria").val(selectedMateria);
+        });
+
+        $("#filterProfesorText").on("keyup", function () {
+            let valueProfesor = $(this).val().toLowerCase();
+            $("#filterProfesorMenu li").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(valueProfesor) > -1)
+            });
+        });
+
+        $("#filterProfesorMenu li").on("click", function () {
+            let selectedProfesor = $(this).text();
+            $("#searchTextProfesor").val(selectedProfesor);
+        });
+
+        $("#searchForm").on('submit', function (e) {
+            e.preventDefault();
+            // let descDepto = $("#searchTextDepto").val();
+            let descMateria = $("#searchTextMateria").val();
+            let descProfesor = $("#searchTextProfesor").val();
+            if (descMateria != "" || descProfesor != "") {
+                let url = `/Alumno/NewSearch?descMateria=${descMateria}&descProfesor=${descProfesor}`;
+                window.location.href = url;
+            }
+        });
+    </script>
+}
+
+<!-- Modal Nueva Inscripción -->
+<div class="modal fade" id="modalSubscribe" tabindex="-1" role="dialog" aria-labelledby="modalSubscribe" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" id="modalSubscribeContent">
+            <p> Loading... </p>
+        </div>
+    </div>
+</div>
+
+<!-- Index HorarioConsulta -->
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Nueva Búsqueda de Horario Consulta</h1>
+    <div class="row  mb-3">
+        <form class="col-sm-12" id="searchForm">
+            <div class="row mb-3">
+                <div class="input-group col-sm-4">
+                    <div class="input-group-append">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" id="filterDepto" data-toggle="dropdown"><span class="caret"></span></button>
+                            <ul class="dropdown-menu p-2" id="filterDeptoMenu">
+                                <input class="form-control" id="filterDeptoText" type="text" placeholder="Search..">
+                                <li><a href="#">Ingeniería en Sistemas</a></li>
+                                <li><a href="#">Ingeniería Mecánica</a></li>
+                                <li><a href="#">Ingeniería Civil</a></li>
+                                <li><a href="#">Ingeniería Eléctrica</a></li>
+                                <li><a href="#">Ingeniería Química</a></li>
+                                <li><a href="#">Ciencias Básicas</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control bg-light border border-primary p-4" id="searchTextDepto" placeholder="Departamento" aria-label="Search" aria-describedby="basic-addon2">
+                </div>
+                <div class="input-group col-sm-4">
+                    <div class="input-group-append">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" id="filterMateria" data-toggle="dropdown"><span class="caret"></span></button>
+                            <ul class="dropdown-menu p-2" id="filterMateriaMenu">
+                                <input class="form-control" id="filterMateriaText" type="text" placeholder="Search..">
+                                <li><a href="#">Algoritmos Genéticos</a></li>
+                                <li><a href="#">Análisis Matemático 2</a></li>
+                                <li><a href="#">Diseño de Sistemas</a></li>
+                                <li><a href="#">TDS IDE (.Net)</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control bg-light border border-primary p-4" id="searchTextMateria" placeholder="Materia" aria-label="Search" aria-describedby="basic-addon2">
+                </div>
+                <div class="input-group col-sm-4">
+                    <div class="input-group-append">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" id="filterProfesor" data-toggle="dropdown"><span class="caret"></span></button>
+                            <ul class="dropdown-menu p-2" id="filterProfesorMenu">
+                                <input class="form-control" id="filterProfesorText" type="text" placeholder="Search..">
+                                <li><a href="#">Recalde Alejandro Pedro</a></li>
+                                <li><a href="#">Antonelli Nicolás</a></li>
+                                <li><a href="#">Joaquín Andrés</a></li>
+                                <li><a href="#">Porta Ezequiel</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control bg-light border border-primary p-4" id="searchTextProfesor" placeholder="Profesor" aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary" id="searchButton">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th class="d-none">
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                Materia
+                            </th>
+                            <th>
+                                Profesor
+                            </th>
+                            <th>
+                                Fecha
+                            </th>
+                            <th>
+                                Lugar
+                            </th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th class="d-none">
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                Materia
+                            </th>
+                            <th>
+                                Profesor
+                            </th>
+                            <th>
+                                Fecha
+                            </th>
+                            <th>
+                                Lugar
+                            </th>
+                            <th>Acciones</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model) {
+                        <tr>
+                            <td class="d-none">
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.HorarioConsulta.Materia.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.HorarioConsulta.Profesor.Surname)
+                                <br />
+                                @Html.DisplayFor(modelItem => item.HorarioConsulta.Profesor.Firstname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date.DayOfWeek) @Html.DisplayFor(modelItem => item.DateForDisplay) @Html.DisplayFor(modelItem => item.HorarioConsulta.StartHour) to @Html.DisplayFor(modelItem => item.HorarioConsulta.EndHour)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.HorarioConsulta.Place)
+                            </td>
+                            <td class="d-flex align-items-center p-0">
+                                <button data-toggle="modal" data-target="#modalSubscribe" type="button" class="actionSubscribe d-flex align-items-center btn btn-primary m-1">
+                                    <i class="fas fa-edit fa-xs m-1"></i>
+                                    <p class="d-none d-md-block m-0">Inscribirme</p>
+                                </button>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
