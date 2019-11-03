@@ -6,7 +6,7 @@
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editForm" })) {
     @Html.AntiForgeryToken()
     <div class="modal-header">
-        <h5 class="modal-title">Editar Inscripción</h5>
+        <h5 class="modal-title">Responder Inscripción</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -18,53 +18,20 @@
         </div>
         <div class="form-group row">
             <div class="col-sm-12 mb-3 mb-sm-0">
-                @Html.EditorFor(model => model.Inscripcion.Topic, new { htmlAttributes = new { @placeholder = "Asunto", @class = "form-control  form-control-user", @disabled = "true" } })
+                @Html.EditorFor(model => model.Inscripcion.Topic, new { htmlAttributes = new { @placeholder = "Asunto", @class = "form-control  form-control-user", @readonly = "true" } })
                 @Html.ValidationMessageFor(model => model.Inscripcion.Topic, "", new { @class = "text-danger m-0" })
             </div>
         </div>
         <div class="form-group row">
             <div class="col-sm-12 mb-3 mb-sm-0">
-                @Html.EditorFor(model => model.Inscripcion.Observation, new { htmlAttributes = new { @placeholder = "Observación", @class = "form-control  form-control-user", @disabled = "true" } })
+                @Html.EditorFor(model => model.Inscripcion.Observation, new { htmlAttributes = new { @placeholder = "Observación", @class = "form-control  form-control-user", @readonly = "true" } })
                 @Html.ValidationMessageFor(model => model.Inscripcion.Observation, "", new { @class = "text-danger m-0" })
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-sm-4 mb-3 mb-sm-0">
-                @Html.DropDownListFor(
-                   model => model.Inscripcion.State,
-                   Model.EstadosList,
-                   "Estado",
-                   new { @class = "form-control", @id = "stateInscripcion" }
-                   )
-                @*Html.EditorFor(model => model.Inscripcion.State, new { htmlAttributes = new { @placeholder = "Estado", @class = "form-control  form-control-user" } })*@
-                @Html.ValidationMessageFor(model => model.Inscripcion.State, "", new { @class = "text-danger m-0" })
-
-            </div>
-            <div class="col-md-8">
-                @Html.DropDownListFor(
-                    model => model.Inscripcion.AlumnoId,
-                    Model.AlumnosList,
-                    "Alumno",
-                    new { @class = "form-control", @disabled = "true" }
-                    )
-                @Html.ValidationMessageFor(model => model.Inscripcion.AlumnoId, "", new { @class = "text-danger", @disabled = "true" })
             </div>
         </div>
         <div class="form-group row ">
             <div class="col-sm-12">
                 @Html.EditorFor(model => model.Inscripcion.Answer, new { htmlAttributes = new { @placeholder = "Respuesta Corta", @class = "form-control form-control-user" } })
                 @Html.ValidationMessageFor(model => model.Inscripcion.Answer, "", new { @class = "text-danger m-0" })
-            </div>
-        </div>
-        <div class="form-group row ">
-            <div class="col-md-12">
-                @Html.DropDownListFor(
-                    model => model.Inscripcion.HorarioConsultaFechadoId,
-                    Model.HorariosConsultaFechadosList,
-                    "HorarioConsulta",
-                    new { @class = "form-control", @disabled = "true" }
-                    )
-                @Html.ValidationMessageFor(model => model.Inscripcion.HorarioConsultaFechadoId, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>

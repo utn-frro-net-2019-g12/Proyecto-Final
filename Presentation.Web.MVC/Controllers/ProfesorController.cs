@@ -265,7 +265,7 @@ namespace Presentation.Web.MVC.Controllers
 
                     var viewModel = new EditInscripcionRecibidaViewModel(inscripcion: inscripcion, horariosConsultaFechados: horariosConsultaFechados, alumnos: alumnos);
 
-                    return PartialView("_Edit", viewModel);
+                    return PartialView("_EditInscripcionRecibida", viewModel);
                 } catch (UnauthorizedRequestException) {
                     return RedirectToAction("AccessDenied", "Error");
                 } catch (NotFoundRequestException ex) {
@@ -304,7 +304,7 @@ namespace Presentation.Web.MVC.Controllers
 
                 ModelState.AddModelErrors(ex.Errors);
 
-                return PartialView("_Edit", viewModel);
+                return PartialView("_EditInscripcionRecibida", viewModel);
             } catch (Exception ex) {
                 return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
             }

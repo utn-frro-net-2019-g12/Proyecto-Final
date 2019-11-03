@@ -28,6 +28,40 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script type="text/javascript">
+        function modalCreate(data, url) {
+            $('#modalCreateInscripcionContent').html(data);
+            $('#createForm').unbind();
+            $('#createForm').bind("submit", function (event) {
+                event.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $('#createForm').serialize(),
+                    success: function (data) {
+                        data != "OK" ? modalCreate(data, url) : window.location.reload();
+                    }
+                });
+            });
+        }
+
+        $('#actionCreateInscripcion').on('click', function () {
+            let url = '/Inscripcion/Create';
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (data) {
+                    modalCreate(data, url)
+                }
+            });
+        });
+
+        $("#modalCreateInscripcion").on("hidden.bs.modal", function () {
+            $("#modalCreateInscripcionContent").html("<p styles='text-align:center; margin-top:1rem; font-weight:bold;'> Loading... </p>");
+            $("#editForm").unbind();
+        });
+
+        /*------------------------------*/
+
         function modalEdit(data, url) {
             $('#modalEditInscripcionContent').html(data);
             $('#editForm').unbind();
@@ -103,6 +137,15 @@
         });
     </script>
 }
+
+<!-- Modal Nueva Inscripcion -->
+<div class="modal fade" id="modalCreateInscripcion" tabindex="-1" role="dialog" aria-labelledby="modalCreateInscripcion" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" id="modalCreateInscripcionContent">
+            <p> Loading... </p>
+        </div>
+    </div>
+</div>
 
 <!-- Modal Modificar Inscripcion -->
 <div class="modal fade" id="modalEditInscripcion" tabindex="-1" role="dialog" aria-labelledby="modalEditInscripcion" aria-hidden="true">
@@ -209,8 +252,7 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach (var item in Model)
-                        {
+                        @foreach (var item in Model) {
                             <tr>
                                 <td class="d-none">
                                     @Html.DisplayFor(modelItem => item.Id)
@@ -228,12 +270,16 @@
                                     @Html.DisplayFor(modelItem => item.Observation)
                                 </td>
                                 <td>
+                                    Legajo: @Html.DisplayFor(modelItem => item.Alumno.Legajo)
+                                    <br />
                                     @Html.DisplayFor(modelItem => item.Alumno.Surname)
                                     <br />
                                     @Html.DisplayFor(modelItem => item.Alumno.Firstname)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Materia.Name)
+                                    <br />
+                                    Prof. @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Profesor.Surname) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.Profesor.Firstname)
                                     <br />
                                     @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.Date.DayOfWeek) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.DateForDisplay) @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.StartHour) to @Html.DisplayFor(modelItem => item.HorarioConsultaFechado.HorarioConsulta.EndHour)
                                     <br />
