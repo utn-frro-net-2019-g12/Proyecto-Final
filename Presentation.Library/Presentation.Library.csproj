@@ -83,6 +83,7 @@
     <Compile Include="Api\Exceptions\UnauthorizedRequestException.cs" />
     <Compile Include="Api\HttpClientExtensions.cs" />
     <Compile Include="Api\IApiHelper.cs" />
+    <Compile Include="HttpRequestMessageExtensions.cs" />
     <Compile Include="Models\Departamento.cs" />
     <Compile Include="Models\HorarioConsulta.cs" />
     <Compile Include="Models\HorarioConsultaFechado.cs" />

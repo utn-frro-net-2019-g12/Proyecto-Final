@@ -24,7 +24,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task<IEnumerable<Inscripcion>> GetAll(string token)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/inscripciones", x => SetToken(x, token)))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/inscripciones", x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -44,7 +44,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
         }
 
         public async Task<IEnumerable<Inscripcion>> GetByPartialDesc(string partialDesc, string token) {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/inscripciones/search/?desc={partialDesc}", x => SetToken(x, token))) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/inscripciones/search/?desc={partialDesc}", x => x.SetAuthHeaders(token))) {
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
@@ -62,7 +62,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task<IEnumerable<Inscripcion>> GetByCurrentProfesorUser(string token)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/inscripciones/profesores/current", x => SetToken(x, token)))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/inscripciones/profesores/current", x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -83,7 +83,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task<IEnumerable<Inscripcion>> GetByCurrentAlumnoUser(string token)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/inscripciones/activas/alumnos/current", x => SetToken(x, token)))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/inscripciones/activas/alumnos/current", x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -104,7 +104,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task<Inscripcion> Get(object id, string token)
         {
-            using (var response = await _apiHelper.ApiClient.GetAsync("api/inscripciones/" + id, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.GetAsync("api/inscripciones/" + id, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -127,7 +127,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task Delete(object id, string token)
         {
-            using (HttpResponseMessage response= await _apiHelper.ApiClient.DeleteAsync("api/inscripciones/" + id, x => SetToken(x, token)))
+            using (HttpResponseMessage response= await _apiHelper.ApiClient.DeleteAsync("api/inscripciones/" + id, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -148,7 +148,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task Post(Inscripcion entity, string token)
         {
-            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/inscripciones", entity, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/inscripciones", entity, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -167,7 +167,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task Put(Inscripcion entity, string token)
         {
-            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync("api/inscripciones/" + entity.Id, entity, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync("api/inscripciones/" + entity.Id, entity, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -184,11 +184,6 @@ namespace Presentation.Library.Api.Endpoints.Implementations
                     }
                 }
             }
-        }
-
-        private void SetToken(HttpRequestMessage r, string token)
-        {
-            r.Headers.Authorization = AuthenticationHeaderValue.Parse(token);
         }
     }
 }

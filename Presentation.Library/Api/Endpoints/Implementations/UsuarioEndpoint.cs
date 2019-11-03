@@ -19,7 +19,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations {
         }
 
         public async Task<IEnumerable<Usuario>> GetAll(string token) {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/usuarios", x => SetToken(x, token))) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/usuarios", x => x.SetAuthHeaders(token))) {
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
@@ -36,7 +36,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations {
         }
 
         public async Task<IEnumerable<Usuario>> GetAllProfesores(string token) {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/usuarios/profesores", x => SetToken(x, token))) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/usuarios/profesores", x => x.SetAuthHeaders(token))) {
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
@@ -53,7 +53,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations {
         }
 
         public async Task<IEnumerable<Usuario>> GetAllAlumnos(string token) {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/usuarios/alumnos", x => SetToken(x, token))) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/usuarios/alumnos", x => x.SetAuthHeaders(token))) {
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
@@ -70,7 +70,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations {
         }
 
         public async Task<IEnumerable<Usuario>> GetByPartialDesc(string partialDesc, string token) {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/search/?desc={partialDesc}", x => SetToken(x, token))) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/search/?desc={partialDesc}", x => x.SetAuthHeaders(token))) {
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
@@ -87,7 +87,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations {
         }
 
         public async Task<IEnumerable<Usuario>> GetProfesoresByPartialDesc(string partialDesc, string token) {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/profesores/search/?desc={partialDesc}", x => SetToken(x, token))) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/profesores/search/?desc={partialDesc}", x => x.SetAuthHeaders(token))) {
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
@@ -104,7 +104,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations {
         }
 
         public async Task<IEnumerable<Usuario>> GetAlumnosByPartialDesc(string partialDesc, string token) {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/alumnos/search/?desc={partialDesc}", x => SetToken(x, token))) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/alumnos/search/?desc={partialDesc}", x => x.SetAuthHeaders(token))) {
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
@@ -121,7 +121,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations {
         }
 
         public async Task<Usuario> Get(object id, string token) {
-            using (var response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/{id}", x => SetToken(x, token))) {
+            using (var response = await _apiHelper.ApiClient.GetAsync($"api/usuarios/{id}", x => x.SetAuthHeaders(token))) {
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
@@ -140,7 +140,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations {
         }
 
         public async Task Delete(object id, string token) {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync($"api/usuarios/{id}", x => SetToken(x, token))) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync($"api/usuarios/{id}", x => x.SetAuthHeaders(token))) {
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
@@ -155,7 +155,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations {
         }
 
         public async Task Post(Usuario entity, string token) {
-            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/usuarios", entity, x => SetToken(x, token))) {
+            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/usuarios", entity, x => x.SetAuthHeaders(token))) {
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
@@ -170,7 +170,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations {
         }
 
         public async Task Put(Usuario entity, string token) {
-            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync($"api/usuarios/{entity.Id}", entity, x => SetToken(x, token))) {
+            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync($"api/usuarios/{entity.Id}", entity, x => x.SetAuthHeaders(token))) {
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
@@ -189,7 +189,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations {
 
         public async Task UpdateCurrent(Usuario current, string token)
         {
-            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync($"api/usuarios", current, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync($"api/usuarios", current, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -208,7 +208,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations {
 
         public async Task<Usuario> GetCurrentUsuario(string token)
         {
-            using (var response = await _apiHelper.ApiClient.GetAsync("api/usuarios/current", x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.GetAsync("api/usuarios/current", x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -225,10 +225,6 @@ namespace Presentation.Library.Api.Endpoints.Implementations {
 
                 return result;
             }
-        }
-
-        private void SetToken(HttpRequestMessage r, string token) {
-            r.Headers.Authorization = AuthenticationHeaderValue.Parse(token);
         }
     }
 }

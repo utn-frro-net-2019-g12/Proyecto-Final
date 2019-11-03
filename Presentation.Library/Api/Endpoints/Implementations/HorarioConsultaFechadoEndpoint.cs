@@ -23,7 +23,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task<IEnumerable<HorarioConsultaFechado>> GetAll(string token)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/horariosConsultaFechados", x => SetToken(x, token)))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/horariosConsultaFechados", x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -44,7 +44,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task<IEnumerable<HorarioConsultaFechado>> GetByNewSearch(string descMateria, string descProfesor, string token) {
             using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/horariosConsultaFechados/search/?descMateria={descMateria}&descProfesor={descProfesor}",
-                x => SetToken(x, token))) {
+                x => x.SetAuthHeaders(token))) {
 
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {
@@ -63,7 +63,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task<HorarioConsultaFechado> Get(object id, string token)
         {
-            using (var response = await _apiHelper.ApiClient.GetAsync("api/horariosConsultaFechados/" + id, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.GetAsync("api/horariosConsultaFechados/" + id, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -86,7 +86,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task Delete(object id, string token)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync("api/horariosConsultaFechados/" + id, x => SetToken(x, token)))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync("api/horariosConsultaFechados/" + id, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -106,7 +106,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task Post(HorarioConsultaFechado entity, string token)
         {
-            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/horariosConsultaFechado", entity, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/horariosConsultaFechado", entity, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -125,7 +125,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task Put(HorarioConsultaFechado entity, string token)
         {
-            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync("api/horariosConsultaFechados/" + entity.Id, entity, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync("api/horariosConsultaFechados/" + entity.Id, entity, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -142,11 +142,6 @@ namespace Presentation.Library.Api.Endpoints.Implementations
                     }
                 }
             }
-        }
-
-        private void SetToken(HttpRequestMessage r, string token)
-        {
-            r.Headers.Authorization = AuthenticationHeaderValue.Parse(token);
         }
     }
 }

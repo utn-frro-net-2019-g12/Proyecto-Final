@@ -51,7 +51,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task RegisterAccount(RegisterModel model, string token)
         {
-            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/account/register", model, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/account/register", model, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -70,7 +70,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task<IEnumerable<string>> GetUserRoles(string token)
         {
-            using (var response = await _apiHelper.ApiClient.GetAsync("api/account/getUserRoles", x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.GetAsync("api/account/getUserRoles", x => x.SetAuthHeaders(token)))
             {
                 var result = await response.Content.ReadAsAsync<IEnumerable<string>>();
 

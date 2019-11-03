@@ -25,7 +25,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task<IEnumerable<Departamento>> GetAll(string token)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/departamentos", x => SetToken(x, token)))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/departamentos", x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -45,7 +45,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
         }
 
         public async Task<IEnumerable<Departamento>> GetByPartialDesc(string partialDesc, string token) {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/departamentos/search/?desc={partialDesc}", x => SetToken(x, token))) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/departamentos/search/?desc={partialDesc}", x => x.SetAuthHeaders(token))) {
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
@@ -63,7 +63,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task<Departamento> Get(object id, string token)
         {
-            using (var response = await _apiHelper.ApiClient.GetAsync("api/departamentos/" + id, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.GetAsync("api/departamentos/" + id, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -86,7 +86,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task Delete(object id, string token)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync("api/departamentos/" + id, x => SetToken(x, token)))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync("api/departamentos/" + id, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -105,7 +105,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task Post(Departamento entity, string token)
         {
-            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/departamentos", entity, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/departamentos", entity, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -124,7 +124,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task Put(Departamento entity, string token)
         {
-            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync("api/departamentos/" + entity.Id, entity, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync("api/departamentos/" + entity.Id, entity, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -141,11 +141,6 @@ namespace Presentation.Library.Api.Endpoints.Implementations
                     }
                 }
             }
-        }
-
-        private void SetToken(HttpRequestMessage r, string token)
-        {
-            r.Headers.Authorization = AuthenticationHeaderValue.Parse(token);
         }
     }
 }

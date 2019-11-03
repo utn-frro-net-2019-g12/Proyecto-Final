@@ -23,7 +23,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task<IEnumerable<HorarioConsulta>> GetAll(string token)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/horariosConsulta", x => SetToken(x, token)))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/horariosConsulta", x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -43,7 +43,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
         }
 
         public async Task<IEnumerable<HorarioConsulta>> GetByPartialDesc(string partialDesc, string token) {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/horariosConsulta/search/?desc={partialDesc}", x => SetToken(x, token))) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/horariosConsulta/search/?desc={partialDesc}", x => x.SetAuthHeaders(token))) {
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
@@ -61,7 +61,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task<IEnumerable<HorarioConsulta>> GetByCurrentUserProfessor(string token)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/horariosConsulta/profesores/current", x => SetToken(x, token)))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("api/horariosConsulta/profesores/current", x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -82,7 +82,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task<HorarioConsulta> Get(object id, string token)
         {
-            using (var response = await _apiHelper.ApiClient.GetAsync("api/horariosConsulta/" + id, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.GetAsync("api/horariosConsulta/" + id, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -105,7 +105,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task Delete(object id, string token)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync("api/horariosConsulta/" + id, x => SetToken(x, token)))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync("api/horariosConsulta/" + id, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -125,7 +125,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task Post(HorarioConsulta entity, string token)
         {
-            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/horariosConsulta", entity, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync("api/horariosConsulta", entity, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -144,7 +144,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task Put(HorarioConsulta entity, string token)
         {
-            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync("api/horariosConsulta/" + entity.Id, entity, x => SetToken(x, token)))
+            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync("api/horariosConsulta/" + entity.Id, entity, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -166,7 +166,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
         public async Task<IEnumerable<HorarioConsulta>> GetByDeptoSorted(int deptoId, string token)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/horariosConsulta/departamentos/{deptoId}/sorted", x => SetToken(x, token)))
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/horariosConsulta/departamentos/{deptoId}/sorted", x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {
@@ -183,11 +183,6 @@ namespace Presentation.Library.Api.Endpoints.Implementations
 
                 return result;
             }
-        }
-
-        private void SetToken(HttpRequestMessage r, string token)
-        {
-            r.Headers.Authorization = AuthenticationHeaderValue.Parse(token);
         }
     }
 }

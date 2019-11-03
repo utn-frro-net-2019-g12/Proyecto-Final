@@ -164,6 +164,7 @@
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Filters\AuthorizeSelectedAttributte.cs" />
     <Compile Include="IocModules\AutoMapperModule.cs" />
+    <Compile Include="ModelStateExtensions.cs" />
     <Compile Include="Models\IUserSession.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\MateriaController.cs" />
@@ -176,7 +177,6 @@
     <Compile Include="Models\MvcHorarioConsultaModel.cs" />
     <Compile Include="Models\MvcUsuarioModel.cs" />
     <Compile Include="Models\UserSession.cs" />
-    <Compile Include="MyModelStateExtensions.cs" />
     <Compile Include="Models\MvcDepartamentoModel.cs" />
     <Compile Include="Models\MvcMateriaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
