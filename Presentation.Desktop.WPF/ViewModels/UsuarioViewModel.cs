@@ -37,6 +37,7 @@ namespace Presentation.Desktop.WPF.ViewModels
         {
             base.OnViewLoaded(view);
             await LoadUsuarios();
+            ErrorMessages = null;
         }
 
         public async Task LoadUsuarios()

@@ -14,10 +14,10 @@ namespace Presentation.Desktop.WPF.Models {
         public DateTime? EliminationDate { get; set; }
 
         // Usuarios with Matricula != Null Only
-        public int ProfesorId { get; set; }
+        public int? ProfesorId { get; set; }
         public virtual WpfUsuarioModel Profesor { get; set; }
 
-        public int MateriaId { get; set; }
+        public int? MateriaId { get; set; }
         public virtual WpfMateriaModel Materia { get; set; }
 
         public string EliminationDateForDisplay {

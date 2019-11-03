@@ -8,39 +8,37 @@
              d:DesignHeight="450" d:DesignWidth="800" FontFamily="Segoe UI Light">
     <Grid Background="#FF222247">
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="27" />
+            <RowDefinition Height="27" />
+            <RowDefinition Height="27" />
+            <RowDefinition Height="27" />
+            <RowDefinition Height="27" />
+            <RowDefinition Height="27" />
+            <RowDefinition Height="27" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="27" />
+            <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="303*" />
-            <ColumnDefinition Width="51*" />
-            <ColumnDefinition Width="101*" />
-            <ColumnDefinition Width="283*" />
-            <ColumnDefinition Width="41.667"/>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
 
         <!-- Header -->
-        <TextBlock Text="Horarios Consulta" FontSize="42" Foreground="#FFFFFF" Grid.Row="1"
-                   Grid.Column="1" Grid.ColumnSpan="3" FontFamily="Segoe UI" FontWeight="Bold" Margin="0,0,0.333,0" />
+        <TextBlock Text="HorariosConsulta" FontSize="42" Foreground="#FFFFFF" Grid.Row="0"
+                   Grid.Column="1" Grid.ColumnSpan="2" FontFamily="Segoe UI" FontWeight="Bold" />
 
         <!-- Column 1 -->
         <Button x:Name="Add" Content="Add New"
-                    Padding="5" Grid.Column="1" Grid.Row="2" FontFamily="Segoe UI" Margin="0,0,0.667,0"/>
+                    Padding="5" Grid.Column="1" Grid.Row="1" FontFamily="Segoe UI"/>
 
-        <ListBox x:Name="HorariosConsulta" Grid.Row="3" Grid.Column="1"
-                 MinHeight="200" MinWidth="150" Grid.RowSpan="9"
+        <ListBox x:Name="HorariosConsulta" Grid.Row="2" Grid.Column="1"
+                 MinHeight="200" MinWidth="150" Grid.RowSpan="7"
                   SelectedItem="{Binding SelectedHorarioConsulta}" Margin="0,0,0.667,0">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -73,12 +71,12 @@
         </ListBox>
 
         <Button x:Name="Delete" Content="Delete Selected"
-            Grid.Column="1" Grid.Row="10" FontFamily="Segoe UI" Margin="0,33.667,0.667,0" Grid.RowSpan="2"/>
+            Grid.Column="1" Grid.Row="9" FontFamily="Segoe UI"/>
 
         <!-- Show Errors -->
-        <StackPanel Grid.Column="3" Grid.Row="1"
+        <StackPanel Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="2"
                     Visibility="{Binding AreErrorMessagesVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
-                    VerticalAlignment="Center" Grid.ColumnSpan="3" Height="0" Margin="101,51,5,17">
+                    VerticalAlignment="Center" HorizontalAlignment="Center">
             <ItemsControl ItemsSource="{Binding ErrorMessages}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -89,38 +87,37 @@
         </StackPanel>
 
         <!-- Columns 3 & 4 -->
-        <TextBlock Grid.Column="3" Grid.Row="2" Text="Materia:" Foreground="#FFFFFF" FontFamily="Segoe UI" Margin="0,0,0.333,0"/>
-        <ComboBox Grid.Column="4" Grid.Row="2" Margin="9.667,0,5,3"
+        <TextBlock Grid.Column="3" Grid.Row="1" Text="Materia:" Foreground="#FFFFFF" FontFamily="Segoe UI"/>
+        <ComboBox Grid.Column="4" Grid.Row="1" Margin="10,0,0,3"
                   ItemsSource="{Binding MateriasInForm}"
                   DisplayMemberPath="Name"
                   SelectedItem="{Binding SelectedMateria}" />
 
-        <TextBlock Grid.Column="3" Grid.Row="3" Text="Profesor:" Foreground="#FFFFFF" FontFamily="Segoe UI" Margin="0,0,0.333,0"/>
-        <ComboBox Grid.Column="4" Grid.Row="3" Margin="9.667,0,5,3"
+        <TextBlock Grid.Column="3" Grid.Row="2" Text="Profesor:" Foreground="#FFFFFF" FontFamily="Segoe UI" Margin="0,0,0.333,0"/>
+        <ComboBox Grid.Column="4" Grid.Row="2" Margin="10,0,0,3"
                   ItemsSource="{Binding UsuariosProfesoresInForm}"
                   DisplayMemberPath="Surname"
                   SelectedItem="{Binding SelectedUsuarioProfesor}" />
 
-        <TextBlock Grid.Column="3" Grid.Row="4" Text="Día Semana:" Foreground="#FFFFFF" FontFamily="Segoe UI" Margin="0,0,0.333,0"/>
-        <ComboBox Grid.Column="4" Grid.Row="4" Margin="9.667,0,5,3"
+        <TextBlock Grid.Column="3" Grid.Row="3" Text="Día Semana:" Foreground="#FFFFFF" FontFamily="Segoe UI" Margin="0,0,0.333,0"/>
+        <ComboBox Grid.Column="4" Grid.Row="3" Margin="10,0,0,3"
                   ItemsSource="{Binding DiasSemanaInForm}"
                   DisplayMemberPath=""
                   SelectedItem="{Binding SelectedDiaSemana}" />
 
-        <TextBlock Grid.Column="3" Grid.Row="5" Text="Hora Inicio:" Foreground="#FFFFFF" FontFamily="Segoe UI" Margin="0,0,0.333,0"/>
-        <TextBox x:Name="StartHourInForm" Grid.Column="4" Grid.Row="5" Margin="9.667,0,5,3" />
+        <TextBlock Grid.Column="3" Grid.Row="4" Text="Hora Inicio:" Foreground="#FFFFFF" FontFamily="Segoe UI" Margin="0,0,0.333,0"/>
+        <TextBox x:Name="StartHourInForm" Grid.Column="4" Grid.Row="4" Margin="10,0,0,3" />
 
-        <TextBlock Grid.Column="3" Grid.Row="6" Text="Hora Fin:" Foreground="#FFFFFF" FontFamily="Segoe UI" Margin="0,0,0.333,0"/>
-        <TextBox x:Name="EndHourInForm" Grid.Column="4" Grid.Row="6" Margin="9.667,0,5,3" />
+        <TextBlock Grid.Column="3" Grid.Row="5" Text="Hora Fin:" Foreground="#FFFFFF" FontFamily="Segoe UI" Margin="0,0,0.333,0"/>
+        <TextBox x:Name="EndHourInForm" Grid.Column="4" Grid.Row="5" Margin="10,0,0,3" />
 
-        <TextBlock Grid.Column="3" Grid.Row="7" Text="Lugar:" Foreground="#FFFFFF" FontFamily="Segoe UI" Margin="0,0,0.333,33.667" Grid.RowSpan="2"/>
-        <TextBox x:Name="PlaceInForm" Grid.Column="4" Grid.Row="7" Margin="9.667,0,5,2.667" />
+        <TextBlock Grid.Column="3" Grid.Row="6" Text="Lugar:" Foreground="#FFFFFF" FontFamily="Segoe UI" Margin="0,0,0.333,33.667" Grid.RowSpan="2"/>
+        <TextBox x:Name="PlaceInForm" Grid.Column="4" Grid.Row="6" Margin="10,0,0,3" />
 
         <!-- Edit and Create Buttons Display -->
-        <Button x:Name="Edit" Grid.Row="9" Grid.Column="3" Content="Edit"
+        <Button x:Name="Edit" Grid.Row="7" Grid.Column="3" Content="Edit"
                Margin="5,2.333,5.333,2.333" Visibility="{Binding IsEditVisible,  Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
-        <Button x:Name="Create" Grid.Row="9" Grid.Column="3" Content="Create"
+        <Button x:Name="Create" Grid.Row="7" Grid.Column="3" Content="Create"
                Margin="5,2.333,5.333,2.333" Visibility="{Binding IsCreateVisible,  Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
-
     </Grid>
 </UserControl>

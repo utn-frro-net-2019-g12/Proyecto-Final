@@ -37,6 +37,7 @@ namespace Presentation.Desktop.WPF.ViewModels {
             await LoadMaterias();
             await LoadUsuariosProfesores();
             LoadDiasSemana();
+            ErrorMessages = null;
         }
 
         public async Task LoadHorariosConsulta() {
@@ -76,13 +77,7 @@ namespace Presentation.Desktop.WPF.ViewModels {
         }
 
         public void LoadDiasSemana() {
-            try { 
-                DiasSemanaInForm = new BindingList<string> { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" };
-            } catch (UnauthorizedRequestException) {
-                _events.PublishOnUIThread(new NotAuthorizedEvent());
-            } catch (Exception ex) {
-                ErrorMessages = new BindingList<string> { $"{ex.Message} Ha ocurrido un error. Por favor contacte a soporte" };
-            }
+            DiasSemanaInForm = new BindingList<string> { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" };
         }
 
         private BindingList<WpfHorarioConsultaModel> _horariosConsulta;
@@ -306,9 +301,9 @@ namespace Presentation.Desktop.WPF.ViewModels {
             ErrorMessages = null;
 
             var horarioConsulta = new WpfHorarioConsultaModel {
-                Id = SelectedHorarioConsulta.Id, Weekday = SelectedDiaSemana, StartHour = StartHourInForm, EndHour = EndHourInForm,
-                Place = PlaceInForm, EliminationDate = EliminationDateInForm, MateriaId = SelectedMateria.Id, Materia = SelectedMateria,
-                ProfesorId = SelectedUsuarioProfesor.Id, Profesor = SelectedUsuarioProfesor
+                Id = SelectedHorarioConsulta.Id, Weekday = SelectedDiaSemana, StartHour = StartHourInForm,
+                EndHour = EndHourInForm, Place = PlaceInForm, EliminationDate = EliminationDateInForm,
+                MateriaId = SelectedMateria?.Id, ProfesorId = SelectedUsuarioProfesor?.Id
             };
 
             try {
@@ -342,8 +337,8 @@ namespace Presentation.Desktop.WPF.ViewModels {
 
             var horarioConsulta = new WpfHorarioConsultaModel {
                 Weekday = SelectedDiaSemana, StartHour = StartHourInForm, EndHour = EndHourInForm,
-                Place = PlaceInForm, EliminationDate = EliminationDateInForm, MateriaId = SelectedMateria.Id,
-                ProfesorId = SelectedUsuarioProfesor.Id
+                Place = PlaceInForm, EliminationDate = EliminationDateInForm, MateriaId = SelectedMateria?.Id,
+                ProfesorId = SelectedUsuarioProfesor?.Id
             };
 
             try {

@@ -8,18 +8,11 @@
              d:DesignHeight="450" d:DesignWidth="800" FontFamily="Segoe UI Light">
     <Grid Background="#FF222247">
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="27" />
+            <RowDefinition Height="27" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -32,15 +25,15 @@
         </Grid.ColumnDefinitions>
 
         <!-- Header -->
-        <TextBlock Text="Departamentos" FontSize="42" Foreground="#FFFFFF" Grid.Row="1"
+        <TextBlock Text="Departamentos" FontSize="42" Foreground="#FFFFFF" Grid.Row="0"
                    Grid.Column="1" Grid.ColumnSpan="2" FontWeight="Bold" FontFamily="Segoe UI" />
 
         <!-- Column 0 -->
         <Button x:Name="Add" Content="Add New"
-                    Padding="5" Grid.Column="1" Grid.Row="2"/>
+                    Padding="5" Grid.Column="1" Grid.Row="1"/>
 
-        <ListBox x:Name="Departamentos" Grid.Row="3" Grid.Column="1"
-                 MinHeight="200" MinWidth="150" Grid.RowSpan="9"
+        <ListBox x:Name="Departamentos" Grid.Row="2" Grid.Column="1"
+                 MinHeight="200" MinWidth="150" Grid.RowSpan="2"
                   SelectedItem="{Binding SelectedDepartamento}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -53,11 +46,11 @@
 
         <!-- Column 1 -->
         <Button x:Name="Delete" Content="Delete Selected"
-            Grid.Column="1" Grid.Row="11"/>
+            Grid.Column="1" Grid.Row="4"/>
 
-        <StackPanel Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" 
+        <StackPanel Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="2" 
                     Visibility="{Binding AreErrorMessagesVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
-                    VerticalAlignment="Center">
+                    VerticalAlignment="Center" HorizontalAlignment="Center">
             <ItemsControl ItemsSource="{Binding ErrorMessages}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -68,12 +61,12 @@
         </StackPanel>
 
 
-        <TextBlock Grid.Column="3" Grid.Row="2" Text="Nombre:" Foreground="#FFFFFF"/>
-        <TextBox x:Name="NameInForm" Grid.Column="4" Grid.Row="2" Margin="10,0,0,3"/>
+        <TextBlock Grid.Column="3" Grid.Row="1" Text="Nombre:" Foreground="#FFFFFF"/>
+        <TextBox x:Name="NameInForm" Grid.Column="4" Grid.Row="1" Margin="10,0,0,3"/>
 
-        <Button x:Name="Edit" Grid.Row="7" Grid.Column="3" Content="Edit"
+        <Button x:Name="Edit" Grid.Row="2" Grid.Column="3" Content="Edit"
                Margin="5,2" Visibility="{Binding IsEditVisible,  Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
-        <Button x:Name="Create" Grid.Row="7" Grid.Column="3" Content="Create"
+        <Button x:Name="Create" Grid.Row="2" Grid.Column="3" Content="Create"
                Margin="5,2" Visibility="{Binding IsCreateVisible,  Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
     </Grid>
 </UserControl>

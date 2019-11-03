@@ -37,6 +37,7 @@ namespace Presentation.Desktop.WPF.ViewModels
             base.OnViewLoaded(view);
             await LoadMaterias();
             await LoadDepartamentos();
+            ErrorMessages = null;
         }
 
         public async Task LoadMaterias()
@@ -255,7 +256,7 @@ namespace Presentation.Desktop.WPF.ViewModels
             ErrorMessages = null;
 
             var materia = new WpfMateriaModel { Id = SelectedMateria.Id, Name = NameInForm, Year = YearInForm, IsElectiva = IsElectivaInForm,
-                DepartamentoId = SelectedDepartamento.Id, Departamento = SelectedDepartamento};
+                DepartamentoId = SelectedDepartamento?.Id};
 
             try
             {
