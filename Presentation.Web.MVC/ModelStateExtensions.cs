@@ -15,7 +15,7 @@ namespace Presentation.Web.MVC
                 // This decouples the name sent by the api from the one that's used to add a modelError
                 string errorKey = item.Key == "" ? "" : modelState.Keys.Where(e => e.Contains(item.Key.Substring(item.Key.IndexOf('.') + 1))).FirstOrDefault();
 
-                modelState.AddModelError(errorKey, item.Value);
+                modelState.AddModelError(errorKey ?? "", item.Value);
             }
         }
     }

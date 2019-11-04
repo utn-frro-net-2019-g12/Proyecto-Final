@@ -32,83 +32,37 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <div class="col-sm-7 mb-3 mb-sm-0">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
                                 @Html.LabelFor(model => model.Username, new { @class = "mb-0 ml-1" })
-                                @Html.TextBoxFor(model => model.Username, new { @class = "form-control form-control-user" })
+                                @Html.TextBoxFor(model => model.Username, new { @class = "form-control form-control-user", @readonly = "true" })
                                 @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
                             </div>
-                            <div class="col-sm-5">
+                            <div class="col-sm-3">
+                                @Html.LabelFor(model => model.Matricula, new { @class = "mb-0 ml-1" })
+                                @Html.TextBoxFor(model => model.Matricula, new { @class = "form-control form-control-user", @readonly = "true" })
+                                @Html.ValidationMessageFor(model => model.Matricula, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-3">
                                 @Html.LabelFor(model => model.Legajo, new { @class = "mb-0 ml-1" })
-                                @Html.TextBoxFor(model => model.Legajo, new { @class = "form-control form-control-user" })
+                                @Html.TextBoxFor(model => model.Legajo, new { @class = "form-control form-control-user", @readonly = "true" })
                                 @Html.ValidationMessageFor(model => model.Legajo, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="form-group row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 @Html.LabelFor(model => model.Email, new { @class = "mb-0 ml-1" })
                                 @Html.TextBoxFor(model => model.Email, new { @class = "form-control form-control-user" })
                                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-6 mb-3 mb-sm-0">
+                            <div class="col-sm-3 mb-3 mb-sm-0">
                                 @Html.LabelFor(model => model.Phone1, new { @class = "mb-0 ml-1" })
                                 @Html.TextBoxFor(model => model.Phone1, new { @class = "form-control form-control-user" })
                                 @Html.ValidationMessageFor(model => model.Phone1, "", new { @class = "text-danger" })
                             </div>
-                            <div class="col-sm-6 mb-3 mb-sm-0">
+                            <div class="col-sm-3 mb-3 mb-sm-0">
                                 @Html.LabelFor(model => model.Phone2, new { @class = "mb-0 ml-1" })
                                 @Html.TextBoxFor(model => model.Phone2, new { @class = "form-control form-control-user" })
                                 @Html.ValidationMessageFor(model => model.Phone2, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="row justify-content-around">
-                            <div class="form-check">
-                                @try
-                                {
-                                    if (Model.Legajo != null)
-                                    {
-                                        <input class="form-check-input" type="checkbox" value="" id="alumnoCheck" checked>
-                                    }
-                                    else
-                                    {
-                                        <input class="form-check-input" type="checkbox" value="" id="alumnoCheck">
-                                    }
-                                }
-                                catch
-                                {
-                                    <input class="form-check-input" type="checkbox" value="" id="alumnoCheck">
-                                }
-                                <label class="form-check-label" for="alumnoCheck">
-                                    Alumno
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                @try
-                                {
-                                    if (Model.Matricula != null && Model.Matricula != "")
-                                    {
-                                        <input class="form-check-input" type="checkbox" value="" id="profesorCheck" checked>
-                                    }
-                                    else
-                                    {
-                                        <input class="form-check-input" type="checkbox" value="" id="profesorCheck">
-                                    }
-                                }
-                                catch
-                                {
-                                    <input class="form-check-input" type="checkbox" value="" id="profesorCheck">
-                                }
-                                <label class="form-check-label" for="profesorCheck">
-                                    Profesor
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                @Html.CheckBoxFor(m => m.IsAdmin, new { @class = "form-check-input", id = "adminCheck" })
-                                <label class="form-check-label" for="adminCheck">
-                                    Admin
-                                </label>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary" id="searchButton">

@@ -54,11 +54,11 @@ namespace Presentation.Web.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(MvcUsuarioModel current)
+        public async Task<ActionResult> Edit(MvcUsuarioModel user)
         {
             try
             {
-                var entity = _mapper.Map<Usuario>(current);
+                var entity = _mapper.Map<Usuario>(user);
 
                 await _usuarioEndpoint.UpdateCurrent(entity, _userSession.BearerToken);
             }
@@ -70,14 +70,14 @@ namespace Presentation.Web.MVC.Controllers
             {
                 ModelState.AddModelErrors(ex.Errors);
 
-                return View(current);
+                return View(user);
             }
             catch (Exception ex)
             {
                 return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
             }
 
-            return View(current);
+            return View(user);
         }
     }
 }

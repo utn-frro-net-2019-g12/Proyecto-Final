@@ -189,7 +189,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations {
 
         public async Task UpdateCurrent(Usuario current, string token)
         {
-            using (var response = await _apiHelper.ApiClient.PostAsJsonAsync($"api/usuarios", current, x => x.SetAuthHeaders(token)))
+            using (var response = await _apiHelper.ApiClient.PutAsJsonAsync("api/usuarios/current", current, x => x.SetAuthHeaders(token)))
             {
                 if (!response.IsSuccessStatusCode)
                 {

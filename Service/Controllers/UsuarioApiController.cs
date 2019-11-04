@@ -10,6 +10,7 @@ using System.Web.Http.Description;
 using System.Web.Http.Results;
 using DataAccess;
 using Microsoft.AspNet.Identity;
+using Service.Models;
 
 namespace Service.Controllers {
 
@@ -202,22 +203,29 @@ namespace Service.Controllers {
 
         [HttpPut]
         [Route("current")]
-        [ResponseType(typeof(Usuario))]
         [Authorize]
-        public IHttpActionResult UpdateCurrent([FromBody] Usuario current)
+        public IHttpActionResult UpdateCurrent([FromBody] UpdateCurrentUsuarioModel user)
         {
-            if(User.Identity.Name != current.Username)
+            /*if(User.Identity.Name != current.Username)
             {
                 return StatusCode(HttpStatusCode.Unauthorized);
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            }*/
 
             try
-            { 
+            {
+                Usuario current = _unitOfWork.Usuarios.GetUsuarioByUsername(User.Identity.Name);
+
+                current.Firstname = user.Firstname;
+                current.Surname = user.Surname;
+                current.Email = user.Email;
+                current.Phone1 = user.Phone1;
+                current.Phone2 = user.Phone2;
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
                 _unitOfWork.Usuarios.Update(current);
                 _unitOfWork.Complete();
             }
