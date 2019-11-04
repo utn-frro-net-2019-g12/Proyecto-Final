@@ -28,7 +28,7 @@ namespace Service.Controllers {
         [HttpGet]
         [Route("")]
         public IHttpActionResult GetAll() {
-            var horariosConsulta = _unitOfWork.HorariosConsulta.GetHorariosConsultaWithProfesorAndMateria();
+            var horariosConsulta = _unitOfWork.HorariosConsulta.GetWithProfesorAndMateria();
 
             return Ok(horariosConsulta);
             // API Special Endpoint (No-Rest) --> [Route("profesor_materia")] (Unused)
@@ -39,8 +39,8 @@ namespace Service.Controllers {
         /// </summary>
         [HttpGet]
         [Route("search")]
-        public IHttpActionResult GetByPartialDescription(string desc) {
-            var horariosConsulta = _unitOfWork.HorariosConsulta.GetHorariosConsultaByPartialDesc(desc);
+        public IHttpActionResult GetByPartialDescriptionAndDepto(string desc, int? deptoId) {
+            var horariosConsulta = _unitOfWork.HorariosConsulta.GetByPartialDescAndDeptoSorted(desc, deptoId);
             return Ok(horariosConsulta);
         }
 
@@ -50,7 +50,7 @@ namespace Service.Controllers {
         [HttpGet]
         [Route("profesores/{id_profesor:int}")]
         public IHttpActionResult GetByProfesor(int id_profesor) {
-            var horariosConsulta = _unitOfWork.HorariosConsulta.GetHorariosConsultaByProfesor(id_profesor);
+            var horariosConsulta = _unitOfWork.HorariosConsulta.GetByProfesor(id_profesor);
             return Ok(horariosConsulta);
         }
 
@@ -66,7 +66,7 @@ namespace Service.Controllers {
 
             var usuario = _unitOfWork.Usuarios.GetUsuarioByUsername(username);
 
-            var horariosConsulta = _unitOfWork.HorariosConsulta.GetHorariosConsultaByProfesor(usuario.Id);
+            var horariosConsulta = _unitOfWork.HorariosConsulta.GetByProfesor(usuario.Id);
             return Ok(horariosConsulta);
         }
 
@@ -76,15 +76,7 @@ namespace Service.Controllers {
         [HttpGet]
         [Route("materias/{id_materia:int}")]
         public IHttpActionResult GetByMateriaOrderByProfesor(int id_materia) {
-            var horariosConsulta = _unitOfWork.HorariosConsulta.GetHorariosConsultaByMateriaOrderByProfesor(id_materia);
-            return Ok(horariosConsulta);
-        }
-
-        [HttpGet]
-        [Route("departamentos/{id_departamento:int}/sorted")]
-        public IHttpActionResult GetByDeptoOrdered(int id_departamento)
-        {
-            var horariosConsulta = _unitOfWork.HorariosConsulta.GetHorariosConsultaByDeptoSorted(id_departamento);
+            var horariosConsulta = _unitOfWork.HorariosConsulta.GetByMateriaOrderByProfesor(id_materia);
             return Ok(horariosConsulta);
         }
 
@@ -96,7 +88,7 @@ namespace Service.Controllers {
         [Route("{id:int}")]
         [ResponseType(typeof(HorarioConsulta))]
         public IHttpActionResult Get(int id) {
-            var horarioConsulta = _unitOfWork.HorariosConsulta.GetHorarioConsultaWithProfesorAndMateria(id);
+            var horarioConsulta = _unitOfWork.HorariosConsulta.GetWithProfesorAndMateria(id);
 
             if (horarioConsulta == null)
             {

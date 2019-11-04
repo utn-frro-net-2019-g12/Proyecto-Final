@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Presentation.Web.MVC.Models.MvcHorarioConsultaModel>
+﻿@model Presentation.Web.MVC.ViewModels.ShowHorariosConsultaViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -137,10 +137,19 @@
         $("#searchForm").on('submit', function (e) {
             e.preventDefault();
             let partialDesc = $("#searchText").val();
-            if (partialDesc != null && partialDesc != "") {
-                let url = `/HorarioConsulta/Search?partialDesc=${partialDesc}`;
-                window.location.href = url;
-            }
+            let deptoId = $("#searchFilter").val();
+            let url = `/HorarioConsulta/Search?desc=${partialDesc}&&deptoId=${deptoId}`;
+            window.location.href = url;
+        });
+
+        /*------------------------------*/
+
+        $("#reportButton").on('click', function (e) {
+            e.preventDefault();
+            let partialDesc = $("#searchText").val();
+            let deptoId = $("#searchFilter").val();
+            let url = `/HorarioConsulta/Report?desc=${partialDesc}&&deptoId=${deptoId}`;
+            window.location.href = url;
         });
     </script>
 }
@@ -193,16 +202,16 @@
             <button id="actionCreateHorarioConsulta" class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalCreateHorarioConsulta">Nuevo HorarioConsulta</button>
         </div>
         <select class="form-control col-3 bg-light border border-primary p-2" id="searchFilter">
-            <option value="1">Todos</option>
-            <option value="2">Sistemas</option>
-            <option value="3">Quimica</option>
-            <option value="4">Civil</option>
-            <option value="5">Eléctrica</option>
-            <option value="6">Mecánica</option>
+            <option value="null">Todos</option>
+            <option value="1">Sistemas</option>
+            <option value="2">Quimica</option>
+            <option value="3">Civil</option>
+            <option value="4">Eléctrica</option>
+            <option value="5">Mecánica</option>
         </select>
         <form class="col" id="searchForm">
             <div class="input-group">
-                <input type="text" class="form-control bg-light border border-primary p-4" id="searchText" placeholder="Buscar HorarioConsulta" aria-label="Search" aria-describedby="basic-addon2">
+                <input type="text" class="form-control bg-light border border-primary p-4" id="searchText" placeholder="Buscar HorarioConsulta" aria-label="Search" aria-describedby="basic-addon2" value="@Model.DescParcial">
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-primary" id="searchButton">
                         <i class="fas fa-search"></i>
@@ -218,19 +227,19 @@
                     <thead>
                         <tr>
                             <th class="d-none">
-                                @Html.DisplayNameFor(model => model.Id)
+                                @Html.DisplayNameFor(model => model.HorariosConsulta.FirstOrDefault().Id)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Weekday)
+                                @Html.DisplayNameFor(model => model.HorariosConsulta.FirstOrDefault().Weekday)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.StartHour)
+                                @Html.DisplayNameFor(model => model.HorariosConsulta.FirstOrDefault().StartHour)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.EndHour)
+                                @Html.DisplayNameFor(model => model.HorariosConsulta.FirstOrDefault().EndHour)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Place)
+                                @Html.DisplayNameFor(model => model.HorariosConsulta.FirstOrDefault().Place)
                             </th>
                             <th>
                                 Profesor
@@ -239,7 +248,7 @@
                                 Materia
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.EliminationDate)
+                                @Html.DisplayNameFor(model => model.HorariosConsulta.FirstOrDefault().EliminationDate)
                             </th>
                             <th>Acciones</th>
                         </tr>
@@ -247,19 +256,19 @@
                     <tfoot>
                         <tr>
                             <th class="d-none">
-                                @Html.DisplayNameFor(model => model.Id)
+                                @Html.DisplayNameFor(model => model.HorariosConsulta.FirstOrDefault().Id)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Weekday)
+                                @Html.DisplayNameFor(model => model.HorariosConsulta.FirstOrDefault().Weekday)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.StartHour)
+                                @Html.DisplayNameFor(model => model.HorariosConsulta.FirstOrDefault().StartHour)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.EndHour)
+                                @Html.DisplayNameFor(model => model.HorariosConsulta.FirstOrDefault().EndHour)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Place)
+                                @Html.DisplayNameFor(model => model.HorariosConsulta.FirstOrDefault().Place)
                             </th>
                             <th>
                                 Profesor
@@ -268,13 +277,13 @@
                                 Materia
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.EliminationDate)
+                                @Html.DisplayNameFor(model => model.HorariosConsulta.FirstOrDefault().EliminationDate)
                             </th>
                             <th>Acciones</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.HorariosConsulta)
                         {
                         <tr>
                             <td class="d-none">
@@ -319,5 +328,10 @@
                 </table>
             </div>
         </div>
+    </div>
+    <div class="row  mb-3">
+        <button class="btn btn-primary" id="reportButton">
+            Generar Reporte <i class="fas fa-file"></i>
+        </button>
     </div>
 </div>

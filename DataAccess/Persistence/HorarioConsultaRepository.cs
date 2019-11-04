@@ -16,53 +16,48 @@ namespace DataAccess.Persistence {
             }
         }
 
-        public IEnumerable<HorarioConsulta> GetHorariosConsultaOrderedByMateria() {
+        public IEnumerable<HorarioConsulta> GetSortedByMateria() {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
             return ConsultaUTNContext.HorariosConsulta.OrderByDescending(e => e.Materia.Name).ToList();
         }
 
-        public IEnumerable<HorarioConsulta> GetHorariosConsultaOrderedByProfesor() {
+        public IEnumerable<HorarioConsulta> GetSortedByProfesor() {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
             return ConsultaUTNContext.HorariosConsulta.OrderByDescending(e => e.Profesor.Surname)
                 .ThenByDescending(e => e.Profesor.Firstname).ToList();
         }
 
 
-        public IEnumerable<HorarioConsulta> GetHorariosConsultaWithProfesorAndMateria() {
+        public IEnumerable<HorarioConsulta> GetWithProfesorAndMateria() {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
             return ConsultaUTNContext.HorariosConsulta.Include(e => e.Profesor).Include(e => e.Materia).ToList();
         }
 
-        public IEnumerable<HorarioConsulta> GetHorariosConsultaByPartialDesc(string desc) {
+        public IEnumerable<HorarioConsulta> GetByPartialDescAndDeptoSorted(string desc, int? deptoId) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
-            return ConsultaUTNContext.HorariosConsulta.Where(e => (e.Materia.Name.ToLower().Contains(desc.ToLower()) ||
-                (e.Profesor.Surname.ToLower() + " " + e.Profesor.Firstname.ToLower()).Contains(desc.ToLower())))
-                .Include(e => e.Profesor).Include(e => e.Materia).ToList().OrderByDescending(e => e.Materia.Name).ToList();
+            return ConsultaUTNContext.HorariosConsulta
+                .Where(e => desc == null || e.Materia.Name.ToLower().Contains(desc.ToLower()) || (e.Profesor.Firstname + "" + e.Profesor.Surname).ToLower().Contains(desc.ToLower()))
+                .Where(e => deptoId == null || e.Materia.DepartamentoId == deptoId) // Here uses shortcircuit logic
+                .Include(e => e.Profesor).Include(e => e.Materia)
+                .OrderBy(e => e.Materia.Name).ThenBy(e => e.Profesor.Surname).ToList();
         }
 
-        public IEnumerable<HorarioConsulta> GetHorariosConsultaByProfesor(int id_profesor) {
+        public IEnumerable<HorarioConsulta> GetByProfesor(int id_profesor) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
             return ConsultaUTNContext.HorariosConsulta.Where(e => e.ProfesorId == id_profesor)
                 .Include(e => e.Profesor).Include(e => e.Materia).ToList();
         }
 
-        public IEnumerable<HorarioConsulta> GetHorariosConsultaByMateriaOrderByProfesor(int id_materia) {
+        public IEnumerable<HorarioConsulta> GetByMateriaOrderByProfesor(int id_materia) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
             return ConsultaUTNContext.HorariosConsulta.Where(e => e.MateriaId == id_materia).OrderBy(e => e.ProfesorId)
                 .Include(e => e.Profesor).Include(e => e.Materia).ToList();
         }
 
-        public HorarioConsulta GetHorarioConsultaWithProfesorAndMateria(int id) {
+        public HorarioConsulta GetWithProfesorAndMateria(int id) {
             ConsultaUTNContext.Database.Log = message => Trace.Write(message);
             return ConsultaUTNContext.HorariosConsulta.Where(e => e.Id == id).Include(e => e.Profesor)
                 .Include(e => e.Materia).FirstOrDefault();
-        }
-
-        public IEnumerable<HorarioConsulta> GetHorariosConsultaByDeptoSorted(int deptoId)
-        {
-            return ConsultaUTNContext.HorariosConsulta.Where(e => e.Materia.DepartamentoId == deptoId)
-                .OrderBy(e => e.Materia.Name).ThenBy(e => e.Profesor.Surname)
-                .Include(e => e.Materia).Include(e => e.Profesor).ToList();
         }
     }
 }

@@ -42,8 +42,8 @@ namespace Presentation.Library.Api.Endpoints.Implementations
             }
         }
 
-        public async Task<IEnumerable<HorarioConsulta>> GetByPartialDesc(string partialDesc, string token) {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/horariosConsulta/search/?desc={partialDesc}", x => x.SetAuthHeaders(token))) {
+        public async Task<IEnumerable<HorarioConsulta>> GetByPartialDescAndDepto(string token, string partialDesc = null, int? deptoId = null) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/horariosConsulta/search/?desc={partialDesc}&&deptoId={deptoId}", x => x.SetAuthHeaders(token))) {
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {
                         case HttpStatusCode.Unauthorized:
@@ -160,28 +160,6 @@ namespace Presentation.Library.Api.Endpoints.Implementations
                             throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
                     }
                 }
-            }
-        }
-
-
-        public async Task<IEnumerable<HorarioConsulta>> GetByDeptoSorted(int deptoId, string token)
-        {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/horariosConsulta/departamentos/{deptoId}/sorted", x => x.SetAuthHeaders(token)))
-            {
-                if (!response.IsSuccessStatusCode)
-                {
-                    switch (response.StatusCode)
-                    {
-                        case HttpStatusCode.Unauthorized:
-                            throw new UnauthorizedRequestException(response);
-                        default:
-                            throw new Exception($"{response.ReasonPhrase}: Contacte a soporte para mas detalles");
-                    }
-                }
-
-                var result = await response.Content.ReadAsAsync<IEnumerable<HorarioConsulta>>();
-
-                return result;
             }
         }
     }

@@ -46,7 +46,14 @@ namespace Presentation.Web.MVC.Controllers {
 
                 var horariosConsulta = _mapper.Map<IEnumerable<MvcHorarioConsultaModel>>(entities);
 
-                return View(horariosConsulta);
+                var viewModel = new ShowHorariosConsultaViewModel()
+                {
+                    HorariosConsulta = horariosConsulta,
+                    DescParcial = null,
+                    DepartamentoId = null
+                };
+
+                return View(viewModel);
             }
             catch (UnauthorizedRequestException)
             {
@@ -58,14 +65,21 @@ namespace Presentation.Web.MVC.Controllers {
             }
         }
 
-        // Search - GET HorarioConsulta by Partial Descripcion
-        public async Task<ActionResult> Search(string partialDesc) {
+        [HttpGet]
+        public async Task<ActionResult> Search(string desc, int? deptoId) {
             try {
-                IEnumerable<HorarioConsulta> entities = await _horarioConsultaEndpoint.GetByPartialDesc(partialDesc, _userSession.BearerToken);
+                IEnumerable<HorarioConsulta> entities = await _horarioConsultaEndpoint.GetByPartialDescAndDepto(partialDesc:desc, deptoId:deptoId, token:_userSession.BearerToken);
 
                 var horariosConsulta = _mapper.Map<IEnumerable<MvcHorarioConsultaModel>>(entities);
 
-                return View("Index", horariosConsulta);
+                var viewModel = new ShowHorariosConsultaViewModel()
+                {
+                    HorariosConsulta = horariosConsulta,
+                    DescParcial = desc,
+                    DepartamentoId = deptoId
+                };
+
+                return View("Index", viewModel);
             } catch (UnauthorizedRequestException) {
                 return RedirectToAction("AccessDenied", "Error");
             } catch (Exception ex) {
@@ -281,11 +295,12 @@ namespace Presentation.Web.MVC.Controllers {
             return Content("OK");
         }
 
-        public async Task<ActionResult> Report(int id)
+        [HttpGet]
+        public async Task<ActionResult> Report(string desc, int? deptoId)
         {
             try
             {
-                IEnumerable<HorarioConsulta> entities = await _horarioConsultaEndpoint.GetByDeptoSorted(id ,_userSession.BearerToken);
+                IEnumerable<HorarioConsulta> entities = await _horarioConsultaEndpoint.GetByPartialDescAndDepto(partialDesc: desc, deptoId: deptoId, token: _userSession.BearerToken);
 
                 var horarios = _mapper.Map<IEnumerable<MvcHorarioConsultaModel>>(entities);
 

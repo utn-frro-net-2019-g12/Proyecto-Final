@@ -31,10 +31,5 @@ namespace DataAccess {
         public string Email { get; set; }
         public int? Phone1 { get; set; }
         public int? Phone2 { get; set; }
-        // public Bitmap Photo { get; set; } --> Consultar
-
-        // [ForeignKey("User_IdentityFramework")]
-        // public string Username { get; set; }
-        // public virtual IdentityFramework... { get; set; }
     }
 }

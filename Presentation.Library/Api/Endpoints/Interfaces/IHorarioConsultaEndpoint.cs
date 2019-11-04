@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.Library.Api.Endpoints.Interfaces {
     public interface IHorarioConsultaEndpoint : IEndpoint<HorarioConsulta> {
-        Task<IEnumerable<HorarioConsulta>> GetByPartialDesc(string partialDesc, string token);
+        Task<IEnumerable<HorarioConsulta>> GetByPartialDescAndDepto(string token, string partialDesc = null, int? deptoId = null);
         Task<IEnumerable<HorarioConsulta>> GetByCurrentUserProfessor(string token);
-        Task<IEnumerable<HorarioConsulta>> GetByDeptoSorted(int deptoId ,string token);
     }
 }
