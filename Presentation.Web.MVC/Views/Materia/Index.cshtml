@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Presentation.Web.MVC.Models.MvcMateriaModel>
+﻿@model Presentation.Web.MVC.ViewModels.ShowMateriasViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -202,16 +202,16 @@
                     <thead>
                         <tr>
                             <th class="d-none">
-                                @Html.DisplayNameFor(model => model.Id)
+                                @Html.DisplayNameFor(model => model.Materias.FirstOrDefault().Id)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Name)
+                                @Html.DisplayNameFor(model => model.Materias.FirstOrDefault().Name)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Year)
+                                @Html.DisplayNameFor(model => model.Materias.FirstOrDefault().Year)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.IsElectiva)
+                                @Html.DisplayNameFor(model => model.Materias.FirstOrDefault().IsElectiva)
                             </th>
                             <th>
                                 Departamento
@@ -222,16 +222,16 @@
                     <tfoot>
                         <tr>
                             <th class="d-none">
-                                @Html.DisplayNameFor(model => model.Id)
+                                @Html.DisplayNameFor(model => model.Materias.FirstOrDefault().Id)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Name)
+                                @Html.DisplayNameFor(model => model.Materias.FirstOrDefault().Name)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Year)
+                                @Html.DisplayNameFor(model => model.Materias.FirstOrDefault().Year)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.IsElectiva)
+                                @Html.DisplayNameFor(model => model.Materias.FirstOrDefault().IsElectiva)
                             </th>
                             <th>
                                 Departamento
@@ -240,7 +240,7 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.Materias)
                         {
                             <tr>
                                 <td class="d-none">

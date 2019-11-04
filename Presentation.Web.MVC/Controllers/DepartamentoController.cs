@@ -12,6 +12,7 @@ using Presentation.Library.Api.Exceptions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Presentation.Web.MVC.Filters;
+using Presentation.Web.MVC.ViewModels;
 
 namespace Presentation.Web.MVC.Controllers {
 
@@ -37,7 +38,9 @@ namespace Presentation.Web.MVC.Controllers {
 
                 var departamentos = _mapper.Map<IEnumerable<MvcDepartamentoModel>>(entities);
 
-                return View(departamentos);
+                var viewModel = new ShowDepartamentosViewModel(departamentos: departamentos);
+
+                return View(viewModel);
             }
             catch (UnauthorizedRequestException)
             {
@@ -56,7 +59,9 @@ namespace Presentation.Web.MVC.Controllers {
 
                 var departamentos = _mapper.Map<IEnumerable<MvcDepartamentoModel>>(entities);
 
-                return View("Index", departamentos);
+                var viewModel = new ShowDepartamentosViewModel(departamentos: departamentos, parcialDesc: partialDesc);
+
+                return View("Index", viewModel);
             } catch (UnauthorizedRequestException) {
                 return RedirectToAction("AccessDenied", "Error");
             } catch (Exception ex) {

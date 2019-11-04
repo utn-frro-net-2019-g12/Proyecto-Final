@@ -42,7 +42,9 @@ namespace Presentation.Web.MVC.Controllers {
 
                 var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(entities);
 
-                return View(materias);
+                var viewModel = new ShowMateriasViewModel(materias: materias);
+
+                return View(viewModel);
             }
             catch (UnauthorizedRequestException)
             {
@@ -61,7 +63,9 @@ namespace Presentation.Web.MVC.Controllers {
 
                 var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(entities);
 
-                return View("Index", materias);
+                var viewModel = new ShowMateriasViewModel(materias: materias, parcialDesc: partialDesc);
+
+                return View("Index", viewModel);
             } catch (UnauthorizedRequestException) {
                 return RedirectToAction("AccessDenied", "Error");
             } catch (Exception ex) {

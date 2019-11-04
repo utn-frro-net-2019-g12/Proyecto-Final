@@ -41,7 +41,9 @@ namespace Presentation.Web.MVC.Controllers {
 
                 var usuarios = _mapper.Map<IEnumerable<MvcUsuarioModel>>(entities);
 
-                return View(usuarios);
+                var viewModel = new ShowUsuariosViewModel(usuarios: usuarios);
+
+                return View(viewModel);
             }
             catch (UnauthorizedRequestException)
             {
@@ -60,7 +62,9 @@ namespace Presentation.Web.MVC.Controllers {
 
                 var usuarios = _mapper.Map<IEnumerable<MvcUsuarioModel>>(entities);
 
-                return View("Index", usuarios);
+                var viewModel = new ShowUsuariosViewModel(usuarios: usuarios, parcialDesc: partialDesc);
+
+                return View("Index", viewModel);
             } catch (UnauthorizedRequestException) {
                 return RedirectToAction("AccessDenied", "Error");
             } catch (Exception ex) {
