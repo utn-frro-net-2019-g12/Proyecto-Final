@@ -43,7 +43,9 @@ namespace Presentation.Web.MVC.Controllers {
 
                 var inscripciones = _mapper.Map<IEnumerable<MvcInscripcionModel>>(entities);
 
-                return View(inscripciones);
+                var viewModel = new ShowInscripcionesViewModel(inscripciones: inscripciones);
+
+                return View(viewModel);
             }
             catch (UnauthorizedRequestException)
             {
@@ -62,7 +64,9 @@ namespace Presentation.Web.MVC.Controllers {
 
                 var inscripciones = _mapper.Map<IEnumerable<MvcInscripcionModel>>(entities);
 
-                return View("Index", inscripciones);
+                var viewModel = new ShowInscripcionesViewModel(inscripciones: inscripciones, parcialDesc: partialDesc);
+
+                return View("Index", viewModel);
             } catch (UnauthorizedRequestException) {
                 return RedirectToAction("AccessDenied", "Error");
             } catch (Exception ex) {

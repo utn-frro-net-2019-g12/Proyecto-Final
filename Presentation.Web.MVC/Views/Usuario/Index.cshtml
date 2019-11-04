@@ -128,12 +128,14 @@
                 $.ajax({
                     type: "POST",
                     url: url,
-                    // dataType: "json",
-                    // traditional: true,
                     data: $('#createForm').serialize(),
                     success: function (data) {
-                        // isPostBack = true
-                        data != "OK" ? modalCreate(data, url, true) : window.location.reload();
+                        if (data != "OK") {
+                            modalCreate(data, url)
+                        }
+                        else {
+                            window.location.href = '@Url.Action("Index")'
+                        }
                     }
                 });
             });

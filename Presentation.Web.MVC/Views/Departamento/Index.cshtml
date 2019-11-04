@@ -38,7 +38,12 @@
                     url: url,
                     data: $('#createForm').serialize(),
                     success: function (data) {
-                        data != "OK" ? modalCreate(data, url) : window.location.reload();
+                        if (data != "OK") {
+                            modalCreate(data, url)
+                        }
+                        else {
+                            window.location.href = '@Url.Action("Index")'
+                        }
                     }
                 });
             });

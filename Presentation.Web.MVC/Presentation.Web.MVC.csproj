@@ -183,6 +183,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CreateHorarioConsultaFechadoViewModel.cs" />
     <Compile Include="ViewModels\ShowHorariosConsultaViewModel.cs" />
+    <Compile Include="ViewModels\ShowInscripcionesViewModel.cs" />
     <Compile Include="ViewModels\SubscribeViewModel.cs" />
     <Compile Include="ViewModels\CreateInscripcionViewModel.cs" />
     <Compile Include="ViewModels\CreateHorarioConsultaViewModel.cs" />
@@ -374,6 +375,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ShowInscripcionesViewModel\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

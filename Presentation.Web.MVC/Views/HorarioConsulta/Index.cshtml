@@ -38,7 +38,12 @@
                     url: url,
                     data: $('#createForm').serialize(),
                     success: function (data) {
-                        data != "OK" ? modalCreate(data, url) : window.location.reload();
+                        if (data != "OK") {
+                            modalCreate(data, url)
+                        }
+                        else {
+                            window.location.href = '@Url.Action("Index")'
+                        }
                     }
                 });
             });
@@ -201,17 +206,15 @@
         <div class="col col-auto d-flex">
             <button id="actionCreateHorarioConsulta" class="btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modalCreateHorarioConsulta">Nuevo HorarioConsulta</button>
         </div>
-        <select class="form-control col-3 bg-light border border-primary p-2" id="searchFilter">
-            <option value="null">Todos</option>
-            <option value="1">Sistemas</option>
-            <option value="2">Quimica</option>
-            <option value="3">Civil</option>
-            <option value="4">Eléctrica</option>
-            <option value="5">Mecánica</option>
-        </select>
+        @Html.DropDownListFor(
+            model => model.DepartamentoId,
+            Model.DepartamentosList,
+            "Todos",
+            new { @id = "searchFilter" }
+            )
         <form class="col" id="searchForm">
             <div class="input-group">
-                <input type="text" class="form-control bg-light border border-primary p-4" id="searchText" placeholder="Buscar HorarioConsulta" aria-label="Search" aria-describedby="basic-addon2" value="@Model.DescParcial">
+                <input type="text" class="form-control bg-light border border-primary p-4" id="searchText" placeholder="Buscar HorarioConsulta" aria-label="Search" aria-describedby="basic-addon2" value="@Model.ParcialDesc">
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-primary" id="searchButton">
                         <i class="fas fa-search"></i>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Presentation.Web.MVC.Models.MvcInscripcionModel>
+﻿@model Presentation.Web.MVC.ViewModels.ShowInscripcionesViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -38,7 +38,12 @@
                     url: url,
                     data: $('#createForm').serialize(),
                     success: function (data) {
-                        data != "OK" ? modalCreate(data, url) : window.location.reload();
+                        if (data != "OK") {
+                            modalCreate(data, url)
+                        }
+                        else {
+                            window.location.href = '@Url.Action("Index")'
+                        }
                     }
                 });
             });
@@ -202,7 +207,8 @@
         </div>
         <form class="col" id="searchForm">
             <div class="input-group">
-                <input type="text" class="form-control bg-light border border-primary p-4" id="searchText" placeholder="Buscar Inscripción" aria-label="Search" aria-describedby="basic-addon2">
+                <input type="text" class="form-control bg-light border border-primary p-4" id="searchText" placeholder="Buscar Inscripción" 
+                       aria-label="Search" aria-describedby="basic-addon2" value="@Model.ParcialDesc">
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-primary" id="searchButton">
                         <i class="fas fa-search"></i>
@@ -218,19 +224,19 @@
                     <thead>
                         <tr>
                             <th class="d-none">
-                                @Html.DisplayNameFor(model => model.Id)
+                                @Html.DisplayNameFor(model => model.Inscripciones.FirstOrDefault().Id)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Topic)
+                                @Html.DisplayNameFor(model => model.Inscripciones.FirstOrDefault().Topic)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.State)
+                                @Html.DisplayNameFor(model => model.Inscripciones.FirstOrDefault().State)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Observation)
+                                @Html.DisplayNameFor(model => model.Inscripciones.FirstOrDefault().Observation)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Answer)
+                                @Html.DisplayNameFor(model => model.Inscripciones.FirstOrDefault().Answer)
                             </th>
                             <th>
                                 Alumno
@@ -244,19 +250,19 @@
                     <tfoot>
                         <tr>
                             <th class="d-none">
-                                @Html.DisplayNameFor(model => model.Id)
+                                @Html.DisplayNameFor(model => model.Inscripciones.FirstOrDefault().Id)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Topic)
+                                @Html.DisplayNameFor(model => model.Inscripciones.FirstOrDefault().Topic)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.State)
+                                @Html.DisplayNameFor(model => model.Inscripciones.FirstOrDefault().State)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Observation)
+                                @Html.DisplayNameFor(model => model.Inscripciones.FirstOrDefault().Observation)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Answer)
+                                @Html.DisplayNameFor(model => model.Inscripciones.FirstOrDefault().Answer)
                             </th>
                             <th>
                                 Alumno
@@ -268,7 +274,7 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach (var item in Model) {
+                        @foreach (var item in Model.Inscripciones) {
                             <tr>
                                 <td class="d-none">
                                     @Html.DisplayFor(modelItem => item.Id)

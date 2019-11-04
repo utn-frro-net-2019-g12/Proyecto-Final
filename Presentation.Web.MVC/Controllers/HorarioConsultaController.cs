@@ -22,16 +22,19 @@ namespace Presentation.Web.MVC.Controllers {
         private readonly IMateriaEndpoint _materiaEndpoint;
         private readonly IUsuarioEndpoint _usuarioEndpoint;
         private readonly IHorarioConsultaEndpoint _horarioConsultaEndpoint;
+        private readonly IDepartamentoEndpoint _departamentoEndpoint;
         private readonly IUserSession _userSession;
         private readonly IMapper _mapper;
 
 
         public HorarioConsultaController(IMateriaEndpoint materiaEndpoint, IUsuarioEndpoint usuarioEndpoint
-            , IHorarioConsultaEndpoint horarioConsultaEndpoint, IUserSession userSession, IMapper mapper)
+            , IHorarioConsultaEndpoint horarioConsultaEndpoint, IUserSession userSession, IMapper mapper
+            ,IDepartamentoEndpoint departamentoEndpoint)
         {
             _materiaEndpoint = materiaEndpoint;
             _usuarioEndpoint = usuarioEndpoint;
             _horarioConsultaEndpoint = horarioConsultaEndpoint;
+            _departamentoEndpoint = departamentoEndpoint;
             _userSession = userSession;
             _mapper = mapper;
         }
@@ -43,15 +46,13 @@ namespace Presentation.Web.MVC.Controllers {
             try
             {
                 IEnumerable<HorarioConsulta> entities = await _horarioConsultaEndpoint.GetAll(_userSession.BearerToken);
-
                 var horariosConsulta = _mapper.Map<IEnumerable<MvcHorarioConsultaModel>>(entities);
 
-                var viewModel = new ShowHorariosConsultaViewModel()
-                {
-                    HorariosConsulta = horariosConsulta,
-                    DescParcial = null,
-                    DepartamentoId = null
-                };
+                IEnumerable<Departamento> departamentosEntities = await _departamentoEndpoint.GetAll(_userSession.BearerToken);
+                var departamentos = _mapper.Map<IEnumerable<MvcDepartamentoModel>>(source: departamentosEntities);
+
+                var viewModel = new ShowHorariosConsultaViewModel(
+                    horariosConsulta: horariosConsulta, departamentos: departamentos);
 
                 return View(viewModel);
             }
@@ -68,16 +69,14 @@ namespace Presentation.Web.MVC.Controllers {
         [HttpGet]
         public async Task<ActionResult> Search(string desc, int? deptoId) {
             try {
-                IEnumerable<HorarioConsulta> entities = await _horarioConsultaEndpoint.GetByPartialDescAndDepto(partialDesc:desc, deptoId:deptoId, token:_userSession.BearerToken);
+                IEnumerable<HorarioConsulta> horariosEntities = await _horarioConsultaEndpoint.GetByPartialDescAndDepto(partialDesc:desc, deptoId:deptoId, token:_userSession.BearerToken);
+                var horariosConsulta = _mapper.Map<IEnumerable<MvcHorarioConsultaModel>>(source: horariosEntities);
 
-                var horariosConsulta = _mapper.Map<IEnumerable<MvcHorarioConsultaModel>>(entities);
+                IEnumerable<Departamento> departamentosEntities = await _departamentoEndpoint.GetAll(_userSession.BearerToken);
+                var departamentos = _mapper.Map<IEnumerable<MvcDepartamentoModel>>(source: departamentosEntities);
 
-                var viewModel = new ShowHorariosConsultaViewModel()
-                {
-                    HorariosConsulta = horariosConsulta,
-                    DescParcial = desc,
-                    DepartamentoId = deptoId
-                };
+                var viewModel = new ShowHorariosConsultaViewModel(
+                    horariosConsulta: horariosConsulta, parcialDesc: desc, departamentoId: deptoId, departamentos: departamentos);
 
                 return View("Index", viewModel);
             } catch (UnauthorizedRequestException) {
