@@ -186,6 +186,7 @@
     <Compile Include="ViewModels\ShowHorariosConsultaViewModel.cs" />
     <Compile Include="ViewModels\ShowInscripcionesViewModel.cs" />
     <Compile Include="ViewModels\ShowMateriasViewModel.cs" />
+    <Compile Include="ViewModels\ShowHorariosParaInscribirViewModel.cs" />
     <Compile Include="ViewModels\ShowUsuariosViewModel.cs" />
     <Compile Include="ViewModels\SubscribeViewModel.cs" />
     <Compile Include="ViewModels\CreateInscripcionViewModel.cs" />

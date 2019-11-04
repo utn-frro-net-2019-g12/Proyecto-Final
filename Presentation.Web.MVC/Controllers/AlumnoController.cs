@@ -16,14 +16,19 @@ namespace Presentation.Web.MVC.Controllers
         private readonly IInscripcionEndpoint _inscripcionEndpoint;
         private readonly IUsuarioEndpoint _usuarioEndpoint;
         private readonly IHorarioConsultaFechadoEndpoint _horarioConsultaFechadoEndpoint;
+        private readonly IDepartamentoEndpoint _departamentoEndpoint;
+        private readonly IMateriaEndpoint _materiaEndpoint;
         private readonly IUserSession _userSession;
         private readonly IMapper _mapper;
 
-        public AlumnoController(IInscripcionEndpoint inscripcionEndpoint, IUsuarioEndpoint usuarioEndpoint, IHorarioConsultaFechadoEndpoint horarioConsultaFechadoEndpoint,
+        public AlumnoController(IInscripcionEndpoint inscripcionEndpoint, IHorarioConsultaFechadoEndpoint horarioConsultaFechadoEndpoint,
+            IUsuarioEndpoint usuarioEndpoint, IDepartamentoEndpoint departamentoEndpoint, IMateriaEndpoint materiaEndpoint,
             IUserSession userSession, IMapper mapper) {
             _inscripcionEndpoint = inscripcionEndpoint;
-            _usuarioEndpoint = usuarioEndpoint;
             _horarioConsultaFechadoEndpoint = horarioConsultaFechadoEndpoint;
+            _usuarioEndpoint = usuarioEndpoint;
+            _departamentoEndpoint = departamentoEndpoint;
+            _materiaEndpoint = materiaEndpoint;
             _userSession = userSession;
             _mapper = mapper;
         }
@@ -36,7 +41,22 @@ namespace Presentation.Web.MVC.Controllers
 
         // Index Nueva Inscripción (By Current Alumno User)
         public ActionResult NuevaConsulta() {
-            return View();
+            try
+            {
+                var departamentosTask = 
+
+                var viewModel = new ShowHorariosParaInscribirViewModel();
+            }
+            catch (UnauthorizedRequestException)
+            {
+                return RedirectToAction("AccessDenied", "Error");
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
+            }
+
+            return View("NewSearch");
         }
 
         // Index Mis Inscripciones - GET Inscripciones (By Current Alumno User)
