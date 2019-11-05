@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace Presentation.Web.MVC.Controllers
 {
+    [Authorize(Roles = "Profesor")]
     public class ProfesorController : Controller
     {
         private readonly IHorarioConsultaEndpoint _horarioConsultaEndpoint;

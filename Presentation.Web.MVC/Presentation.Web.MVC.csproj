@@ -315,8 +315,6 @@
     <Content Include="Views\Materia\Index.cshtml" />
     <Content Include="Views\Departamento\Index.cshtml" />
     <Content Include="Views\Departamento\_Create.cshtml" />
-    <Content Include="Views\Materia\Edit.cshtml" />
-    <Content Include="Views\Materia\Create.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Profile\Edit.cshtml" />
     <Content Include="Views\Usuario\_Create.cshtml" />
@@ -350,16 +348,6 @@
     <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Materia\_Create.cshtml" />
     <Content Include="Views\Materia\_Edit.cshtml" />
-    <Content Include="Views\HorarioConsulta\Index.cshtml" />
-    <Content Include="Views\HorarioConsulta\Create.cshtml" />
-    <Content Include="Views\HorarioConsulta\_Edit.cshtml" />
-    <Content Include="Views\Inscripcion\Index.cshtml" />
-    <Content Include="Views\Inscripcion\Create.cshtml" />
-    <Content Include="Views\Inscripcion\Edit.cshtml" />
-    <Content Include="Views\HorarioConsulta\Edit.cshtml" />
-    <Content Include="Views\HorarioConsulta\_Create.cshtml" />
-    <Content Include="Views\Inscripcion\_Create.cshtml" />
-    <Content Include="Views\Inscripcion\_Edit.cshtml" />
     <Content Include="Views\Profesor\MisHorariosConsulta.cshtml" />
     <Content Include="Views\Profesor\InscripcionesRecibidas.cshtml" />
     <Content Include="Views\Alumno\MisInscripciones.cshtml" />
@@ -372,7 +360,6 @@
     <Content Include="Views\Alumno\_EditOwnInscripcion.cshtml" />
     <Content Include="Views\Error\_AccessDenied.cshtml" />
     <Content Include="Views\Error\_SpecificError.cshtml" />
-    <Content Include="Views\HorarioConsulta\Report.cshtml" />
     <Content Include="Views\Alumno\NuevaConsulta.cshtml" />
     <Content Include="Views\Alumno\_Subscribe.cshtml" />
   </ItemGroup>

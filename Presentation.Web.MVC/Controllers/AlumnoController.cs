@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace Presentation.Web.MVC.Controllers
 {
+    [Authorize(Roles = "Alumno")]
     public class AlumnoController : Controller
     {
         private readonly IInscripcionEndpoint _inscripcionEndpoint;
