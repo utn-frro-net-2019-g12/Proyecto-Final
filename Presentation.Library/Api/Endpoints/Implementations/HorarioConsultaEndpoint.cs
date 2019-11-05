@@ -42,7 +42,7 @@ namespace Presentation.Library.Api.Endpoints.Implementations
             }
         }
 
-        public async Task<IEnumerable<HorarioConsulta>> GetByPartialDescAndDepto(string token, string partialDesc = null, int? deptoId = null) {
+        public async Task<IEnumerable<HorarioConsulta>> GetByPartialDescAndDepto(string partialDesc, int? deptoId, string token) {
             using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/horariosConsulta/search/?desc={partialDesc}&&deptoId={deptoId}", x => x.SetAuthHeaders(token))) {
                 if (!response.IsSuccessStatusCode) {
                     switch (response.StatusCode) {

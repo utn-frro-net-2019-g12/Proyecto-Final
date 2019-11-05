@@ -10,25 +10,26 @@ namespace Presentation.Web.MVC.ViewModels
     public class ShowHorariosParaInscribirViewModel
     {
         public ShowHorariosParaInscribirViewModel(
-            IEnumerable<MvcInscripcionModel> inscripciones,
             IEnumerable<MvcDepartamentoModel> departamentos,
             IEnumerable<MvcMateriaModel> materias,
             IEnumerable<MvcUsuarioModel> profesores,
+            IEnumerable<MvcHorarioConsultaFechadoModel> horariosConsultaFechados = null,
             int? departamentoId = null,
             int? materiaId = null,
             int? profesorId = null)
         {
-            Inscripciones = inscripciones;
+            HorariosConsultaFechados = horariosConsultaFechados ?? new List<MvcHorarioConsultaFechadoModel>();
 
             SetDepartamentosAsSelectList(departamentos);
             SetMateriasAsSelectList(materias);
             SetProfesoresAsSelectList(profesores);
+
             DepartamentoId = departamentoId;
             MateriaId = materiaId;
             ProfesorId = profesorId;
         }
 
-        public IEnumerable<MvcInscripcionModel> Inscripciones { get; set; }
+        public IEnumerable<MvcHorarioConsultaFechadoModel> HorariosConsultaFechados { get; set; }
 
         public IEnumerable<SelectListItem> DepartamentosList { get; set; }
         public int? DepartamentoId { get; set; }
@@ -47,7 +48,7 @@ namespace Presentation.Web.MVC.ViewModels
 
         public void SetMateriasAsSelectList(IEnumerable<MvcMateriaModel> materias)
         {
-            DepartamentosList = materias.Select(e => new SelectListItem()
+            MateriasList = materias.Select(e => new SelectListItem()
             {
                 Value = e.Id.ToString(),
                 Text = e.Name
@@ -59,7 +60,7 @@ namespace Presentation.Web.MVC.ViewModels
 
         public void SetProfesoresAsSelectList(IEnumerable<MvcUsuarioModel> profesores)
         {
-            DepartamentosList = profesores.Select(e => new SelectListItem()
+            ProfesoresList = profesores.Select(e => new SelectListItem()
             {
                 Value = e.Id.ToString(),
                 Text = e.Surname + " " + e.Firstname

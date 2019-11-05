@@ -40,12 +40,23 @@ namespace Presentation.Web.MVC.Controllers
         }
 
         // Index Nueva Inscripción (By Current Alumno User)
-        public ActionResult NuevaConsulta() {
+        public async Task<ActionResult> NuevaConsulta() {
             try
             {
-                var departamentosTask = 
+                var departamentosTask = _departamentoEndpoint.GetAll(_userSession.BearerToken);
+                var materiasTask = _materiaEndpoint.GetAll(_userSession.BearerToken);
+                var profesoresTask = _usuarioEndpoint.GetAllProfesores(_userSession.BearerToken);
 
-                var viewModel = new ShowHorariosParaInscribirViewModel();
+                await Task.WhenAll(departamentosTask, materiasTask, profesoresTask);
+
+                var departamentos = _mapper.Map<IEnumerable<MvcDepartamentoModel>>(source: departamentosTask.Result);
+                var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(source: materiasTask.Result);
+                var profesores = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: profesoresTask.Result);
+
+                var viewModel = new ShowHorariosParaInscribirViewModel(
+                    departamentos: departamentos, materias: materias, profesores: profesores);
+
+                return View(viewModel);
             }
             catch (UnauthorizedRequestException)
             {
@@ -55,8 +66,6 @@ namespace Presentation.Web.MVC.Controllers
             {
                 return RedirectToAction("SpecificError", "Error", new { error = ex.Message });
             }
-
-            return View("NewSearch");
         }
 
         // Index Mis Inscripciones - GET Inscripciones (By Current Alumno User)
@@ -81,13 +90,26 @@ namespace Presentation.Web.MVC.Controllers
         }
 
         // Search Nueva Inscripción (By Depto, Materia y Profesor)
-        public async Task<ActionResult> NewSearch(string descMateria, string descProfesor) {
+        public async Task<ActionResult> Search(int? deptoId, int? materiaId, int? profeId) {
             try {
-                IEnumerable<HorarioConsultaFechado> entities = await _horarioConsultaFechadoEndpoint.GetByNewSearch(descMateria, descProfesor, _userSession.BearerToken);
+                var horariosConsultaFechadosTask = _horarioConsultaFechadoEndpoint.GetByDeptoAndMateriaAndProfe(deptoId:deptoId, materiaId:materiaId, profeId:profeId ,token:_userSession.BearerToken);
+                var departamentosTask = _departamentoEndpoint.GetAll(_userSession.BearerToken);
+                var materiasTask = _materiaEndpoint.GetAll(_userSession.BearerToken);
+                var profesoresTask = _usuarioEndpoint.GetAllProfesores(_userSession.BearerToken);
 
-                var horariosConsultaFechados = _mapper.Map<IEnumerable<MvcHorarioConsultaFechadoModel>>(entities);
+                await Task.WhenAll(horariosConsultaFechadosTask ,departamentosTask, materiasTask, profesoresTask);
 
-                return View("NewSearch", horariosConsultaFechados);
+                var departamentos = _mapper.Map<IEnumerable<MvcDepartamentoModel>>(source: departamentosTask.Result);
+                var materias = _mapper.Map<IEnumerable<MvcMateriaModel>>(source: materiasTask.Result);
+                var profesores = _mapper.Map<IEnumerable<MvcUsuarioModel>>(source: profesoresTask.Result);
+                var horariosConsultaFechados = _mapper.Map<IEnumerable<MvcHorarioConsultaFechadoModel>>(horariosConsultaFechadosTask.Result);
+
+                var viewModel = new ShowHorariosParaInscribirViewModel(
+                    horariosConsultaFechados: horariosConsultaFechados,
+                    departamentos: departamentos, materias: materias, profesores: profesores,
+                    departamentoId: deptoId, materiaId: materiaId, profesorId:profeId);
+
+                return View("NuevaConsulta", viewModel);
             } catch (UnauthorizedRequestException) {
                 return RedirectToAction("AccessDenied", "Error");
             } catch (Exception ex) {

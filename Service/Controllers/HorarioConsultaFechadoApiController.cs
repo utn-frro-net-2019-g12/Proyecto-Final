@@ -28,7 +28,7 @@ namespace Service.Controllers {
         [Route("")]
         public IHttpActionResult GetAll() {
             var horariosConsultaFechados = _unitOfWork.HorariosConsultaFechados
-                .GetHorariosConsultaFechadosWithProfesorAndMateria();
+                .GetWithProfesorAndMateria();
 
             return Ok(horariosConsultaFechados);
             // API Special Endpoint (No-Rest) --> [Route("profesor_materia")] (Unused)
@@ -39,8 +39,8 @@ namespace Service.Controllers {
         /// </summary>
         [HttpGet]
         [Route("search")]
-        public IHttpActionResult GetByNewSearch(string descMateria, string descProfesor) {
-            var horariosConsultaFechados = _unitOfWork.HorariosConsultaFechados.GetHorariosConsultaFechadosByNewSearch(descMateria, descProfesor);
+        public IHttpActionResult GetByNewSearch(int? deptoId, int? materiaId, int? profeId) {
+            var horariosConsultaFechados = _unitOfWork.HorariosConsultaFechados.GetByDeptoAndMateriaAndProfe(deptoId, materiaId, profeId);
             return Ok(horariosConsultaFechados);
         }
 
@@ -50,7 +50,7 @@ namespace Service.Controllers {
         [HttpGet]
         [Route("profesores/{id_profesor:int}")]
         public IHttpActionResult GetByProfesor(int id_profesor) {
-            var horariosConsultaFechados = _unitOfWork.HorariosConsultaFechados.GetHorariosConsultaFechadosByProfesor(id_profesor);
+            var horariosConsultaFechados = _unitOfWork.HorariosConsultaFechados.GetByProfesor(id_profesor);
             return Ok(horariosConsultaFechados);
         }
 
@@ -60,7 +60,7 @@ namespace Service.Controllers {
         [HttpGet]
         [Route("horariosConsulta/{id_horario_consulta:int}")]
         public IHttpActionResult GetByHorarioConsulta(int id_horario_consulta) {
-            var horariosConsultaFechados = _unitOfWork.HorariosConsultaFechados.GetHorariosConsultaFechadosByHorarioConsulta(id_horario_consulta);
+            var horariosConsultaFechados = _unitOfWork.HorariosConsultaFechados.GetByHorarioConsulta(id_horario_consulta);
             return Ok(horariosConsultaFechados);
         }
 
@@ -73,7 +73,7 @@ namespace Service.Controllers {
         [ResponseType(typeof(HorarioConsultaFechado))]
         public IHttpActionResult Get(int id) {
             var horarioConsultaFechado = _unitOfWork.HorariosConsultaFechados
-                .GetHorarioConsultaFechadoWithProfesorAndMateria(id);
+                .GetWithProfesorAndMateria(id);
 
             if (horarioConsultaFechado == null)
             {

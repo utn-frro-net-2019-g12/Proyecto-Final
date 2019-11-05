@@ -42,8 +42,8 @@ namespace Presentation.Library.Api.Endpoints.Implementations
             }
         }
 
-        public async Task<IEnumerable<HorarioConsultaFechado>> GetByNewSearch(string descMateria, string descProfesor, string token) {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/horariosConsultaFechados/search/?descMateria={descMateria}&descProfesor={descProfesor}",
+        public async Task<IEnumerable<HorarioConsultaFechado>> GetByDeptoAndMateriaAndProfe(int? deptoId, int? materiaId, int? profeId, string token) {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync($"api/horariosConsultaFechados/search/?deptoId={deptoId}&materiaId={materiaId}&profeId={profeId}",
                 x => x.SetAuthHeaders(token))) {
 
                 if (!response.IsSuccessStatusCode) {
